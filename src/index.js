@@ -1,0 +1,35 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import './index.css';
+import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import registerServiceWorker from './registerServiceWorker';
+import { Provider } from 'react-redux';
+import avakReducer from './store/reducers/avak';
+import javakReducer from './store/reducers/javak';
+import javakLotReducer from './store/reducers/javakLot';
+import partyReducer from './store/reducers/party';
+import { reducer as formReducer } from 'redux-form';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import thunk from 'redux-thunk';
+
+const rootReducer = combineReducers({
+    party:    partyReducer,
+    avak:     avakReducer,
+    javak:    javakReducer,
+    javakLot: javakLotReducer,
+    form:     formReducer
+});
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+const app =
+    <BrowserRouter>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </BrowserRouter>;
+ReactDOM.render(app, document.getElementById('root'));
+registerServiceWorker();

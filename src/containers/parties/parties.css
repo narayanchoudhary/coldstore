@@ -1,0 +1,24 @@
+.partiesTableWrapper {
+    box-shadow: 0px 0px 5px #ccc;
+
+}
+
+.partiesContainer {
+    margin: 21px 18px;    
+}
+
+.partiesContainer ul.pagination {
+    margin: 0px;
+}
+
+.react-bootstrap-table-pagination-list {
+    text-align: right;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.Select-munu-outer {
+    text-transform: capitalize !important;
+}

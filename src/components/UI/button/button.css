@@ -1,0 +1,34 @@
+
+.button {
+	background: -webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background-color:#33bdef;
+    border: 1px solid #057fd0;
+    border-left: 0px;
+	cursor:pointer;
+	color:#ffffff;
+	text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;   
+    font-size: 16px;
+    text-transform: capitalize;
+    margin: 0px 0px 12px 0px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    width: fit-content;
+}
+.button:hover {
+	background:-webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+    background-color:#019ad2;
+    text-decoration: none;
+}
+.button:active {
+    position: relative;
+    text-decoration: none;
+	top: 1px;
+}
+
+.button:focus {
+    text-decoration: none;
+}

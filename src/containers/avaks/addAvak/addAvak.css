@@ -1,0 +1,55 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    box-shadow: 0px 0px 6px #ccc;
+    margin: 20px;
+    padding: 4px;
+    border-radius: 8px;
+    max-width: 1085px;
+    justify-content: center;
+}
+
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+}
+
+.racks-container {
+    grid-row: 6;
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 11% 11% 11% 11% 11% 11% 11% 11% 11% 11%;
+}
+
+.racks {
+    text-align: center;
+}
+
+.Select-control {
+    border-bottom-left-radius: 0px  !important;
+    border-top-left-radius: 0px !important;
+}
+
+.is-open {
+    z-index: 999999;
+}
+
+.Select-menu-outer {
+    text-transform: capitalize;
+}
+
+.Select-value-label {
+    text-transform: capitalize;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    text-transform: none;
+}

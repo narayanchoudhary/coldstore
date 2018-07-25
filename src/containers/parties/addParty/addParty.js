@@ -1,0 +1,138 @@
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import Aux from '../../../components/Auxilary/Auxilary';
+import * as actions from '../../../store/actions/index';
+import Glyphicon from '../../../components/UI/glyphicon';
+import { Redirect } from 'react-router-dom';
+
+const validate = values => {
+    const errors = {}
+    if (!values.name) {
+        errors.name = 'Naam to daal';
+    } else if (values.name.length > 20) {
+        errors.name = '20 akshar s kam dal. Naam jyada bado he';
+    }
+
+    if (!values.number) {
+        //nothing
+    } else if (values.number.length !== 10) {
+        errors.number = '10 number daal bhai';
+    }
+
+    if (!values.address) {
+        errors.address = 'Address to daal'
+    } else if (values.address.length > 20) {
+        errors.address = '20 akshar s kam dal. Naam jyada bado he';
+    }
+    return errors;
+}
+
+class addParty extends Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.props.handleSubmit;
+        this.state = {redirectToParties: false};
+    }
+
+    renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+        <Aux>
+            <div className="input-group">
+                <span className="input-group-addon">
+                    <Glyphicon type={input.name} />
+                </span>
+                <input
+                    {...input}
+                    placeholder={label}
+                    type={type}
+                    className="form-control"
+                />
+            </div>
+            {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+        </Aux>
+    );
+
+    submit = (values) => {
+        this.props.saveParty(values);
+        if(this.props.addError === false) {
+            this.setState({redirectToParties: true})
+        }
+    };
+
+    render() {
+        return (
+            <div className="container">
+                {this.state.redirectToParties ? <Redirect to="/parties" /> : null}
+                <form onSubmit={this.handleSubmit(this.submit)} className="well form-horizontal">
+                    <fieldset>
+                        <legend>Add party</legend>
+                        <div className="form-group">
+                            <label className="col-md-4 control-label">Name</label>
+                            <div className="col-md-4 inputGroupContainer">
+                                <Field
+                                    name="name"
+                                    type="text"
+                                    placeholder="Name"
+                                    component={this.renderField}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-4 control-label">Phone</label>
+                            <div className="col-md-4 inputGroupContainer">
+                                <Field
+                                    name="phone"
+                                    placeholder="9300050840"
+                                    type="text"
+                                    component={this.renderField}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-4 control-label">Address</label>
+                            <div className="col-md-4 inputGroupContainer">
+                                <Field
+                                    name="address"
+                                    placeholder="Address"
+                                    type="text"
+                                    component={this.renderField}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-4 control-label"></label>
+                            <div className="col-md-4">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    disabled={this.submitting}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        )
+    }
+}
+
+const Form = reduxForm({
+    form: 'party',
+    validate // a unique identifier for this form
+})(addParty);
+
+const mapStateToProps = state => {
+    return {
+        addError: state.party.addParty.error
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        saveParty: (values) => dispatch(actions.saveParty(values))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

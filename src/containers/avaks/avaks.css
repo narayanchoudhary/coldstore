@@ -1,0 +1,88 @@
+.avaksTableWrapper {
+    box-shadow: 0px 0px 5px #ccc;
+    overflow-x: auto;
+}
+
+.avaksContainer {
+    margin: 21px 18px;  
+}
+
+.avaksContainer ul.pagination {
+    margin: 0px;
+}
+
+.react-bootstrap-table-pagination-list {
+    text-align: right;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.capitalize td select{
+    text-transform: capitalize;
+}
+
+.Select-munu-outer {
+    text-transform: capitalize !important;
+}
+
+.avaksContainer table td {
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.avaksContainer table {
+    table-layout: auto !important;
+    margin-bottom: 0px;
+}
+
+.avaksContainer table td input {
+    width: fit-content;
+}
+
+.avaksContainer table td select {
+    width: fit-content;
+}
+
+.avaksContainer table th .dropdown {
+    display: none;
+}
+
+.avaksContainer table th .dropup {
+    display: none;
+}
+
+.react-bootstrap-table-pagination {
+    margin-top: 18px;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 14px;
+    height: 18px;
+}
+::-webkit-scrollbar-thumb {
+    height: 6px;
+    border: 4px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    -webkit-border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+}
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+.motor-no {
+    text-transform: uppercase;
+}
+
+.lr {
+    text-transform: uppercase;
+}
