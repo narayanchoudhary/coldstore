@@ -53,3 +53,11 @@
 ::-webkit-input-placeholder { /* WebKit browsers */
     text-transform: none;
 }
+
+.avaksOfJavak {
+    grid-area: 3 / 1 / 3 / 4;
+}
+
+.addJavakForm .table {
+    margin-bottom: 0px;
+}

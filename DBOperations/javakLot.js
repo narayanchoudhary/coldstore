@@ -1,5 +1,4 @@
 const ipc = require('electron').ipcMain;
-const convertToLowerCase = require('../util').convertToLowerCase;
 const javakLotsDB = require('./connections').getInstance().javakLotsDB;
 const avaksDB = require('./connections').getInstance().avaksDB;
 
@@ -8,14 +7,14 @@ class JavakLotsDatabase {
     constructor(mainWindow) {
         this.mainWindow = mainWindow;
         this.saveJavakLot = this.saveJavakLot.bind(this);
-        this.fetchJavakLots = this.fetchJavakLots.bind(this);
         this.fetchJavakLotsByJavakId = this.fetchJavakLotsByJavakId.bind(this);
         this.deleteJavakLot = this.deleteJavakLot.bind(this);
+        this.removeTempJavakLots = this.removeTempJavakLots.bind(this);
         this.editJavakLot = this.editJavakLot.bind(this);
         ipc.on('saveJavakLot', this.saveJavakLot);
-        ipc.on('fetchJavakLots', this.fetchJavakLots);
         ipc.on('fetchJavakLotsByJavakId', this.fetchJavakLotsByJavakId);
         ipc.on('deleteJavakLot', this.deleteJavakLot);
+        ipc.on('removeTempJavakLots', this.removeTempJavakLots);
         ipc.on('editJavakLot', this.editJavakLot);
     }
 
@@ -26,7 +25,7 @@ class JavakLotsDatabase {
         // Get Avak
         avaksDB.find({ _id: data.avakId }).sort({ updatedAt: -1 }).exec((err, data) => {
             data = data[0]; // Because data is array
-            
+
             // get remaining packet and the
             this.fetchLots(data._id).then((javakLots) => {
                 // Get already sent packet of this avak
@@ -58,23 +57,11 @@ class JavakLotsDatabase {
 
     fetchLots(avakId) {
         return new Promise((resolve, reject) => {
-            console.log('avakIds: ', avakId);
-            javakLotsDB.find({ avakId: avakId}).sort({ updatedAt: -1 }).exec((err, javakLots) => {
-                console.log('err: ', err);
-                console.log('javakLots: ', javakLots);
+            javakLotsDB.find({ avakId: avakId }).sort({ updatedAt: -1 }).exec((err, javakLots) => {
                 resolve(javakLots);
             });
         });
     }
-
-    fetchJavakLots(event, data) {
-        javakLotsDB.find({}).sort({ updatedAt: -1 }).exec((err, data) => {
-            let response = {};
-            response.error = err;
-            response.data = data;
-            this.mainWindow.webContents.send('fetchJavakLotsResponse', response);
-        });
-    };
 
     fetchJavakLotsByJavakId(event, data) {
         javakLotsDB.find({ javakId: data.javakId }).sort({ updatedAt: -1 }).exec((err, data) => {
@@ -95,10 +82,18 @@ class JavakLotsDatabase {
     };
 
     deleteJavakLot(event, data) {
-        javakLotsDB.remove({ _id: data.JavakId }, {}, (err, numRemoved) => {
+        javakLotsDB.remove({ _id: data.JavakLotId }, {}, (err, numRemoved) => {
             let response = {};
             response.error = err;
             this.mainWindow.webContents.send('deleteJavakLotResponse', response);
+        });
+    };
+
+    removeTempJavakLots(event, data) {
+        javakLotsDB.remove({ javakId: 'tempJavakId' }, { multi: true }, (err, numRemoved) => {
+            let response = {};
+            response.error = err;
+            this.mainWindow.webContents.send('removeTempJavakLotsResponse', response);
         });
     };
 
@@ -107,7 +102,6 @@ class JavakLotsDatabase {
         delete data._id;
         delete data.createdAt;
         delete data.updatedAt;
-        // data = convertToLowerCase(data);
         javakLotsDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
             let response = {};
             response.error = err;

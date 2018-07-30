@@ -17,10 +17,10 @@ class Avaks extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchAvaks(()=>{
+        this.props.fetchAvaks(() => {
         });
 
-        this.props.fetchParties(()=> {
+        this.props.fetchParties(() => {
             let parties = this.props.parties.map((party) => {
                 return { label: party.name + ' ' + party.address, value: party._id }
             });
@@ -30,7 +30,7 @@ class Avaks extends Component {
 
     handleClickOnDelete = (avakId) => {
         this.props.deleteAvak(avakId);
-        this.props.fetchAvaks(()=>{});
+        this.props.fetchAvaks(() => { });
     }
 
     createDeleteButton = (cell, row) => {
@@ -57,9 +57,8 @@ class Avaks extends Component {
     };
 
     partyFormatter = (cell, row) => {
-        this.props.parties.forEach((party)=> {
-            console.log('cell: ', cell);
-            if(party._id === cell) {
+        this.props.parties.forEach((party) => {
+            if (party._id === cell) {
                 cell = party.name;
             }
         });
@@ -67,10 +66,10 @@ class Avaks extends Component {
             <span>{cell}</span>
         );
     };
-    
+
     render() {
         const headerSortingStyle = { backgroundColor: '#ccc' };
-        
+
         const columns = [{
             dataField: '_id',
             text: 'ID',
@@ -195,7 +194,6 @@ class Avaks extends Component {
                 <Link to='/addAvak'>
                     <Button>  Add Avak </Button>
                 </Link>
-                {console.log('this.props.data: ', this.props.data)}
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'

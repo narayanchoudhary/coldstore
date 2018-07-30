@@ -11,9 +11,9 @@ import javakReducer from './store/reducers/javak';
 import javakLotReducer from './store/reducers/javakLot';
 import partyReducer from './store/reducers/party';
 import { reducer as formReducer } from 'redux-form';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import thunk from 'redux-thunk';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const rootReducer = combineReducers({
     party:    partyReducer,

@@ -21,6 +21,9 @@ class JavakDatabase {
   saveJavak(event, data) {
     data = convertToLowerCase(data);
     javaksDB.insert(data, (err, newDoc) => {
+      //Change id of javak lots from temp
+      javakLotsDB.update({ javakId: 'tempJavakId' }, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
+      });
       let response = {};
       response.error = err;
       response.data = newDoc

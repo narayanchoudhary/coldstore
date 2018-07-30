@@ -8,19 +8,21 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import './javaks.css';
 import Button from '../../components/UI/button/button';
-import CONST from '../../constants';
+import Aux from '../../components/Auxilary/Auxilary';
+import LotsModal from './LotsModal/LotsModal';
 
 class Javaks extends Component {
 
     state = {
-        parties: []
+        parties: [],
+        modal: false
     };
 
     componentDidMount() {
-        this.props.fetchJavaks(()=>{
+        this.props.fetchJavaks(() => {
         });
 
-        this.props.fetchParties(()=> {
+        this.props.fetchParties(() => {
             let parties = this.props.parties.map((party) => {
                 return { label: party.name + ' ' + party.address, value: party._id.toLowerCase() }
             });
@@ -30,7 +32,15 @@ class Javaks extends Component {
 
     handleClickOnDelete = (javakId) => {
         this.props.deleteJavak(javakId);
-        this.props.fetchJavaks(()=>{});
+        this.props.fetchJavaks(() => { });
+    }
+
+    handleClickOnView = (javakId) => {
+        this.setState({ modal: true, javakId: javakId });
+    }
+
+    closeModal = () => {
+        this.setState({ modal: false, javakId: null });
     }
 
     createDeleteButton = (cell, row) => {
@@ -57,8 +67,8 @@ class Javaks extends Component {
     };
 
     partyFormatter = (cell, row) => {
-        this.props.parties.forEach((party)=> {
-            if(party._id.toLowerCase() === cell.toLowerCase()) {
+        this.props.parties.forEach((party) => {
+            if (party._id.toLowerCase() === cell.toLowerCase()) {
                 cell = party.name
             }
         });
@@ -66,6 +76,25 @@ class Javaks extends Component {
             <span>{cell}</span>
         );
     };
+
+    createActionCell = (cell, row) => {
+        return (
+            <Aux>
+                <button
+                    className="btn btn-primary btn-xs view-btn"
+                    onClick={() => this.handleClickOnView(cell)}
+                >
+                    View
+                </button>
+                <button
+                    className="btn btn-danger btn-xs"
+                    onClick={() => this.handleClickOnDelete(cell)}
+                >
+                    Delete
+            </button>
+            </Aux>
+        );
+    }
 
     render() {
         const headerSortingStyle = { backgroundColor: '#ccc' };
@@ -103,6 +132,7 @@ class Javaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
+            formatter: this.partyFormatter,
             editor: {
                 type: Type.SELECT,
                 options: this.state.parties
@@ -114,6 +144,10 @@ class Javaks extends Component {
             headerSortingStyle,
             filter: textFilter(),
             classes: 'motor-no'
+        }, {
+            dataField: '_id',
+            text: 'Action',
+            formatter: this.createActionCell
         }];
 
         let paginationOptions = {
@@ -145,6 +179,14 @@ class Javaks extends Component {
                     pagination={paginationFactory(paginationOptions)}
                     rowClasses={this.rowClasses}
                 />
+                {
+                    this.state.modal
+                        ? <LotsModal
+                            javakId={this.state.javakId}
+                            closeModal={this.closeModal}
+                        />
+                        : null
+                }
             </div>
         )
     }

@@ -53,12 +53,24 @@ export const fetchJavakLots = (thenCallback) => {
     }
 }
 
-export const deleteJavak = (JavakId) => {
+export const deleteJavakLot = (JavakLotId) => {
     return dispatch => {
-        ipc.send('deleteJavak', { JavakId: JavakId });
-        ipc.once('deleteJavakResponse', (event, response) => {
+        ipc.send('deleteJavakLot', { JavakLotId: JavakLotId });
+        ipc.once('deleteJavakLotResponse', (event, response) => {
             dispatch({
-                type: actionTypes.DELETE_JAVAK,
+                type: actionTypes.DELETE_JAVAK_LOT,
+                payload: response
+            });
+        });
+    }
+}
+
+export const removeTempJavakLots = () => {
+    return dispatch => {
+        ipc.send('removeTempJavakLots', {});
+        ipc.once('removeTempJavakLotsResponse', (event, response) => {
+            dispatch({
+                type: actionTypes.REMOVE_TEMP_JAVAK_LOTS,
                 payload: response
             });
         });

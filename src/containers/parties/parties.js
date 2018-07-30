@@ -8,16 +8,25 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import './parties.css';
 import Button from '../../components/UI/button/button';
+import Aux from '../../components/Auxilary/Auxilary';
 
 class Parties extends Component {
 
+    state = {
+        modal: false
+    }
+
     componentDidMount() {
-        this.props.fetchParties(()=>{});
+        this.props.fetchParties(() => { });
     }
 
     handleClickOnDelete = (partyId) => {
         this.props.deleteParty(partyId);
-        this.props.fetchParties(()=>{});
+        this.props.fetchParties(() => { });
+    }
+
+    handleClickOnView = (partyId) => {
+        this.setState({ modal: true, partyId: partyId });
     }
 
     createDeleteButton = (cell, row) => {
@@ -42,6 +51,30 @@ class Parties extends Component {
     rowClasses = (row, rowIndex) => {
         return 'capitalize';
     };
+
+    createActionCell = (cell, row) => {
+        return (
+            <Aux>
+                <button
+                    className="btn btn-primary btn-xs view-btn"
+                    onClick={() => this.handleClickOnView(cell)}
+                >
+                    View
+                </button>
+                <button
+                    className="btn btn-danger btn-xs"
+                    onClick={() => this.handleClickOnDelete(cell)}
+                >
+                    Delete
+            </button>
+            </Aux>
+        );
+    };
+
+    closeModal = () => {
+        this.setState({ modal: false, partyId: null });
+    }
+
 
     render() {
         const headerSortingStyle = { backgroundColor: '#ccc' };
@@ -71,7 +104,7 @@ class Parties extends Component {
         }, {
             dataField: '_id',
             text: 'Action',
-            formatter: this.createDeleteButton
+            formatter: this.createActionCell
         }];
 
         let paginationOptions = {

@@ -22,3 +22,7 @@
 .Select-munu-outer {
     text-transform: capitalize !important;
 }
+
+.partiesTableWrapper .view-btn {
+    margin-right: 8px;
+}

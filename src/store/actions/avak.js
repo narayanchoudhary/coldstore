@@ -21,7 +21,7 @@ export const fetchAvaks = (thenCallback) => {
                 type: actionTypes.FETCH_AVAKS,
                 payload: response
             });
-            thenCallback();
+            thenCallback(response);
         });
     }
 }
@@ -39,7 +39,7 @@ export const deleteAvak = (AvakId) => {
 }
 
 export const editAvak = (data) => {
-    console.log('data: ', data);
+    
     return dispatch => {
         ipc.send('editAvak', data);
         ipc.once('editAvakResponse', (event, response) => {

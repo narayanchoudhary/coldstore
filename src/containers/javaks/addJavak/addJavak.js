@@ -9,23 +9,28 @@ import validate from './validation';
 import { renderField, renderSelectField } from './fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import JavakLots from './javakLots/javakLots';
-import Aux from '../.././../components/Auxilary/Auxilary';
+import { withRouter } from 'react-router';
 
 class addJavak extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = { parties: [], addresses: [], avaks: [], lots: [], javakId: null, partyId: null };
+        this.state = { merchants: [], parties: [], addresses: [], avaks: [], lots: [], javakId: null, partyId: null };
+    }
+
+    componentWillUnmount() {
+        this.props.removeTempJavakLots();
     }
 
     componentDidMount = () => {
         // After fetching parties set parties and addresses
         this.props.fetchParties(() => {
+
             let parties = this.props.parties.map((party) => {
                 return { label: party.name, value: party._id }
             });
-            this.setState({ parties: parties });
+            this.setState({ parties: parties, merchants: parties });
 
             let addresses = this.props.parties.map((party) => {
                 return { label: party.address, value: party.address }
@@ -45,28 +50,11 @@ class addJavak extends Component {
     }
 
     submit = (values) => {
-        if (this.state.javakId !== null) { //Do not save javak again if saved once
-            return false;
-        }
         delete values.address;
         values.party = values.party.value;
         values.merchant = values.merchant.value;
         this.props.saveJavak(values, (result) => {
-            this.setState({ javakId: result.data._id });
-            this.props.fetchAvaksOfParty(this.state.partyId, (response) => {
-                let avaks = response.data.filter((item) => {
-                    if (item.packet <= item.sentPacket) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }).map((avak) => {
-                    let remainingPacket = avak.packet - avak.sentPacket;
-                    let label = avak.packet.toString() + '-' + remainingPacket.toString();
-                    return { label: label, value: avak._id }
-                });
-                this.setState({ avaks: avaks });
-            });
+            this.setState({ javakId: result.data._id, redirectToJavaks: true });
         });
     };
 
@@ -88,45 +76,18 @@ class addJavak extends Component {
         this.setState({ partyId: partyId });
     }
 
-    onAvakSelect = (avakId) => {
-        this.props.saveJavakLot(avakId, this.state.javakId, () => {
-            this.props.fetchJavakLotsByJavakId(this.state.javakId, (response) => {
-                let lots = response.data.map((lot) => {
-                    return {
-                        _id: lot._id,
-                        packet: lot.packet,
-                        chamber: lot.chamber,
-                        floor: lot.floor,
-                        rack: lot.rack,
-                        avakId: lot.avakId,
-                        javakId: lot.javakId
-                    };
-                });
-                this.setState({ lots: lots });
-            });
-        });
-    }
-
     render() {
         return (
-            <form onSubmit={this.handleSubmit(this.submit)}>
+            <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
                 <div className="grid-container">
                     <Field type="number" name="receiptNumber" component={renderField} placeholder="Receipt Number" min="0" />
                     <Field type="date" name="date" component={renderField} placeholder="Date" />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
-                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.state.parties} />
+                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.state.merchants} />
                     <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} onChange={(party) => this.onPartySelect(party.value)} />
-                    {
-                        this.state.avaks.length !== 0
-                            ?
-                            <Aux>
-                                <Field name="avaks" component={renderSelectField} placeholder="Avaks" options={this.state.avaks} onChange={(avak) => this.onAvakSelect(avak.value)} />
-                                <JavakLots lots={this.state.lots} />
-                            </Aux>
-                            : null
-                    }
+                    <JavakLots javakId={this.state.javakId} partyId={this.state.partyId} />
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
@@ -155,8 +116,9 @@ const mapDispatchToProps = dispatch => {
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
         fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
-        fetchJavakLotsByAvakId: (avakId, thenCallback) => dispatch(actions.fetchJavakLotsByAvakId(avakId, thenCallback))
+        fetchJavakLotsByAvakId: (avakId, thenCallback) => dispatch(actions.fetchJavakLotsByAvakId(avakId, thenCallback)),
+        removeTempJavakLots: () => dispatch(actions.removeTempJavakLots())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));

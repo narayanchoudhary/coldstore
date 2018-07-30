@@ -25,7 +25,7 @@ export {
     fetchJavakLots,
     fetchJavakLotsByJavakId,
     fetchJavakLotsByAvakId,
-    // deleteJavak,
+    deleteJavakLot,
     editJavakLot,
-    // fetchAvaksOfParty
+    removeTempJavakLots
 } from './javakLot';
