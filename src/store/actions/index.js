@@ -1,6 +1,7 @@
 export {
     saveParty,
     fetchParties,
+    fetchParty,
     deleteParty,
     editParty
 } from './party';
@@ -8,6 +9,7 @@ export {
 export {
     saveAvak,
     fetchAvaks,
+    fetchAvaksByPartyId,
     deleteAvak,
     editAvak
 } from './avak';
@@ -17,14 +19,15 @@ export {
     fetchJavaks,
     deleteJavak,
     editJavak,
-    fetchAvaksOfParty
+    fetchAvaksOfParty,
+    fetchJavaksByPartyId
 } from './javak';
 
 export {
     saveJavakLot,
     fetchJavakLots,
     fetchJavakLotsByJavakId,
-    fetchJavakLotsByAvakId,
+    fetchJavakLotsByAvakIds,
     deleteJavakLot,
     editJavakLot,
     removeTempJavakLots

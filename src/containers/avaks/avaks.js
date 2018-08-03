@@ -49,7 +49,7 @@ class Avaks extends Component {
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
             this.props.editAvak(row);
-        }
+        },
     });
 
     rowClasses = (row, rowIndex) => {
@@ -118,7 +118,7 @@ class Avaks extends Component {
                 options: CONST.VARIETIES
             },
             classes: (cell, row, rowIndex, colIndex) => {
-                if (cell == 'lr') return 'lr';
+                if (cell === 'lr') return 'lr';
             }
         }, {
             dataField: 'size',

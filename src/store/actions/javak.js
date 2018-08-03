@@ -63,3 +63,16 @@ export const fetchAvaksOfParty = (partyId, thenCallback) => {
         });
     }
 }
+
+export const fetchJavaksByPartyId = (partyId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchJavaksByPartyId', { partyId: partyId });
+        ipc.once('fetchJavaksByPartyIdResponse', (event, response) => {
+            dispatch({
+                type: actionTypes.FETCH_JAVAKS_BY_PARTY_ID,
+                payload: response
+            });
+            thenCallback(response);
+        });
+    }
+}

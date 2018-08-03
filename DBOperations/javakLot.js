@@ -8,11 +8,13 @@ class JavakLotsDatabase {
         this.mainWindow = mainWindow;
         this.saveJavakLot = this.saveJavakLot.bind(this);
         this.fetchJavakLotsByJavakId = this.fetchJavakLotsByJavakId.bind(this);
+        this.fetchJavakLotsByAvakIds     = this.fetchJavakLotsByAvakIds.bind(this);
         this.deleteJavakLot = this.deleteJavakLot.bind(this);
         this.removeTempJavakLots = this.removeTempJavakLots.bind(this);
         this.editJavakLot = this.editJavakLot.bind(this);
         ipc.on('saveJavakLot', this.saveJavakLot);
         ipc.on('fetchJavakLotsByJavakId', this.fetchJavakLotsByJavakId);
+        ipc.on('fetchJavakLotsByAvakIds', this.fetchJavakLotsByAvakIds);
         ipc.on('deleteJavakLot', this.deleteJavakLot);
         ipc.on('removeTempJavakLots', this.removeTempJavakLots);
         ipc.on('editJavakLot', this.editJavakLot);
@@ -72,12 +74,12 @@ class JavakLotsDatabase {
         });
     };
 
-    fetchJavakLotsByAvakId(event, data) {
-        javakLotsDB.find({ avakId: data.avakId }).sort({ updatedAt: -1 }).exec((err, data) => {
+    fetchJavakLotsByAvakIds(event, data) {
+        javakLotsDB.find({ avakId: { $in: data.avakIds } }).sort({ createdAt: 1 }).exec((err, data) => {
             let response = {};
             response.error = err;
             response.data = data;
-            this.mainWindow.webContents.send('fetchJavakLotsByAvakIdResponse', response);
+            this.mainWindow.webContents.send('fetchJavakLotsByAvakIdsResponse', response);
         });
     };
 

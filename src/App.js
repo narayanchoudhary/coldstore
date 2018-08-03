@@ -9,6 +9,7 @@ import Parties from './containers/parties/parties';
 import AddParty from './containers/parties/addParty/addParty';
 import Javaks from './containers/javaks/javaks';
 import addJavak from './containers/javaks/addJavak/addJavak';
+import SingleParty from './containers/parties/SingleParty/singleParty';
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
           <Route path='/addAvak' component={addAvak} />
           <Route path='/javaks' component={Javaks} />
           <Route path='/addJavak' component={addJavak} />
+          <Route path='/singleParty/:partyId' component={SingleParty} />
         </Switch>
       </div>
     );

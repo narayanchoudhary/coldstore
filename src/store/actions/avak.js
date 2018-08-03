@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 const ipc = window.require("electron").ipcRenderer;
 
 export const saveAvak = (values) => {
-    return dispatch => {    
+    return dispatch => {
         ipc.send('saveAvak', values);
         ipc.once('saveAvakResponse', (event, response) => {
             dispatch({
@@ -26,6 +26,19 @@ export const fetchAvaks = (thenCallback) => {
     }
 }
 
+export const fetchAvaksByPartyId = (partyId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchAvaksByPartyId', {partyId : partyId});
+        ipc.once('fetchAvaksByPartyIdResponse', (event, response) => {
+            dispatch({
+                type: actionTypes.FETCH_AVAKS_BY_PARTY_ID,
+                payload: response
+            });
+            thenCallback(response);
+        });
+    }
+}
+
 export const deleteAvak = (AvakId) => {
     return dispatch => {
         ipc.send('deleteAvak', { AvakId: AvakId });
@@ -39,7 +52,7 @@ export const deleteAvak = (AvakId) => {
 }
 
 export const editAvak = (data) => {
-    
+
     return dispatch => {
         ipc.send('editAvak', data);
         ipc.once('editAvakResponse', (event, response) => {

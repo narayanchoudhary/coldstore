@@ -26,6 +26,19 @@ export const fetchParties = (thenCallback) => {
     }
 }
 
+export const fetchParty = (partyId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchParty', {partyId: partyId});
+        ipc.once('fetchPartyResponse', (event, response) => {
+            dispatch({
+                type: actionTypes.FETCH_PARTY,
+                payload: response
+            });
+            thenCallback(response);
+        });
+    }
+}
+
 export const deleteParty = (partyId) => {
     return dispatch => {
         ipc.send('deleteParty', { partyId: partyId });

@@ -27,10 +27,10 @@ export const fetchJavakLotsByJavakId = (javakId, thenCallback) => {
     }
 }
 
-export const fetchJavakLotsByAvakId = (avakId, thenCallback) => {
+export const fetchJavakLotsByAvakIds = (avakIds, thenCallback) => {
     return dispatch => {
-        ipc.send('fetchJavakLotsByAvakId', {avakId: avakId});
-        ipc.once('fetchJavakLotsByAvakIdResponse', (event, response) => {
+        ipc.send('fetchJavakLotsByAvakIds', {avakIds: avakIds});
+        ipc.once('fetchJavakLotsByAvakIdsResponse', (event, response) => {
             dispatch({
                 type: actionTypes.FETCH_JAVAK_LOTS_BY_AVAK_ID,
                 payload: response

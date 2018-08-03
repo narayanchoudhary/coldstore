@@ -6,10 +6,12 @@ class AvakDatabase {
     this.mainWindow = mainWindow;
     this.saveAvak = this.saveAvak.bind(this);
     this.fetchAvaks = this.fetchAvaks.bind(this);
+    this.fetchAvaksByPartyId = this.fetchAvaksByPartyId.bind(this);
     this.deleteAvak = this.deleteAvak.bind(this);
     this.editAvak = this.editAvak.bind(this);
     ipc.on('saveAvak', this.saveAvak);
     ipc.on('fetchAvaks', this.fetchAvaks);
+    ipc.on('fetchAvaksByPartyId', this.fetchAvaksByPartyId);
     ipc.on('deleteAvak', this.deleteAvak);
     ipc.on('editAvak', this.editAvak);
   }
@@ -24,12 +26,21 @@ class AvakDatabase {
   };
 
   fetchAvaks (event, data) {
-    avaksDB.find({}).sort({ updatedAt: -1 }).exec((err, data) => {   
+    avaksDB.find({}).sort({ date: 1 }).exec((err, data) => {   
       let response = {};
       response.error = err;
       response.data  = data;
       
       this.mainWindow.webContents.send('fetchAvaksResponse', response);
+    });
+  };
+
+  fetchAvaksByPartyId (event, data) {
+    avaksDB.find({party: data.partyId}).sort({ updatedAt: -1 }).exec((err, data) => {   
+      let response = {};
+      response.error = err;
+      response.data  = data;
+      this.mainWindow.webContents.send('fetchAvaksByPartyIdResponse', response);
     });
   };
 

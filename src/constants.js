@@ -17,6 +17,10 @@ export default {
         { 'label': 'Chipsona', 'value': 'chipsona' },
         { 'label': 'LR', 'value': 'lr' },
         { 'label': 'Lowker', 'value': 'lowker' },
-    ]
+    ],
+    SETTINGS : {
+        RENT: 1.9,
+        DEFAULT_AVAK_HAMMALI_RATE: 6
+    }
 
 };

@@ -1,0 +1,30 @@
+.partyName {
+    text-transform: capitalize;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.tableFooter {
+    font-weight: bold;
+}
+
+.p-0 {
+    padding: 0px !important;
+}
+
+.table-head {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.table-head .table-head-inner {
+    padding: 2px;
+}
+
+.partyAccount td {
+    vertical-align: middle !important;
+}
+
+.totalJavakPacket {
+    text-align: center;
+}

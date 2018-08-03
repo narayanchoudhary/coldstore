@@ -11,11 +11,13 @@ class JavakDatabase {
     this.deleteJavak = this.deleteJavak.bind(this);
     this.editJavak = this.editJavak.bind(this);
     this.fetchAvaksOfParty = this.fetchAvaksOfParty.bind(this);
+    this.fetchJavaksByPartyId = this.fetchJavaksByPartyId.bind(this);
     ipc.on('saveJavak', this.saveJavak);
     ipc.on('fetchJavaks', this.fetchJavaks);
     ipc.on('deleteJavak', this.deleteJavak);
     ipc.on('editJavak', this.editJavak);
     ipc.on('fetchAvaksOfParty', this.fetchAvaksOfParty);
+    ipc.on('fetchJavaksByPartyId', this.fetchJavaksByPartyId);
   }
 
   saveJavak(event, data) {
@@ -64,8 +66,8 @@ class JavakDatabase {
   fetchAvaksOfParty(event, data) {
     let response = {};
     let avaksOuter;
-    this.fetchAvaks(data).
-      then((avaks) => {
+    this.fetchAvaks(data)
+      .then((avaks) => {
         avaksOuter = avaks;
         let avakIds = [];
         avaks.forEach((avak) => {
@@ -102,6 +104,18 @@ class JavakDatabase {
       });
     });
   }
+
+  fetchJavaksByPartyId(event, data) {
+    
+    javaksDB.find({party: data.partyId}).sort({ updatedAt: -1 }).exec((err, data) => {
+      let response = {};
+      response.error = err;
+      response.data = data;
+      this.mainWindow.webContents.send('fetchJavaksByPartyIdResponse', response);
+    });
+  };
+
+
 }
 
 module.exports = JavakDatabase;

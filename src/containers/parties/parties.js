@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
@@ -13,7 +13,8 @@ import Aux from '../../components/Auxilary/Auxilary';
 class Parties extends Component {
 
     state = {
-        modal: false
+        modal: false,
+        singlePartyId: null
     }
 
     componentDidMount() {
@@ -26,7 +27,7 @@ class Parties extends Component {
     }
 
     handleClickOnView = (partyId) => {
-        this.setState({ modal: true, partyId: partyId });
+        this.setState({ singlePartyId: partyId });
     }
 
     createDeleteButton = (cell, row) => {
@@ -45,7 +46,8 @@ class Parties extends Component {
         blurToSvae: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
             this.props.editParty(row);
-        }
+        },
+        nonEditableRows: () => { return [0, 3]}
     });
 
     rowClasses = (row, rowIndex) => {
@@ -119,6 +121,12 @@ class Parties extends Component {
 
         return (
             <div className="partiesContainer">
+                {
+                    this.state.singlePartyId
+
+                        ? <Redirect to={"/singleParty/" + this.state.singlePartyId} />
+                        : null
+                }
                 <Link to='/addParty'>
                     <Button>  Add Party </Button>
                 </Link>

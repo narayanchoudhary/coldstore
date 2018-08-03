@@ -7,10 +7,12 @@ class PartyDatabase {
     this.mainWindow = mainWindow;
     this.saveParty = this.saveParty.bind(this);
     this.fetchParties = this.fetchParties.bind(this);
+    this.fetchParty = this.fetchParty.bind(this);
     this.deleteParty = this.deleteParty.bind(this);
     this.editParty = this.editParty.bind(this);
     ipc.on('saveParty', this.saveParty);
     ipc.on('fetchParties', this.fetchParties);
+    ipc.on('fetchParty', this.fetchParty);
     ipc.on('deleteParty', this.deleteParty);
     ipc.on('editParty', this.editParty);
   }
@@ -30,6 +32,15 @@ class PartyDatabase {
       response.error = err;
       response.data = data;
       this.mainWindow.webContents.send('fetchPartiesResponse', response);
+    });
+  };
+
+  fetchParty(event, data) {
+    partiesDB.findOne({ _id: data.partyId }).exec((err, doc) => {
+      let response = {};
+      response.error = err;
+      response.data = doc;
+      this.mainWindow.webContents.send('fetchPartyResponse', response);
     });
   };
 

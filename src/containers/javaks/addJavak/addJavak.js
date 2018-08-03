@@ -116,7 +116,7 @@ const mapDispatchToProps = dispatch => {
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
         fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
-        fetchJavakLotsByAvakId: (avakId, thenCallback) => dispatch(actions.fetchJavakLotsByAvakId(avakId, thenCallback)),
+        fetchJavakLotsByAvakIds: (avakId, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakId, thenCallback)),
         removeTempJavakLots: () => dispatch(actions.removeTempJavakLots())
     };
 };

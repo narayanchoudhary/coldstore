@@ -5,11 +5,11 @@ class Header extends Component {
     render() {
         return (
             <div className='header'>
-                <Link to='/'>        home    </Link>
+                <Link to='/'>        status    </Link>
                 <Link to='/parties'> parties </Link>
                 <Link to='/avaks'>    avak    </Link>
                 <Link to='/javaks'>   javak </Link>
-                <a>about</a>
+                <a>Setting</a>
             </div>
         )
     }
