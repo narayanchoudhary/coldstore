@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import './header.css';
+
 class Header extends Component {
     render() {
         return (
@@ -9,6 +10,7 @@ class Header extends Component {
                 <Link to='/parties'> parties </Link>
                 <Link to='/avaks'>    avak    </Link>
                 <Link to='/javaks'>   javak </Link>
+                <Link to='/transactions'>   Transactions </Link>
                 <a>Setting</a>
             </div>
         )
