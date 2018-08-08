@@ -3,34 +3,36 @@ import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
-import './addJavak.css';
 import 'react-select/dist/react-select.css';
 import validate from './validation';
-import { renderField, renderSelectField } from './fields';
+import { renderField, renderSelectField } from '../../../fields';
 import 'react-datepicker/dist/react-datepicker.css';
-import JavakLots from './javakLots/javakLots';
-import { withRouter } from 'react-router';
+import './addTransaction.css';
 
-class addJavak extends Component {
+class addTransaction extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = { merchants: [], parties: [], addresses: [], avaks: [], lots: [], javakId: null, partyId: null };
-    }
-
-    componentWillUnmount() {
-        this.props.removeTempJavakLots();
+        this.state = {
+            parties: [],
+            addresses: [],
+            banks: [
+                { value: 'bob', label: 'BOB' },
+                { value: 'boi', label: 'BOI' },
+                { value: 'sbi', label: 'SBI' },
+            ]
+        };
     }
 
     componentDidMount = () => {
         // After fetching parties set parties and addresses
         this.props.fetchParties(() => {
-
             let parties = this.props.parties.map((party) => {
                 return { label: party.name, value: party._id }
             });
-            this.setState({ parties: parties, merchants: parties });
+
+            this.setState({ parties: parties });
 
             let addresses = this.props.parties.map((party) => {
                 return { label: party.address, value: party.address }
@@ -47,14 +49,16 @@ class addJavak extends Component {
             });
             this.setState({ addresses: addresses });
         });
+
+        //fetchBanks
     }
 
     submit = (values) => {
         delete values.address;
         values.party = values.party.value;
-        values.merchant = values.merchant.value;
-        this.props.saveJavak(values, (result) => {
-            this.setState({ javakId: result.data._id, redirectToJavaks: true });
+        values.bank = values.bank.value;
+        this.props.saveTransaction(values, () => {
+            this.setState({ redirectToTransactions: true });
         });
     };
 
@@ -72,22 +76,23 @@ class addJavak extends Component {
         this.setState({ parties: filteredParties });
     }
 
-    onPartySelect = (partyId) => {
-        this.setState({ partyId: partyId });
-    }
-
     render() {
         return (
-            <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
-                {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
+            <form onSubmit={this.handleSubmit(this.submit)}>
+                {this.state.redirectToTransactions ? <Redirect to="/transactions" /> : null}
                 <div className="grid-container">
                     <Field type="number" name="receiptNumber" component={renderField} placeholder="Receipt Number" min="0" />
                     <Field type="date" name="date" component={renderField} placeholder="Date" />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
-                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.state.merchants} />
-                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} onChange={(party) => this.onPartySelect(party.value)} />
-                    <JavakLots javakId={this.state.javakId} partyId={this.state.partyId} />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} />
+                    <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" />
+                    <div className="grid-item radioButtons">
+                        <div><Field name="side" component="input" type="radio" value="credit" />Credit</div>
+                        <div><Field name="side" component="input" type="radio" value="debit" />Debit</div>
+                    </div>
+                    <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.state.banks} />
+                    <Field type="text" name='checkNumber' component={renderField} placeholder="Check Number" />
+                    <Field type="text" name='remark' component={renderField} placeholder="Remark" />
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
@@ -98,27 +103,22 @@ class addJavak extends Component {
 }
 
 const Form = reduxForm({
-    form: 'javak',// a unique identifier for this form
+    form: 'transaction',// a unique identifier for this form
     validate
-})(addJavak);
+})(addTransaction);
 
 const mapStateToProps = state => {
     return {
         parties: state.party.parties.data,
-        addError: state.javak.addJavak.error
+        addError: state.avak.addAvak.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveJavak: (values, thenCallback) => dispatch(actions.saveJavak(values, thenCallback)),
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
-        fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
-        saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
-        fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
-        fetchJavakLotsByAvakIds: (avakId, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakId, thenCallback)),
-        removeTempJavakLots: () => dispatch(actions.removeTempJavakLots())
+        saveTransaction: (values, thenCallback) => dispatch(actions.saveTransaction(values, thenCallback)),
+        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback))
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

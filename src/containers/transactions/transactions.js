@@ -5,7 +5,10 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../../store/actions';
+import Button from '../../components/UI/button/button';
+import { Link } from 'react-router-dom';
+import './transactions.css';
 
 class Transactions extends Component {
 
@@ -15,8 +18,8 @@ class Transactions extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchTransactions(()=> {
-
+        this.props.fetchTransactions((response) => {
+            this.setState({ transactions: response.data });
         });
 
         this.props.fetchParties(() => {
@@ -24,6 +27,51 @@ class Transactions extends Component {
                 return { label: party.name + ' ' + party.address, value: party._id }
             });
             this.setState({ parties: parties });
+        });
+    }
+
+    partyFormatter = (cell, row) => {
+        this.props.parties.forEach((party) => {
+            if (party._id.toLowerCase() === cell.toLowerCase()) {
+                cell = party.name
+            }
+        });
+        return (
+            <span>{cell}</span>
+        );
+    };
+
+    creditFormatter = (cell, row) => {
+        if (row.side === 'credit') {
+            return cell;
+        } else {
+            return '';
+        }
+    };
+
+    debitFormatter = (cell, row) => {
+        if (row.side === 'debit') {
+            return row.amount;
+        } else {
+            return '';
+        }
+    };
+
+    createDeleteButton = (cell, row) => {
+        return (
+            <button
+                className="btn btn-danger btn-xs"
+                onClick={() => this.handleClickOnDelete(cell)}
+            >
+                Delete
+            </button>
+        );
+    }
+
+    handleClickOnDelete = (javakId) => {
+        this.props.deleteTransaction(javakId);
+        this.props.fetchTransactions((response) => {
+            this.setState({ transactions: response.data });
         });
     }
 
@@ -53,34 +101,33 @@ class Transactions extends Component {
             headerSortingStyle: this.headerSortingStyle,
             formatter: this.partyFormatter,
             filter: textFilter(),
+            filterValue: (cell, row) => {
+                this.props.parties.forEach((party) => {
+                    if (party._id.toLowerCase() === cell.toLowerCase()) {
+                        cell = party.name + ' ' + party.address
+                    }
+                });
+
+                return cell
+            },
             editor: {
                 type: Type.SELECT,
                 options: this.state.parties
             }
         }, {
             dataField: 'amount',
-            text: 'Amount',
+            text: 'Credit',
             sort: true,
             headerSortingStyle: this.headerSortingStyle,
-            filter: textFilter()
+            filter: textFilter(),
+            formatter: this.creditFormatter
         }, {
-            dataField: 'lya',
-            text: 'Lya',
+            dataField: 'debit',// debit key is not stored in the database it is give to just keep it unique
+            text: 'Debit',
             sort: true,
             headerSortingStyle: this.headerSortingStyle,
-            filter: textFilter()
-        }, {
-            dataField: 'dya',
-            text: 'Dya',
-            sort: true,
-            headerSortingStyle: this.headerSortingStyle,
-            filter: textFilter()
-        }, {
-            dataField: 'transactionType',
-            text: 'Type', //TOdo cell edit
-            sort: true,
-            headerSortingStyle: this.headerSortingStyle,
-            filter: textFilter()
+            filter: textFilter(),
+            formatter: this.debitFormatter,
         }, {
             dataField: 'checkNumber',
             text: 'CheckNo',
@@ -103,7 +150,7 @@ class Transactions extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-//            this.props.editAvak(row); TODO
+            this.props.editTransaction(row);
         },
     });
 
@@ -119,7 +166,10 @@ class Transactions extends Component {
 
     render() {
         return (
-            <Aux>
+            <div className="avaksContainer">
+                <Link to='/addTransaction'>
+                    <Button>  Add Transaction </Button>
+                </Link>
                 <BootstrapTable
                     columns={this.columns}
                     keyField='_id'
@@ -130,11 +180,11 @@ class Transactions extends Component {
                     striped
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
-                    noDataIndication="Koi bhi nahi mila bhai"
+                    noDataIndication="No items"
                     pagination={paginationFactory(this.paginationOptions)}
                     rowClasses={this.rowClasses}
                 />
-            </Aux>
+            </div>
         )
     }
 }

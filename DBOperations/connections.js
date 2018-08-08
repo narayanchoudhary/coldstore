@@ -8,7 +8,8 @@ var Connections = (function () {
         var object = {
             javaksDB: new Datastore({ filename: 'database/javaks', autoload: true, timestampData: true }),
             avaksDB: new Datastore({ filename: 'database/avaks', autoload: true, timestampData: true }),
-            javakLotsDB: new Datastore({ filename: 'database/javakLots', autoload: true, timestampData: true })
+            javakLotsDB: new Datastore({ filename: 'database/javakLots', autoload: true, timestampData: true }),
+            transactionsDB: new Datastore({ filename: 'database/transactions', autoload: true, timestampData: true })
         };
         return object;
     }
@@ -18,7 +19,6 @@ var Connections = (function () {
             if (!instance) {
                 instance = createInstance();
             }
-
             return instance;
         }
     };

@@ -14,6 +14,7 @@ export const saveTransaction = (values, thenCallback) => {
     }
 };
 
+// fetchTransactionsByPartyId DBOperation.js me bana he pehle se
 export const fetchTransactions = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchTransactions', {});

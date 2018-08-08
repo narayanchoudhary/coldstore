@@ -5,7 +5,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../../store/actions';
 import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';

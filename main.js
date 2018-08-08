@@ -5,6 +5,7 @@ const PartyDatabase = require('./DBOperations/party.js');
 const AvakDatabase = require('./DBOperations/avak.js');
 const JavakDatabase = require('./DBOperations/javak.js');
 const JavakLotDatabase = require('./DBOperations/javakLot.js');
+const TransactionDatabase = require('./DBOperations/transaction.js');
 
 let mainWindow;
 
@@ -15,6 +16,7 @@ function createWindow () {
   const avakDatabase = new AvakDatabase(mainWindow);
   const javakDatabase = new JavakDatabase(mainWindow);
   const javakLotDatabase = new JavakLotDatabase(mainWindow);
+  const transactionsDatabase = new TransactionDatabase(mainWindow);
   mainWindow.on('closed', function () {
     mainWindow = null;
   });

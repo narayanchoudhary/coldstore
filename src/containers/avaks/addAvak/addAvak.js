@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../../store/actions';
 import './addAvak.css';
 import 'react-select/dist/react-select.css';
 import validate from './validation';
-import { renderField, renderSelectField, renderRacks } from './fields';
+import { renderField, renderSelectField, renderRacks } from '../../../fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import CONST from '../../../constants';
 
@@ -50,7 +50,6 @@ class addAvak extends Component {
         values.size  = values.size.value;
         values.item  = values.item.value;
         values.variety = values.variety.value;
-        console.log('values: ', values);
         this.props.saveAvak(values);
         if (this.props.addError === false) {
             this.setState({ redirectToAvaks: true })

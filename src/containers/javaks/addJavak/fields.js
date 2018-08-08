@@ -3,7 +3,7 @@ import Glyphicon from '../../../components/UI/glyphicon';
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import moment from 'C:/Users/surya/AppData/Local/Microsoft/TypeScript/2.9/node_modules/moment';
 
 export const renderField = ({ input, label, type, meta: { touched, error, warning }, ...rest }) => {
     return (

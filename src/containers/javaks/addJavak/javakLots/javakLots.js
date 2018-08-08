@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
-import * as actions from '../../../../store/actions/index';
-import Aux from '../.././../../components/Auxilary/Auxilary';
+import * as actions from '../../../../store/actions';
+import Aux from '../../../../components/Auxilary/Auxilary';
 import './javakLots.css';
 
 class JavakLots extends Component {

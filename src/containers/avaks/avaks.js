@@ -5,7 +5,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
 import CONST from '../../constants';
@@ -93,6 +93,14 @@ class Avaks extends Component {
             headerSortingStyle,
             formatter: this.partyFormatter,
             filter: textFilter(),
+            filterValue: (cell, row) => {
+                this.props.parties.forEach((party) => {
+                    if (party._id.toLowerCase() === cell.toLowerCase()) {
+                        cell = party.name + ' ' + party.address
+                    }
+                });
+                return cell
+            },
             editor: {
                 type: Type.SELECT,
                 options: this.state.parties

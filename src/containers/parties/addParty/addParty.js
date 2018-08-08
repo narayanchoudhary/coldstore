@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import Aux from '../../../components/Auxilary/Auxilary';
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../../store/actions';
 import Glyphicon from '../../../components/UI/glyphicon';
 import { Redirect } from 'react-router-dom';
 

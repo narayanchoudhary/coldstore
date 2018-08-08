@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './LotsModal.css';
 import Modal from 'react-responsive-modal';
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';

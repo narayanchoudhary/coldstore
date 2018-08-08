@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../../store/actions';
 import './singleParty.css';
 import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
@@ -78,6 +78,7 @@ class SingleParty extends Component {
     }
 
     createDeleteButton = (cell, row) => {
+        if(cell === 'footer') return '';
         return (
             <button
                 className="btn btn-danger btn-xs"

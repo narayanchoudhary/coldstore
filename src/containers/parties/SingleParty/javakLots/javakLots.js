@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
 import './javakLots.css';
 import { connect } from 'react-redux';
-import * as actions from '../../../../store/actions/index';
+import * as actions from '../../../../store/actions';
 
 class JavakLots extends Component {
 
