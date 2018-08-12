@@ -13,15 +13,15 @@ export const saveParty = (values) => {
     }
 };
 
-export const fetchParties = (thenCallback) => {
+export const fetchParties = (type, thenCallback) => {
     return dispatch => {
-        ipc.send('fetchParties', {});
+        ipc.send('fetchParties', {type: type});
         ipc.once('fetchPartiesResponse', (event, response) => {
             dispatch({
                 type: actionTypes.FETCH_PARTIES,
                 payload: response
             });
-            thenCallback();
+            thenCallback(response);
         });
     }
 }

@@ -20,7 +20,7 @@ class Avaks extends Component {
         this.props.fetchAvaks(() => {
         });
 
-        this.props.fetchParties(() => {
+        this.props.fetchParties(['party'], () => {
             let parties = this.props.parties.map((party) => {
                 return { label: party.name + ' ' + party.address, value: party._id }
             });
@@ -233,7 +233,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchAvaks: (thenCallback) => dispatch(actions.fetchAvaks(thenCallback)),
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
+        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
         editAvak: (avak) => dispatch(actions.editAvak(avak))
     };

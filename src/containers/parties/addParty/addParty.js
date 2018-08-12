@@ -32,7 +32,7 @@ class addParty extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
-        this.state = {redirectToParties: false};
+        this.state = { redirectToParties: false };
     }
 
     renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
@@ -54,8 +54,8 @@ class addParty extends Component {
 
     submit = (values) => {
         this.props.saveParty(values);
-        if(this.props.addError === false) {
-            this.setState({redirectToParties: true})
+        if (this.props.addError === false) {
+            this.setState({ redirectToParties: true })
         }
     };
 
@@ -100,6 +100,25 @@ class addParty extends Component {
                             </div>
                         </div>
                         <div className="form-group">
+                            <label className="col-md-4 control-label">Opening Balance</label>
+                            <div className="col-md-4 inputGroupContainer">
+                                <Field
+                                    name="openingBalance"
+                                    placeholder="Opening Balance"
+                                    type="number"
+                                    component={this.renderField}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-4 control-label">Type</label>
+                            <div className="col-md-4 inputGroupContainer">
+                                <div><Field name="type" type="radio" component="input" value="party" /> Party </div>
+                                <div><Field name="type" type="radio" component="input" value="bank" /> Bank </div>
+                                <div><Field name="type" type="radio" component="input" value="expense" /> Expense </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
                             <label className="col-md-4 control-label"></label>
                             <div className="col-md-4">
                                 <button
@@ -120,7 +139,8 @@ class addParty extends Component {
 
 const Form = reduxForm({
     form: 'party',
-    validate // a unique identifier for this form
+    validate, // a unique identifier for this form,
+    initialValues: { type: 'party' }
 })(addParty);
 
 const mapStateToProps = state => {

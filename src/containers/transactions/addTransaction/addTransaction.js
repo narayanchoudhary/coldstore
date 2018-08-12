@@ -16,26 +16,29 @@ class addTransaction extends Component {
         this.submitting = this.props.submitting;
         this.state = {
             parties: [],
+            filteredParties: [],
             addresses: [],
-            banks: [
-                { value: 'bob', label: 'BOB' },
-                { value: 'boi', label: 'BOI' },
-                { value: 'sbi', label: 'SBI' },
-            ]
+            banks: []
         };
     }
 
     componentDidMount = () => {
         // After fetching parties set parties and addresses
-        this.props.fetchParties(() => {
-            let parties = this.props.parties.map((party) => {
-                return { label: party.name, value: party._id }
-            });
+        this.props.fetchParties(['party', 'expense'], (response) => {
+            let parties = response.data;
 
             this.setState({ parties: parties });
 
-            let addresses = this.props.parties.map((party) => {
+            let addresses = response.data.map((party) => {
                 return { label: party.address, value: party.address }
+            });
+
+            // fetch banks
+            this.props.fetchParties(['bank'], (response) => {
+                let banks = response.data.map((bank) => {
+                    return { label: bank.name, value: bank._id }
+                });
+                this.setState({ banks: banks });
             });
 
             let unique_addresses = [];
@@ -48,9 +51,9 @@ class addTransaction extends Component {
                 }
             });
             this.setState({ addresses: addresses });
-        });
 
-        //fetchBanks
+            //this.filterPartiesByAddress(null);
+        });
     }
 
     submit = (values) => {
@@ -63,17 +66,19 @@ class addTransaction extends Component {
     };
 
     filterPartiesByAddress = (address) => {
-        let filteredParties = this.props.parties;
-        if (address.value) {
-            filteredParties = this.props.parties.filter(function (party) {
-                return party.address === address.value;
-            });
+        let filteredParties = [];
+        if (address) {
+            if (address.value) {
+                filteredParties = this.state.parties.filter(function (party) {
+                    return party.address === address.value;
+                });
+            }
         }
 
         filteredParties = filteredParties.map((party) => {
             return { label: party.name, value: party._id }
         });
-        this.setState({ parties: filteredParties });
+        this.setState({ filteredParties: filteredParties });
     }
 
     render() {
@@ -84,7 +89,7 @@ class addTransaction extends Component {
                     <Field type="number" name="receiptNumber" component={renderField} placeholder="Receipt Number" min="0" />
                     <Field type="date" name="date" component={renderField} placeholder="Date" />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.filteredParties} />
                     <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" />
                     <div className="grid-item radioButtons">
                         <div><Field name="side" component="input" type="radio" value="credit" />Credit</div>
@@ -117,7 +122,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         saveTransaction: (values, thenCallback) => dispatch(actions.saveTransaction(values, thenCallback)),
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback))
+        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback))
     };
 };
 

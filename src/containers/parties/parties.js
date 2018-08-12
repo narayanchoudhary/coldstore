@@ -18,12 +18,12 @@ class Parties extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchParties(() => { });
+        this.props.fetchParties(null , () => { });
     }
 
     handleClickOnDelete = (partyId) => {
         this.props.deleteParty(partyId);
-        this.props.fetchParties(() => { });
+        this.props.fetchParties(null , () => { });
     }
 
     handleClickOnView = (partyId) => {
@@ -159,7 +159,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
+        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteParty: (partyId) => dispatch(actions.deleteParty(partyId)),
         editParty: (party) => dispatch(actions.editParty(party))
     };

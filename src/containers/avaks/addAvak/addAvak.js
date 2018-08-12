@@ -20,7 +20,7 @@ class addAvak extends Component {
 
     componentDidMount = () => {
         // After fetching parties set parties and addresses
-        this.props.fetchParties(() => {
+        this.props.fetchParties(['party'], () => {
             let parties = this.props.parties.map((party) => {
                 return { label: party.name, value: party._id }
             });
@@ -114,7 +114,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         saveAvak: (values) => dispatch(actions.saveAvak(values)),
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback))
+        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback))
     };
 };
 

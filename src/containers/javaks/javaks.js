@@ -22,7 +22,7 @@ class Javaks extends Component {
         this.props.fetchJavaks(() => {
         });
 
-        this.props.fetchParties(() => {
+        this.props.fetchParties(['party'], () => {
             let parties = this.props.parties.map((party) => {
                 return { label: party.name + ' ' + party.address, value: party._id.toLowerCase() }
             });
@@ -204,7 +204,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchJavaks: (thenCallback) => dispatch(actions.fetchJavaks(thenCallback)),
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
+        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteJavak: (javakId) => dispatch(actions.deleteJavak(javakId)),
         editJavak: (javak) => dispatch(actions.editJavak(javak))
     };

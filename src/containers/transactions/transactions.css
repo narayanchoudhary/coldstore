@@ -1,0 +1,15 @@
+.uppercase {
+    text-transform: uppercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.react-bootstrap-table-editing-cell select {
+    text-transform: capitalize;
+}
+
+.remark:first-letter {
+    text-transform: capitalize
+}

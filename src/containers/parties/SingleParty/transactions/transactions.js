@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import cellEditFactory from 'react-bootstrap-table2-editor';
+import filterFactory from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions';
-import Button from '../../components/UI/button/button';
-import { Link } from 'react-router-dom';
+import * as actions from '../../../../store/actions';
 import './transactions.css';
 
 class Transactions extends Component {
@@ -17,7 +14,8 @@ class Transactions extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchTransactions((response) => {
+        // PartyId pass karni he
+        this.props.fetchTransactionsByPartyId(this.props.partyId, (response) => {
             this.setState({ transactions: response.data });
         });
 
@@ -84,16 +82,6 @@ class Transactions extends Component {
         },
     });
 
-    paginationOptions = {
-        sizePerPageList: [{
-            text: '11', value: 11
-        }, {
-            text: '12', value: 12
-        }, {
-            text: 'All', value: this.state.transactions ? this.state.transactions.length === 0 ? 1 : this.state.transactions.length : 1
-        }]
-    };
-
     render() {
         let columns = [
             {
@@ -103,63 +91,30 @@ class Transactions extends Component {
             }, {
                 dataField: 'receiptNumber',
                 text: 'R No',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter()
             }, {
                 dataField: 'date',
                 text: 'Date',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter()
             }, {
                 dataField: 'party',
                 text: 'Party',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
                 formatter: this.partyFormatter,
-                filter: textFilter(),
                 classes: 'capitalize',
-                filterValue: (cell, row) => {
-                    this.props.parties.forEach((party) => {
-                        if (party._id.toLowerCase() === cell.toLowerCase()) {
-                            cell = party.name + ' ' + party.address
-                        }
-                    });
-
-                    return cell
-                },
-                editor: {
-                    type: Type.SELECT,
-                    options: this.state.parties
-                }
+                hidden: true
             }, {
                 dataField: 'amount',
                 text: 'Credit',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter(),
                 formatter: this.creditFormatter
             }, {
                 dataField: 'debit',// debit key is not stored in the database it is give to just keep it unique
                 text: 'Debit',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter(),
                 formatter: this.debitFormatter,
             }, {
                 dataField: 'checkNumber',
                 text: 'CheckNo',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter(),
                 classes: 'uppercase'
             }, {
                 dataField: 'remark',
                 text: 'Remark',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter(),
                 classes: 'remark'
             }, {
                 dataField: '_id',
@@ -169,9 +124,7 @@ class Transactions extends Component {
 
         return (
             <div className="avaksContainer">
-                <Link to='/addTransaction'>
-                    <Button>  Add Transaction </Button>
-                </Link>
+                <h3 className="transactionHeading">Transactions</h3>
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
@@ -183,7 +136,6 @@ class Transactions extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No items"
-                    pagination={paginationFactory(this.paginationOptions)}
                     rowClasses={this.rowClasses}
                 />
             </div>
@@ -199,7 +151,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchTransactions: (thenCallback) => dispatch(actions.fetchTransactions(thenCallback)),
+        fetchTransactionsByPartyId: (partyId, thenCallback) => dispatch(actions.fetchTransactionsByPartyId(partyId, thenCallback)),
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteTransaction: (transactionsId) => dispatch(actions.deleteTransaction(transactionsId)),
         editTransaction: (transaction) => dispatch(actions.editTransaction(transaction))

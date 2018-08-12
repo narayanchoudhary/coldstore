@@ -45,6 +45,8 @@ class Glyphicon extends Component {
             classes.push('glyphicon-piggy-bank')
         }else if(this.props.type === 'checkNumber') {
             classes.push('glyphicon-check')
+        }else if(this.props.type === 'openingBalance') {
+            classes.push('glyphicon-usd')
         }
         return (
             <i className={classes.join(" ")}></i>

@@ -6,6 +6,8 @@ import * as actions from '../../../store/actions';
 import './singleParty.css';
 import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
+import Aux from '../../../components/Auxilary/Auxilary';
+import Transactions from './transactions/transactions';
 
 class SingleParty extends Component {
 
@@ -40,6 +42,7 @@ class SingleParty extends Component {
 
     componentDidMount() {
         this.props.fetchAvaksByPartyId(this.props.match.params.partyId, (response) => {
+            console.log('response: ', response);
             // Extract avaks ids
             let avakIds = [];
             response.data.forEach((avak) => {
@@ -47,7 +50,9 @@ class SingleParty extends Component {
             });
             // Add footer in the table
             let footer = this.getFooterData(response.data);
-            response.data.push(footer);
+            if(footer) {
+                response.data.push(footer);
+            }
             // Get javak Lots of the above avak Ids
             this.props.fetchJavakLotsByAvakIds(avakIds, (response) => {
                 let totalJavakPacket = 0;
@@ -78,7 +83,7 @@ class SingleParty extends Component {
     }
 
     createDeleteButton = (cell, row) => {
-        if(cell === 'footer') return '';
+        if (cell === 'footer') return '';
         return (
             <button
                 className="btn btn-danger btn-xs"
@@ -263,21 +268,24 @@ class SingleParty extends Component {
         }];
 
         return (
-            <div className="partyAccount avaksContainer">
-                <h3 className="partyName" >{this.state.party ? this.state.party.name : null}</h3>
-                <BootstrapTable
-                    columns={columns}
-                    keyField='_id'
-                    data={this.state.avaks}
-                    wrapperClasses="avaksTableWrapper"
-                    bordered
-                    hover
-                    striped
-                    cellEdit={this.cellEdit}
-                    noDataIndication="Koi bhi nahi mila bhai"
-                    rowClasses={this.rowClasses}
-                />
-            </div>
+            <Aux>
+                <div className="partyAccount avaksContainer">
+                    <h3 className="partyName" >{this.state.party ? this.state.party.name : null}</h3>
+                    <BootstrapTable
+                        columns={columns}
+                        keyField='_id'
+                        data={this.state.avaks}
+                        wrapperClasses="avaksTableWrapper"
+                        bordered
+                        hover
+                        striped
+                        cellEdit={this.cellEdit}
+                        noDataIndication="No items"
+                        rowClasses={this.rowClasses}
+                    />
+                </div>
+                <Transactions partyId={this.props.match.params.partyId} />
+            </Aux>
         )
     }
 }
@@ -294,7 +302,7 @@ const mapDispatchToProps = dispatch => {
         fetchAvaksByPartyId: (partyId, thenCallback) => dispatch(actions.fetchAvaksByPartyId(partyId, thenCallback)),
         fetchJavaksByPartyId: (partyId, thenCallback) => dispatch(actions.fetchJavaksByPartyId(partyId, thenCallback)),
         fetchParty: (partyId, thenCallback) => dispatch(actions.fetchParty(partyId, thenCallback)),
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
+        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
         editAvak: (avak) => dispatch(actions.editAvak(avak)),
         fetchJavakLotsByAvakIds: (avakIds, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakIds, thenCallback)),

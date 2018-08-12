@@ -36,6 +36,7 @@ export {
 export {
     saveTransaction,
     fetchTransactions,
+    fetchTransactionsByPartyId,
     deleteTransaction,
     editTransaction,
 } from './transactions';

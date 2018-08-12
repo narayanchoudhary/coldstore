@@ -28,6 +28,19 @@ export const fetchTransactions = (thenCallback) => {
     }
 }
 
+export const fetchTransactionsByPartyId = (partyId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchTransactionsByPartyId', {partyId: partyId});
+        ipc.once('fetchTransactionsByPartyIdResponse', (event, response) => {
+            dispatch({
+                type: actionTypes.FETCH_TRANSACTIONS_BY_PARTY_ID,
+                payload: response
+            });
+            thenCallback(response);
+        });
+    }
+}
+
 export const deleteTransaction = (TransactionId) => {
     return dispatch => {
         ipc.send('deleteTransaction', { TransactionId: TransactionId });
