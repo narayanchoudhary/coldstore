@@ -9,37 +9,73 @@ import './transactions.css';
 class Transactions extends Component {
 
     state = {
-        transactions: [],
-        parties: []
+        transactions: []
     };
 
     componentDidMount() {
-        // PartyId pass karni he
-        this.props.fetchTransactionsByPartyId(this.props.partyId, (response) => {
-            this.setState({ transactions: response.data });
+        this.props.fetchTransactionsByPartyId(this.props.partyId, (transactionResponse) => {
+            this.props.fetchParty(this.props.partyId, (response) => {
+                // Insert total rent in the transactions
+                let totalRent = {
+                    _id: 'totalRent',
+                    amount: this.props.totalRent,
+                    remark: 'Total Rent',
+                    side: 'debit'
+                };
+                transactionResponse.data.unshift(totalRent);
+                // insert opening balance in the transactions
+                let party = response.data;
+                let openingBalance = {
+                    _id: 'openingBalance',
+                    amount: party.openingBalance,
+                    remark: 'Opening Balance',
+                    side: party.openingBalance > 0 ? 'credit' : 'debit',
+                };
+                transactionResponse.data.unshift(openingBalance);
+                transactionResponse.data.push(this.getFooterData(transactionResponse.data));
+                this.setState({ transactions: transactionResponse.data });
+            });
         });
 
-        this.props.fetchParties(['party', 'expense'], () => {
-            let parties = this.props.parties.map((party) => {
-                return { label: party.name + ' ' + party.address, value: party._id }
-            });
-            this.setState({ parties: parties });
-        });
     }
 
-    partyFormatter = (cell, row) => {
-        this.props.parties.forEach((party) => {
-            if (party._id.toLowerCase() === cell.toLowerCase()) {
-                cell = party.name
+    getFooterData = (transactions) => {
+        // Do not create footer if no transactions
+        if (transactions.length === 0) {
+            return;
+        }
+
+        let side = 'credit';
+        let totalCredit = 0;
+        let totalDebit = 0;
+        let balance = 0;
+        transactions.forEach((transaction) => {
+            if (transaction.side === 'credit') {
+                totalCredit += parseInt(transaction.amount);
+            } else {
+                totalDebit += parseInt(transaction.amount);
             }
         });
-        return (
-            <span>{cell}</span>
-        );
-    };
+
+        balance = totalDebit - totalCredit;
+        if (balance >= 0) {
+            side = 'debit';
+        }
+        // Make balance positive if it is negative
+        if (balance < 0) balance *= -1;
+
+        let footer = {
+            _id: 'footer',
+            date: 'Balance',
+            amount: balance,
+            side: side
+        }
+        return footer;
+    }
 
     creditFormatter = (cell, row) => {
-        if (row.side === 'credit') {
+        // hariom se puchhe
+        if (row.side === 'debit') {
             return cell;
         } else {
             return '';
@@ -47,7 +83,7 @@ class Transactions extends Component {
     };
 
     debitFormatter = (cell, row) => {
-        if (row.side === 'debit') {
+        if (row.side === 'credit') {
             return row.amount;
         } else {
             return '';
@@ -55,6 +91,9 @@ class Transactions extends Component {
     };
 
     createDeleteButton = (cell, row) => {
+        if (cell === 'totalRent' || cell === 'openingBalance' || row._id === 'footer') {
+            return '';
+        }
         return (
             <button
                 className="btn btn-danger btn-xs"
@@ -72,15 +111,15 @@ class Transactions extends Component {
         });
     }
 
-    headerSortingStyle = { backgroundColor: '#ccc' };
+    rowClasses = (row, rowIndex) => {
+        let rowClasses = 'capitalize';
+        if (row._id === 'footer') {
+            rowClasses += ' tableFooter';
+        }
+        return rowClasses;
+    };
 
-    cellEdit = cellEditFactory({
-        mode: 'click',
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editTransaction(row);
-        },
-    });
+    headerSortingStyle = { backgroundColor: '#ccc' };
 
     render() {
         let columns = [
@@ -97,7 +136,6 @@ class Transactions extends Component {
             }, {
                 dataField: 'party',
                 text: 'Party',
-                formatter: this.partyFormatter,
                 classes: 'capitalize',
                 hidden: true
             }, {
@@ -122,6 +160,15 @@ class Transactions extends Component {
                 formatter: this.createDeleteButton
             }];
 
+        let cellEdit = cellEditFactory({
+            mode: 'click',
+            blurToSave: true,
+            nonEditableRows: () => [0, 1, 2],
+            // afterSaveCell: (oldValue, newValue, row, column) => {
+            //     this.props.editTransaction(row);
+            // },
+        });
+
         return (
             <div className="avaksContainer">
                 <h3 className="transactionHeading">Transactions</h3>
@@ -133,7 +180,7 @@ class Transactions extends Component {
                     bordered
                     hover
                     striped
-                    cellEdit={this.cellEdit}
+                    cellEdit={cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No items"
                     rowClasses={this.rowClasses}
@@ -154,7 +201,8 @@ const mapDispatchToProps = dispatch => {
         fetchTransactionsByPartyId: (partyId, thenCallback) => dispatch(actions.fetchTransactionsByPartyId(partyId, thenCallback)),
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteTransaction: (transactionsId) => dispatch(actions.deleteTransaction(transactionsId)),
-        editTransaction: (transaction) => dispatch(actions.editTransaction(transaction))
+        editTransaction: (transaction) => dispatch(actions.editTransaction(transaction)),
+        fetchParty: (partyId, thenCallback) => dispatch(actions.fetchParty(partyId, thenCallback)),
     };
 };
 

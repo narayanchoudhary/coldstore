@@ -40,3 +40,8 @@ export {
     deleteTransaction,
     editTransaction,
 } from './transactions';
+
+export {
+    fetchSettings,
+    editSetting,
+} from './setting';

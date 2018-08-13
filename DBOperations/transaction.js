@@ -35,7 +35,7 @@ class TransactionDatabase {
   };
 
   fetchTransactionsByPartyId (event, data) {
-    TransactionDB.find({party: data.partyId}).sort({ updatedAt: -1 }).exec((err, data) => {   
+    TransactionDB.find({party: data.partyId}).sort({ updatedAt: 1 }).exec((err, data) => {   
       let response = {};
       response.error = err;
       response.data  = data;

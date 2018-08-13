@@ -10,7 +10,7 @@ const validate = values => {
     const errors = {}
     if (!values.name) {
         errors.name = 'Naam to daal';
-    } else if (values.name.length > 20) {
+    } else if (values.name.length > 40) {
         errors.name = '20 akshar s kam dal. Naam jyada bado he';
     }
 

@@ -16,7 +16,8 @@ class SingleParty extends Component {
         avaks: [],
         javakLots: [],
         javaks: [],
-        totalJavakPacket: null
+        totalJavakPacket: null,
+        totalRent: 0
     };
 
     getFooterData = (avaks) => {
@@ -37,12 +38,13 @@ class SingleParty extends Component {
             packet: totalPacket,
             weight: totalWeight
         }
+
+        this.setState({totalRent: totalWeight*CONST.SETTINGS.RENT});
         return footer;
     }
 
     componentDidMount() {
         this.props.fetchAvaksByPartyId(this.props.match.params.partyId, (response) => {
-            console.log('response: ', response);
             // Extract avaks ids
             let avakIds = [];
             response.data.forEach((avak) => {
@@ -284,7 +286,10 @@ class SingleParty extends Component {
                         rowClasses={this.rowClasses}
                     />
                 </div>
-                <Transactions partyId={this.props.match.params.partyId} />
+                <Transactions
+                    partyId={this.props.match.params.partyId}
+                    totalRent={this.state.totalRent}
+                />
             </Aux>
         )
     }

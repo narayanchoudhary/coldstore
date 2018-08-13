@@ -12,6 +12,7 @@ import addJavak from './containers/javaks/addJavak/addJavak';
 import SingleParty from './containers/parties/SingleParty/singleParty';
 import Transactions from './containers/transactions/transactions';
 import AddTransaction from './containers/transactions/addTransaction/addTransaction';
+import Settings from './containers/setting/setting';
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
           <Route path='/Transactions' component={Transactions} />
           <Route path='/addTransaction' component={AddTransaction} />
           <Route path='/singleParty/:partyId' component={SingleParty} />
+          <Route path='/settings' component={Settings} />
         </Switch>
       </div>
     );

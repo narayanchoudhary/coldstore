@@ -6,12 +6,12 @@ class Header extends Component {
     render() {
         return (
             <div className='header'>
-                <Link to='/'>        status    </Link>
-                <Link to='/parties'> parties </Link>
-                <Link to='/avaks'>    avak    </Link>
-                <Link to='/javaks'>   javak </Link>
-                <Link to='/transactions'>   Transactions </Link>
-                <a>Setting</a>
+                <Link to='/'>             status       </Link>
+                <Link to='/parties'>      parties      </Link>
+                <Link to='/avaks'>        avak         </Link>
+                <Link to='/javaks'>       javak        </Link>
+                <Link to='/transactions'> Transactions </Link>
+                <Link to='/settings'>     Settings     </Link>
             </div>
         )
     }
