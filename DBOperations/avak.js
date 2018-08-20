@@ -16,43 +16,51 @@ class AvakDatabase {
     ipc.on('editAvak', this.editAvak);
   }
 
-  saveAvak (event, data) {
-    data = convertToLowerCase(data);
-    avaksDB.insert(data, (err, newDoc) => {
-      let response = {};
-      response.error = err; 
-      this.mainWindow.webContents.send('saveAvakResponse', response);
+  saveAvak(event, data) {
+    // for auto id
+    avaksDB.insert({ _id: '__autoid__', value: 0 });
+
+    avaksDB.findOne({ _id: '__autoid__' }, (err, doc) => {
+      avaksDB.update({ _id: '__autoid__' }, { $set: { value: ++doc.value } }, {}, () => {
+        data.receiptNumber = doc.value;
+        data = convertToLowerCase(data);
+        avaksDB.insert(data, (err, newDoc) => {
+          let response = {};
+          response.error = err;
+          this.mainWindow.webContents.send('saveAvakResponse', response);
+        });
+      });
     });
   };
 
-  fetchAvaks (event, data) {
-    avaksDB.find({}).sort({ date: 1 }).exec((err, data) => {   
+  fetchAvaks(event, data) {
+    avaksDB.find({ receiptNumber : { $exists: true }, createdAt : { $gte: moment().startOf("month").toDate().toJSON()    }).sort({ date: 1 }).exec((err, data) => {
       let response = {};
       response.error = err;
-      response.data  = data;
-      
+      response.data = data;
+
       this.mainWindow.webContents.send('fetchAvaksResponse', response);
     });
   };
 
-  fetchAvaksByPartyId (event, data) {
-    avaksDB.find({party: data.partyId}).sort({ updatedAt: -1 }).exec((err, data) => {   
+  fetchAvaksByPartyId(event, data) {
+    avaksDB.find({ party: data.partyId }).sort({ updatedAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;
-      response.data  = data;
+      response.data = data;
       this.mainWindow.webContents.send('fetchAvaksByPartyIdResponse', response);
     });
   };
 
-  deleteAvak (event, data) {
+  deleteAvak(event, data) {
     avaksDB.remove({ _id: data.AvakId }, {}, (err, numRemoved) => {
       let response = {};
-      response.error = err; 
+      response.error = err;
       this.mainWindow.webContents.send('deleteAvakResponse', response);
     });
   };
 
-  editAvak (event, data) {
+  editAvak(event, data) {
     let _id = data._id;
     delete data._id;
     delete data.createdAt;
@@ -65,7 +73,6 @@ class AvakDatabase {
       this.mainWindow.webContents.send('editAvakResponse', response);
     });
   };
-
 }
 
 module.exports = AvakDatabase;

@@ -12,15 +12,24 @@ export const renderField = ({ input, label, type, meta: { touched, error, warnin
                 <span className="input-group-addon">
                     <Glyphicon type={input.name} />
                 </span>
-                <input
-                    {...input}
-                    className="form-control"
-                    type={type}
-                    {...rest}
-                    format="dd/MM/yyyy"
-                />
+                {
+                    type === 'date'
+                        ? <input
+                            {...input}
+                            className="form-control"
+                            type={type}
+                            {...rest}
+                            format="MM/dd/yyyy"
+                        />
+                        : <input
+                            {...input}
+                            className="form-control"
+                            type={type}
+                            {...rest}
+                        />
+                }
             </div>
-            {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+            {touched && ((error && <span className='errorMessage' >{error}</span>) || (warning && <span>{warning}</span>))}
         </div>
     );
 }
@@ -41,20 +50,20 @@ export class renderSelectField extends Component {
                         options={this.props.options}
                     />
                 </div>
-                {this.props.meta.touched && ((this.props.meta.error && <span>{this.props.meta.error}</span>) || (this.props.meta.warning && <span>{this.props.meta.warning}</span>))}
+                {this.props.meta.touched && ((this.props.meta.error && <span className="errorMessage" >{this.props.meta.error}</span>) || (this.props.meta.warning && <span>{this.props.meta.warning}</span>))}
             </div>
         )
     }
 }
 
-export const renderDatePicker = ({ input, placeholder, defaultValue, meta: { touched, error, warning } }) => (
+export const renderDatePicker = ({ input, placeholder, defaultValue, meta: { touched, error } }) => (
     <div className="grid-item">
         <div className="input-group">
             <span className="input-group-addon">
                 <Glyphicon type={input.name} />
             </span>
-            <DatePicker className="form-control" {...input} dateForm="DD/MM/YYYY" selected={input.value ? moment(input.value) : null} />
+            <DatePicker {...input} dateForm="MM/DD/YYYY" selected={input.value ? moment(input.value) : null} />
         </div>
-        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+        {touched && ((error && <span className='errorMessage' >{error}</span>))}
     </div>
 );

@@ -124,10 +124,10 @@ class Parties extends Component {
                 {
                     this.state.singlePartyId
 
-                        ? <Redirect to={"/singleParty/" + this.state.singlePartyId} />
+                        ? <Redirect to={"/parties/singleParty/" + this.state.singlePartyId} />
                         : null
                 }
-                <Link to='/addParty'>
+                <Link to='/parties/addParty'>
                     <Button>  Add Party </Button>
                 </Link>
                 <BootstrapTable

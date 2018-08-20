@@ -5,10 +5,20 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './addAvak.css';
 import 'react-select/dist/react-select.css';
-import validate from './validation';
-import { renderField, renderSelectField, renderRacks } from '../../../fields';
+import { renderField, renderSelectField } from '../../../fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import CONST from '../../../constants';
+import { required, date } from 'redux-form-validators';
+import moment from 'moment';
+
+const overWeight = (value, allValues, props ) => {
+    let warning = undefined;
+    if( value && allValues.weight) {
+        warning = (allValues.weight/value) > 70 ? 'Over Weight' : undefined;
+        warning = (allValues.weight/value) < 45 ? 'Under Weight' : undefined;
+    }
+    return warning;
+}
 
 class addAvak extends Component {
     constructor(props) {
@@ -50,6 +60,7 @@ class addAvak extends Component {
         values.size  = values.size.value;
         values.item  = values.item.value;
         values.variety = values.variety.value;
+        values.date = moment(values.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
         this.props.saveAvak(values);
         if (this.props.addError === false) {
             this.setState({ redirectToAvaks: true })
@@ -72,24 +83,23 @@ class addAvak extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit(this.submit)}>
+            <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
                 <div className="grid-container">
-                    <Field type="number" name="receiptNumber" component={renderField} placeholder="Receipt Number" min="0" />
-                    <Field type="date" name="date" component={renderField} placeholder="Date" />
+                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]}  autoFocus />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} />
-                    <Field name="item" component={renderSelectField} placeholder="Item" options={CONST.ITEMS} />
-                    <Field name="variety" component={renderSelectField} placeholder="Variety" options={CONST.VARIETIES} />
-                    <Field name="size" component={renderSelectField} placeholder="Size" options={CONST.SIZES} />
-                    <Field type="text" name="privateMarka" component={renderField} placeholder="Priavate Marka" />
-                    <Field type="number" name="packet" component={renderField} placeholder="Packet" min="0" />
-                    <Field type="number" name="weight" component={renderField} placeholder="Weight" min="0" />
-                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} validate={[required()]} />
+                    <Field name="item" component={renderSelectField} placeholder="Item" options={CONST.ITEMS} validate={[required()]} />
+                    <Field name="variety" component={renderSelectField} placeholder="Variety" options={CONST.VARIETIES} validate={[required()]} />
+                    <Field name="size" component={renderSelectField} placeholder="Size" options={CONST.SIZES} validate={[required()]} />
+                    <Field type="text" name="privateMarka" component={renderField} placeholder="Priavate Marka" validate={[required()]} />
+                    <Field type="number" name="packet" component={renderField} placeholder="Packet" min="0" validate={[required()]} warn={overWeight} />
+                    <Field type="number" name="weight" component={renderField} placeholder="Weight" min="0" validate={[required()]} />
+                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" validate={[required()]} />
                     <Field type="text" name="remark" component={renderField} placeholder="Remark" />
-                    <Field type="number" name='chamber' component={renderField} placeholder="Chamber" />
-                    <Field type="number" name='floor' component={renderField} placeholder="Floor" />
-                    <Field type="text" name='rack' component={renderField} placeholder="Racks" />
+                    <Field type="number" name='chamber' component={renderField} placeholder="Chamber" validate={[required()]} />
+                    <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
+                    <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
@@ -101,7 +111,6 @@ class addAvak extends Component {
 
 const Form = reduxForm({
     form: 'avak',// a unique identifier for this form
-    validate
 })(addAvak);
 
 const mapStateToProps = state => {

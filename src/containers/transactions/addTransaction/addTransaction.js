@@ -86,8 +86,7 @@ class addTransaction extends Component {
             <form onSubmit={this.handleSubmit(this.submit)}>
                 {this.state.redirectToTransactions ? <Redirect to="/transactions" /> : null}
                 <div className="grid-container">
-                    <Field type="number" name="receiptNumber" component={renderField} placeholder="Receipt Number" min="0" />
-                    <Field type="date" name="date" component={renderField} placeholder="Date" />
+                    <Field type="date" name="date" component={renderField} placeholder="Date" autoFocus />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.filteredParties} />
                     <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" />

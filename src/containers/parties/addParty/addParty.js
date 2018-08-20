@@ -5,28 +5,34 @@ import Aux from '../../../components/Auxilary/Auxilary';
 import * as actions from '../../../store/actions';
 import Glyphicon from '../../../components/UI/glyphicon';
 import { Redirect } from 'react-router-dom';
+import { renderField } from '../../../fields';
+import './addParty.css';
 
-const validate = values => {
-    const errors = {}
-    if (!values.name) {
-        errors.name = 'Naam to daal';
-    } else if (values.name.length > 40) {
-        errors.name = '20 akshar s kam dal. Naam jyada bado he';
-    }
+    const validate = values => {
+        const errors = {}
+        if (!values.name) {
+            errors.name = 'Please Enter a name';
+        } else if (values.name.length > 40) {
+            errors.name = 'Name 40 characters se kam hona chahiye';
+        }
 
-    if (!values.number) {
-        //nothing
-    } else if (values.number.length !== 10) {
-        errors.number = '10 number daal bhai';
-    }
+        if (!values.number) {
+            //nothing
+        } else if (values.number.length !== 10) {
+            errors.number = 'Enter 10 numbers';
+        }
 
-    if (!values.address) {
-        errors.address = 'Address to daal'
-    } else if (values.address.length > 20) {
-        errors.address = '20 akshar s kam dal. Naam jyada bado he';
+        if (!values.address) {
+            errors.address = 'Please Enter Address'
+        } else if (values.address.length > 20) {
+            errors.address = 'Address 40 characters se kam hona chahiye';
+        }
+
+        if (!values.openingBalance) {
+            errors.openingBalance = "Please Enter opening Balance"
+        }
+        return errors;
     }
-    return errors;
-}
 
 class addParty extends Component {
     constructor(props) {
@@ -34,23 +40,6 @@ class addParty extends Component {
         this.handleSubmit = this.props.handleSubmit;
         this.state = { redirectToParties: false };
     }
-
-    renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
-        <Aux>
-            <div className="input-group">
-                <span className="input-group-addon">
-                    <Glyphicon type={input.name} />
-                </span>
-                <input
-                    {...input}
-                    placeholder={label}
-                    type={type}
-                    className="form-control"
-                />
-            </div>
-            {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-        </Aux>
-    );
 
     submit = (values) => {
         this.props.saveParty(values);
@@ -61,7 +50,7 @@ class addParty extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="addParty container">
                 {this.state.redirectToParties ? <Redirect to="/parties" /> : null}
                 <form onSubmit={this.handleSubmit(this.submit)} className="well form-horizontal">
                     <fieldset>
@@ -73,7 +62,8 @@ class addParty extends Component {
                                     name="name"
                                     type="text"
                                     placeholder="Name"
-                                    component={this.renderField}
+                                    component={renderField}
+                                    autoFocus
                                 />
                             </div>
                         </div>
@@ -84,7 +74,7 @@ class addParty extends Component {
                                     name="phone"
                                     placeholder="9300050840"
                                     type="text"
-                                    component={this.renderField}
+                                    component={renderField}
                                 />
                             </div>
                         </div>
@@ -95,7 +85,7 @@ class addParty extends Component {
                                     name="address"
                                     placeholder="Address"
                                     type="text"
-                                    component={this.renderField}
+                                    component={renderField}
                                 />
                             </div>
                         </div>
@@ -106,7 +96,7 @@ class addParty extends Component {
                                     name="openingBalance"
                                     placeholder="Opening Balance"
                                     type="number"
-                                    component={this.renderField}
+                                    component={renderField}
                                 />
                             </div>
                         </div>
@@ -140,7 +130,7 @@ class addParty extends Component {
 const Form = reduxForm({
     form: 'party',
     validate, // a unique identifier for this form,
-    initialValues: { type: 'party' }
+    initialValues: { type: 'party', openingBalance: '0' }
 })(addParty);
 
 const mapStateToProps = state => {

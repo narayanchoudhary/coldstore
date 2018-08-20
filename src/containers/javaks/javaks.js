@@ -162,7 +162,7 @@ class Javaks extends Component {
 
         return (
             <div className="javaksContainer">
-                <Link to='/addJavak'>
+                <Link to='/javaks/addJavak'>
                     <Button>  Add Javak </Button>
                 </Link>
                 <BootstrapTable

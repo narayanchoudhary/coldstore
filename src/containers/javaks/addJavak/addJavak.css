@@ -7,6 +7,8 @@
     border-radius: 8px;
     max-width: 1085px;
     justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .grid-item {
@@ -60,4 +62,8 @@
 
 .addJavakForm .table {
     margin-bottom: 0px;
+}
+
+.saveButton {
+    grid-area: 5 / 1 / 5 / 1;
 }

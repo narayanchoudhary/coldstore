@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './header.css';
 
 class Header extends Component {
     render() {
         return (
             <div className='header'>
-                <Link to='/'>             status       </Link>
-                <Link to='/parties'>      parties      </Link>
-                <Link to='/avaks'>        avak         </Link>
-                <Link to='/javaks'>       javak        </Link>
-                <Link to='/transactions'> Transactions </Link>
-                <Link to='/settings'>     Settings     </Link>
+                <NavLink exact={true} activeClassName="is-active" to='/'>             status    </NavLink>
+                <NavLink activeClassName="is-active" to='/parties'>      parties      </NavLink>
+                <NavLink activeClassName="is-active" to='/avaks'>        avak         </NavLink>
+                <NavLink activeClassName="is-active" to='/javaks'>       javak        </NavLink>
+                <NavLink activeClassName="is-active" to='/transactions'> Transactions </NavLink>
+                <NavLink activeClassName="is-active" to='/settings'>     Settings     </NavLink>
             </div>
         )
     }

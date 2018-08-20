@@ -6,10 +6,11 @@ import * as actions from '../../../store/actions';
 import './addJavak.css';
 import 'react-select/dist/react-select.css';
 import validate from './validation';
-import { renderField, renderSelectField } from './fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import JavakLots from './javakLots/javakLots';
 import { withRouter } from 'react-router';
+import { required, date } from 'redux-form-validators';
+import { renderField, renderSelectField } from '../../../fields';
 
 class addJavak extends Component {
     constructor(props) {
@@ -81,14 +82,13 @@ class addJavak extends Component {
             <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
                 <div className="grid-container">
-                    <Field type="number" name="receiptNumber" component={renderField} placeholder="Receipt Number" min="0" />
-                    <Field type="date" name="date" component={renderField} placeholder="Date" />
+                    <Field type="text" name="date" component={renderField} placeholder="Date" autoFocus validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]}/>
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
-                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.state.merchants} />
-                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} onChange={(party) => this.onPartySelect(party.value)} />
+                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.state.merchants} validate={[required()]} />
+                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" validate={[required()]} />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.parties} onChange={(party) => this.onPartySelect(party.value)} validate={[required()]} />
                     <JavakLots javakId={this.state.javakId} partyId={this.state.partyId} />
-                    <div className="grid-item">
+                    <div className="grid-item saveButton">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
                 </div>

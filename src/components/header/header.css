@@ -39,3 +39,9 @@
 .header a:focus {
     text-decoration: none;
 }
+
+.header .is-active {
+    background: -webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+    background-color: #019ad2;
+    color: #e2ff05;
+}

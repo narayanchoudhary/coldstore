@@ -20,16 +20,16 @@ class App extends Component {
       <div>
         <Header />
         <Switch>
-          <Route exact path='/' component={Home} />
+          <Route exact={true} path='/' component={Home} />
+          <Route path='/parties/singleParty/:partyId' component={SingleParty} />
+          <Route path='/parties/addParty' component={AddParty} />
           <Route path='/parties' component={Parties} />
-          <Route path='/addParty' component={AddParty} />
+          <Route path='/avaks/addAvak' component={addAvak} />
           <Route path='/avaks' component={Avaks} />
-          <Route path='/addAvak' component={addAvak} />
+          <Route path='/javaks/addJavak' component={addJavak} />
           <Route path='/javaks' component={Javaks} />
-          <Route path='/addJavak' component={addJavak} />
-          <Route path='/Transactions' component={Transactions} />
-          <Route path='/addTransaction' component={AddTransaction} />
-          <Route path='/singleParty/:partyId' component={SingleParty} />
+          <Route path='/transactions/addTransaction' component={AddTransaction} />
+          <Route path='/transactions' component={Transactions} />
           <Route path='/settings' component={Settings} />
         </Switch>
       </div>

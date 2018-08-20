@@ -143,13 +143,40 @@ class Avaks extends Component {
             text: 'Marka',
             sort: true,
             headerSortingStyle,
-            filter: textFilter()
+            filter: textFilter(),
+            validator: (newValue, row, column) => {
+                if (newValue === '') {
+                    return {
+                        valid: false,
+                        message: 'Can not be empty'
+                    };
+                }
+                return true;
+            }
         }, {
             dataField: 'packet',
             text: 'Packet',
             sort: true,
             headerSortingStyle,
-            filter: textFilter()
+            filter: textFilter(),
+            validator: (newValue, row, column) => {
+                console.log('newValue: ', newValue);
+                if (isNaN(newValue)) {
+                    return {
+                        valid: false,
+                        message: 'Is not a number'
+                    };
+                }
+
+                if (newValue < 1) {
+                    return {
+                        valid: false,
+                        message: 'Should be greate than 0'
+                    };
+                }
+
+                return true;
+            }
         }, {
             dataField: 'weight',
             text: 'Weight',
@@ -199,7 +226,7 @@ class Avaks extends Component {
 
         return (
             <div className="avaksContainer">
-                <Link to='/addAvak'>
+                <Link to='/avaks/addAvak'>
                     <Button>  Add Avak </Button>
                 </Link>
                 <BootstrapTable

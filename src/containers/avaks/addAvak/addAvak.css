@@ -53,3 +53,7 @@
 ::-webkit-input-placeholder { /* WebKit browsers */
     text-transform: none;
 }
+
+.avakForm .errorMessage {
+    color: red;
+}

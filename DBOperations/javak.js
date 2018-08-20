@@ -21,20 +21,30 @@ class JavakDatabase {
   }
 
   saveJavak(event, data) {
-    data = convertToLowerCase(data);
-    javaksDB.insert(data, (err, newDoc) => {
-      //Change id of javak lots from temp
-      javakLotsDB.update({ javakId: 'tempJavakId' }, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
+    // for auto id
+    javaksDB.insert({ _id: '__autoid__', value: 0 });
+
+    javaksDB.findOne({ _id: '__autoid__' }, (err, doc) => {
+      javaksDB.update({ _id: '__autoid__' }, { $set: { value: ++doc.value } }, {}, () => {
+        data.receiptNumber = doc.value;
+        data = convertToLowerCase(data);
+        javaksDB.insert(data, (err, newDoc) => {
+          //Change id of javak lots from temp
+          javakLotsDB.update({ javakId: 'tempJavakId' }, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
+          });
+          let response = {};
+          response.error = err;
+          response.data = newDoc
+          this.mainWindow.webContents.send('saveJavakResponse', response);
+        });
       });
-      let response = {};
-      response.error = err;
-      response.data = newDoc
-      this.mainWindow.webContents.send('saveJavakResponse', response);
     });
+
+
   };
 
   fetchJavaks(event, data) {
-    javaksDB.find({}).sort({ updatedAt: -1 }).exec((err, data) => {
+    javaksDB.find({ receiptNumber : { $exists: true } }).sort({ updatedAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
@@ -106,8 +116,8 @@ class JavakDatabase {
   }
 
   fetchJavaksByPartyId(event, data) {
-    
-    javaksDB.find({party: data.partyId}).sort({ updatedAt: -1 }).exec((err, data) => {
+
+    javaksDB.find({ party: data.partyId }).sort({ updatedAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;

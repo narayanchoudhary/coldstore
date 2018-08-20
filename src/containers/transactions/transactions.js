@@ -169,7 +169,7 @@ class Transactions extends Component {
 
         return (
             <div className="avaksContainer">
-                <Link to='/addTransaction'>
+                <Link to='/transactions/addTransaction'>
                     <Button>  Add Transaction </Button>
                 </Link>
                 <BootstrapTable

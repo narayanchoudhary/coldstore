@@ -21,7 +21,7 @@ class JavakLots extends Component {
                 let remainingPacket = avak.packet - avak.sentPacket;
                 let label = avak.packet.toString() + '-' + remainingPacket.toString();
                 // add disabled field if the remaining packet is 0
-                return { ...avak, packet: label, disabled: remainingPacket === 0 ? true : false }
+                return { ...avak, remainingPacket: remainingPacket, packet: label, disabled: remainingPacket === 0 ? true : false }
             });
             this.setState({ avaks: avaks });
         });
@@ -34,7 +34,7 @@ class JavakLots extends Component {
                 let remainingPacket = avak.packet - avak.sentPacket;
                 let label = avak.packet.toString() + '-' + remainingPacket.toString();
                 // add disabled field if the remaining packet is 0
-                return { ...avak, packet: label, disabled: remainingPacket === 0 ? true : false }
+                return { ...avak, remainingPacket: remainingPacket, packet: label, disabled: remainingPacket === 0 ? true : false }
             });
             this.setState({ avaks: avaks });
         });
@@ -110,6 +110,29 @@ class JavakLots extends Component {
         dataField: 'packet',
         text: 'Packet',
         headerSortingStyle: this.headerSortingStyle,
+        validator: (newValue, row, column) => {
+            let avak = this.state.avaks.filter(avak => avak._id === row.avakId)[0];
+            console.log('avak: ', avak);
+            if (isNaN(newValue)) {
+                return {
+                    valid: false,
+                    message: 'Packet should be numeric'
+                };
+            }
+            if (newValue > avak.remainingPacket) {
+                return {
+                    valid: false,
+                    message: 'Packets should be up to' + avak.remainingPacket
+                };
+            }
+            if (newValue < 1) {
+                return {
+                    valid: false,
+                    message: 'Packets should be greater than 0'
+                };
+            }
+            return true;
+        }
     }, {
         dataField: 'chamber',
         text: 'Chamber',
@@ -196,6 +219,10 @@ class JavakLots extends Component {
         }
     });
 
+    rowClasses = (row, rowIndex) => {
+        return 'capitalize';
+    };
+
     render() {
         return (
             <Aux>
@@ -209,6 +236,7 @@ class JavakLots extends Component {
                         hover
                         striped
                         noDataIndication="No Item"
+                        rowClasses={this.rowClasses}
                     />
                 </div>
                 <div className="grid-item javaksLots">
