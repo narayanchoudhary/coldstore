@@ -34,7 +34,7 @@ class AvakDatabase {
   };
 
   fetchAvaks(event, data) {
-    avaksDB.find({ receiptNumber : { $exists: true }, createdAt : { $gte: moment().startOf("month").toDate().toJSON()    }).sort({ date: 1 }).exec((err, data) => {
+    avaksDB.find({ receiptNumber : { $exists: true }}).sort({ date: 1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;

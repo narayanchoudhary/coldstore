@@ -10,7 +10,7 @@ var Connections = (function () {
             avaksDB: new Datastore({ filename: 'database/avaks', autoload: true, timestampData: true }),
             javakLotsDB: new Datastore({ filename: 'database/javakLots', autoload: true, timestampData: true }),
             transactionsDB: new Datastore({ filename: 'database/transactions', autoload: true, timestampData: true }),
-            settingsDB: new Datastore({ filename: 'database/setting', autoload: true, timestampData: true })
+            itemsDB: new Datastore({ filename: 'database/items', autoload: true, timestampData: true })
         };
         return object;
     }

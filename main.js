@@ -21,9 +21,6 @@ function createWindow() {
   const transactionsDatabase = new TransactionDatabase(mainWindow);
   const settingDatabase = new SettingDatabase(mainWindow);
 
-  if (!fs.existsSync('./database/setting')) {
-    settingDatabase.defaultSettings();
-  }
   mainWindow.on('closed', function () {
     mainWindow = null;
   });

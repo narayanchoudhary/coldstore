@@ -1,56 +1,32 @@
 import React, { Component } from 'react'
-import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './setting.css';
+import Sidebar from './../../components/sidebar/sidebar';
+import { Switch, Route } from 'react-router-dom';
+import Item from './../../containers/setting/items/items';
+import Varieties from './../../containers/setting/varieties/varieties';
+import Size from './../../containers/setting/size/size';
+import Year from './year/year';
 
 export class Settings extends Component {
-
-    state = {
-        settings: []
-    }
-
-    componentDidMount() {
-        this.props.fetchSettings((response) => {
-            this.setState({ settings: response.data });
-        });
-    }
-
-    cellEdit = cellEditFactory({
-        mode: 'click',
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editSetting(row);
-        },
-    });
-
     render() {
-        const columns = [{
-            dataField: '_id',
-            text: 'ID',
-            hidden: true
-        }, {
-            dataField: 'settingName',
-            text: 'Setting',
-        }, {
-            dataField: 'value',
-            text: 'Value',
-        }];
-
         return (
-            <div className="avaksContainer settingContainer">
-                <BootstrapTable
-                    columns={columns}
-                    keyField='_id'
-                    data={this.state.settings}
-                    wrapperClasses="avaksTableWrapper"
-                    bordered
-                    hover
-                    striped
-                    cellEdit={this.cellEdit}
-                    noDataIndication="No items"
-                />
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm-2">
+                        <Sidebar />
+                    </div>
+                    <div className="col-sm-10">
+                        <Switch>
+                            <Route path='/settings/items' component={Item} />
+                            <Route path='/settings/varieties' component={Varieties} />
+                            <Route path='/settings/size' component={Size} />
+                            <Route path='/settings/year' component={Year} />
+                        </Switch>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -59,17 +35,13 @@ export class Settings extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.avak.avaks.data,
-        parties: state.party.parties.data,
-        fetchError: state.avak.avaks.error,
-        deleteAvakError: state.avak.deleteAvak.error
+        
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchSettings: (thenCallback) => dispatch(actions.fetchSettings(thenCallback)),
-        editSetting: (settingName) => dispatch(actions.editSetting(settingName))
+
     };
 };
 

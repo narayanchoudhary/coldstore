@@ -42,6 +42,12 @@ export {
 } from './transactions';
 
 export {
-    fetchSettings,
-    editSetting,
-} from './setting';
+    changeYear
+} from './year';
+
+export {
+    saveItem,
+    fetchItems,
+    deleteItem,
+    editItem
+} from './item';

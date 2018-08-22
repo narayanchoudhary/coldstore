@@ -13,7 +13,6 @@ import Aux from '../../components/Auxilary/Auxilary';
 class Parties extends Component {
 
     state = {
-        modal: false,
         singlePartyId: null
     }
 
@@ -28,17 +27,6 @@ class Parties extends Component {
 
     handleClickOnView = (partyId) => {
         this.setState({ singlePartyId: partyId });
-    }
-
-    createDeleteButton = (cell, row) => {
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(cell)}
-            >
-                Delete
-            </button>
-        );
     }
 
     cellEdit = cellEditFactory({
@@ -72,11 +60,6 @@ class Parties extends Component {
             </Aux>
         );
     };
-
-    closeModal = () => {
-        this.setState({ modal: false, partyId: null });
-    }
-
 
     render() {
         const headerSortingStyle = { backgroundColor: '#ccc' };
