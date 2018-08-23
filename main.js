@@ -19,7 +19,6 @@ function createWindow() {
   const javakDatabase = new JavakDatabase(mainWindow);
   const javakLotDatabase = new JavakLotDatabase(mainWindow);
   const transactionsDatabase = new TransactionDatabase(mainWindow);
-  const settingDatabase = new SettingDatabase(mainWindow);
 
   mainWindow.on('closed', function () {
     mainWindow = null;

@@ -6,6 +6,7 @@ import './setting.css';
 import Sidebar from './../../components/sidebar/sidebar';
 import { Switch, Route } from 'react-router-dom';
 import Item from './../../containers/setting/items/items';
+import addItem from './items/addItem/addItem';
 import Varieties from './../../containers/setting/varieties/varieties';
 import Size from './../../containers/setting/size/size';
 import Year from './year/year';
@@ -21,6 +22,7 @@ export class Settings extends Component {
                     <div className="col-sm-10">
                         <Switch>
                             <Route path='/settings/items' component={Item} />
+                            <Route path='/settings/addItem' component={addItem} />
                             <Route path='/settings/varieties' component={Varieties} />
                             <Route path='/settings/size' component={Size} />
                             <Route path='/settings/year' component={Year} />
