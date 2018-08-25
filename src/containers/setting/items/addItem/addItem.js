@@ -20,7 +20,7 @@ class addItem extends Component {
 
     submit = (values) => {
         this.props.saveItem(values);
-            this.setState({ redirectToItems: true })
+        this.setState({ redirectToItems: true })
     };
 
     render() {

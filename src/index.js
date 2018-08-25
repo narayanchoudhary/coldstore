@@ -11,7 +11,7 @@ import javakReducer from './store/reducers/javak';
 import javakLotReducer from './store/reducers/javakLot';
 import partyReducer from './store/reducers/party';
 import yearReducer from './store/reducers/year';
-import itemReducer from './store/reducers/year';
+import itemReducer from './store/reducers/item';
 import { reducer as formReducer } from 'redux-form';
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import thunk from 'redux-thunk';

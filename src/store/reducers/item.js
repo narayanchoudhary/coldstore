@@ -6,28 +6,28 @@ const initState = {
 const reducer = (state = initState, action) => {
     let newState;
     switch (action.type) {
-        // case actionTypes.SAVE_PARTY:
-        //     if (action.payload.error) {
-        //         newState = { ...state };
-        //         newState.addParty = { ...state.addParty, error: true };
-        //     } else {
-        //         newState = { ...state };
-        //         newState.addParty = { ...state.addParty, error: false };
-        //     }
-        //     break;
         case actionTypes.FETCH_ITEMS:
-            newState = { items: action.payload.data };
+            newState = {
+                items: action.payload.data
+            };
             break;
         case actionTypes.DELETE_PARTY:
             if (action.payload.error) {
-                newState = { ...state };
-                newState.deleteParty = { ...state.deleteParty, error: true };
+                newState = { ...state
+                };
+                newState.deleteParty = { ...state.deleteParty,
+                    error: true
+                };
             } else {
-                newState = { ...state };
-                newState.deleteParty = { ...state.deleteParty, error: false };
+                newState = { ...state
+                };
+                newState.deleteParty = { ...state.deleteParty,
+                    error: false
+                };
             }
             break;
-        default: return state;
+        default:
+            return state;
     }
     return newState;
 }
