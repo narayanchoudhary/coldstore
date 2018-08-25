@@ -51,3 +51,17 @@ export {
     deleteItem,
     editItem
 } from './item';
+
+export {
+    saveVariety,
+    fetchVarieties,
+    deleteVariety,
+    editVariety
+} from './variety';
+
+export {
+    saveSize,
+    fetchSizes,
+    deleteSize,
+    editSize
+} from './size';

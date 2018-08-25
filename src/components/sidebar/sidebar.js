@@ -8,7 +8,7 @@ export default class Sidebar extends Component {
             <div className="sidebar">
                 <Link to='/settings/items'>            Item    </Link>
                 <Link to='/settings/varieties'>        Variety </Link>
-                <Link to='/settings/size'>             Size    </Link>
+                <Link to='/settings/sizes'>             Size    </Link>
                 <Link to='/settings/year'>             Year    </Link>
             </div>
         )

@@ -3,30 +3,30 @@ import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
-import './addItem.css';
+import './addSize.css';
 import 'react-select/dist/react-select.css';
 import { renderField } from '../../../../fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import { required } from 'redux-form-validators';
 
 
-class addItem extends Component {
+class addSize extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = {redirectToItems: false};
+        this.state = {redirectToSizes: false};
     }
 
     submit = (values) => {
-        this.props.saveItem(values);
-        this.setState({ redirectToItems: true })
+        this.props.saveSize(values);
+        this.setState({ redirectToSizes: true })
     };
 
     render() {
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
-                {this.state.redirectToItems ? <Redirect to="/settings/items" /> : null}
+                {this.state.redirectToSizes ? <Redirect to="/settings/sizes" /> : null}
                 <div className="grid-container">
                     <Field type="text" name="name" component={renderField} placeholder="name" validate={[required()]} autoFocus/>
                     <div className="grid-item">
@@ -39,8 +39,8 @@ class addItem extends Component {
 }
 
 const Form = reduxForm({
-    form: 'item',// a unique identifier for this form
-})(addItem);
+    form: 'addSize',// a unique identifier for this form
+})(addSize);
 
 const mapStateToProps = state => {
     return {
@@ -50,7 +50,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveItem: (values) => dispatch(actions.saveItem(values))
+        saveSize: (values) => dispatch(actions.saveSize(values))
     };
 };
 

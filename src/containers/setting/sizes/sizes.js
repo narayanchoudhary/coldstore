@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
-import './varieties.css';
+import './sizes.css';
 import Button from '../../../components/UI/button/button';
 import Aux from '../../../components/Auxilary/Auxilary';
 
-class Varieties extends Component {
+class Sizes extends Component {
 
     componentDidMount() {
-        this.props.fetchVarieties(() => { });
+        this.props.fetchSizes(() => { });
     }
 
-    handleClickOnDelete = (varietyId) => {
-        this.props.deleteVariety(varietyId);
-        this.props.fetchVarieties(() => { });
+    handleClickOnDelete = (sizeId) => {
+        this.props.deleteSize(sizeId);
+        this.props.fetchSizes(() => { });
     }
 
     cellEdit = cellEditFactory({
         mode: 'click',
         blurToSvae: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editVariety(row);
+            this.props.editSize(row);
         }
     });
 
@@ -61,19 +63,20 @@ class Varieties extends Component {
 
         return (
             <div className="partiesContainer">
-                <Link to='/settings/addVariety'>
-                    <Button>  Add Variety </Button>
+                <Link to='/settings/addSize'>
+                    <Button>  Add Size </Button>
                 </Link>
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
-                    data={this.props.varieties}
+                    data={this.props.sizes}
                     wrapperClasses="partiesTableWrapper"
                     bordered
                     hover
                     striped
                     cellEdit={this.cellEdit}
-                    noDataIndication="No Items"
+                    filter={filterFactory()}
+                    noDataIndication="No Sizes"
                     rowClasses={this.rowClasses}
                 />
             </div>
@@ -83,16 +86,16 @@ class Varieties extends Component {
 
 const mapStateToProps = state => {
     return {
-        varieties: state.variety.varieties
+        sizes: state.size.sizes
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchVarieties: (type, thenCallback) => dispatch(actions.fetchVarieties(type, thenCallback)),
-        deleteVariety: (varietyId) => dispatch(actions.deleteVariety(varietyId)),
-        editVariety: (variety) => dispatch(actions.editVariety(variety))
+        fetchSizes: (type, thenCallback) => dispatch(actions.fetchSizes(type, thenCallback)),
+        deleteSize: (sizeId) => dispatch(actions.deleteSize(sizeId)),
+        editSize: (size) => dispatch(actions.editSize(size))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Varieties);
+export default connect(mapStateToProps, mapDispatchToProps)(Sizes);

@@ -7,11 +7,14 @@ const JavakDatabase = require('./DBOperations/javak.js');
 const JavakLotDatabase = require('./DBOperations/javakLot.js');
 const TransactionDatabase = require('./DBOperations/transaction.js');
 const ItemDatabase = require('./DBOperations/item.js');
+const SizeDatabase = require('./DBOperations/size.js');
+const VarietyDatabase = require('./DBOperations/variety.js');
 
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 1000, height: 700 })
+  mainWindow = new BrowserWindow({ width: 1000, height: 700 });
+  mainWindow.maximize();
   mainWindow.loadURL('http://localhost:3000/');
   const partyDatabase = new PartyDatabase(mainWindow);
   const avakDatabase = new AvakDatabase(mainWindow);
@@ -19,6 +22,8 @@ function createWindow() {
   const javakLotDatabase = new JavakLotDatabase(mainWindow);
   const transactionsDatabase = new TransactionDatabase(mainWindow);
   const itemDatabase = new ItemDatabase(mainWindow);
+  const varietyDatabase = new VarietyDatabase(mainWindow);
+  const sizeDatabase = new SizeDatabase(mainWindow);
 
   mainWindow.on('closed', function () {
     mainWindow = null;

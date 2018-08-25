@@ -2,7 +2,6 @@ import * as actionTypes from './actionTypes';
 const ipc = window.require("electron").ipcRenderer;
 
 export const saveItem = (values) => {
-    console.log(values);
     return dispatch => {    
         ipc.send('saveItem', values);
         ipc.once('saveItemResponse', (event, response) => {

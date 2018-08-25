@@ -33,7 +33,7 @@ class ItemDatabase {
   };
 
   deleteItem(event, data) {
-    itemsDB.remove({ _id: data.AvakId }, {}, (err, numRemoved) => {
+    itemsDB.remove({ _id: data.itemId }, {}, (err, numRemoved) => {
       let response = {};
       response.error = err;
       this.mainWindow.webContents.send('deleteItemResponse', response);
