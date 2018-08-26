@@ -11,7 +11,10 @@ import Varieties from './../../containers/setting/varieties/varieties';
 import AddVariety from './../../containers/setting/varieties/addVariety/addVariety';
 import Size from './../../containers/setting/sizes/sizes';
 import AddSize from './../../containers/setting/sizes/addSize/addSize';
-import Year from './year/year';
+import Setup from './../../containers/setting/setups/setups';
+import AddSetup from './../../containers/setting/setups/addSetup/addSetup';
+import Year from './years/years';
+import AddYear from './years/addYear/addYear';
 
 export class Settings extends Component {
     render() {
@@ -29,7 +32,10 @@ export class Settings extends Component {
                             <Route path='/settings/addVariety' component={AddVariety} />
                             <Route path='/settings/sizes' component={Size} />
                             <Route path='/settings/addSize' component={AddSize} />
-                            <Route path='/settings/year' component={Year} />
+                            <Route path='/settings/years' component={Year} />
+                            <Route path='/settings/addYear' component={AddYear} />
+                            <Route path='/settings/setups' component={Setup} />
+                            <Route path='/settings/addSetup' component={AddSetup} />
                         </Switch>
                     </div>
                 </div>

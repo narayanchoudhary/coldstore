@@ -1,5 +1,6 @@
 const ipc = require('electron').ipcMain;
 const itemsDB = require('./connections').getInstance().itemsDB;
+const setupsDB = require('./connections').getInstance().setupsDB;
 const convertToLowerCase = require('../util').convertToLowerCase;
 class ItemDatabase {
   constructor(mainWindow) {
@@ -17,9 +18,17 @@ class ItemDatabase {
   saveItem(event, data) {
     data = convertToLowerCase(data);
     itemsDB.insert(data, (err, newDoc) => {
-      let response = {};
-      response.error = err;
-      this.mainWindow.webContents.send('saveItemResponse', response);
+      // add setup
+      let setupData = {
+        item: newDoc._id,
+        avakHammali: 1,
+        javakHammali: 1
+      };
+      setupsDB.insert(setupData, (err, newDoc) => {
+        let response = {};
+        response.error = err;
+        this.mainWindow.webContents.send('saveItemResponse', response);
+      });
     });
   };
 

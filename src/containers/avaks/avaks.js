@@ -160,7 +160,6 @@ class Avaks extends Component {
             headerSortingStyle,
             filter: textFilter(),
             validator: (newValue, row, column) => {
-                console.log('newValue: ', newValue);
                 if (isNaN(newValue)) {
                     return {
                         valid: false,

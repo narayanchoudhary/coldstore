@@ -112,7 +112,6 @@ class JavakLots extends Component {
         headerSortingStyle: this.headerSortingStyle,
         validator: (newValue, row, column) => {
             let avak = this.state.avaks.filter(avak => avak._id === row.avakId)[0];
-            console.log('avak: ', avak);
             if (isNaN(newValue)) {
                 return {
                     valid: false,

@@ -13,6 +13,7 @@ import partyReducer from './store/reducers/party';
 import yearReducer from './store/reducers/year';
 import itemReducer from './store/reducers/item';
 import sizeReducer from './store/reducers/size';
+import setupReducer from './store/reducers/setup';
 import varietyReducer from './store/reducers/variety';
 import { reducer as formReducer } from 'redux-form';
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
     item:     itemReducer,
     variety:  varietyReducer,
     size:     sizeReducer,
+    setup:    setupReducer,
     form:     formReducer
 });
 

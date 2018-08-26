@@ -116,7 +116,7 @@ const Form = reduxForm({
 const mapStateToProps = state => {
     return {
         parties: state.party.parties.data,
-        addError: state.avak.addAvak.error
+        currentYear: state.year.currentYear
     }
 }
 

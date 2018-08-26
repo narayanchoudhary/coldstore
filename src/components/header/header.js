@@ -7,32 +7,22 @@ import * as actions from '../../store/actions';
 
 class Header extends Component {
 
-    state = {
-        selectedOption: { label: '2017-18', value: '2017-18' },
-    }
-
     handleChange = (selectedOption) => {
         if (selectedOption === null) {
-            selectedOption = { label: '2017-18', value: '2017-18' }
+            selectedOption = this.props.years[0]
         }
-        this.setState({ selectedOption });
         this.props.changeYear(selectedOption.value);
     }
 
-    options = [
-        { label: '2017-18', value: '2017-18' },
-        { label: '2018-19', value: '2018-19' },
-        { label: '2019-20', value: '2019-20' },
-        { label: '2020-21', value: '2020-21' },
-        { label: '2021-22', value: '2021-22' },
-        { label: '2022-23', value: '2022-23' },
-    ];
+    componentDidMount() {
+        this.props.fetchYears();
+    }
 
     render() {
         return (
             <div className='header'>
                 <div className='navigation'>
-                    <NavLink exact={true} activeClassName="is-active" to='/'>             status    </NavLink>
+                    <NavLink exact={true} activeClassName="is-active" to='/'>   status    </NavLink>
                     <NavLink activeClassName="is-active" to='/parties'>      parties      </NavLink>
                     <NavLink activeClassName="is-active" to='/avaks'>        avak         </NavLink>
                     <NavLink activeClassName="is-active" to='/javaks'>       javak        </NavLink>
@@ -41,9 +31,9 @@ class Header extends Component {
                 </div>
                 <div className='year'>
                     <Select
-                        value={this.state.selectedOption}
+                        value={this.props.currentYear}
                         onChange={this.handleChange}
-                        options={this.options}
+                        options={this.props.years}
                         clearable={false}
                     />
                 </div>
@@ -54,13 +44,15 @@ class Header extends Component {
 
 const mapStateToProps = state => {
     return {
-        currentYear: state.year.currentYear
+        currentYear: state.year.currentYear,
+        years: state.year.years
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeYear: (year) => dispatch(actions.changeYear(year))
+        changeYear: (year) => dispatch(actions.changeYear(year)),
+        fetchYears: () => dispatch(actions.fetchYears())
     };
 };
 

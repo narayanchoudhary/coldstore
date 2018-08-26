@@ -32,20 +32,26 @@ export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
 
 export const SAVE_ITEM = 'SAVE_ITEM';
 export const FETCH_ITEMS = 'FETCH_ITEMS';
-export const FETCH_ITEM = 'FETCH_ITEM';
 export const EDIT_ITEM = 'EDIT_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';
 
 export const SAVE_VARIETY = 'SAVE_VARIETY';
 export const FETCH_VARIETIES = 'FETCH_VARIETIES';
-export const FETCH_VARIETY = 'FETCH_VARIETY';
 export const EDIT_VARIETY = 'EDIT_VARIETY';
 export const DELETE_VARIETY = 'DELETE_VARIETY';
 
 export const SAVE_SIZE = 'SAVE_SIZE';
 export const FETCH_SIZES = 'FETCH_SIZES';
-export const FETCH_SIZE = 'FETCH_SIZE';
 export const EDIT_SIZE = 'EDIT_SIZE';
 export const DELETE_SIZE = 'DELETE_SIZE';
 
+export const SAVE_YEAR = 'SAVE_YEAR';
+export const FETCH_YEARS = 'FETCH_YEARS';
+export const EDIT_YEAR = 'EDIT_YEAR';
+export const DELETE_YEAR = 'DELETE_YEAR';
 export const CHANGE_YEAR = 'CHANGE_YEAR';
+
+export const SAVE_SETUP = 'SAVE_SETUP';
+export const FETCH_SETUPS = 'FETCH_SETUPS';
+export const EDIT_SETUP = 'EDIT_SETUP';
+export const DELETE_SETUP = 'DELETE_SETUP';

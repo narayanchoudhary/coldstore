@@ -1,14 +1,24 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initState = {
-    currentYear: '2017-18'
+    currentYear: null,
+    years: []
 }
 
 const reducer = (state = initState, action) => {
     let newState;
     switch (action.type) {
         case actionTypes.CHANGE_YEAR:
-                newState = { currentYear: action.payload }
+            newState = {
+                ...state,
+                currentYear: action.payload
+            }
+            break;
+        case actionTypes.FETCH_YEARS:
+            newState = {
+                ...state,
+                years: action.payload
+            };
             break;
         default: return state;
     }

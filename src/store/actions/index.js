@@ -65,3 +65,17 @@ export {
     deleteSize,
     editSize
 } from './size';
+
+export {
+    saveYear,
+    fetchYears,
+    deleteYear,
+    editYear
+} from './year';
+
+export {
+    saveSetup,
+    fetchSetups,
+    deleteSetup,
+    editSetup
+} from './setup';
