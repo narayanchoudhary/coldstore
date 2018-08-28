@@ -51,7 +51,7 @@ class Varieties extends Component {
             text: 'ID',
             hidden: true
         }, {
-            dataField: 'name',
+            dataField: 'varietyName',
             text: 'Name',
         }, {
             dataField: '_id',

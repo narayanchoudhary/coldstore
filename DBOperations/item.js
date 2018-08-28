@@ -1,6 +1,7 @@
 const ipc = require('electron').ipcMain;
 const itemsDB = require('./connections').getInstance().itemsDB;
 const setupsDB = require('./connections').getInstance().setupsDB;
+const yearsDB = require('./connections').getInstance().yearsDB;
 const convertToLowerCase = require('../util').convertToLowerCase;
 class ItemDatabase {
   constructor(mainWindow) {
@@ -15,19 +16,27 @@ class ItemDatabase {
     ipc.on('editItem', this.editItem);
   }
 
+  // insert item then
+  // fetch years then
+  // foreach year insert a setup
   saveItem(event, data) {
     data = convertToLowerCase(data);
     itemsDB.insert(data, (err, newDoc) => {
-      // add setup
-      let setupData = {
-        item: newDoc._id,
-        avakHammali: 1,
-        javakHammali: 1
-      };
-      setupsDB.insert(setupData, (err, newDoc) => {
-        let response = {};
-        response.error = err;
-        this.mainWindow.webContents.send('saveItemResponse', response);
+      yearsDB.find({}, (err, docs) => {
+        docs.forEach(doc => {
+          let setupData = {
+            item: newDoc._id,
+            year: doc._id,
+            rent: 1,
+            avakHammali: 1,
+            javakHammali: 1
+          };
+          setupsDB.insert(setupData, (err, newDoc) => {
+            let response = {};
+            response.error = err;
+            this.mainWindow.webContents.send('saveItemResponse', response);
+          });
+        });
       });
     });
   };

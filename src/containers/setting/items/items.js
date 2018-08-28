@@ -53,7 +53,7 @@ class Items extends Component {
             text: 'ID',
             hidden: true
         }, {
-            dataField: 'name',
+            dataField: 'itemName',
             text: 'Name',
         }, {
             dataField: '_id',

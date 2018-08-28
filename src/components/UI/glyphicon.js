@@ -15,11 +15,11 @@ class Glyphicon extends Component {
             classes.push('glyphicon-time')
         }else if(this.props.type === 'party') {
             classes.push('glyphicon-user')
-        }else if(this.props.type === 'item') {
+        }else if(this.props.type === 'item' || this.props.type === 'itemName') {
             classes.push('glyphicon-grain')
-        }else if(this.props.type === 'variety') {
-            classes.push('glyphicon-filter')
-        }else if(this.props.type === 'size') {
+        }else if(this.props.type === 'variety' || this.props.type === 'varietyName') {
+            classes.push('glyphicon-filter' )
+        }else if(this.props.type === 'size' || this.props.type === 'sizeName') {
             classes.push('glyphicon-signal')
         }else if(this.props.type === 'privateMarka') {
             classes.push('glyphicon-tag')
@@ -47,6 +47,8 @@ class Glyphicon extends Component {
             classes.push('glyphicon-check')
         }else if(this.props.type === 'openingBalance') {
             classes.push('glyphicon-usd')
+        }else if(this.props.type === 'year') {
+            classes.push('glyphicon-calendar')
         }
         return (
             <i className={classes.join(" ")}></i>

@@ -8,15 +8,20 @@ class YearDatabase {
         this.fetchYears = this.fetchYears.bind(this);
         this.deleteYear = this.deleteYear.bind(this);
         this.editYear = this.editYear.bind(this);
+        this.fetchCurrentYear = this.fetchCurrentYear.bind(this);
+        this.changeCurrentYear = this.changeCurrentYear.bind(this);
         ipc.on('saveYear', this.saveYear);
         ipc.on('fetchYears', this.fetchYears);
         ipc.on('deleteYear', this.deleteYear);
         ipc.on('editYear', this.editYear);
+        ipc.on('fetchCurrentYear', this.fetchCurrentYear);
+        ipc.on('changeCurrentYear', this.changeCurrentYear);
     }
 
     saveYear(event, data) {
         data = convertToLowerCase(data);
         yearsDB.insert(data, (err, newDoc) => {
+            yearsDB.insert({ _id: '__currentYear__', yearId: newDoc._id });// this line will run only once
             let response = {};
             response.error = err;
             this.mainWindow.webContents.send('saveYearResponse', response);
@@ -24,7 +29,7 @@ class YearDatabase {
     };
 
     fetchYears(event, data) {
-        yearsDB.find().sort({ date: 1 }).exec((err, data) => {
+        yearsDB.find({ year: { $exists: true } }).sort({ updatedAt: -1 }).exec((err, data) => {
             let response = {};
             response.error = err;
             response.data = data;
@@ -53,6 +58,30 @@ class YearDatabase {
             this.mainWindow.webContents.send('editYearResponse', response);
         });
     };
+
+    fetchCurrentYear(event, data) {
+        yearsDB.findOne({ _id: '__currentYear__' }, (err, data) => {
+            if (data === null) {
+                data = {};
+            }
+            yearsDB.findOne({ _id: data.yearId }, (err, data) => {
+                let response = {};
+                response.error = err;
+                response.data = data;
+                this.mainWindow.webContents.send('fetchCurrentYearResponse', response);
+            });
+        });
+    }
+
+    changeCurrentYear(event, data) {
+        yearsDB.update({ _id: '__currentYear__' }, { yearId: data.yearId }, {}, (err, numReplaced) => {
+            let response = {};
+            if(err === null) {
+                response.success = 'done';
+            }
+            this.mainWindow.webContents.send('changeCurrentYearResponse', response);
+        });
+    }
 }
 
 module.exports = YearDatabase;

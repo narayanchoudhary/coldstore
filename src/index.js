@@ -21,16 +21,16 @@ import thunk from 'redux-thunk';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const rootReducer = combineReducers({
-    party:    partyReducer,
-    avak:     avakReducer,
-    javak:    javakReducer,
+    party: partyReducer,
+    avak: avakReducer,
+    javak: javakReducer,
     javakLot: javakLotReducer,
-    year:     yearReducer,
-    item:     itemReducer,
-    variety:  varietyReducer,
-    size:     sizeReducer,
-    setup:    setupReducer,
-    form:     formReducer
+    year: yearReducer,
+    item: itemReducer,
+    variety: varietyReducer,
+    size: sizeReducer,
+    setup: setupReducer,
+    form: formReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

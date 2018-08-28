@@ -53,7 +53,7 @@ class Sizes extends Component {
             text: 'ID',
             hidden: true
         }, {
-            dataField: 'name',
+            dataField: 'sizeName',
             text: 'Name',
         }, {
             dataField: '_id',

@@ -6,6 +6,7 @@ const initState = {
 }
 
 const reducer = (state = initState, action) => {
+    console.log('action: ', action);
     let newState;
     switch (action.type) {
         case actionTypes.CHANGE_YEAR:
@@ -18,6 +19,12 @@ const reducer = (state = initState, action) => {
             newState = {
                 ...state,
                 years: action.payload
+            };
+            break;
+        case actionTypes.FETCH_CURRENT_YEAR:
+            newState = {
+                ...state,
+                currentYear: action.payload
             };
             break;
         default: return state;

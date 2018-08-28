@@ -28,7 +28,7 @@ class addSize extends Component {
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToSizes ? <Redirect to="/settings/sizes" /> : null}
                 <div className="grid-container">
-                    <Field type="text" name="name" component={renderField} placeholder="name" validate={[required()]} autoFocus/>
+                    <Field type="text" name="sizeName" component={renderField} placeholder="Size Name" validate={[required()]} autoFocus/>
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>
                     </div>

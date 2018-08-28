@@ -8,17 +8,18 @@ import * as actions from '../../store/actions';
 class Header extends Component {
 
     handleChange = (selectedOption) => {
-        if (selectedOption === null) {
-            selectedOption = this.props.years[0]
-        }
-        this.props.changeYear(selectedOption.value);
+        this.props.changeCurrentYear(selectedOption);
     }
 
     componentDidMount() {
         this.props.fetchYears();
+        this.props.fetchCurrentYear();
     }
 
     render() {
+        console.log('this.props.currentYear', this.props.currentYear);
+        console.log('this.props.years', this.props.years)
+
         return (
             <div className='header'>
                 <div className='navigation'>
@@ -51,8 +52,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeYear: (year) => dispatch(actions.changeYear(year)),
-        fetchYears: () => dispatch(actions.fetchYears())
+        changeCurrentYear: (year) => dispatch(actions.changeCurrentYear(year)),
+        fetchYears: () => dispatch(actions.fetchYears()),
+        fetchCurrentYear: () => dispatch(actions.fetchCurrentYear())
     };
 };
 

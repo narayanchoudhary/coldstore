@@ -26,7 +26,7 @@ class Years extends Component {
         afterSaveCell: (oldValue, newValue, row, column) => {
             let newRow = {};
             newRow._id = row.value;
-            newRow.name = row.label;
+            newRow.year = row.label;
             this.props.editYear(newRow);
         }
     });

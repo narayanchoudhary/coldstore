@@ -70,7 +70,9 @@ export {
     saveYear,
     fetchYears,
     deleteYear,
-    editYear
+    editYear,
+    changeCurrentYear,
+    fetchCurrentYear
 } from './year';
 
 export {

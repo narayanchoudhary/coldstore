@@ -1,15 +1,36 @@
 import * as actionTypes from './actionTypes';
 const ipc = window.require("electron").ipcRenderer;
 
-export const changeYear = (year) => {
+export const changeCurrentYear = (newYear) => {
     return dispatch => {
-        dispatch({
-            type: actionTypes.CHANGE_YEAR,
-            payload: year
+        ipc.send('changeCurrentYear', { yearId: newYear.value });
+        ipc.once('changeCurrentYearResponse', (event, response) => {
+            if (response.success === 'done') {// Changed the current year in the databse
+                dispatch({
+                    type: actionTypes.CHANGE_YEAR,
+                    payload: newYear
+                });
+            }
         });
     }
 };
 
+export const fetchCurrentYear = () => {
+    return dispatch => {
+        ipc.send('fetchCurrentYear', {});
+        ipc.once('fetchCurrentYearResponse', (event, response) => {
+            let currentYear = {};
+            currentYear.value = response.data._id;
+            currentYear.label = response.data.year;
+            dispatch({
+                type: actionTypes.FETCH_CURRENT_YEAR,
+                payload: currentYear
+            });
+        });
+    }
+};
+
+// year methods
 export const saveYear = (values) => {
     return dispatch => {
         ipc.send('saveYear', values);
@@ -26,20 +47,18 @@ export const fetchYears = () => {
     return dispatch => {
         ipc.send('fetchYears', {});
         ipc.once('fetchYearsResponse', (event, response) => {
-            let years = response.data.map((year)=>{
-                return {value: year._id, label: year.name};
+            let years = response.data.map((year) => {
+                return { value: year._id, label: year.year };
             });
             dispatch({
                 type: actionTypes.FETCH_YEARS,
                 payload: years
             });
-            changeYear(years[0]);
         });
     }
 }
 
 export const deleteYear = (yearId) => {
-    console.log('yearId: ', yearId);
     return dispatch => {
         ipc.send('deleteYear', { yearId: yearId });
         ipc.once('deleteYearResponse', (event, response) => {

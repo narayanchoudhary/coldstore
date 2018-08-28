@@ -50,6 +50,7 @@ export const FETCH_YEARS = 'FETCH_YEARS';
 export const EDIT_YEAR = 'EDIT_YEAR';
 export const DELETE_YEAR = 'DELETE_YEAR';
 export const CHANGE_YEAR = 'CHANGE_YEAR';
+export const FETCH_CURRENT_YEAR = 'FETCH_CURRENT_YEAR';
 
 export const SAVE_SETUP = 'SAVE_SETUP';
 export const FETCH_SETUPS = 'FETCH_SETUPS';
