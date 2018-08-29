@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import JavakLots from './javakLots/javakLots';
 import { withRouter } from 'react-router';
 import { required, date } from 'redux-form-validators';
-import { renderField, renderSelectField } from '../../../fields';
+import { renderField, renderSelectField } from '../../../utils/fields';
 
 class addJavak extends Component {
     constructor(props) {
@@ -82,7 +82,7 @@ class addJavak extends Component {
             <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
                 <div className="grid-container">
-                    <Field type="text" name="date" component={renderField} placeholder="Date" autoFocus validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]}/>
+                    <Field type="text" name="date" component={renderField} placeholder="Date" autoFocus validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.state.merchants} validate={[required()]} />
                     <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" validate={[required()]} />

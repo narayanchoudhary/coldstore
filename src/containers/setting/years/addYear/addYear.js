@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import './addYear.css';
 import 'react-select/dist/react-select.css';
-import { renderField } from '../../../../fields';
+import { renderField } from '../../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import { required } from 'redux-form-validators';
 

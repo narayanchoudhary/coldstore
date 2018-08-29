@@ -1,5 +1,6 @@
 const ipc = require('electron').ipcMain;
 const setupsDB = require('./connections').getInstance().setupsDB;
+const yearsDB = require('./connections').getInstance().yearsDB;
 const convertToLowerCase = require('../util').convertToLowerCase;
 class SetupDatabase {
   constructor(mainWindow) {
@@ -24,11 +25,13 @@ class SetupDatabase {
   };
 
   fetchSetups(event, data) {
-    setupsDB.find().sort({ date: 1 }).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-      this.mainWindow.webContents.send('fetchSetupsResponse', response);
+    yearsDB.findOne({ _id: '__currentYear__' }, (err, data) => {
+      setupsDB.find({year: data.yearId}).sort({ date: 1 }).exec((err, data) => {
+        let response = {};
+        response.error = err;
+        response.data = data;
+        this.mainWindow.webContents.send('fetchSetupsResponse', response);
+      });
     });
   };
 
@@ -46,7 +49,6 @@ class SetupDatabase {
     delete data.createdAt;
     delete data.updatedAt;
 
-    data = convertToLowerCase(data);
     setupsDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
       let response = {};
       response.error = err;

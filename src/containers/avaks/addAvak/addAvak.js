@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './addAvak.css';
 import 'react-select/dist/react-select.css';
-import { renderField, renderSelectField } from '../../../fields';
+import { renderField, renderSelectField } from '../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import CONST from '../../../constants';
 import { required, date } from 'redux-form-validators';

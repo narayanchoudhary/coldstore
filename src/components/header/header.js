@@ -17,9 +17,6 @@ class Header extends Component {
     }
 
     render() {
-        console.log('this.props.currentYear', this.props.currentYear);
-        console.log('this.props.years', this.props.years)
-
         return (
             <div className='header'>
                 <div className='navigation'>

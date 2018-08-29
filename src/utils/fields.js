@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Glyphicon from './components/UI/glyphicon';
+import Glyphicon from '../components/UI/glyphicon';
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';

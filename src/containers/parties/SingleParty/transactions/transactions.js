@@ -51,9 +51,9 @@ class Transactions extends Component {
         let balance = 0;
         transactions.forEach((transaction) => {
             if (transaction.side === 'credit') {
-                totalCredit += parseInt(transaction.amount);
+                totalCredit += parseInt(transaction.amount, 10);
             } else {
-                totalDebit += parseInt(transaction.amount);
+                totalDebit += parseInt(transaction.amount, 10);
             }
         });
 

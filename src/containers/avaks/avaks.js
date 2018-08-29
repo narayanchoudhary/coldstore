@@ -20,6 +20,7 @@ class Avaks extends Component {
         this.props.fetchAvaks(() => {
         });
 
+        // There are many types of parties so we have passed type of party
         this.props.fetchParties(['party'], () => {
             let parties = this.props.parties.map((party) => {
                 return { label: party.name + ' ' + party.address, value: party._id }

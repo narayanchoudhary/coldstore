@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import Aux from '../../../components/Auxilary/Auxilary';
 import * as actions from '../../../store/actions';
-import Glyphicon from '../../../components/UI/glyphicon';
 import { Redirect } from 'react-router-dom';
-import { renderField } from '../../../fields';
+import { renderField } from '../../../utils/fields';
 import './addParty.css';
 
-    const validate = values => {
-        const errors = {}
-        if (!values.name) {
-            errors.name = 'Please Enter a name';
-        } else if (values.name.length > 40) {
-            errors.name = 'Name 40 characters se kam hona chahiye';
-        }
-
-        if (!values.number) {
-            //nothing
-        } else if (values.number.length !== 10) {
-            errors.number = 'Enter 10 numbers';
-        }
-
-        if (!values.address) {
-            errors.address = 'Please Enter Address'
-        } else if (values.address.length > 20) {
-            errors.address = 'Address 40 characters se kam hona chahiye';
-        }
-
-        if (!values.openingBalance) {
-            errors.openingBalance = "Please Enter opening Balance"
-        }
-        return errors;
+const validate = values => {
+    const errors = {}
+    if (!values.name) {
+        errors.name = 'Please Enter a name';
+    } else if (values.name.length > 40) {
+        errors.name = 'Name 40 characters se kam hona chahiye';
     }
+
+    if (!values.number) {
+        //nothing
+    } else if (values.number.length !== 10) {
+        errors.number = 'Enter 10 numbers';
+    }
+
+    if (!values.address) {
+        errors.address = 'Please Enter Address'
+    } else if (values.address.length > 20) {
+        errors.address = 'Address 40 characters se kam hona chahiye';
+    }
+
+    if (!values.openingBalance) {
+        errors.openingBalance = "Please Enter opening Balance"
+    }
+    return errors;
+}
 
 class addParty extends Component {
     constructor(props) {

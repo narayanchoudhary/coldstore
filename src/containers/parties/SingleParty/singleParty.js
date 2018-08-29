@@ -29,8 +29,8 @@ class SingleParty extends Component {
         let totalPacket = 0;
         let totalWeight = 0;
         avaks.forEach((avak) => {
-            totalPacket += parseInt(avak.packet);
-            totalWeight += parseInt(avak.weight);
+            totalPacket += parseInt(avak.packet, 10);
+            totalWeight += parseInt(avak.weight, 10);
         });
 
         let footer = {
@@ -59,7 +59,7 @@ class SingleParty extends Component {
             this.props.fetchJavakLotsByAvakIds(avakIds, (response) => {
                 let totalJavakPacket = 0;
                 response.data.forEach((javak) => {
-                    totalJavakPacket += parseInt(javak.packet);
+                    totalJavakPacket += parseInt(javak.packet, 10);
                 });
                 this.setState({ javakLots: response.data, totalJavakPacket: totalJavakPacket });
             });
@@ -146,9 +146,9 @@ class SingleParty extends Component {
         this.state.javakLots.forEach((javakLot) => {
             if (row._id !== 'footer') {
                 if (javakLot.avakId === row._id)
-                    sumJavakLots += parseInt(javakLot.packet);
+                    sumJavakLots += parseInt(javakLot.packet, 10);
             } else {
-                sumJavakLots += parseInt(javakLot.packet);
+                sumJavakLots += parseInt(javakLot.packet, 10);
             }
         });
         let display = <div>{cell} - {sumJavakLots} = {cell - sumJavakLots}</div>

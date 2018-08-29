@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import 'react-select/dist/react-select.css';
 import validate from './validation';
-import { renderField, renderSelectField } from '../../../fields';
+import { renderField, renderSelectField } from '../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import './addTransaction.css';
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import cellEditFactory from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions';
 import './setting.css';
 import Sidebar from './../../components/sidebar/sidebar';
 import { Switch, Route } from 'react-router-dom';

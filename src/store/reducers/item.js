@@ -4,6 +4,7 @@ const initState = {
 }
 
 const reducer = (state = initState, action) => {
+    console.log('action: ', action);
     let newState;
     switch (action.type) {
         case actionTypes.FETCH_ITEMS:
