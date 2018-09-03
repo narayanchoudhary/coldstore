@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 const ipc = window.require("electron").ipcRenderer;
 
-export const saveItem = (values) => {
+export const saveItem = (values, thenCallback) => {
     return dispatch => {
         ipc.send('saveItem', values);
         ipc.once('saveItemResponse', (event, response) => {
@@ -9,15 +9,18 @@ export const saveItem = (values) => {
                 type: actionTypes.SAVE_ITEM,
                 payload: response
             });
+            thenCallback();
         })
     }
 };
 
 export const fetchItems = (thenCallback) => {
-    console.log('inside fetchItems');
     return dispatch => {
         ipc.send('fetchItems', {});
         ipc.once('fetchItemsResponse', (event, response) => {
+            response.options = response.data.map((item) => {
+                return { value: item._id, label: item.itemName };
+            });
             dispatch({
                 type: actionTypes.FETCH_ITEMS,
                 payload: response
@@ -39,7 +42,7 @@ export const deleteItem = (itemId) => {
     }
 }
 
-export const editItem = (data) => {
+export const editItem = (data, thenCallback) => {
     return dispatch => {
         ipc.send('editItem', data);
         ipc.once('editItemResponse', (event, response) => {
@@ -47,6 +50,7 @@ export const editItem = (data) => {
                 type: actionTypes.EDIT_ITEM,
                 payload: response
             });
+            thenCallback();
         });
     }
 }

@@ -7,10 +7,13 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './setups.css';
 import Button from '../../../components/UI/button/button';
+import { itemFormatter } from '../../../utils/formatters';
 
 class Setups extends Component {
 
-    // componentDidMount me work here if something goes wrong
+    componentDidMount() {
+        this.props.fetchSetups(() => { });
+    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.currentYear !== this.props.currentYear) {
@@ -25,7 +28,7 @@ class Setups extends Component {
 
     cellEdit = cellEditFactory({
         mode: 'click',
-        blurToSvae: true,
+        blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
             this.props.editSetup(row);
         }
@@ -43,7 +46,8 @@ class Setups extends Component {
         }, {
             dataField: 'item',
             text: 'Item',
-            formatter: this.itemFormatter
+            formatter: itemFormatter(this.props.items),
+            editable: false
         }, {
             dataField: 'rent',
             text: 'Rent',
@@ -81,7 +85,7 @@ class Setups extends Component {
 const mapStateToProps = state => {
     return {
         setups: state.setup.setups,
-        items: state.item.items,
+        items: state.item.options,
         currentYear: state.year.currentYear
     }
 }

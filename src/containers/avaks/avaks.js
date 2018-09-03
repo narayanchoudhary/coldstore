@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import CONST from '../../constants';
+import { itemFormatter, varietyFormatter, sizeFormatter } from '../../utils/formatters';
 
 class Avaks extends Component {
 
@@ -112,19 +112,29 @@ class Avaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
+            formatter: itemFormatter(this.props.items),
             editor: {
                 type: Type.SELECT,
-                options: CONST.ITEMS
+                options: this.props.items
+            },
+            filterValue: (cell, row) => {
+                this.props.items.forEach((item) => {
+                    if (item.value === cell) {
+                        cell = item.label;
+                    }
+                });
+                return cell
             }
-        }, {
+        }, {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             dataField: 'variety',
             text: 'Variety',
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
+            formatter: varietyFormatter(this.props.varieties),
             editor: {
                 type: Type.SELECT,
-                options: CONST.VARIETIES
+                options: this.props.varieties
             },
             classes: (cell, row, rowIndex, colIndex) => {
                 if (cell === 'lr') return 'lr';
@@ -135,9 +145,10 @@ class Avaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
+            formatter: sizeFormatter(this.props.sizes),
             editor: {
                 type: Type.SELECT,
-                options: CONST.SIZES
+                options: this.props.sizes
             }
         }, {
             dataField: 'privateMarka',
@@ -224,6 +235,8 @@ class Avaks extends Component {
             }]
         };
 
+        console.log('varieties', this.props.varieties);
+
         return (
             <div className="avaksContainer">
                 <Link to='/avaks/addAvak'>
@@ -253,7 +266,10 @@ const mapStateToProps = state => {
         data: state.avak.avaks.data,
         parties: state.party.parties.data,
         fetchError: state.avak.avaks.error,
-        deleteAvakError: state.avak.deleteAvak.error
+        deleteAvakError: state.avak.deleteAvak.error,
+        items: state.item.options,
+        varieties: state.variety.options,
+        sizes: state.size.options
     }
 }
 

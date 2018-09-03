@@ -15,12 +15,14 @@ class addItem extends Component {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = {redirectToItems: false};
+        this.state = { redirectToItems: false };
     }
 
     submit = (values) => {
-        this.props.saveItem(values);
-        this.setState({ redirectToItems: true })
+        this.props.saveItem(values, () => {
+            this.props.fetchItems(() => { });// load items in redux
+            this.setState({ redirectToItems: true })
+        });
     };
 
     render() {
@@ -28,7 +30,7 @@ class addItem extends Component {
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToItems ? <Redirect to="/settings/items" /> : null}
                 <div className="grid-container">
-                    <Field type="text" name="itemName" component={renderField} placeholder="Item Name" validate={[required()]} autoFocus/>
+                    <Field type="text" name="itemName" component={renderField} placeholder="Item Name" validate={[required()]} autoFocus />
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>
                     </div>
@@ -50,7 +52,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveItem: (values) => dispatch(actions.saveItem(values))
+        saveItem: (values, thenCallback) => dispatch(actions.saveItem(values, thenCallback)),
+        fetchItems: (values, thenCallback) => dispatch(actions.fetchItems(values, thenCallback)),
     };
 };
 

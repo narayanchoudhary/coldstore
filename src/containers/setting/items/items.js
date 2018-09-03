@@ -11,10 +11,6 @@ import Aux from '../../../components/Auxilary/Auxilary';
 
 class Items extends Component {
 
-    componentDidMount() {
-        this.props.fetchItems(() => { });
-    }
-
     handleClickOnDelete = (itemId) => {
         this.props.deleteItem(itemId);
         this.props.fetchItems(() => { });
@@ -24,7 +20,9 @@ class Items extends Component {
         mode: 'click',
         blurToSvae: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editItem(row);
+            this.props.editItem(row, () => {
+                this.props.fetchItems(()=> {});
+            });
         }
     });
 
@@ -91,9 +89,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchItems: (type, thenCallback) => dispatch(actions.fetchItems(type, thenCallback)),
         deleteItem: (itemId) => dispatch(actions.deleteItem(itemId)),
-        editItem: (item) => dispatch(actions.editItem(item))
+        editItem: (item, thenCallback) => dispatch(actions.editItem(item, thenCallback)),
+        fetchItems: (thenCallback) => dispatch(actions.fetchItems(thenCallback))
     };
 };
 

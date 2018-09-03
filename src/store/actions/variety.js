@@ -1,14 +1,15 @@
 import * as actionTypes from './actionTypes';
 const ipc = window.require("electron").ipcRenderer;
 
-export const saveVariety = (values) => {
-    return dispatch => {    
+export const saveVariety = (values, thenCallback) => {
+    return dispatch => {
         ipc.send('saveVariety', values);
         ipc.once('saveVarietyResponse', (event, response) => {
             dispatch({
                 type: actionTypes.SAVE_VARIETY,
                 payload: response
             });
+            thenCallback();
         })
     }
 };
@@ -17,6 +18,9 @@ export const fetchVarieties = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchVarieties', {});
         ipc.once('fetchVarietiesResponse', (event, response) => {
+            response.options = response.data.map((variety) => {
+                return { value: variety._id, label: variety.varietyName };
+            });
             dispatch({
                 type: actionTypes.FETCH_VARIETIES,
                 payload: response
@@ -38,7 +42,7 @@ export const deleteVariety = (varietyId) => {
     }
 }
 
-export const editVariety = (data) => {
+export const editVariety = (data, thenCallback) => {
     return dispatch => {
         ipc.send('editVariety', data);
         ipc.once('editVarietyResponse', (event, response) => {
@@ -46,6 +50,7 @@ export const editVariety = (data) => {
                 type: actionTypes.EDIT_VARIETY,
                 payload: response
             });
+            thenCallback(response);
         });
     }
 }

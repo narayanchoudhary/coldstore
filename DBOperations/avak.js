@@ -23,7 +23,6 @@ class AvakDatabase {
     avaksDB.findOne({ _id: '__autoid__' }, (err, doc) => {
       avaksDB.update({ _id: '__autoid__' }, { $set: { value: ++doc.value } }, {}, () => {
         data.receiptNumber = doc.value;
-        data = convertToLowerCase(data);
         avaksDB.insert(data, (err, newDoc) => {
           let response = {};
           response.error = err;
@@ -66,7 +65,6 @@ class AvakDatabase {
     delete data.createdAt;
     delete data.updatedAt;
 
-    data = convertToLowerCase(data);
     avaksDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
       let response = {};
       response.error = err;

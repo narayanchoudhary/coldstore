@@ -19,8 +19,11 @@ class addVariety extends Component {
     }
 
     submit = (values) => {
-        this.props.saveVariety(values);
-        this.setState({ redirectToVarieties: true })
+        this.props.saveVariety(values, () => {
+            this.props.fetchVarieties(() => {
+                this.setState({ redirectToVarieties: true })
+            });
+        });
     };
 
     render() {
@@ -50,7 +53,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveVariety: (values) => dispatch(actions.saveVariety(values))
+        saveVariety: (values, thenCallback) => dispatch(actions.saveVariety(values, thenCallback)),
+        fetchVarieties: (thenCallback) => dispatch(actions.fetchVarieties(thenCallback))
     };
 };
 

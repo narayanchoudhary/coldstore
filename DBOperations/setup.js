@@ -26,7 +26,7 @@ class SetupDatabase {
 
   fetchSetups(event, data) {
     yearsDB.findOne({ _id: '__currentYear__' }, (err, data) => {
-      setupsDB.find({year: data.yearId}).sort({ date: 1 }).exec((err, data) => {
+      setupsDB.find({year: data.yearId}).sort({ item: 1 }).exec((err, data) => {
         let response = {};
         response.error = err;
         response.data = data;

@@ -17,6 +17,11 @@ export const fetchSizes = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchSizes', {});
         ipc.once('fetchSizesResponse', (event, response) => {
+            console.log('response: ', response);
+            response.options = response.data.map((size) => {
+                
+                return { value: size._id, label: size.sizeName };
+            });
             dispatch({
                 type: actionTypes.FETCH_SIZES,
                 payload: response

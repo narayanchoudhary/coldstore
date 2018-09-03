@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
-    items: []
+    sizes: [],
+    options: []// formatted varieties for dropdown
 }
 
 const reducer = (state = initState, action) => {
@@ -8,7 +9,8 @@ const reducer = (state = initState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_SIZES:
             newState = {
-                sizes: action.payload.data
+                sizes: action.payload.data,
+                options: action.payload.options
             };
             break;
         case actionTypes.DELETE_PARTY:

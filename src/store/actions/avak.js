@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 const ipc = window.require("electron").ipcRenderer;
 
-export const saveAvak = (values) => {
+export const saveAvak = (values, thenCallback) => {
     return dispatch => {
         ipc.send('saveAvak', values);
         ipc.once('saveAvakResponse', (event, response) => {
@@ -9,6 +9,7 @@ export const saveAvak = (values) => {
                 type: actionTypes.SAVE_AVAK,
                 payload: response
             });
+            thenCallback();
         })
     }
 };

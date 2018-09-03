@@ -23,7 +23,9 @@ class Varieties extends Component {
         mode: 'click',
         blurToSvae: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editVariety(row);
+            this.props.editVariety(row, () => {
+                this.props.fetchVarieties(() => {});
+            });
         }
     });
 
@@ -91,7 +93,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchVarieties: (type, thenCallback) => dispatch(actions.fetchVarieties(type, thenCallback)),
         deleteVariety: (varietyId) => dispatch(actions.deleteVariety(varietyId)),
-        editVariety: (variety) => dispatch(actions.editVariety(variety))
+        editVariety: (variety, thenCallback) => dispatch(actions.editVariety(variety, thenCallback))
     };
 };
 

@@ -3,12 +3,6 @@ const initState = {
     parties: {
         data: [],
         error: false
-    },
-    addParty: {
-        error: false
-    },
-    deleteParty: {
-        error: false
     }
 }
 

@@ -19,7 +19,10 @@ import * as actions from './store/actions';
 class App extends Component {
 
   componentDidMount() {
-    this.props.fetchItems(()=>{});
+    this.props.fetchItems(() => { });
+    this.props.fetchVarieties(() => { });
+    this.props.fetchSizes(() => { });
+    this.props.fetchParties(() => { });
   }
 
   render() {
@@ -46,7 +49,10 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchSizes: (thenCallback) => dispatch(actions.fetchSizes(thenCallback)),
     fetchItems: (thenCallback) => dispatch(actions.fetchItems(thenCallback)),
+    fetchVarieties: (thenCallback) => dispatch(actions.fetchVarieties(thenCallback)),
+    fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback))
   }
 }
 

@@ -1,28 +1,33 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
-    items: []
+    varieties: [],
+    options: []// formatted varieties for dropdown
 }
 
-// indec file me daal
 const reducer = (state = initState, action) => {
     let newState;
     switch (action.type) {
         case actionTypes.FETCH_VARIETIES:
             newState = {
-                varieties: action.payload.data
+                varieties: action.payload.data,
+                options: action.payload.options
             };
             break;
         case actionTypes.DELETE_PARTY:
             if (action.payload.error) {
-                newState = { ...state
+                newState = {
+                    ...state
                 };
-                newState.deleteParty = { ...state.deleteParty,
+                newState.deleteParty = {
+                    ...state.deleteParty,
                     error: true
                 };
             } else {
-                newState = { ...state
+                newState = {
+                    ...state
                 };
-                newState.deleteParty = { ...state.deleteParty,
+                newState.deleteParty = {
+                    ...state.deleteParty,
                     error: false
                 };
             }
