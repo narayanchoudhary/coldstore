@@ -10,23 +10,16 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
+import { partyFormatter } from '../../utils/formatters';
 
 class Javaks extends Component {
 
     state = {
-        parties: [],
         modal: false
     };
 
     componentDidMount() {
         this.props.fetchJavaks(() => {
-        });
-
-        this.props.fetchParties(['party'], () => {
-            let parties = this.props.parties.map((party) => {
-                return { label: party.name + ' ' + party.address, value: party._id.toLowerCase() }
-            });
-            this.setState({ parties: parties });
         });
     }
 
@@ -64,17 +57,6 @@ class Javaks extends Component {
 
     rowClasses = (row, rowIndex) => {
         return 'capitalize';
-    };
-
-    partyFormatter = (cell, row) => {
-        this.props.parties.forEach((party) => {
-            if (party._id.toLowerCase() === cell.toLowerCase()) {
-                cell = party.name
-            }
-        });
-        return (
-            <span>{cell}</span>
-        );
     };
 
     createActionCell = (cell, row) => {
@@ -120,7 +102,7 @@ class Javaks extends Component {
             text: 'Party',
             sort: true,
             headerSortingStyle,
-            formatter: this.partyFormatter,
+            formatter: partyFormatter,
             filter: textFilter(),
             editor: {
                 type: Type.SELECT,
@@ -175,7 +157,7 @@ class Javaks extends Component {
                     striped
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
-                    noDataIndication="Koi bhi nahi mila bhai"
+                    noDataIndication="No Javak"
                     pagination={paginationFactory(paginationOptions)}
                     rowClasses={this.rowClasses}
                 />
@@ -195,7 +177,7 @@ class Javaks extends Component {
 const mapStateToProps = state => {
     return {
         data: state.javak.javaks.data,
-        parties: state.party.parties.data,
+        parties: state.party.partiesOptions,
         fetchError: state.javak.javaks.error,
         deleteJavakError: state.javak.deleteJavak.error
     }
@@ -204,7 +186,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchJavaks: (thenCallback) => dispatch(actions.fetchJavaks(thenCallback)),
-        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteJavak: (javakId) => dispatch(actions.deleteJavak(javakId)),
         editJavak: (javak) => dispatch(actions.editJavak(javak))
     };

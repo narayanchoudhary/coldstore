@@ -13,6 +13,7 @@ import partyReducer from './store/reducers/party';
 import yearReducer from './store/reducers/year';
 import itemReducer from './store/reducers/item';
 import sizeReducer from './store/reducers/size';
+import addressReducer from './store/reducers/address';
 import setupReducer from './store/reducers/setup';
 import varietyReducer from './store/reducers/variety';
 import { reducer as formReducer } from 'redux-form';
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
     variety: varietyReducer,
     size: sizeReducer,
     setup: setupReducer,
-    form: formReducer
+    form: formReducer,
+    address: addressReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

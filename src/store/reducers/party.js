@@ -1,9 +1,13 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
-    parties: {
-        data: [],
-        error: false
-    }
+    data: [],
+    banks: [],
+    banksOptions: [],
+    parties: [],
+    partiesOptions: [],
+    filteredPartiesOptions: [],
+    expenses: [],
+    expensesOptions: []
 }
 
 const reducer = (state = initState, action) => {
@@ -19,8 +23,22 @@ const reducer = (state = initState, action) => {
             }
             break;
         case actionTypes.FETCH_PARTIES:
-            newState = { ...state };
-            newState.parties = { ...state.parties, data: action.payload.data };
+            newState = {
+                data: [...action.payload.data],
+                banks: [...action.payload.banks],
+                banksOptions: [...action.payload.banksOptions],
+                parties: [...action.payload.parties],
+                partiesOptions: [...action.payload.partiesOptions],
+                filteredPartiesOptions: [...action.payload.partiesOptions],
+                expenses: [...action.payload.expenses],
+                expensesOptions: [...action.payload.expensesOptions]
+            };
+            break;
+        case actionTypes.FILTER_PARTIES:
+            newState = {
+                ...state,
+                filteredPartiesOptions: [...action.payload],
+            };
             break;
         case actionTypes.DELETE_PARTY:
             if (action.payload.error) {

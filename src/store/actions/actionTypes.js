@@ -1,5 +1,6 @@
 export const SAVE_PARTY = 'SAVE_PARTY';
 export const FETCH_PARTIES = 'FETCH_PARTIES';
+export const FILTER_PARTIES = 'FILTER_PARTIES';
 export const FETCH_PARTY = 'FETCH_PARTY';
 export const EDIT_PARTY = 'EDIT_PARTY';
 export const DELETE_PARTY = 'DELETE_PARTY';
@@ -56,3 +57,8 @@ export const SAVE_SETUP = 'SAVE_SETUP';
 export const FETCH_SETUPS = 'FETCH_SETUPS';
 export const EDIT_SETUP = 'EDIT_SETUP';
 export const DELETE_SETUP = 'DELETE_SETUP';
+
+export const SAVE_ADDRESS = 'SAVE_ADDRESS';
+export const FETCH_ADDRESSES = 'FETCH_ADDRESSES';
+export const EDIT_ADDRESS = 'EDIT_ADDRESS';
+export const DELETE_ADDRESS = 'DELETE_ADDRESS';

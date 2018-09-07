@@ -3,7 +3,8 @@ export {
     fetchParties,
     fetchParty,
     deleteParty,
-    editParty
+    editParty,
+    filterPartiesByAddress
 } from './party';
 
 export {
@@ -81,3 +82,10 @@ export {
     deleteSetup,
     editSetup
 } from './setup';
+
+export {
+    saveAddress,
+    fetchAddresses,
+    deleteAddress,
+    editAddress
+} from './address';

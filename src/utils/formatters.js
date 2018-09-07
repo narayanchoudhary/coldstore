@@ -38,3 +38,29 @@ export const sizeFormatter = (sizes) => {
         );
     }
 }
+
+export const addressFormatter = (addresses) => {
+    return (cell, row) => {
+        addresses.forEach((address) => {
+            if (address.value === cell) {
+                cell = address.label;
+            }
+        });
+        return (
+            <span>{cell}</span>
+        );
+    }
+}
+
+export const partyFormatter = (party) => {
+    return (cell, row) => {
+        party.forEach((party) => {
+            if (party.value === cell) {
+                cell = party.label;
+            }
+        });
+        return (
+            <span>{cell}</span>
+        );
+    }
+}

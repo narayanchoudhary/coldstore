@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { itemFormatter, varietyFormatter, sizeFormatter } from '../../utils/formatters';
+import { itemFormatter, varietyFormatter, sizeFormatter, partyFormatter } from '../../utils/formatters';
 
 class Avaks extends Component {
 
@@ -18,14 +18,6 @@ class Avaks extends Component {
 
     componentDidMount() {
         this.props.fetchAvaks(() => {
-        });
-
-        // There are many types of parties so we have passed type of party
-        this.props.fetchParties(['party'], () => {
-            let parties = this.props.parties.map((party) => {
-                return { label: party.name + ' ' + party.address, value: party._id }
-            });
-            this.setState({ parties: parties });
         });
     }
 
@@ -57,17 +49,6 @@ class Avaks extends Component {
         return 'capitalize';
     };
 
-    partyFormatter = (cell, row) => {
-        this.props.parties.forEach((party) => {
-            if (party._id === cell) {
-                cell = party.name;
-            }
-        });
-        return (
-            <span>{cell}</span>
-        );
-    };
-
     render() {
         const headerSortingStyle = { backgroundColor: '#ccc' };
 
@@ -92,7 +73,7 @@ class Avaks extends Component {
             text: 'Party',
             sort: true,
             headerSortingStyle,
-            formatter: this.partyFormatter,
+            formatter: partyFormatter(this.props.parties),
             filter: textFilter(),
             filterValue: (cell, row) => {
                 this.props.parties.forEach((party) => {
@@ -104,7 +85,7 @@ class Avaks extends Component {
             },
             editor: {
                 type: Type.SELECT,
-                options: this.state.parties
+                options: this.props.parties
             }
         }, {
             dataField: 'item',
@@ -235,8 +216,6 @@ class Avaks extends Component {
             }]
         };
 
-        console.log('varieties', this.props.varieties);
-
         return (
             <div className="avaksContainer">
                 <Link to='/avaks/addAvak'>
@@ -252,7 +231,7 @@ class Avaks extends Component {
                     striped
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
-                    noDataIndication="Koi bhi nahi mila bhai"
+                    noDataIndication="No Avak"
                     pagination={paginationFactory(paginationOptions)}
                     rowClasses={this.rowClasses}
                 />
@@ -264,9 +243,7 @@ class Avaks extends Component {
 const mapStateToProps = state => {
     return {
         data: state.avak.avaks.data,
-        parties: state.party.parties.data,
-        fetchError: state.avak.avaks.error,
-        deleteAvakError: state.avak.deleteAvak.error,
+        parties: state.party.partiesOptions,
         items: state.item.options,
         varieties: state.variety.options,
         sizes: state.size.options

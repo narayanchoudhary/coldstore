@@ -3,7 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { Redirect } from 'react-router-dom';
-import { renderField } from '../../../utils/fields';
+import { renderField, renderSelectField } from '../../../utils/fields';
+import { required } from 'redux-form-validators';
 import './addParty.css';
 
 const validate = values => {
@@ -40,10 +41,12 @@ class addParty extends Component {
     }
 
     submit = (values) => {
-        this.props.saveParty(values);
-        if (this.props.addError === false) {
-            this.setState({ redirectToParties: true })
-        }
+        values.address = values.address.value;
+        this.props.saveParty(values, () => {
+            this.props.fetchParties(() => {
+                this.setState({ redirectToParties: true })
+            });
+        });
     };
 
     render() {
@@ -81,10 +84,12 @@ class addParty extends Component {
                             <div className="col-md-4 inputGroupContainer">
                                 <Field
                                     name="address"
+                                    component={renderSelectField}
                                     placeholder="Address"
-                                    type="text"
-                                    component={renderField}
+                                    options={this.props.addresses}
+                                    validate={[required()]}
                                 />
+
                             </div>
                         </div>
                         <div className="form-group">
@@ -133,13 +138,14 @@ const Form = reduxForm({
 
 const mapStateToProps = state => {
     return {
-        addError: state.party.addParty.error
+        addresses: state.address.options
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveParty: (values) => dispatch(actions.saveParty(values))
+        saveParty: (values, thenCallback) => dispatch(actions.saveParty(values, thenCallback)),
+        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
     };
 };
 

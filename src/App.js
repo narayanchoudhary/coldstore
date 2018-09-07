@@ -22,7 +22,8 @@ class App extends Component {
     this.props.fetchItems(() => { });
     this.props.fetchVarieties(() => { });
     this.props.fetchSizes(() => { });
-    this.props.fetchParties(() => { });
+    this.props.fetchAddresses(() => {});
+    this.props.fetchParties(() => {});
   }
 
   render() {
@@ -52,7 +53,8 @@ const mapDispatchToProps = dispatch => {
     fetchSizes: (thenCallback) => dispatch(actions.fetchSizes(thenCallback)),
     fetchItems: (thenCallback) => dispatch(actions.fetchItems(thenCallback)),
     fetchVarieties: (thenCallback) => dispatch(actions.fetchVarieties(thenCallback)),
-    fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback))
+    fetchAddresses: (thenCallback) => dispatch(actions.fetchAddresses(thenCallback)),
+    fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
   }
 }
 

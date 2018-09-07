@@ -18,7 +18,7 @@ class PartyDatabase {
   }
 
   saveParty(event, data) {
-    data = convertToLowerCase(data);
+    data.name = data.name.toLowerCase();
     partiesDB.insert(data, (err, newDoc) => {
       let response = {};
       response.error = err;
@@ -27,13 +27,7 @@ class PartyDatabase {
   };
 
   fetchParties(event, data) {
-    let where;
-    if (data.type) {
-      where = { type: { $in: data.type } }
-    } else {
-      where = {}
-    }
-    partiesDB.find(where).sort({ updatedAt: -1 }).exec((err, data) => {
+    partiesDB.find({}).sort({ updatedAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
@@ -63,7 +57,7 @@ class PartyDatabase {
     delete data._id;
     delete data.createdAt;
     delete data.updatedAt;
-    data = convertToLowerCase(data);
+    data.name = data.name.toLowerCase();
     partiesDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
       let response = {};
       response.error = err;
