@@ -8,38 +8,19 @@ import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
 import './transactions.css';
-import { createDeleteButton } from '../../utils/formatters';
+import { columnFormatter, createDeleteButton, paginationOptions } from '../../utils/formatters';
 
 class Transactions extends Component {
 
     state = {
         transactions: [],
-        parties: []
     };
 
     componentDidMount() {
         this.props.fetchTransactions((response) => {
             this.setState({ transactions: response.data });
         });
-
-        this.props.fetchParties(['party', 'expense'], () => {
-            let parties = this.props.parties.map((party) => {
-                return { label: party.name + ' ' + party.address, value: party._id }
-            });
-            this.setState({ parties: parties });
-        });
     }
-
-    columnFormatter = (cell, row) => {
-        this.props.parties.forEach((party) => {
-            if (party._id.toLowerCase() === cell.toLowerCase()) {
-                cell = party.name
-            }
-        });
-        return (
-            <span>{cell}</span>
-        );
-    };
 
     creditFormatter = (cell, row) => {
         if (row.side === 'credit') {
@@ -74,16 +55,6 @@ class Transactions extends Component {
         },
     });
 
-    paginationOptions = {
-        sizePerPageList: [{
-            text: '11', value: 11
-        }, {
-            text: '12', value: 12
-        }, {
-            text: 'All', value: this.state.transactions ? this.state.transactions.length === 0 ? 1 : this.state.transactions.length : 1
-        }]
-    };
-
     render() {
         let columns = [
             {
@@ -107,7 +78,7 @@ class Transactions extends Component {
                 text: 'Party',
                 sort: true,
                 headerSortingStyle: this.headerSortingStyle,
-                formatter: this.columnFormatter,
+                formatter: columnFormatter,
                 filter: textFilter(),
                 classes: 'capitalize',
                 filterValue: (cell, row) => {
@@ -121,7 +92,7 @@ class Transactions extends Component {
                 },
                 editor: {
                     type: Type.SELECT,
-                    options: this.state.parties
+                    options: this.props.parties
                 }
             }, {
                 dataField: 'amount',
@@ -173,7 +144,7 @@ class Transactions extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No items"
-                    pagination={paginationFactory(this.paginationOptions)}
+                    pagination={paginationFactory(paginationOptions(this.state.transactions))}
                     rowClasses={this.rowClasses}
                 />
             </div>
@@ -183,14 +154,13 @@ class Transactions extends Component {
 
 const mapStateToProps = state => {
     return {
-        parties: state.party.parties.data,
+        parties: state.party.partiesOptions,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchTransactions: (thenCallback) => dispatch(actions.fetchTransactions(thenCallback)),
-        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteTransaction: (transactionsId) => dispatch(actions.deleteTransaction(transactionsId)),
         editTransaction: (transaction) => dispatch(actions.editTransaction(transaction))
     };

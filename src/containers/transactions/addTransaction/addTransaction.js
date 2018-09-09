@@ -15,45 +15,8 @@ class addTransaction extends Component {
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
         this.state = {
-            parties: [],
-            filteredParties: [],
-            addresses: [],
             banks: []
         };
-    }
-
-    componentDidMount = () => {
-        // After fetching parties set parties and addresses
-        this.props.fetchParties(['party', 'expense'], (response) => {
-            let parties = response.data;
-
-            this.setState({ parties: parties });
-
-            let addresses = response.data.map((party) => {
-                return { label: party.address, value: party.address }
-            });
-
-            // fetch banks
-            this.props.fetchParties(['bank'], (response) => {
-                let banks = response.data.map((bank) => {
-                    return { label: bank.name, value: bank._id }
-                });
-                this.setState({ banks: banks });
-            });
-
-            let unique_addresses = [];
-            addresses = addresses.filter((address) => {
-                if (!unique_addresses.includes(address.value)) {
-                    unique_addresses.push(address.value);
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-            this.setState({ addresses: addresses });
-
-            //this.filterPartiesByAddress(null);
-        });
     }
 
     submit = (values) => {
@@ -65,30 +28,14 @@ class addTransaction extends Component {
         });
     };
 
-    filterPartiesByAddress = (address) => {
-        let filteredParties = [];
-        if (address) {
-            if (address.value) {
-                filteredParties = this.state.parties.filter(function (party) {
-                    return party.address === address.value;
-                });
-            }
-        }
-
-        filteredParties = filteredParties.map((party) => {
-            return { label: party.name, value: party._id }
-        });
-        this.setState({ filteredParties: filteredParties });
-    }
-
     render() {
         return (
             <form onSubmit={this.handleSubmit(this.submit)}>
                 {this.state.redirectToTransactions ? <Redirect to="/transactions" /> : null}
                 <div className="grid-container">
                     <Field type="date" name="date" component={renderField} placeholder="Date" autoFocus />
-                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.state.addresses} onChange={this.filterPartiesByAddress} />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.state.filteredParties} />
+                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} />
                     <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" />
                     <div className="grid-item radioButtons">
                         <div><Field name="side" component="input" type="radio" value="credit" />Credit</div>
@@ -113,15 +60,17 @@ const Form = reduxForm({
 
 const mapStateToProps = state => {
     return {
-        parties: state.party.parties.data,
-        addError: state.avak.addAvak.error
+        parties: state.party.partiesOptions,
+        filteredParties: state.party.filteredPartiesOptions,
+        addresses: state.address.options
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         saveTransaction: (values, thenCallback) => dispatch(actions.saveTransaction(values, thenCallback)),
-        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback))
+        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
+        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
     };
 };
 
