@@ -30,7 +30,6 @@ class addAvak extends Component {
         this.props.filterPartiesByAddress(this.props.parties, {});
     }
 
-
     submit = (values) => {
         delete values.address;
         values.party = values.party.value;
