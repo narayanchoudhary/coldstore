@@ -10,7 +10,7 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
-import { columnFormatter } from '../../utils/utils';
+import { columnFormatter, paginationOptions } from '../../utils/utils';
 
 class Javaks extends Component {
 
@@ -120,16 +120,6 @@ class Javaks extends Component {
             formatter: this.createActionCell
         }];
 
-        let paginationOptions = {
-            sizePerPageList: [{
-                text: '11', value: 11
-            }, {
-                text: '12', value: 12
-            }, {
-                text: 'All', value: this.props.data ? this.props.data.length === 0 ? 1 : this.props.data.length : 1
-            }]
-        };
-
         return (
             <div className="javaksContainer">
                 <Link to='/javaks/addJavak'>
@@ -146,7 +136,7 @@ class Javaks extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Javak"
-                    pagination={paginationFactory(paginationOptions)}
+                    pagination={paginationFactory(paginationOptions(this.props.javaks))}
                     rowClasses={this.rowClasses}
                 />
                 {

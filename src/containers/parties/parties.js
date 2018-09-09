@@ -9,7 +9,7 @@ import * as actions from '../../store/actions';
 import './parties.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
-import { columnFormatter } from '../../utils/utils';
+import { columnFormatter, paginationOptions } from '../../utils/utils';
 
 class Parties extends Component {
 
@@ -102,16 +102,6 @@ class Parties extends Component {
             formatter: this.createActionCell
         }];
 
-        let paginationOptions = {
-            sizePerPageList: [{
-                text: '11', value: 11
-            }, {
-                text: '12', value: 12
-            }, {
-                text: 'All', value: this.props.parties ? this.props.parties.length : 1
-            }]
-        };
-
         return (
             <div className="partiesContainer">
                 {
@@ -134,7 +124,7 @@ class Parties extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Party"
-                    pagination={paginationFactory(paginationOptions)}
+                    pagination={paginationFactory(paginationOptions(this.props.parties))}
                     rowClasses={this.rowClasses}
                 />
             </div>
