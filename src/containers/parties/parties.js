@@ -9,7 +9,7 @@ import * as actions from '../../store/actions';
 import './parties.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
-import { columnFormatter } from '../../utils/formatters';
+import { columnFormatter } from '../../utils/utils';
 
 class Parties extends Component {
 
@@ -144,7 +144,7 @@ class Parties extends Component {
 
 const mapStateToProps = state => {
     return {
-        parties: state.party.data,
+        parties: state.party.data,// not state.party.options because it is the actual table not the formatters just like address is being used in it.
         addresses: state.address.options
     }
 }

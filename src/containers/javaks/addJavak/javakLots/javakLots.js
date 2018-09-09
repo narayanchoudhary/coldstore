@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import Aux from '../../../../components/Auxilary/Auxilary';
 import './javakLots.css';
-import { columnFormatter, createDeleteButton } from '../../../../utils/formatters';
+import { columnFormatter, createDeleteButton } from '../../../../utils/utils';
 
 class JavakLots extends Component {
 

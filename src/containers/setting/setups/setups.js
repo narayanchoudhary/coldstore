@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './setups.css';
 import Button from '../../../components/UI/button/button';
-import { columnFormatter } from '../../../utils/formatters';
+import { columnFormatter } from '../../../utils/utils';
 
 class Setups extends Component {
 

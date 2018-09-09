@@ -5,7 +5,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import './transactions.css';
-import { createDeleteButton } from "../../../../utils/formatters";
+import { createDeleteButton } from "../../../../utils/utils";
 
 class Transactions extends Component {
 

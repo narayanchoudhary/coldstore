@@ -10,7 +10,7 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
-import { columnFormatter } from '../../utils/formatters';
+import { columnFormatter } from '../../utils/utils';
 
 class Javaks extends Component {
 

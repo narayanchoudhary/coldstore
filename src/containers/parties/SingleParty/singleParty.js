@@ -8,7 +8,7 @@ import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
-import { createDeleteButton } from "../../../utils/formatters";
+import { createDeleteButton } from "../../../utils/utils";
 
 class SingleParty extends Component {
 

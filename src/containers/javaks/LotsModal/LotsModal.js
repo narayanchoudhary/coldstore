@@ -5,7 +5,7 @@ import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-import { createDeleteButton } from '../../../utils/formatters';
+import { createDeleteButton } from '../../../utils/utils';
 
 class LotsModal extends Component {
 

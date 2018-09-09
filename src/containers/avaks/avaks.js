@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { columnFormatter, createDeleteButton } from '../../utils/formatters';
+import { columnFormatter, createDeleteButton } from '../../utils/utils';
 
 class Avaks extends Component {
 

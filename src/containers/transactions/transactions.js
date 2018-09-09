@@ -8,7 +8,7 @@ import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
 import './transactions.css';
-import { columnFormatter, createDeleteButton, paginationOptions } from '../../utils/formatters';
+import { columnFormatter, createDeleteButton, paginationOptions } from '../../utils/utils';
 
 class Transactions extends Component {
 
