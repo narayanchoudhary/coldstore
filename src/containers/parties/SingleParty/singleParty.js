@@ -119,7 +119,7 @@ class SingleParty extends Component {
         return rowClasses;
     };
 
-    partyFormatter = (cell, row) => {
+    columnFormatter = (cell, row) => {
         this.props.parties.forEach((party) => {
             if (party._id === cell) {
                 cell = party.name;

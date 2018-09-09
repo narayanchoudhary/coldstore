@@ -26,6 +26,11 @@ class addAvak extends Component {
         this.state = { parties: [], addresses: [] };
     }
 
+    componentDidMount() {
+        this.props.filterPartiesByAddress(this.props.parties, {});
+    }
+
+
     submit = (values) => {
         delete values.address;
         values.party = values.party.value;

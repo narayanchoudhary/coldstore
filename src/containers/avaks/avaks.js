@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { itemFormatter, varietyFormatter, sizeFormatter, partyFormatter } from '../../utils/formatters';
+import { columnFormatter } from '../../utils/formatters';
 
 class Avaks extends Component {
 
@@ -73,7 +73,7 @@ class Avaks extends Component {
             text: 'Party',
             sort: true,
             headerSortingStyle,
-            formatter: partyFormatter(this.props.parties),
+            formatter: columnFormatter(this.props.parties),
             filter: textFilter(),
             filterValue: (cell, row) => {
                 this.props.parties.forEach((party) => {
@@ -93,7 +93,7 @@ class Avaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
-            formatter: itemFormatter(this.props.items),
+            formatter: columnFormatter(this.props.items),
             editor: {
                 type: Type.SELECT,
                 options: this.props.items
@@ -106,13 +106,13 @@ class Avaks extends Component {
                 });
                 return cell
             }
-        }, {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+        }, {
             dataField: 'variety',
             text: 'Variety',
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
-            formatter: varietyFormatter(this.props.varieties),
+            formatter: columnFormatter(this.props.varieties),
             editor: {
                 type: Type.SELECT,
                 options: this.props.varieties
@@ -126,7 +126,7 @@ class Avaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
-            formatter: sizeFormatter(this.props.sizes),
+            formatter: columnFormatter(this.props.sizes),
             editor: {
                 type: Type.SELECT,
                 options: this.props.sizes

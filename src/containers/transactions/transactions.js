@@ -29,7 +29,7 @@ class Transactions extends Component {
         });
     }
 
-    partyFormatter = (cell, row) => {
+    columnFormatter = (cell, row) => {
         this.props.parties.forEach((party) => {
             if (party._id.toLowerCase() === cell.toLowerCase()) {
                 cell = party.name
@@ -117,7 +117,7 @@ class Transactions extends Component {
                 text: 'Party',
                 sort: true,
                 headerSortingStyle: this.headerSortingStyle,
-                formatter: this.partyFormatter,
+                formatter: this.columnFormatter,
                 filter: textFilter(),
                 classes: 'capitalize',
                 filterValue: (cell, row) => {

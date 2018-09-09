@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './setups.css';
 import Button from '../../../components/UI/button/button';
-import { itemFormatter } from '../../../utils/formatters';
+import { columnFormatter } from '../../../utils/formatters';
 
 class Setups extends Component {
 
@@ -46,7 +46,7 @@ class Setups extends Component {
         }, {
             dataField: 'item',
             text: 'Item',
-            formatter: itemFormatter(this.props.items),
+            formatter: columnFormatter(this.props.items),
             editable: false
         }, {
             dataField: 'rent',

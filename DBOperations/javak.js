@@ -27,7 +27,6 @@ class JavakDatabase {
     javaksDB.findOne({ _id: '__autoid__' }, (err, doc) => {
       javaksDB.update({ _id: '__autoid__' }, { $set: { value: ++doc.value } }, {}, () => {
         data.receiptNumber = doc.value;
-        data = convertToLowerCase(data);
         javaksDB.insert(data, (err, newDoc) => {
           //Change id of javak lots from temp
           javakLotsDB.update({ javakId: 'tempJavakId' }, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
@@ -65,7 +64,6 @@ class JavakDatabase {
     delete data._id;
     delete data.createdAt;
     delete data.updatedAt;
-    data = convertToLowerCase(data);
     javaksDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
       let response = {};
       response.error = err;
@@ -116,7 +114,6 @@ class JavakDatabase {
   }
 
   fetchJavaksByPartyId(event, data) {
-
     javaksDB.find({ party: data.partyId }).sort({ updatedAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;

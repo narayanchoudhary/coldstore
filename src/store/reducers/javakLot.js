@@ -9,7 +9,9 @@ const initState = {
     },
     deleteJavakLot: {
         error: false
-    }
+    },
+    avaks: [],
+    lots: []
 }
 
 const reducer = (state = initState, action) => {
@@ -38,7 +40,13 @@ const reducer = (state = initState, action) => {
             }
             break;
         case actionTypes.FETCH_AVAKS_OF_PARTY:
-            newState = { ...state, avaksOfParty: action.payload.data };
+            newState = { ...state, avaks: action.payload };
+            break;
+        case actionTypes.FETCH_JAVAK_LOTS_BY_JAVAK_ID:
+            newState = { ...state, lots: action.payload };
+            break;
+        case actionTypes.MODIFY_AVAKS:
+            newState = { ...state, avaks: action.payload };
             break;
         default: return state;
     }

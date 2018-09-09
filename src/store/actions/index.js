@@ -20,7 +20,6 @@ export {
     fetchJavaks,
     deleteJavak,
     editJavak,
-    fetchAvaksOfParty,
     fetchJavaksByPartyId
 } from './javak';
 
@@ -31,7 +30,9 @@ export {
     fetchJavakLotsByAvakIds,
     deleteJavakLot,
     editJavakLot,
-    removeTempJavakLots
+    removeTempJavakLots,
+    fetchAvaksOfParty,
+    modifyAvaks
 } from './javakLot';
 
 export {

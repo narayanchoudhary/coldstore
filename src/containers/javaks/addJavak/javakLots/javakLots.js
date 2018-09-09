@@ -5,81 +5,41 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import Aux from '../../../../components/Auxilary/Auxilary';
 import './javakLots.css';
+import { columnFormatter } from '../../../../utils/formatters';
 
 class JavakLots extends Component {
 
-    state = {
-        lots: [],
-        avaks: [],
-        disabledAvaks: []
-    }
-
     componentDidMount() {
-        this.props.fetchAvaksOfParty(this.props.partyId, (response) => {
-            let avaks = response.data.map((avak) => {
-                // add label for remaining packet
-                let remainingPacket = avak.packet - avak.sentPacket;
-                let label = avak.packet.toString() + '-' + remainingPacket.toString();
-                // add disabled field if the remaining packet is 0
-                return { ...avak, remainingPacket: remainingPacket, packet: label, disabled: remainingPacket === 0 ? true : false }
-            });
-            this.setState({ avaks: avaks });
+        this.props.fetchAvaksOfParty(this.props.partyId, () => {
+            this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
         });
     }
 
     componentWillReceiveProps(nextProps) {
-        nextProps.fetchAvaksOfParty(nextProps.partyId, (response) => {
-            let avaks = response.data.map((avak) => {
-                // add label for remaining packet
-                let remainingPacket = avak.packet - avak.sentPacket;
-                let label = avak.packet.toString() + '-' + remainingPacket.toString();
-                // add disabled field if the remaining packet is 0
-                return { ...avak, remainingPacket: remainingPacket, packet: label, disabled: remainingPacket === 0 ? true : false }
-            });
-            this.setState({ avaks: avaks });
-        });
+        if (nextProps.partyId !== this.props.partyId) {
+            this.props.fetchAvaksOfParty(nextProps.partyId, () => { });
+        }
     }
 
     headerSortingStyle = { backgroundColor: '#ccc' };
 
-    fetchJavakLots = () => {
-        this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => {
-            let lots = response.data.map((lot) => {
-                return {
-                    _id: lot._id,
-                    packet: lot.packet,
-                    chamber: lot.chamber,
-                    floor: lot.floor,
-                    rack: lot.rack,
-                    avakId: lot.avakId,
-                    javakId: lot.javakId
-                };
-            });
-            this.setState({ lots: lots });
-        });
-    }
-
     handleClickOnDelete = (row) => {
         this.props.deleteJavakLot(row._id);
-        this.fetchJavakLots();
-
-        var index = this.state.avaks.findIndex(a => a._id === row.avakId);
-        let newAvaks = Object.assign([...this.state.avaks], { [index]: Object.assign({}, this.state.avaks[index], { disabled: false }) });
-        this.setState({ avaks: newAvaks });
+        this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
+        // enable again the avak whose lot is deleted
+        this.props.modifyAvaks(this.props.avaks, row.avakId, false);
     }
 
     handleClickOnAdd = (avakId) => {
         this.props.saveJavakLot(avakId, 'tempJavakId', () => {
-            this.fetchJavakLots();
+            this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
         });
 
-        var index = this.state.avaks.findIndex(a => a._id === avakId);
-        let newAvaks = Object.assign([...this.state.avaks], { [index]: Object.assign({}, this.state.avaks[index], { disabled: true }) });
-        this.setState({ avaks: newAvaks });
+        // disable the avak which is added
+        this.props.modifyAvaks(this.props.avaks, avakId, true);
     }
 
     createAddButton = (cell, row) => {
-
         return (
             <button
                 className="btn btn-success btn-xs"
@@ -111,7 +71,7 @@ class JavakLots extends Component {
         text: 'Packet',
         headerSortingStyle: this.headerSortingStyle,
         validator: (newValue, row, column) => {
-            let avak = this.state.avaks.filter(avak => avak._id === row.avakId)[0];
+            let avak = this.props.avaks.filter(avak => avak._id === row.avakId)[0];
             if (isNaN(newValue)) {
                 return {
                     valid: false,
@@ -173,15 +133,18 @@ class JavakLots extends Component {
     }, {
         dataField: 'item',
         text: 'Item',
+        formatter: columnFormatter(this.props.items)
     }, {
         dataField: 'variety',
         text: 'Variety',
         classes: (cell, row, rowIndex, colIndex) => {
             if (cell === 'lr') return 'lr';
-        }
+        },
+        formatter: columnFormatter(this.props.varieties)
     }, {
         dataField: 'size',
         text: 'Size',
+        formatter: columnFormatter(this.props.sizes)
     }, {
         dataField: 'privateMarka',
         text: 'Marka',
@@ -229,12 +192,12 @@ class JavakLots extends Component {
                     <BootstrapTable
                         columns={this.avakColumns}
                         keyField='_id'
-                        data={this.state.avaks}
+                        data={this.props.avaks}
                         wrapperClasses="avaksTableWrapper"
                         bordered
                         hover
                         striped
-                        noDataIndication="No Item"
+                        noDataIndication="No Avaks"
                         rowClasses={this.rowClasses}
                     />
                 </div>
@@ -242,7 +205,7 @@ class JavakLots extends Component {
                     <BootstrapTable
                         columns={this.columns}
                         keyField='_id'
-                        data={this.state.lots}
+                        data={this.props.lots}
                         wrapperClasses="javaksTableWrapper"
                         bordered
                         hover
@@ -258,10 +221,11 @@ class JavakLots extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.avak.avaks.data,
-        parties: state.party.parties.data,
-        fetchError: state.avak.avaks.error,
-        deleteAvakError: state.avak.deleteAvak.error
+        items: state.item.options,
+        varieties: state.variety.options,
+        sizes: state.size.options,
+        avaks: state.javakLot.avaks,
+        lots: state.javakLot.lots
     }
 }
 
@@ -272,6 +236,7 @@ const mapDispatchToProps = dispatch => {
         fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
+        modifyAvaks: (avaks, avakId, status) => dispatch(actions.modifyAvaks(avaks, avakId, status)),
     };
 };
 

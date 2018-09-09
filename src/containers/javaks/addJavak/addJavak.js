@@ -17,11 +17,11 @@ class addJavak extends Component {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = { merchants: [], parties: [], addresses: [], avaks: [], lots: [], javakId: null, partyId: null };
+        this.state = { avaks: [], lots: [], javakId: null, partyId: null };
     }
 
     componentDidMount() {
-        this.props.filterPartiesByAddress();
+        this.props.filterPartiesByAddress(this.props.parties, {});
     }
 
     componentWillUnmount() {
@@ -33,7 +33,7 @@ class addJavak extends Component {
         values.party = values.party.value;
         values.merchant = values.merchant.value;
         this.props.saveJavak(values, (result) => {
-            this.setState({ javakId: result.data._id, redirectToJavaks: true });
+            this.setState({ redirectToJavaks: true });
         });
     };
 
@@ -52,7 +52,7 @@ class addJavak extends Component {
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredParties} validate={[required()]} />
                     <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" validate={[required()]} />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.parties} onChange={(party) => this.onPartySelect(party.value)} validate={[required()]} />
-                    <JavakLots javakId={this.state.javakId} partyId={this.state.partyId} />
+                    <JavakLots partyId={this.state.partyId} />
                     <div className="grid-item saveButton">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
@@ -70,7 +70,7 @@ const Form = reduxForm({
 const mapStateToProps = state => {
     return {
         parties: state.party.partiesOptions,
-        filteredParties: state.party.filteredParties,
+        filteredParties: state.party.filteredPartiesOptions,
         addresses: state.address.options
     }
 }

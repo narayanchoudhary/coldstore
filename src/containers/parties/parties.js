@@ -9,7 +9,7 @@ import * as actions from '../../store/actions';
 import './parties.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
-import { addressFormatter } from '../../utils/formatters';
+import { columnFormatter } from '../../utils/formatters';
 
 class Parties extends Component {
 
@@ -31,7 +31,7 @@ class Parties extends Component {
         blurToSvae: false,
         afterSaveCell: (oldValue, newValue, row, column) => {
             this.props.editParty(row, () => {
-                this.props.fetchParties(() => {});
+                this.props.fetchParties(() => { });
             });
         },
         nonEditableRows: () => { return [0, 3] }
@@ -73,7 +73,7 @@ class Parties extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
-            formatter: addressFormatter(this.props.addresses),
+            formatter: columnFormatter(this.props.addresses),
             editor: {
                 type: Type.SELECT,
                 options: this.props.addresses

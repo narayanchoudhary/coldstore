@@ -10,7 +10,7 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
-import { partyFormatter } from '../../utils/formatters';
+import { columnFormatter } from '../../utils/formatters';
 
 class Javaks extends Component {
 
@@ -19,8 +19,7 @@ class Javaks extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchJavaks(() => {
-        });
+        this.props.fetchJavaks(() => { });
     }
 
     handleClickOnDelete = (javakId) => {
@@ -102,11 +101,11 @@ class Javaks extends Component {
             text: 'Party',
             sort: true,
             headerSortingStyle,
-            formatter: partyFormatter,
+            formatter: columnFormatter(this.props.parties),
             filter: textFilter(),
             editor: {
                 type: Type.SELECT,
-                options: this.state.parties
+                options: this.props.parties
             }
         }, {
             dataField: 'merchant',
@@ -114,10 +113,10 @@ class Javaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
-            formatter: this.partyFormatter,
+            formatter: columnFormatter(this.props.parties),
             editor: {
                 type: Type.SELECT,
-                options: this.state.parties
+                options: this.props.parties
             }
         }, {
             dataField: 'motorNumber',
@@ -178,8 +177,6 @@ const mapStateToProps = state => {
     return {
         data: state.javak.javaks.data,
         parties: state.party.partiesOptions,
-        fetchError: state.javak.javaks.error,
-        deleteJavakError: state.javak.deleteJavak.error
     }
 }
 

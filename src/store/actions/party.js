@@ -89,7 +89,6 @@ export const editParty = (data) => {
 }
 
 export const filterPartiesByAddress = (parties, address) => {
-
     let filteredParties = parties;
     if (address.value) {
         filteredParties = parties.filter(party => {
