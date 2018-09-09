@@ -12,3 +12,16 @@ export const columnFormatter = (options) => {
         );
     }
 }
+
+export const createDeleteButton = (handleClickOnDelete) => {
+    return (cell, row) => {
+        return (
+            <button
+                className="btn btn-danger btn-xs"
+                onClick={() => handleClickOnDelete(cell)}
+            >
+                Delete
+        </button>
+        );
+    }
+}

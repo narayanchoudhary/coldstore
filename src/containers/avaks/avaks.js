@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { columnFormatter } from '../../utils/formatters';
+import { columnFormatter, createDeleteButton } from '../../utils/formatters';
 
 class Avaks extends Component {
 
@@ -17,24 +17,12 @@ class Avaks extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchAvaks(() => {
-        });
+        this.props.fetchAvaks(() => { });
     }
 
     handleClickOnDelete = (avakId) => {
         this.props.deleteAvak(avakId);
         this.props.fetchAvaks(() => { });
-    }
-
-    createDeleteButton = (cell, row) => {
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(cell)}
-            >
-                Delete
-            </button>
-        );
     }
 
     cellEdit = cellEditFactory({
@@ -203,7 +191,7 @@ class Avaks extends Component {
         }, {
             dataField: '_id',
             text: 'Action',
-            formatter: this.createDeleteButton
+            formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
         let paginationOptions = {

@@ -8,6 +8,7 @@ import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
 import './transactions.css';
+import { createDeleteButton } from '../../utils/formatters';
 
 class Transactions extends Component {
 
@@ -55,17 +56,6 @@ class Transactions extends Component {
             return '';
         }
     };
-
-    createDeleteButton = (cell, row) => {
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(cell)}
-            >
-                Delete
-            </button>
-        );
-    }
 
     handleClickOnDelete = (javakId) => {
         this.props.deleteTransaction(javakId);
@@ -164,7 +154,7 @@ class Transactions extends Component {
             }, {
                 dataField: '_id',
                 text: 'Action',
-                formatter: this.createDeleteButton
+                formatter: createDeleteButton(this.handleClickOnDelete)
             }];
 
         return (

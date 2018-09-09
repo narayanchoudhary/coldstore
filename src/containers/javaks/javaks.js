@@ -35,17 +35,6 @@ class Javaks extends Component {
         this.setState({ modal: false, javakId: null });
     }
 
-    createDeleteButton = (cell, row) => {
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(cell)}
-            >
-                Delete
-            </button>
-        );
-    }
-
     cellEdit = cellEditFactory({
         mode: 'click',
         blurToSave: true,

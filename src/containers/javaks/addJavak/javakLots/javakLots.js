@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import Aux from '../../../../components/Auxilary/Auxilary';
 import './javakLots.css';
-import { columnFormatter } from '../../../../utils/formatters';
+import { columnFormatter, createDeleteButton } from '../../../../utils/formatters';
 
 class JavakLots extends Component {
 
@@ -47,17 +47,6 @@ class JavakLots extends Component {
                 disabled={row.disabled}
             >
                 Add
-            </button>
-        );
-    }
-
-    createDeleteButton = (cell, row) => {
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(row)}
-            >
-                Delete
             </button>
         );
     }
@@ -117,7 +106,7 @@ class JavakLots extends Component {
     }, {
         dataField: '_id',
         text: 'Action',
-        formatter: this.createDeleteButton
+        formatter: createDeleteButton(this.handleClickOnDelete)
     }];
 
     avakColumns = [{

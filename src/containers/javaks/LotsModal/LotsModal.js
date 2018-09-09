@@ -5,6 +5,7 @@ import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
+import { createDeleteButton } from '../../../utils/formatters';
 
 class LotsModal extends Component {
 
@@ -24,17 +25,6 @@ class LotsModal extends Component {
 
     componentDidMount() {
         this.fetchJavakLots();
-    }
-
-    createDeleteButton = (cell, row) => {
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(row)}
-            >
-                Delete
-            </button>
-        );
     }
 
     fetchJavakLots = () => {
@@ -100,7 +90,7 @@ class LotsModal extends Component {
     }, {
         dataField: '_id',
         text: 'Action',
-        formatter: this.createDeleteButton
+        formatter: createDeleteButton(this.handleClickOnDelete)
     }];
 
     render() {

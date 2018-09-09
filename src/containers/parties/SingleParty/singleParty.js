@@ -8,6 +8,7 @@ import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
+import { createDeleteButton } from "../../../utils/formatters";
 
 class SingleParty extends Component {
 
@@ -39,7 +40,7 @@ class SingleParty extends Component {
             weight: totalWeight
         }
 
-        this.setState({totalRent: totalWeight*CONST.SETTINGS.RENT});
+        this.setState({ totalRent: totalWeight * CONST.SETTINGS.RENT });
         return footer;
     }
 
@@ -52,7 +53,7 @@ class SingleParty extends Component {
             });
             // Add footer in the table
             let footer = this.getFooterData(response.data);
-            if(footer) {
+            if (footer) {
                 response.data.push(footer);
             }
             // Get javak Lots of the above avak Ids
@@ -82,18 +83,6 @@ class SingleParty extends Component {
         this.props.fetchAvaksByPartyId(this.props.match.params.partyId, (response) => {
             this.setState({ avaks: response.data });
         });
-    }
-
-    createDeleteButton = (cell, row) => {
-        if (cell === 'footer') return '';
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(cell)}
-            >
-                Delete
-            </button>
-        );
     }
 
     getAvakRent = (cell, row) => {
@@ -266,7 +255,7 @@ class SingleParty extends Component {
         }, {
             dataField: '_id',
             text: 'Action',
-            formatter: this.createDeleteButton
+            formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
         return (

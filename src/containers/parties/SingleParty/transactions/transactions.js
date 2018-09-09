@@ -5,6 +5,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import './transactions.css';
+import { createDeleteButton } from "../../../../utils/formatters";
 
 class Transactions extends Component {
 
@@ -90,20 +91,6 @@ class Transactions extends Component {
         }
     };
 
-    createDeleteButton = (cell, row) => {
-        if (cell === 'totalRent' || cell === 'openingBalance' || row._id === 'footer') {
-            return '';
-        }
-        return (
-            <button
-                className="btn btn-danger btn-xs"
-                onClick={() => this.handleClickOnDelete(cell)}
-            >
-                Delete
-            </button>
-        );
-    }
-
     handleClickOnDelete = (javakId) => {
         this.props.deleteTransaction(javakId);
         this.props.fetchTransactions((response) => {
@@ -157,7 +144,7 @@ class Transactions extends Component {
             }, {
                 dataField: '_id',
                 text: 'Action',
-                formatter: this.createDeleteButton
+                formatter: createDeleteButton(this.handleClickOnDelete)
             }];
 
         let cellEdit = cellEditFactory({
