@@ -78,7 +78,7 @@ class Transactions extends Component {
                 text: 'Party',
                 sort: true,
                 headerSortingStyle: this.headerSortingStyle,
-                formatter: columnFormatter,
+                formatter: columnFormatter(this.props.parties),
                 filter: textFilter(),
                 classes: 'capitalize',
                 filterValue: (cell, row) => {

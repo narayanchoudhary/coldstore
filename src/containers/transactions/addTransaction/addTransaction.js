@@ -42,7 +42,7 @@ class addTransaction extends Component {
                         <div><Field name="side" component="input" type="radio" value="credit" />Credit</div>
                         <div><Field name="side" component="input" type="radio" value="debit" />Debit</div>
                     </div>
-                    <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.state.banks} validate={[required()]} />
+                    <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
                     <Field type="text" name='checkNumber' component={renderField} placeholder="Check Number" validate={[required()]} />
                     <Field type="text" name='remark' component={renderField} placeholder="Remark" validate={[required()]}/>
                     <div className="grid-item">
@@ -63,7 +63,8 @@ const mapStateToProps = state => {
     return {
         parties: state.party.partiesOptions,
         filteredParties: state.party.filteredPartiesOptions,
-        addresses: state.address.options
+        addresses: state.address.options,
+        banks: state.party.banksOptions
     }
 }
 
