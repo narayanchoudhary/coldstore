@@ -12,10 +12,11 @@ var Connections = (function () {
             transactionsDB: new Datastore({ filename: 'database/transactions', autoload: true, timestampData: true }),
             itemsDB: new Datastore({ filename: 'database/items', autoload: true, timestampData: true }),
             varietyDB: new Datastore({ filename: 'database/varieties', autoload: true, timestampData: true }),
-            sizeDB: new Datastore({ filename: 'database/sizes', autoload: true, timestampData: true }),
+            sizesDB: new Datastore({ filename: 'database/sizes', autoload: true, timestampData: true }),
             yearsDB: new Datastore({ filename: 'database/years', autoload: true, timestampData: true }),
-            setupsDB: new Datastore({ filename: 'database/setup', autoload: true, timestampData: true }),
-            addressesDB: new Datastore({ filename: 'database/address', autoload: true, timestampData: true })
+            setupsDB: new Datastore({ filename: 'database/setups', autoload: true, timestampData: true }),
+            addressesDB: new Datastore({ filename: 'database/addresses', autoload: true, timestampData: true }),
+            banksDB: new Datastore({ filename: 'database/banks', autoload: true, timestampData: true }),
         };
         return object;
     }

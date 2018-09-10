@@ -1,5 +1,5 @@
 const ipc = require('electron').ipcMain;
-const sizeDB = require('./connections').getInstance().sizeDB;
+const sizesDB = require('./connections').getInstance().sizesDB;
 const convertToLowerCase = require('../util').convertToLowerCase;
 class SizeDatabase {
   constructor(mainWindow) {
@@ -16,7 +16,7 @@ class SizeDatabase {
 
   saveSize(event, data) {
     data = convertToLowerCase(data);
-    sizeDB.insert(data, (err, newDoc) => {
+    sizesDB.insert(data, (err, newDoc) => {
       let response = {};
       response.error = err;
       this.mainWindow.webContents.send('saveSizeResponse', response);
@@ -24,7 +24,7 @@ class SizeDatabase {
   };
 
   fetchSizes(event, data) {
-    sizeDB.find().sort({ date: 1 }).exec((err, data) => {
+    sizesDB.find().sort({ date: 1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
@@ -33,7 +33,7 @@ class SizeDatabase {
   };
 
   deleteSize(event, data) {
-    sizeDB.remove({ _id: data.sizeId }, {}, (err, numRemoved) => {
+    sizesDB.remove({ _id: data.sizeId }, {}, (err, numRemoved) => {
       let response = {};
       response.error = err;
       this.mainWindow.webContents.send('deleteSizeResponse', response);
@@ -47,7 +47,7 @@ class SizeDatabase {
     delete data.updatedAt;
 
     data = convertToLowerCase(data);
-    sizeDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
+    sizesDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
       let response = {};
       response.error = err;
       this.mainWindow.webContents.send('editSizeResponse', response);

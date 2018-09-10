@@ -49,6 +49,9 @@ export class Settings extends Component {
 
                             <Route path='/settings/addresses' component={Address} />
                             <Route path='/settings/addAddress' component={AddAddress} />
+
+                            <Route path='/settings/banks' component={Address} />
+                            <Route path='/settings/addBank' component={AddAddress} />
                         </Switch>
                     </div>
                 </div>
