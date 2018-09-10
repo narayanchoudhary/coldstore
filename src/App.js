@@ -18,12 +18,14 @@ import * as actions from './store/actions';
 
 class App extends Component {
 
+  // fetch the following objects on load of the app because they are used across multiple components
   componentDidMount() {
     this.props.fetchItems(() => { });
     this.props.fetchVarieties(() => { });
     this.props.fetchSizes(() => { });
-    this.props.fetchAddresses(() => {});
-    this.props.fetchParties(() => {});
+    this.props.fetchAddresses(() => { });
+    this.props.fetchParties(() => { });
+    this.props.fetchBanks(() => { });
   }
 
   render() {
@@ -55,6 +57,7 @@ const mapDispatchToProps = dispatch => {
     fetchVarieties: (thenCallback) => dispatch(actions.fetchVarieties(thenCallback)),
     fetchAddresses: (thenCallback) => dispatch(actions.fetchAddresses(thenCallback)),
     fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
+    fetchBanks: (thenCallback) => dispatch(actions.fetchBanks(thenCallback)),
   }
 }
 

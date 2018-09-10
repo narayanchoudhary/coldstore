@@ -12,6 +12,7 @@ const VarietyDatabase = require('./DBOperations/variety.js');
 const YearDatabase = require('./DBOperations/year.js');
 const SetupDatabase = require('./DBOperations/setup.js');
 const AddressDatabase = require('./DBOperations/address.js');
+const BankDatabase = require('./DBOperations/bank.js');
 
 let mainWindow;
 
@@ -30,6 +31,7 @@ function createWindow() {
   const yearDatabase = new YearDatabase(mainWindow);
   const setupDatabase = new SetupDatabase(mainWindow);
   const addressDatabase = new AddressDatabase(mainWindow);
+  const bankDatabase = new BankDatabase(mainWindow);
 
   mainWindow.on('closed', function () {
     mainWindow = null;

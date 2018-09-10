@@ -90,3 +90,10 @@ export {
     deleteAddress,
     editAddress
 } from './address';
+
+export {
+    saveBank,
+    fetchBanks,
+    deleteBank,
+    editBank
+} from './bank';

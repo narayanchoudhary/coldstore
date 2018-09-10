@@ -22,6 +22,9 @@ import AddYear from './years/addYear/addYear';
 import Address from './../../containers/setting/addresses/addresses';
 import AddAddress from './../../containers/setting/addresses/addAddress/addAddress';
 
+import Bank from './banks/banks';
+import AddBank from './banks/addBank/addBank';
+
 export class Settings extends Component {
     render() {
         return (
@@ -50,8 +53,8 @@ export class Settings extends Component {
                             <Route path='/settings/addresses' component={Address} />
                             <Route path='/settings/addAddress' component={AddAddress} />
 
-                            <Route path='/settings/banks' component={Address} />
-                            <Route path='/settings/addBank' component={AddAddress} />
+                            <Route path='/settings/banks' component={Bank} />
+                            <Route path='/settings/addBank' component={AddBank} />
                         </Switch>
                     </div>
                 </div>

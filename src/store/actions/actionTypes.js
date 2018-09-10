@@ -63,3 +63,8 @@ export const SAVE_ADDRESS = 'SAVE_ADDRESS';
 export const FETCH_ADDRESSES = 'FETCH_ADDRESSES';
 export const EDIT_ADDRESS = 'EDIT_ADDRESS';
 export const DELETE_ADDRESS = 'DELETE_ADDRESS';
+
+export const SAVE_BANK = 'SAVE_BANK';
+export const FETCH_BANKS = 'FETCH_BANKS';
+export const EDIT_BANK = 'EDIT_BANK';
+export const DELETE_BANK = 'DELETE_BANK';

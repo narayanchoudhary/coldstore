@@ -16,6 +16,7 @@ import sizeReducer from './store/reducers/size';
 import addressReducer from './store/reducers/address';
 import setupReducer from './store/reducers/setup';
 import varietyReducer from './store/reducers/variety';
+import bankReducer from './store/reducers/bank';
 import { reducer as formReducer } from 'redux-form';
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import thunk from 'redux-thunk';
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
     size: sizeReducer,
     setup: setupReducer,
     form: formReducer,
-    address: addressReducer
+    address: addressReducer,
+    bank: bankReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
