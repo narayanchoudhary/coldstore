@@ -150,10 +150,6 @@ class Transactions extends Component {
         let cellEdit = cellEditFactory({
             mode: 'click',
             blurToSave: true,
-            nonEditableRows: () => [0, 1, 2],
-            // afterSaveCell: (oldValue, newValue, row, column) => {
-            //     this.props.editTransaction(row);
-            // },
         });
 
         return (

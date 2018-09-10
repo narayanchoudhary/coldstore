@@ -1,5 +1,6 @@
 import React from 'react';
 
+// generates the value to be shown in the cell of the columns of the table
 export const columnFormatter = (options) => {
     return (cell, row) => {
         options.forEach((option) => {
@@ -25,6 +26,17 @@ export const createDeleteButton = (handleClickOnDelete) => {
         );
     }
 }
+
+// generates filter value to be passed in the column object of a table
+export const filterValue = (items) => {
+    return (cell, row) => {
+        let filterValue = items.filter(item => {
+            return item.value === cell;
+        })[0];
+        return filterValue.label;
+    }
+}
+
 
 export const paginationOptions = (items) => {
     return {

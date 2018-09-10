@@ -9,7 +9,7 @@ import * as actions from '../../store/actions';
 import './parties.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
-import { columnFormatter, paginationOptions } from '../../utils/utils';
+import { columnFormatter, paginationOptions, filterValue } from '../../utils/utils';
 
 class Parties extends Component {
 
@@ -78,12 +78,7 @@ class Parties extends Component {
                 type: Type.SELECT,
                 options: this.props.addresses
             },
-            filterValue: (cell, row) => {
-                let filterValue = this.props.addresses.filter(address => {
-                    return address.value === cell;
-                })[0];
-                return filterValue.label;
-            },
+            filterValue: filterValue(this.props.addresses),
         }, {
             dataField: 'name',
             text: 'Name',

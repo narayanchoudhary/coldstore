@@ -8,7 +8,7 @@ import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
 import './transactions.css';
-import { columnFormatter, createDeleteButton, paginationOptions } from '../../utils/utils';
+import { columnFormatter, createDeleteButton, paginationOptions, filterValue } from '../../utils/utils';
 
 class Transactions extends Component {
 
@@ -81,15 +81,7 @@ class Transactions extends Component {
                 formatter: columnFormatter(this.props.parties),
                 filter: textFilter(),
                 classes: 'capitalize',
-                filterValue: (cell, row) => {
-                    this.props.parties.forEach((party) => {
-                        if (party._id.toLowerCase() === cell.toLowerCase()) {
-                            cell = party.name + ' ' + party.address
-                        }
-                    });
-
-                    return cell
-                },
+                filterValue: filterValue(this.props.parties),
                 editor: {
                     type: Type.SELECT,
                     options: this.props.parties

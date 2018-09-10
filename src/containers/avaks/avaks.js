@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { columnFormatter, createDeleteButton, paginationOptions } from '../../utils/utils';
+import { columnFormatter, createDeleteButton, paginationOptions, filterValue } from '../../utils/utils';
 
 class Avaks extends Component {
 
@@ -63,14 +63,7 @@ class Avaks extends Component {
             headerSortingStyle,
             formatter: columnFormatter(this.props.parties),
             filter: textFilter(),
-            filterValue: (cell, row) => {
-                this.props.parties.forEach((party) => {
-                    if (party._id.toLowerCase() === cell.toLowerCase()) {
-                        cell = party.name + ' ' + party.address
-                    }
-                });
-                return cell
-            },
+            filterValue: filterValue(this.props.parties),
             editor: {
                 type: Type.SELECT,
                 options: this.props.parties
@@ -86,14 +79,7 @@ class Avaks extends Component {
                 type: Type.SELECT,
                 options: this.props.items
             },
-            filterValue: (cell, row) => {
-                this.props.items.forEach((item) => {
-                    if (item.value === cell) {
-                        cell = item.label;
-                    }
-                });
-                return cell
-            }
+            filterValue: filterValue(this.props.items)
         }, {
             dataField: 'variety',
             text: 'Variety',
@@ -101,6 +87,7 @@ class Avaks extends Component {
             headerSortingStyle,
             filter: textFilter(),
             formatter: columnFormatter(this.props.varieties),
+            filterValue: filterValue(this.props.varieties),
             editor: {
                 type: Type.SELECT,
                 options: this.props.varieties
@@ -115,6 +102,7 @@ class Avaks extends Component {
             headerSortingStyle,
             filter: textFilter(),
             formatter: columnFormatter(this.props.sizes),
+            filterValue: filterValue(this.props.sizes),
             editor: {
                 type: Type.SELECT,
                 options: this.props.sizes
