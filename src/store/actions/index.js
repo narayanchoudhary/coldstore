@@ -97,3 +97,10 @@ export {
     deleteBank,
     editBank
 } from './bank';
+
+export {
+    saveExpenseCategory,
+    fetchExpenseCategories,
+    deleteExpenseCategory,
+    editExpenseCategory
+} from './expenseCategory';
