@@ -13,6 +13,7 @@ const YearDatabase = require('./DBOperations/year.js');
 const SetupDatabase = require('./DBOperations/setup.js');
 const AddressDatabase = require('./DBOperations/address.js');
 const BankDatabase = require('./DBOperations/bank.js');
+const ExpenseCategoryDatabase = require('./DBOperations/expenseCategory.js');
 
 let mainWindow;
 
@@ -32,6 +33,7 @@ function createWindow() {
   const setupDatabase = new SetupDatabase(mainWindow);
   const addressDatabase = new AddressDatabase(mainWindow);
   const bankDatabase = new BankDatabase(mainWindow);
+  const expenseCategoryDatabase = new ExpenseCategoryDatabase(mainWindow);
 
   mainWindow.on('closed', function () {
     mainWindow = null;

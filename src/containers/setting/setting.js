@@ -25,6 +25,9 @@ import AddAddress from './../../containers/setting/addresses/addAddress/addAddre
 import Bank from './banks/banks';
 import AddBank from './banks/addBank/addBank';
 
+import AddExpenseCategory from './expenseCategories/addExpenseCategory/addExpenseCategory';
+import ExpenseCategories from './expenseCategories/expenseCategories';
+
 export class Settings extends Component {
     render() {
         return (
@@ -55,6 +58,9 @@ export class Settings extends Component {
 
                             <Route path='/settings/banks' component={Bank} />
                             <Route path='/settings/addBank' component={AddBank} />
+
+                            <Route path='/settings/expenseCategories' component={ExpenseCategories} />
+                            <Route path='/settings/addExpenseCategory' component={AddExpenseCategory} />
                         </Switch>
                     </div>
                 </div>
