@@ -10,7 +10,7 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
-import { columnFormatter, paginationOptions } from '../../utils/utils';
+import { columnFormatter, paginationOptions, dateValidater } from '../../utils/utils';
 
 class Javaks extends Component {
 
@@ -84,7 +84,8 @@ class Javaks extends Component {
             text: 'Date',
             sort: true,
             headerSortingStyle,
-            filter: textFilter()
+            filter: textFilter(),
+            validator: dateValidater
         }, {
             dataField: 'party',
             text: 'Party',

@@ -8,13 +8,9 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { columnFormatter, createDeleteButton, paginationOptions, filterValue } from '../../utils/utils';
+import { columnFormatter, createDeleteButton, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
 
 class Avaks extends Component {
-
-    state = {
-        parties: []
-    };
 
     componentDidMount() {
         this.props.fetchAvaks(() => { });
@@ -55,7 +51,9 @@ class Avaks extends Component {
             text: 'Date',
             sort: true,
             headerSortingStyle,
-            filter: textFilter()
+            filter: textFilter(),
+            validator: dateValidater
+                
         }, {
             dataField: 'party',
             text: 'Party',

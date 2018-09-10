@@ -8,7 +8,7 @@ import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
 import './transactions.css';
-import { columnFormatter, createDeleteButton, paginationOptions, filterValue } from '../../utils/utils';
+import { columnFormatter, createDeleteButton, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
 
 class Transactions extends Component {
 
@@ -72,7 +72,8 @@ class Transactions extends Component {
                 text: 'Date',
                 sort: true,
                 headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter()
+                filter: textFilter(),
+                validator: dateValidater
             }, {
                 dataField: 'party',
                 text: 'Party',

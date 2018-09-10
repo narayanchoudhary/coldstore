@@ -1,5 +1,5 @@
 import React from 'react';
-
+import moment from 'moment';
 // generates the value to be shown in the cell of the columns of the table
 export const columnFormatter = (options) => {
     return (cell, row) => {
@@ -37,7 +37,6 @@ export const filterValue = (items) => {
     }
 }
 
-
 export const paginationOptions = (items) => {
     return {
         sizePerPageList: [{
@@ -47,5 +46,17 @@ export const paginationOptions = (items) => {
         }, {
             text: 'All', value: items ? items.length === 0 ? 1 : items.length : 1
         }]
+    }
+}
+
+export const dateValidater = (newValue, row, column) => {
+    var date = moment(newValue, 'DD-MM-YYYY', true);
+    if (date.isValid()) {
+        return true;
+    } else {
+        return {
+            valid: false,
+            message: 'Date is invalid'
+        };
     }
 }
