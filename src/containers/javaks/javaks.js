@@ -10,7 +10,7 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
-import { columnFormatter, paginationOptions, dateValidater } from '../../utils/utils';
+import { columnFormatter, paginationOptions, dateValidater, rowClasses } from '../../utils/utils';
 
 class Javaks extends Component {
 
@@ -138,7 +138,7 @@ class Javaks extends Component {
                     filter={filterFactory()}
                     noDataIndication="No Javak"
                     pagination={paginationFactory(paginationOptions(this.props.javaks))}
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
                 {
                     this.state.modal

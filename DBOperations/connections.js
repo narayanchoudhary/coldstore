@@ -18,6 +18,7 @@ var Connections = (function () {
             addressesDB: new Datastore({ filename: 'database/addresses', autoload: true, timestampData: true }),
             banksDB: new Datastore({ filename: 'database/banks', autoload: true, timestampData: true }),
             expenseCategoriesDB: new Datastore({ filename: 'database/expenseCategories', autoload: true, timestampData: true }),
+            expensesDB: new Datastore({ filename: 'database/expense', autoload: true, timestampData: true }),
         };
         return object;
     }

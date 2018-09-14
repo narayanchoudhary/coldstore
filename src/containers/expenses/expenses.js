@@ -7,18 +7,13 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
-import './transactions.css';
+import './expenses.css';
 import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
 
-class Transactions extends Component {
-
-    state = {
-        transactions: [],
-    };
+class Expenses extends Component {
 
     componentDidMount() {
-        this.props.fetchTransactions((response) => {
-            this.setState({ transactions: response.data });
+        this.props.fetchExpenses((response) => {
         });
     }
 
@@ -39,9 +34,8 @@ class Transactions extends Component {
     };
 
     handleClickOnDelete = (javakId) => {
-        this.props.deleteTransaction(javakId);
-        this.props.fetchTransactions((response) => {
-            this.setState({ transactions: response.data });
+        this.props.deleteExpense(javakId);
+        this.props.fetchExpenses((response) => {
         });
     }
 
@@ -51,7 +45,7 @@ class Transactions extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editTransaction(row);
+            this.props.editExpense(row);
         },
     });
 
@@ -66,7 +60,8 @@ class Transactions extends Component {
                 text: 'R No',
                 sort: true,
                 headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter()
+                filter: textFilter(),
+                editable: false,
             }, {
                 dataField: 'date',
                 text: 'Date',
@@ -75,39 +70,24 @@ class Transactions extends Component {
                 filter: textFilter(),
                 validator: dateValidater
             }, {
-                dataField: 'party',
-                text: 'Party',
+                dataField: 'expenseCategory',
+                text: 'Category',
                 sort: true,
                 headerSortingStyle: this.headerSortingStyle,
-                formatter: columnFormatter(this.props.parties),
+                formatter: columnFormatter(this.props.expenseCategories),
                 filter: textFilter(),
                 classes: 'capitalize',
-                filterValue: filterValue(this.props.parties),
+                filterValue: filterValue(this.props.expenseCategories),
                 editor: {
                     type: Type.SELECT,
-                    options: this.props.parties
+                    options: this.props.expenseCategories
                 }
             }, {
                 dataField: 'amount',
-                text: 'Credit',
+                text: 'Amount',
                 sort: true,
                 headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter(),
-                formatter: this.creditFormatter
-            }, {
-                dataField: 'debit',// debit key is not stored in the database it is give to just keep it unique
-                text: 'Debit',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter(),
-                formatter: this.debitFormatter,
-            }, {
-                dataField: 'checkNumber',
-                text: 'CheckNo',
-                sort: true,
-                headerSortingStyle: this.headerSortingStyle,
-                filter: textFilter(),
-                classes: 'uppercase'
+                filter: textFilter()
             }, {
                 dataField: 'remark',
                 text: 'Remark',
@@ -123,13 +103,13 @@ class Transactions extends Component {
 
         return (
             <div className="avaksContainer">
-                <Link to='/transactions/addTransaction'>
-                    <Button>  Add Transaction </Button>
+                <Link to='/expenses/addExpense'>
+                    <Button>  Add Expense </Button>
                 </Link>
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
-                    data={this.state.transactions}
+                    data={this.props.expenses}
                     wrapperClasses="avaksTableWrapper"
                     bordered
                     hover
@@ -137,7 +117,7 @@ class Transactions extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No items"
-                    pagination={paginationFactory(paginationOptions(this.state.transactions))}
+                    pagination={paginationFactory(paginationOptions(this.props.expenses))}
                     rowClasses={rowClasses}
                 />
             </div>
@@ -147,16 +127,17 @@ class Transactions extends Component {
 
 const mapStateToProps = state => {
     return {
-        parties: state.party.partiesOptions,
+        expenses: state.expense.expenses,
+        expenseCategories: state.expenseCategory.options
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchTransactions: (thenCallback) => dispatch(actions.fetchTransactions(thenCallback)),
-        deleteTransaction: (transactionsId) => dispatch(actions.deleteTransaction(transactionsId)),
-        editTransaction: (transaction) => dispatch(actions.editTransaction(transaction))
+        fetchExpenses: (thenCallback) => dispatch(actions.fetchExpenses(thenCallback)),
+        deleteExpense: (expensesId) => dispatch(actions.deleteExpense(expensesId)),
+        editExpense: (expense) => dispatch(actions.editExpense(expense))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Transactions);
+export default connect(mapStateToProps, mapDispatchToProps)(Expenses);

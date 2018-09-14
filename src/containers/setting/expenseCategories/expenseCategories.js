@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions';
 import './expenseCategories.css';
 import Button from '../../../components/UI/button/button';
 import Aux from '../../../components/Auxilary/Auxilary';
+import { rowClasses } from '../../../utils/utils';
 
 class ExpenseCategories extends Component {
 
@@ -76,7 +77,7 @@ class ExpenseCategories extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Expense Categories"
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
             </div>
         )

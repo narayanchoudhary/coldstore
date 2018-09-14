@@ -8,7 +8,7 @@ import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
-import { createDeleteButton } from "../../../utils/utils";
+import { createDeleteButton, rowClasses } from "../../../utils/utils";
 
 class SingleParty extends Component {
 
@@ -272,7 +272,7 @@ class SingleParty extends Component {
                         striped
                         cellEdit={this.cellEdit}
                         noDataIndication="No items"
-                        rowClasses={this.rowClasses}
+                        rowClasses={rowClasses}
                     />
                 </div>
                 <Transactions

@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions';
 import './sizes.css';
 import Button from '../../../components/UI/button/button';
 import Aux from '../../../components/Auxilary/Auxilary';
+import { rowClasses } from '../../../utils/utils';
 
 class Sizes extends Component {
 
@@ -76,7 +77,7 @@ class Sizes extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Sizes"
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
             </div>
         )

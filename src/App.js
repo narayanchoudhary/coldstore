@@ -4,17 +4,21 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import Header from './components/header/header';
 import Home from './components/home/home';
 import Avaks from './containers/avaks/avaks';
-import addAvak from './containers/avaks/addAvak/addAvak';
+import AddAvak from './containers/avaks/addAvak/addAvak';
 import Parties from './containers/parties/parties';
 import AddParty from './containers/parties/addParty/addParty';
 import Javaks from './containers/javaks/javaks';
-import addJavak from './containers/javaks/addJavak/addJavak';
+import AddJavak from './containers/javaks/addJavak/addJavak';
 import SingleParty from './containers/parties/SingleParty/singleParty';
 import Transactions from './containers/transactions/transactions';
 import AddTransaction from './containers/transactions/addTransaction/addTransaction';
 import Settings from './containers/setting/setting';
-import { connect } from 'react-redux';
+import Expenses from './containers/expenses/expenses';
+import AddExpense from './containers/expenses/addExpense/addExpense';
+import Banks from './containers/banks/banks';
+import AddBank from './containers/banks/addBank/addBank';
 import * as actions from './store/actions';
+import { connect } from 'react-redux';
 
 class App extends Component {
 
@@ -26,6 +30,7 @@ class App extends Component {
     this.props.fetchAddresses(() => { });
     this.props.fetchParties(() => { });
     this.props.fetchBanks(() => { });
+    this.props.fetchExpenseCategories(() => {});
   }
 
   render() {
@@ -37,12 +42,16 @@ class App extends Component {
           <Route path='/parties/singleParty/:partyId' component={SingleParty} />
           <Route path='/parties/addParty' component={AddParty} />
           <Route path='/parties' component={Parties} />
-          <Route path='/avaks/addAvak' component={addAvak} />
+          <Route path='/avaks/addAvak' component={AddAvak} />
           <Route path='/avaks' component={Avaks} />
-          <Route path='/javaks/addJavak' component={addJavak} />
+          <Route path='/javaks/addJavak' component={AddJavak} />
           <Route path='/javaks' component={Javaks} />
           <Route path='/transactions/addTransaction' component={AddTransaction} />
           <Route path='/transactions' component={Transactions} />
+          <Route path='/expenses/addExpense' component={AddExpense} />
+          <Route path='/expenses' component={Expenses} />
+          <Route path='/banks/addBank' component={AddBank} />
+          <Route path='/banks' component={Banks} />
           <Route path='/settings' component={Settings} />
         </Switch>
       </div>
@@ -58,6 +67,7 @@ const mapDispatchToProps = dispatch => {
     fetchAddresses: (thenCallback) => dispatch(actions.fetchAddresses(thenCallback)),
     fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
     fetchBanks: (thenCallback) => dispatch(actions.fetchBanks(thenCallback)),
+    fetchExpenseCategories: (thenCallback) => dispatch(actions.fetchExpenseCategories(thenCallback)),
   }
 }
 

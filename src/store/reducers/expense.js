@@ -1,16 +1,14 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
-    expenseCategories: [],
-    options: []// formatted varieties for dropdown
+    expenses: [],
 }
 
 const reducer = (state = initState, action) => {
     let newState;
     switch (action.type) {
-        case actionTypes.FETCH_EXPENSE_CATEGORIES:
+        case actionTypes.FETCH_EXPENSES:
             newState = {
-                expenseCategories: action.payload.data,
-                options: action.payload.options
+                expenses: action.payload.data,
             };
             break;
         case actionTypes.DELETE_PARTY:

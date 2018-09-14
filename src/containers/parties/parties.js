@@ -9,7 +9,7 @@ import * as actions from '../../store/actions';
 import './parties.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
-import { columnFormatter, paginationOptions, filterValue } from '../../utils/utils';
+import { columnFormatter, paginationOptions, filterValue, rowClasses } from '../../utils/utils';
 
 class Parties extends Component {
 
@@ -36,10 +36,6 @@ class Parties extends Component {
         },
         nonEditableRows: () => { return [0, 3] }
     });
-
-    rowClasses = (row, rowIndex) => {
-        return 'capitalize';
-    };
 
     createActionCell = (cell, row) => {
         return (
@@ -120,7 +116,7 @@ class Parties extends Component {
                     filter={filterFactory()}
                     noDataIndication="No Party"
                     pagination={paginationFactory(paginationOptions(this.props.parties))}
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
             </div>
         )

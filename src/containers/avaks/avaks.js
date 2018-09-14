@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { columnFormatter, createDeleteButton, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
+import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
 
 class Avaks extends Component {
 
@@ -53,7 +53,7 @@ class Avaks extends Component {
             headerSortingStyle,
             filter: textFilter(),
             validator: dateValidater
-                
+
         }, {
             dataField: 'party',
             text: 'Party',
@@ -197,7 +197,7 @@ class Avaks extends Component {
                     filter={filterFactory()}
                     noDataIndication="No Avak"
                     pagination={paginationFactory(paginationOptions(this.props.avaks))}
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
             </div>
         )

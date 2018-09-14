@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions';
 import './items.css';
 import Button from '../../../components/UI/button/button';
 import Aux from '../../../components/Auxilary/Auxilary';
+import { rowClasses } from '../../../utils/utils';
 
 class Items extends Component {
 
@@ -21,7 +22,7 @@ class Items extends Component {
         blurToSvae: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
             this.props.editItem(row, () => {
-                this.props.fetchItems(()=> {});
+                this.props.fetchItems(() => { });
             });
         }
     });
@@ -74,7 +75,7 @@ class Items extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Items"
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
             </div>
         )

@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions';
 import './varieties.css';
 import Button from '../../../components/UI/button/button';
 import Aux from '../../../components/Auxilary/Auxilary';
+import { rowClasses } from '../../../utils/utils';
 
 class Varieties extends Component {
 
@@ -76,7 +77,7 @@ class Varieties extends Component {
                     striped
                     cellEdit={this.cellEdit}
                     noDataIndication="No Items"
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
             </div>
         )

@@ -60,3 +60,7 @@ export const dateValidater = (newValue, row, column) => {
         };
     }
 }
+
+export const rowClasses = (row, rowIndex) => {
+    return 'capitalize';
+};

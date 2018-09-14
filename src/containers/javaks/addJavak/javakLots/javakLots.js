@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import Aux from '../../../../components/Auxilary/Auxilary';
 import './javakLots.css';
-import { columnFormatter, createDeleteButton } from '../../../../utils/utils';
+import { columnFormatter, createDeleteButton, rowClasses } from '../../../../utils/utils';
 
 class JavakLots extends Component {
 
@@ -187,7 +187,7 @@ class JavakLots extends Component {
                         hover
                         striped
                         noDataIndication="No Avaks"
-                        rowClasses={this.rowClasses}
+                        rowClasses={rowClasses}
                     />
                 </div>
                 <div className="grid-item javaksLots">

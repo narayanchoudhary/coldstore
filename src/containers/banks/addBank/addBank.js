@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../../../../store/actions';
+import * as actions from '../../../store/actions';
 import './addBank.css';
 import 'react-select/dist/react-select.css';
-import { renderField } from '../../../../utils/fields';
+import { renderField } from '../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import { required } from 'redux-form-validators';
 

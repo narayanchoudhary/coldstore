@@ -20,12 +20,14 @@ class Header extends Component {
         return (
             <div className='header'>
                 <div className='navigation'>
-                    <NavLink exact={true} activeClassName="is-active" to='/'>   status    </NavLink>
-                    <NavLink activeClassName="is-active" to='/parties'>      parties      </NavLink>
-                    <NavLink activeClassName="is-active" to='/avaks'>        avak         </NavLink>
-                    <NavLink activeClassName="is-active" to='/javaks'>       javak        </NavLink>
-                    <NavLink activeClassName="is-active" to='/transactions'> Transactions </NavLink>
-                    <NavLink activeClassName="is-active" to='/settings'>     Settings     </NavLink>
+                    <NavLink exact={true} activeClassName="is-active" to='/'> Status       </NavLink>
+                    <NavLink activeClassName="is-active" to='/parties'>       Parties      </NavLink>
+                    <NavLink activeClassName="is-active" to='/avaks'>         Avak         </NavLink>
+                    <NavLink activeClassName="is-active" to='/javaks'>        Javak        </NavLink>
+                    <NavLink activeClassName="is-active" to='/transactions'>  Transactions </NavLink>
+                    <NavLink activeClassName="is-active" to='/expenses'>      Expenses     </NavLink>
+                    <NavLink activeClassName="is-active" to='/banks'>         Banks        </NavLink>
+                    <NavLink activeClassName="is-active" to='/settings'>      Settings     </NavLink>
                 </div>
                 <div className='year'>
                     <Select

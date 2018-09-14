@@ -104,3 +104,10 @@ export {
     deleteExpenseCategory,
     editExpenseCategory
 } from './expenseCategory';
+
+export {
+    saveExpense,
+    fetchExpenses,
+    deleteExpense,
+    editExpense
+} from './expense';

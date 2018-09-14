@@ -8,6 +8,7 @@ import * as actions from '../../../store/actions';
 import './setups.css';
 import Button from '../../../components/UI/button/button';
 import { columnFormatter } from '../../../utils/utils';
+import { rowClasses } from '../../../utils/utils';
 
 class Setups extends Component {
 
@@ -75,7 +76,7 @@ class Setups extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Setups"
-                    rowClasses={this.rowClasses}
+                    rowClasses={rowClasses}
                 />
             </div>
         )
