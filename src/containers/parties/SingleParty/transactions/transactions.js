@@ -126,6 +126,10 @@ class Transactions extends Component {
                 classes: 'capitalize',
                 hidden: true
             }, {
+                dataField: 'remark',
+                text: 'Remark',
+                classes: 'remark'
+            }, {
                 dataField: 'amount',
                 text: 'Credit',
                 formatter: this.creditFormatter
@@ -137,10 +141,6 @@ class Transactions extends Component {
                 dataField: 'checkNumber',
                 text: 'CheckNo',
                 classes: 'uppercase'
-            }, {
-                dataField: 'remark',
-                text: 'Remark',
-                classes: 'remark'
             }, {
                 dataField: '_id',
                 text: 'Action',
