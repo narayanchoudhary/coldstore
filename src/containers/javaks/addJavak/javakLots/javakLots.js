@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import Aux from '../../../../components/Auxilary/Auxilary';
 import './javakLots.css';
-import { columnFormatter, createDeleteButton, rowClasses } from '../../../../utils/utils';
+import { columnFormatter, createDeleteButton, rowClasses, headerSortingStyle } from '../../../../utils/utils';
 
 class JavakLots extends Component {
 
@@ -21,7 +21,7 @@ class JavakLots extends Component {
         }
     }
 
-    headerSortingStyle = { backgroundColor: '#ccc' };
+
 
     handleClickOnDelete = (row) => {
         this.props.deleteJavakLot(row._id);
@@ -58,7 +58,7 @@ class JavakLots extends Component {
     }, {
         dataField: 'packet',
         text: 'Packet',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
         validator: (newValue, row, column) => {
             let avak = this.props.avaks.filter(avak => avak._id === row.avakId)[0];
             if (isNaN(newValue)) {
@@ -84,24 +84,24 @@ class JavakLots extends Component {
     }, {
         dataField: 'chamber',
         text: 'Chamber',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
     }, {
         dataField: 'floor',
         text: 'Floor',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
     }, {
         dataField: 'rack',
         text: 'Rack',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
     }, {
         dataField: 'avakId',
         text: 'Avak',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
         hidden: true
     }, {
         dataField: 'javakId',
         text: 'Javak',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
         hidden: true
     }, {
         dataField: '_id',

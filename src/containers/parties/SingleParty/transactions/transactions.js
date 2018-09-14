@@ -106,7 +106,7 @@ class Transactions extends Component {
         return rowClasses;
     };
 
-    headerSortingStyle = { backgroundColor: '#ccc' };
+
 
     render() {
         let columns = [

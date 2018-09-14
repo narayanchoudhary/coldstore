@@ -8,7 +8,7 @@ import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
 import './transactions.css';
-import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
+import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater, headerSortingStyle } from '../../utils/utils';
 
 class Transactions extends Component {
 
@@ -45,8 +45,6 @@ class Transactions extends Component {
         });
     }
 
-    headerSortingStyle = { backgroundColor: '#ccc' };
-
     cellEdit = cellEditFactory({
         mode: 'click',
         blurToSave: true,
@@ -65,20 +63,20 @@ class Transactions extends Component {
                 dataField: 'receiptNumber',
                 text: 'R No',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter()
             }, {
                 dataField: 'date',
                 text: 'Date',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 validator: dateValidater
             }, {
                 dataField: 'party',
                 text: 'Party',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 formatter: columnFormatter(this.props.parties),
                 filter: textFilter(),
                 classes: 'capitalize',
@@ -91,28 +89,28 @@ class Transactions extends Component {
                 dataField: 'amount',
                 text: 'Credit',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 formatter: this.creditFormatter
             }, {
                 dataField: 'debit',// debit key is not stored in the database it is give to just keep it unique
                 text: 'Debit',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 formatter: this.debitFormatter,
             }, {
                 dataField: 'checkNumber',
                 text: 'CheckNo',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 classes: 'uppercase'
             }, {
                 dataField: 'remark',
                 text: 'Remark',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 classes: 'remark'
             }, {

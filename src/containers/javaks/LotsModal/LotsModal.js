@@ -5,7 +5,7 @@ import * as actions from '../../../store/actions';
 import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-import { createDeleteButton } from '../../../utils/utils';
+import { createDeleteButton, headerSortingStyle } from '../../../utils/utils';
 
 class LotsModal extends Component {
 
@@ -64,28 +64,28 @@ class LotsModal extends Component {
     }, {
         dataField: 'packet',
         text: 'Packet',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
     }, {
         dataField: 'chamber',
         text: 'Chamber',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
     }, {
         dataField: 'floor',
         text: 'Floor',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
     }, {
         dataField: 'rack',
         text: 'Rack',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
     }, {
         dataField: 'avakId',
         text: 'Avak',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
         hidden: true
     }, {
         dataField: 'javakId',
         text: 'Javak',
-        headerSortingStyle: this.headerSortingStyle,
+        headerSortingStyle: headerSortingStyle,
         hidden: true
     }, {
         dataField: '_id',

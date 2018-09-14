@@ -8,7 +8,7 @@ import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
-import { createDeleteButton, rowClasses } from "../../../utils/utils";
+import { createDeleteButton, rowClasses, headerSortingStyle } from "../../../utils/utils";
 
 class SingleParty extends Component {
 
@@ -147,8 +147,6 @@ class SingleParty extends Component {
     }
 
     render() {
-        const headerSortingStyle = { backgroundColor: '#ccc' };
-
         const columns = [{
             dataField: '_id',
             text: 'ID',

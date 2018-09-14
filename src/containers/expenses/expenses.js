@@ -8,7 +8,7 @@ import * as actions from '../../store/actions';
 import Button from '../../components/UI/button/button';
 import { Link } from 'react-router-dom';
 import './expenses.css';
-import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
+import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater, headerSortingStyle } from '../../utils/utils';
 
 class Expenses extends Component {
 
@@ -39,7 +39,7 @@ class Expenses extends Component {
         });
     }
 
-    headerSortingStyle = { backgroundColor: '#ccc' };
+
 
     cellEdit = cellEditFactory({
         mode: 'click',
@@ -59,21 +59,21 @@ class Expenses extends Component {
                 dataField: 'receiptNumber',
                 text: 'R No',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 editable: false,
             }, {
                 dataField: 'date',
                 text: 'Date',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 validator: dateValidater
             }, {
                 dataField: 'expenseCategory',
                 text: 'Category',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 formatter: columnFormatter(this.props.expenseCategories),
                 filter: textFilter(),
                 classes: 'capitalize',
@@ -86,13 +86,13 @@ class Expenses extends Component {
                 dataField: 'amount',
                 text: 'Amount',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter()
             }, {
                 dataField: 'remark',
                 text: 'Remark',
                 sort: true,
-                headerSortingStyle: this.headerSortingStyle,
+                headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
                 classes: 'remark'
             }, {

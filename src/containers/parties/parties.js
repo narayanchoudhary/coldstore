@@ -9,7 +9,7 @@ import * as actions from '../../store/actions';
 import './parties.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
-import { columnFormatter, paginationOptions, filterValue, rowClasses } from '../../utils/utils';
+import { headerSortingStyle, columnFormatter, paginationOptions, filterValue, rowClasses } from '../../utils/utils';
 
 class Parties extends Component {
 
@@ -57,7 +57,6 @@ class Parties extends Component {
     };
 
     render() {
-        const headerSortingStyle = { backgroundColor: '#ccc' };
 
         const columns = [{
             dataField: '_id',

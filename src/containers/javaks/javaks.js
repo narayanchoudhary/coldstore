@@ -10,7 +10,7 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
-import { columnFormatter, paginationOptions, dateValidater, rowClasses } from '../../utils/utils';
+import { columnFormatter, paginationOptions, dateValidater, rowClasses, headerSortingStyle } from '../../utils/utils';
 
 class Javaks extends Component {
 
@@ -67,7 +67,6 @@ class Javaks extends Component {
     }
 
     render() {
-        const headerSortingStyle = { backgroundColor: '#ccc' };
 
         const columns = [{
             dataField: '_id',

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
 import Button from '../../components/UI/button/button';
-import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
+import { headerSortingStyle, columnFormatter, createDeleteButton, rowClasses, paginationOptions, filterValue, dateValidater } from '../../utils/utils';
 
 class Avaks extends Component {
 
@@ -34,7 +34,6 @@ class Avaks extends Component {
     };
 
     render() {
-        const headerSortingStyle = { backgroundColor: '#ccc' };
 
         const columns = [{
             dataField: '_id',
