@@ -1,7 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
     banks: [],
-    options: []// formatted varieties for dropdown
+    options: [],
+    transactions: [],
+    expenses: []
 }
 
 const reducer = (state = initState, action) => {
@@ -13,24 +15,17 @@ const reducer = (state = initState, action) => {
                 options: action.payload.options
             };
             break;
-        case actionTypes.DELETE_PARTY:
-            if (action.payload.error) {
-                newState = {
-                    ...state
-                };
-                newState.deleteParty = {
-                    ...state.deleteParty,
-                    error: true
-                };
-            } else {
-                newState = {
-                    ...state
-                };
-                newState.deleteParty = {
-                    ...state.deleteParty,
-                    error: false
-                };
-            }
+        case actionTypes.FETCH_TRANSACTIONS_OF_SINGLE_BANK:
+            newState = {
+                ...state,
+                transactions: action.payload.data
+            };
+            break;
+        case actionTypes.FETCH_EXPENSES_OF_SINGLE_BANK:
+            newState = {
+                ...state,
+                expenses: action.payload.data
+            };
             break;
         default:
             return state;

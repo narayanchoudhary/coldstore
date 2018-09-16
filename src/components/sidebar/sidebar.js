@@ -11,7 +11,6 @@ export default class Sidebar extends Component {
                 <Link to='/settings/sizes'>     Size    </Link>
                 <Link to='/settings/years'>     Year    </Link>
                 <Link to='/settings/addresses'> Address </Link>
-                <Link to='/settings/banks'>     Banks   </Link>
                 <Link to='/settings/setups'>    Setup   </Link>
                 <Link to='/settings/expenseCategories'> Expense </Link>
             </div>

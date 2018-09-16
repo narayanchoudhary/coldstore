@@ -4,7 +4,7 @@ export {
     fetchParty,
     deleteParty,
     editParty,
-    filterPartiesByAddress
+    filterPartiesByAddress,
 } from './party';
 
 export {
@@ -32,7 +32,7 @@ export {
     editJavakLot,
     removeTempJavakLots,
     fetchAvaksOfParty,
-    modifyAvaks
+    modifyAvaks,
 } from './javakLot';
 
 export {
@@ -65,7 +65,7 @@ export {
     saveSize,
     fetchSizes,
     deleteSize,
-    editSize
+    editSize,
 } from './size';
 
 export {
@@ -88,26 +88,28 @@ export {
     saveAddress,
     fetchAddresses,
     deleteAddress,
-    editAddress
+    editAddress,
 } from './address';
 
 export {
     saveBank,
     fetchBanks,
     deleteBank,
-    editBank
+    editBank,
+    fetchTransactionsOfSingleBank,
+    fetchExpensesOfSingleBank,
 } from './bank';
 
 export {
     saveExpenseCategory,
     fetchExpenseCategories,
     deleteExpenseCategory,
-    editExpenseCategory
+    editExpenseCategory,
 } from './expenseCategory';
 
 export {
     saveExpense,
     fetchExpenses,
     deleteExpense,
-    editExpense
+    editExpense,
 } from './expense';

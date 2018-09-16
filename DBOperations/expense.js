@@ -1,6 +1,5 @@
 const ipc = require('electron').ipcMain;
 const ExpensesDB = require('./connections').getInstance().expensesDB;
-const convertToLowerCase = require('../util').convertToLowerCase;
 class ExpenseDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -69,7 +68,7 @@ class ExpenseDatabase {
       this.mainWindow.webContents.send('editExpenseResponse', response);
     });
   };
-
+  
 }
 
 module.exports = ExpenseDatabase;

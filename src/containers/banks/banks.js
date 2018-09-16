@@ -9,8 +9,13 @@ import './banks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import { rowClasses } from '../../utils/utils';
+import SingleBank from './singelBank/singleBank';
 
 class Banks extends Component {
+
+    state = {
+
+    };
 
     componentDidMount() {
         this.props.fetchBanks(() => { });
@@ -19,6 +24,11 @@ class Banks extends Component {
     handleClickOnDelete = (bankId) => {
         this.props.deleteBank(bankId);
         this.props.fetchBanks(() => { });
+    }
+
+    handleClickOnView(bankId) {
+        let selectedBank = this.props.banks.find(bank => bankId === bank._id);
+        this.setState({selectedBank: selectedBank});
     }
 
     cellEdit = cellEditFactory({
@@ -71,22 +81,32 @@ class Banks extends Component {
 
         return (
             <div className="partiesContainer">
-                <Link to='/settings/addBank'>
-                    <Button>  Add Bank </Button>
-                </Link>
-                <BootstrapTable
-                    columns={columns}
-                    keyField='_id'
-                    data={this.props.banks}
-                    wrapperClasses="partiesTableWrapper"
-                    bordered
-                    hover
-                    striped
-                    cellEdit={this.cellEdit}
-                    filter={filterFactory()}
-                    noDataIndication="No Banks"
-                    rowClasses={rowClasses}
-                />
+                {
+                    this.state.selectedBank
+                        ?
+                        <SingleBank
+                            bank={this.state.selectedBank}
+                        />
+                        :
+                        <Aux>
+                            <Link to='/banks/addBank'>
+                                <Button>  Add Bank </Button>
+                            </Link>
+                            <BootstrapTable
+                                columns={columns}
+                                keyField='_id'
+                                data={this.props.banks}
+                                wrapperClasses="partiesTableWrapper"
+                                bordered
+                                hover
+                                striped
+                                cellEdit={this.cellEdit}
+                                filter={filterFactory()}
+                                noDataIndication="No Banks"
+                                rowClasses={rowClasses}
+                            />
+                        </Aux>
+                }
             </div>
         )
     }

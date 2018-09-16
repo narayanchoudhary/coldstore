@@ -89,6 +89,24 @@ class Expenses extends Component {
                 headerSortingStyle: headerSortingStyle,
                 filter: textFilter()
             }, {
+                dataField: 'bank',
+                text: 'Bank',
+                sort: true,
+                headerSortingStyle: headerSortingStyle,
+                filter: textFilter(),
+                formatter: columnFormatter(this.props.banks),
+                filterValue: filterValue(this.props.banks),
+                editor: {
+                    type: Type.SELECT,
+                    options: this.props.banks
+                }
+            }, {
+                dataField: 'checkNumber',
+                text: 'Check Number',
+                sort: true,
+                headerSortingStyle: headerSortingStyle,
+                filter: textFilter()
+            }, {
                 dataField: 'remark',
                 text: 'Remark',
                 sort: true,
@@ -128,7 +146,8 @@ class Expenses extends Component {
 const mapStateToProps = state => {
     return {
         expenses: state.expense.expenses,
-        expenseCategories: state.expenseCategory.options
+        expenseCategories: state.expenseCategory.options,
+        banks: state.bank.options
     }
 }
 

@@ -64,7 +64,7 @@ const mapStateToProps = state => {
         parties: state.party.partiesOptions,
         filteredParties: state.party.filteredPartiesOptions,
         addresses: state.address.options,
-        banks: state.party.banksOptions
+        banks: state.bank.options
     }
 }
 
