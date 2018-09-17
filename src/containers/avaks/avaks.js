@@ -206,7 +206,7 @@ class Avaks extends Component {
 const mapStateToProps = state => {
     return {
         data: state.avak.avaks.data,
-        parties: state.party.partiesOptions,
+        parties: state.party.options,
         items: state.item.options,
         varieties: state.variety.options,
         sizes: state.size.options

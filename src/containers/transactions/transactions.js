@@ -145,7 +145,7 @@ class Transactions extends Component {
 
 const mapStateToProps = state => {
     return {
-        parties: state.party.partiesOptions,
+        parties: state.party.options,
     }
 }
 

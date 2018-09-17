@@ -18,28 +18,8 @@ export const fetchParties = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchParties', {});
         ipc.once('fetchPartiesResponse', (event, response) => {
-            response.parties = response.data.filter(party => {
-                return party.type === 'party';
-            });
-
-            response.partiesOptions = response.parties.map((party) => {
+            response.options = response.data.map((party) => {
                 return { value: party._id, label: party.name, address: party.address };
-            });
-
-            response.banks = response.data.filter(party => {
-                return party.type === 'bank';
-            });
-
-            response.banksOptions = response.banks.map((bank) => {
-                return { value: bank._id, label: bank.name };
-            });
-
-            response.expenses = response.data.filter(party => {
-                return party.type === 'expense';
-            });
-
-            response.expensesOptions = response.expenses.map((expense) => {
-                return { value: expense._id, label: expense.name };
             });
 
             dispatch({

@@ -155,7 +155,7 @@ class Javaks extends Component {
 const mapStateToProps = state => {
     return {
         data: state.javak.javaks.data,
-        parties: state.party.partiesOptions,
+        parties: state.party.options,
     }
 }
 

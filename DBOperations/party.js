@@ -1,7 +1,6 @@
 const ipc = require('electron').ipcMain;
 const Datastore = require('nedb');
 const partiesDB = new Datastore({ filename: 'database/parties', autoload: true, timestampData: true });
-const convertToLowerCase = require('../util').convertToLowerCase;
 class PartyDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;

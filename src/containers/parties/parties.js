@@ -124,7 +124,7 @@ class Parties extends Component {
 
 const mapStateToProps = state => {
     return {
-        parties: state.party.data,// not state.party.options because it is the actual table not the formatters just like address is being used in it.
+        parties: state.party.parties,// not state.party.options because it is the actual table not the formatters just like address is being used in it.
         addresses: state.address.options
     }
 }

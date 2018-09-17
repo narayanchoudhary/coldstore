@@ -75,7 +75,7 @@ const Form = reduxForm({
 
 const mapStateToProps = state => {
     return {
-        parties: state.party.partiesOptions,
+        parties: state.party.options,
         filteredParties: state.party.filteredPartiesOptions,
         currentYear: state.year.currentYear,
         items: state.item.options,

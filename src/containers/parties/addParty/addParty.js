@@ -104,14 +104,6 @@ class addParty extends Component {
                             </div>
                         </div>
                         <div className="form-group">
-                            <label className="col-md-4 control-label">Type</label>
-                            <div className="col-md-4 inputGroupContainer">
-                                <div><Field name="type" type="radio" component="input" value="party" /> Party </div>
-                                <div><Field name="type" type="radio" component="input" value="bank" /> Bank </div>
-                                <div><Field name="type" type="radio" component="input" value="expense" /> Expense </div>
-                            </div>
-                        </div>
-                        <div className="form-group">
                             <label className="col-md-4 control-label"></label>
                             <div className="col-md-4">
                                 <button
@@ -133,7 +125,7 @@ class addParty extends Component {
 const Form = reduxForm({
     form: 'party',
     validate, // a unique identifier for this form,
-    initialValues: { type: 'party', openingBalance: '0' }
+    initialValues: { openingBalance: '0' }
 })(addParty);
 
 const mapStateToProps = state => {

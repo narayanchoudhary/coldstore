@@ -110,7 +110,7 @@ const mapStateToProps = state => {
     return {
         transactions: state.bank.transactions,
         expenses: state.bank.expenses,
-        parties: state.party.partiesOptions,
+        parties: state.party.options,
         expenseCategories: state.expenseCategory.options
     }
 }
