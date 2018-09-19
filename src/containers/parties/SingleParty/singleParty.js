@@ -8,7 +8,7 @@ import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
-import { createDeleteButton, rowClasses, headerSortingStyle } from "../../../utils/utils";
+import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
 
 class SingleParty extends Component {
 
@@ -58,6 +58,7 @@ class SingleParty extends Component {
             }
             // Get javak Lots of the above avak Ids
             this.props.fetchJavakLotsByAvakIds(avakIds, (response) => {
+                // Calculate total packet
                 let totalJavakPacket = 0;
                 response.data.forEach((javak) => {
                     totalJavakPacket += parseInt(javak.packet, 10);
@@ -85,10 +86,16 @@ class SingleParty extends Component {
         });
     }
 
-    getAvakRent = (cell, row) => {
-        return (
-            row.weight * CONST.SETTINGS.RENT
-        );
+    rentFormatter = (cell, row) => {
+        //find the setup object for the item in this row
+        let setupObject = this.props.setups.find((setup) => {
+            return row.item === setup.item
+        });
+
+        let rent = '';
+        // setupObject is undefined for footer row
+        if(setupObject) rent = row.weight * setupObject.rent;
+        return rent;
     }
 
     cellEdit = cellEditFactory({
@@ -106,17 +113,6 @@ class SingleParty extends Component {
             rowClasses += ' tableFooter';
         }
         return rowClasses;
-    };
-
-    columnFormatter = (cell, row) => {
-        this.props.parties.forEach((party) => {
-            if (party._id === cell) {
-                cell = party.name;
-            }
-        });
-        return (
-            <span>{cell}</span>
-        );
     };
 
     javakLotsFormatter = (cell, row) => {
@@ -172,18 +168,20 @@ class SingleParty extends Component {
             text: 'Item',
             sort: true,
             headerSortingStyle,
+            formatter: columnFormatter(this.props.items),
             editor: {
                 type: Type.SELECT,
-                options: CONST.ITEMS
+                options: this.props.items
             }
         }, {
             dataField: 'variety',
             text: 'Variety',
             sort: true,
             headerSortingStyle,
+            formatter: columnFormatter(this.props.varieties),
             editor: {
                 type: Type.SELECT,
-                options: CONST.VARIETIES
+                options: this.props.varieties
             },
             classes: (cell, row, rowIndex, colIndex) => {
                 if (cell === 'lr') return 'lr';
@@ -193,9 +191,10 @@ class SingleParty extends Component {
             text: 'Size',
             sort: true,
             headerSortingStyle,
+            formatter: columnFormatter(this.props.sizes),
             editor: {
                 type: Type.SELECT,
-                options: CONST.SIZES
+                options: this.props.sizes
             }
         }, {
             dataField: 'packet',
@@ -223,7 +222,7 @@ class SingleParty extends Component {
             text: 'Rent',
             sort: true,
             headerSortingStyle,
-            formatter: this.getAvakRent
+            formatter: this.rentFormatter
         }, {
             dataField: 'chamber',
             text: 'Chamber',
@@ -284,8 +283,11 @@ class SingleParty extends Component {
 
 const mapStateToProps = state => {
     return {
-        fetchError: state.avak.avaks.error,
-        deleteAvakError: state.avak.deleteAvak.error
+        deleteAvakError: state.avak.deleteAvak.error,
+        items: state.item.options,
+        varieties: state.variety.options,
+        sizes: state.size.options,
+        setups: state.setup.setups
     }
 }
 

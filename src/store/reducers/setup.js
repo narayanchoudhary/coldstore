@@ -11,21 +11,6 @@ const reducer = (state = initState, action) => {
                 setups: action.payload.data
             };
             break;
-        case actionTypes.DELETE_PARTY:
-            if (action.payload.error) {
-                newState = { ...state
-                };
-                newState.deleteParty = { ...state.deleteParty,
-                    error: true
-                };
-            } else {
-                newState = { ...state
-                };
-                newState.deleteParty = { ...state.deleteParty,
-                    error: false
-                };
-            }
-            break;
         default:
             return state;
     }

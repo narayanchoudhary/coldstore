@@ -30,7 +30,8 @@ class App extends Component {
     this.props.fetchAddresses(() => { });
     this.props.fetchParties(() => { });
     this.props.fetchBanks(() => { });
-    this.props.fetchExpenseCategories(() => {});
+    this.props.fetchExpenseCategories(() => { });
+    this.props.fetchSetups(() => { });
   }
 
   render() {
@@ -68,6 +69,7 @@ const mapDispatchToProps = dispatch => {
     fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
     fetchBanks: (thenCallback) => dispatch(actions.fetchBanks(thenCallback)),
     fetchExpenseCategories: (thenCallback) => dispatch(actions.fetchExpenseCategories(thenCallback)),
+    fetchSetups: (thenCallback) => dispatch(actions.fetchSetups(thenCallback)),
   }
 }
 
