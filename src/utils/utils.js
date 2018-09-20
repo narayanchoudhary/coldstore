@@ -65,4 +65,32 @@ export const rowClasses = (row, rowIndex) => {
     return 'capitalize';
 };
 
+export const getRentOfItem = (setups, itemId) => {
+    // Find setup object of the item
+    let setupObject = setups.find((setup) => {
+        return setup.item === itemId
+    });
+
+    // Adding the if condition because setupObject will be undefined for the footer
+    let rent = '';
+    if (setupObject) {
+        rent = setupObject.rent;
+    }
+    return rent;
+}
+
+export const getAvakHammaliOfItem = (setups, itemId) => {
+    // Find setup object of the item
+    let setupObject = setups.find((setup) => {
+        return setup.item === itemId
+    });
+
+    // Adding the if condition because setupObject will be undefined for the footer
+    let avakHammali = '';
+    if (setupObject) {
+        avakHammali = setupObject.avakHammali;
+    }
+    return avakHammali;
+}
+
 export const headerSortingStyle = { backgroundColor: '#ccc' };

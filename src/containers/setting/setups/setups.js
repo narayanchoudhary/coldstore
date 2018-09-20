@@ -51,13 +51,13 @@ class Setups extends Component {
             editable: false
         }, {
             dataField: 'rent',
-            text: 'Rent',
+            text: 'Rent / Kilo',
         }, {
             dataField: 'avakHammali',
-            text: 'Avak Hammali',
+            text: 'Avak Hammali / Packet',
         }, {
             dataField: 'javakHammali',
-            text: 'Javak Hammli',
+            text: 'Javak Hammli / Packet',
         }];
 
         return (

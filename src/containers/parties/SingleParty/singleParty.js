@@ -8,7 +8,7 @@ import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
-import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
+import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter, getRentOfItem, getAvakHammaliOfItem } from "../../../utils/utils";
 
 class SingleParty extends Component {
 
@@ -18,7 +18,9 @@ class SingleParty extends Component {
         javakLots: [],
         javaks: [],
         totalJavakPacket: null,
-        totalRent: 0
+        totalRent: 0,
+        avakHammali: 0,
+        javakHammali: 0
     };
 
     getFooterData = (avaks) => {
@@ -40,7 +42,7 @@ class SingleParty extends Component {
             weight: totalWeight
         }
 
-        this.setState({ totalRent: totalWeight * CONST.SETTINGS.RENT });
+        this.setState({ totalRent: Math.round(totalWeight * CONST.SETTINGS.RENT) });
         return footer;
     }
 
@@ -65,6 +67,10 @@ class SingleParty extends Component {
                 });
                 this.setState({ javakLots: response.data, totalJavakPacket: totalJavakPacket });
             });
+
+            // calculate avak Hammali to pass it into child transaction component
+            this.calculateAvakHammali(response.data);
+
             this.setState({ avaks: response.data });
         });
 
@@ -87,14 +93,9 @@ class SingleParty extends Component {
     }
 
     rentFormatter = (cell, row) => {
-        //find the setup object for the item in this row
-        let setupObject = this.props.setups.find((setup) => {
-            return row.item === setup.item
-        });
-
         let rent = '';
-        // setupObject is undefined for footer row
-        if(setupObject) rent = row.weight * setupObject.rent;
+        rent = row.weight * getRentOfItem(this.props.setups, row.item);
+        rent = Math.round(rent);
         return rent;
     }
 
@@ -140,6 +141,14 @@ class SingleParty extends Component {
         return (
             display
         );
+    }
+
+    calculateAvakHammali = (avaks) => {
+        let avakHammali = 0;
+        avaks.forEach((avak) => {
+            avakHammali += (avak.packet * getAvakHammaliOfItem(this.props.setups, avak.item));
+        });
+        this.setState({ ...this.state, avakHammali: avakHammali });
     }
 
     render() {
@@ -275,6 +284,8 @@ class SingleParty extends Component {
                 <Transactions
                     partyId={this.props.match.params.partyId}
                     totalRent={this.state.totalRent}
+                    avakHammali={this.state.avakHammali}
+                    javakHammali={this.state.javakHammali}
                 />
             </Aux>
         )

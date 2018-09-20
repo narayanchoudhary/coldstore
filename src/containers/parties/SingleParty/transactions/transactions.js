@@ -16,6 +16,15 @@ class Transactions extends Component {
     componentDidMount() {
         this.props.fetchTransactionsByPartyId(this.props.partyId, (transactionResponse) => {
             this.props.fetchParty(this.props.partyId, (response) => {
+                // Insert avak Hammali
+                let avakHammali = {
+                    _id: 'avakHammali',
+                    amount: this.props.avakHammali,
+                    remark: 'Avak Hammali',
+                    side: 'debit'
+                };
+                transactionResponse.data.unshift(avakHammali);
+
                 // Insert total rent in the transactions
                 let totalRent = {
                     _id: 'totalRent',
@@ -24,6 +33,7 @@ class Transactions extends Component {
                     side: 'debit'
                 };
                 transactionResponse.data.unshift(totalRent);
+
                 // insert opening balance in the transactions
                 let party = response.data;
                 let openingBalance = {
