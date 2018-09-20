@@ -43,7 +43,7 @@ class AvakDatabase {
   };
 
   fetchAvaksByPartyId(event, data) {
-    avaksDB.find({ party: data.partyId }).sort({ updatedAt: -1 }).exec((err, data) => {
+    avaksDB.find({ party: data.partyId }).sort({ receiptNumber: 1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
