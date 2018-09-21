@@ -19,6 +19,7 @@ const reducer = (state = initState, action) => {
             break;
         case actionTypes.FETCH_PARTIES:
             newState = {
+                ...state,
                 parties: [...action.payload.data],
                 options: [...action.payload.options]
             };

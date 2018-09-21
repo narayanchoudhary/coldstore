@@ -10,7 +10,7 @@ import './javaks.css';
 import Button from '../../components/UI/button/button';
 import Aux from '../../components/Auxilary/Auxilary';
 import LotsModal from './LotsModal/LotsModal';
-import { columnFormatter, paginationOptions, dateValidater, rowClasses, headerSortingStyle } from '../../utils/utils';
+import { columnFormatter, paginationOptions, dateValidater, rowClasses, headerSortingStyle, filterValue } from '../../utils/utils';
 
 class Javaks extends Component {
 
@@ -91,6 +91,7 @@ class Javaks extends Component {
             sort: true,
             headerSortingStyle,
             formatter: columnFormatter(this.props.parties),
+            filterValue: filterValue(this.props.parties),
             filter: textFilter(),
             editor: {
                 type: Type.SELECT,
@@ -103,6 +104,7 @@ class Javaks extends Component {
             headerSortingStyle,
             filter: textFilter(),
             formatter: columnFormatter(this.props.parties),
+            filterValue: filterValue(this.props.parties),
             editor: {
                 type: Type.SELECT,
                 options: this.props.parties
