@@ -16,6 +16,7 @@ export const columnFormatter = (options) => {
 
 export const createDeleteButton = (handleClickOnDelete) => {
     return (cell, row) => {
+        if(row.deleteButton === 'no') return; // Do not create delete button for footer and opening balance etc
         return (
             <button
                 className="btn btn-danger btn-xs"

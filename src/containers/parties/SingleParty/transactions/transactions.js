@@ -19,9 +19,10 @@ class Transactions extends Component {
                 // Insert avak Hammali
                 let avakHammali = {
                     _id: 'avakHammali',
-                    amount: this.props.avakHammali,
+                    amount: this.props.totalAvakHammali,
                     remark: 'Avak Hammali',
-                    side: 'debit'
+                    side: 'debit',
+                    deleteButton: 'no'
                 };
                 transactionResponse.data.unshift(avakHammali);
 
@@ -30,7 +31,8 @@ class Transactions extends Component {
                     _id: 'totalRent',
                     amount: this.props.totalRent,
                     remark: 'Total Rent',
-                    side: 'debit'
+                    side: 'debit',
+                    deleteButton: 'no'
                 };
                 transactionResponse.data.unshift(totalRent);
 
@@ -41,6 +43,7 @@ class Transactions extends Component {
                     amount: party.openingBalance,
                     remark: 'Opening Balance',
                     side: party.openingBalance > 0 ? 'credit' : 'debit',
+                    deleteButton: 'no',
                 };
                 transactionResponse.data.unshift(openingBalance);
                 transactionResponse.data.push(this.getFooterData(transactionResponse.data));
@@ -79,7 +82,8 @@ class Transactions extends Component {
             _id: 'footer',
             date: 'Balance',
             amount: balance,
-            side: side
+            side: side,
+            deleteButton: 'no'
         }
         return footer;
     }

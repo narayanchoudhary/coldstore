@@ -4,7 +4,6 @@ import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './singleParty.css';
-import CONST from '../../../constants';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
@@ -19,7 +18,7 @@ class SingleParty extends Component {
         javaks: [],
         totalJavakPacket: null,
         totalRent: 0,
-        avakHammali: 0,
+        totalAvakHammali: 0,
         javakHammali: 0
     };
 
@@ -39,10 +38,10 @@ class SingleParty extends Component {
         let footer = {
             _id: 'footer',
             packet: totalPacket,
-            weight: totalWeight
+            weight: totalWeight,
+            deleteButton: 'no'
         }
 
-        this.setState({ totalRent: Math.round(totalWeight * CONST.SETTINGS.RENT) });
         return footer;
     }
 
@@ -68,10 +67,10 @@ class SingleParty extends Component {
                 this.setState({ javakLots: response.data, totalJavakPacket: totalJavakPacket });
             });
 
-            // calculate avak Hammali to pass it into child transaction component
-            this.calculateAvakHammali(response.data);
-
-            this.setState({ avaks: response.data });
+            this.setState({
+                ...this.state,
+                avaks: response.data
+            });
         });
 
         // fetch party details
@@ -143,12 +142,21 @@ class SingleParty extends Component {
         );
     }
 
-    calculateAvakHammali = (avaks) => {
+    getTotalAvakHammali = (avaks) => {
         let avakHammali = 0;
         avaks.forEach((avak) => {
             avakHammali += (avak.packet * getAvakHammaliOfItem(this.props.setups, avak.item));
         });
-        this.setState({ ...this.state, avakHammali: avakHammali });
+
+        return avakHammali;
+    }
+
+    getTotalRent = (avaks) => {
+        let totalRent = 0;
+        avaks.forEach((avak) => {
+            totalRent += (avak.weight * getRentOfItem(this.props.setups, avak.item));
+        });
+        return Math.round(totalRent);
     }
 
     render() {
@@ -283,8 +291,8 @@ class SingleParty extends Component {
                 </div>
                 <Transactions
                     partyId={this.props.match.params.partyId}
-                    totalRent={this.state.totalRent}
-                    avakHammali={this.state.avakHammali}
+                    totalRent={this.getTotalRent(this.state.avaks)}
+                    totalAvakHammali={this.getTotalAvakHammali(this.state.avaks)}
                     javakHammali={this.state.javakHammali}
                 />
             </Aux>
@@ -294,7 +302,6 @@ class SingleParty extends Component {
 
 const mapStateToProps = state => {
     return {
-        deleteAvakError: state.avak.deleteAvak.error,
         items: state.item.options,
         varieties: state.variety.options,
         sizes: state.size.options,
