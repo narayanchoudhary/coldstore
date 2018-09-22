@@ -13,7 +13,6 @@ class SingleParty extends Component {
 
     state = {
         party: null,
-        avaks: [],
         javakLots: [],
         javaks: [],
         totalJavakPacket: null,
@@ -22,54 +21,16 @@ class SingleParty extends Component {
         javakHammali: 0
     };
 
-    getFooterData = (avaks) => {
-        // Do not create footer if no avaks
-        if (avaks.length === 0) {
-            return;
-        }
-
-        let totalPacket = 0;
-        let totalWeight = 0;
-        avaks.forEach((avak) => {
-            totalPacket += parseInt(avak.packet, 10);
-            totalWeight += parseInt(avak.weight, 10);
-        });
-
-        let footer = {
-            _id: 'footer',
-            packet: totalPacket,
-            weight: totalWeight,
-            deleteButton: 'no'
-        }
-
-        return footer;
-    }
-
     componentDidMount() {
-        this.props.fetchAvaksByPartyId(this.props.match.params.partyId, (response) => {
-            // Extract avaks ids
-            let avakIds = [];
-            response.data.forEach((avak) => {
-                avakIds.push(avak._id);
-            });
-            // Add footer in the table
-            let footer = this.getFooterData(response.data);
-            if (footer) {
-                response.data.push(footer);
-            }
+        this.props.fetchAvaksByPartyId(this.props.match.params.partyId, () => {
             // Get javak Lots of the above avak Ids
-            this.props.fetchJavakLotsByAvakIds(avakIds, (response) => {
+            this.props.fetchJavakLotsByAvakIds(this.props.avakIdsOfSingleParty, (response) => {
                 // Calculate total packet
                 let totalJavakPacket = 0;
                 response.data.forEach((javak) => {
                     totalJavakPacket += parseInt(javak.packet, 10);
                 });
                 this.setState({ javakLots: response.data, totalJavakPacket: totalJavakPacket });
-            });
-
-            this.setState({
-                ...this.state,
-                avaks: response.data
             });
         });
 
@@ -102,9 +63,13 @@ class SingleParty extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editAvak(row);
+            this.props.editAvak(row, () => {
+                this.props.fetchAvaksByPartyId(this.props.match.params.partyId, () => {
+
+                });
+            });
         },
-        nonEditableRows: () => [this.state.avaks.length - 1]
+        nonEditableRows: () => [this.props.avaksOfSingleParty.length - 1]
     });
 
     rowClasses = (row, rowIndex) => {
@@ -160,6 +125,7 @@ class SingleParty extends Component {
     }
 
     render() {
+
         const columns = [{
             dataField: '_id',
             text: 'ID',
@@ -219,8 +185,7 @@ class SingleParty extends Component {
             sort: true,
             headerSortingStyle,
             formatter: this.packetFormatter,
-        }
-            , {
+        }, {
             dataField: '',
             text: 'Javak',
             sort: true,
@@ -272,6 +237,8 @@ class SingleParty extends Component {
             formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
+        console.log('this.props.avaksOfSingleParty', this.props.avaksOfSingleParty);
+
         return (
             <Aux>
                 <div className="partyAccount avaksContainer">
@@ -279,7 +246,7 @@ class SingleParty extends Component {
                     <BootstrapTable
                         columns={columns}
                         keyField='_id'
-                        data={this.state.avaks}
+                        data={this.props.avaksOfSingleParty}
                         wrapperClasses="avaksTableWrapper"
                         bordered
                         hover
@@ -291,8 +258,8 @@ class SingleParty extends Component {
                 </div>
                 <Transactions
                     partyId={this.props.match.params.partyId}
-                    totalRent={this.getTotalRent(this.state.avaks)}
-                    totalAvakHammali={this.getTotalAvakHammali(this.state.avaks)}
+                    totalRent={this.getTotalRent(this.props.avaksOfSingleParty)}
+                    totalAvakHammali={this.getTotalAvakHammali(this.props.avaksOfSingleParty)}
                     javakHammali={this.state.javakHammali}
                 />
             </Aux>
@@ -305,7 +272,9 @@ const mapStateToProps = state => {
         items: state.item.options,
         varieties: state.variety.options,
         sizes: state.size.options,
-        setups: state.setup.setups
+        setups: state.setup.setups,
+        avaksOfSingleParty: state.avak.avaksOfSingleParty,
+        avakIdsOfSingleParty: state.avak.avakIdsOfSingleParty,
     }
 }
 
@@ -316,7 +285,7 @@ const mapDispatchToProps = dispatch => {
         fetchParty: (partyId, thenCallback) => dispatch(actions.fetchParty(partyId, thenCallback)),
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
-        editAvak: (avak) => dispatch(actions.editAvak(avak)),
+        editAvak: (avak, thenCallback) => dispatch(actions.editAvak(avak, thenCallback)),
         fetchJavakLotsByAvakIds: (avakIds, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakIds, thenCallback)),
     };
 };

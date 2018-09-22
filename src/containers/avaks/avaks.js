@@ -25,7 +25,9 @@ class Avaks extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editAvak(row);
+            this.props.editAvak(row, ()=> {
+
+            });
         },
     });
 
@@ -218,7 +220,7 @@ const mapDispatchToProps = dispatch => {
         fetchAvaks: (thenCallback) => dispatch(actions.fetchAvaks(thenCallback)),
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
-        editAvak: (avak) => dispatch(actions.editAvak(avak))
+        editAvak: (avak, thenCallback) => dispatch(actions.editAvak(avak, thenCallback))
     };
 };
 

@@ -12,8 +12,8 @@ class Transactions extends Component {
     state = {
         transactions: []
     };
-
-    componentDidMount() {
+    
+    iDontKnow = () => {
         this.props.fetchTransactionsByPartyId(this.props.partyId, (transactionResponse) => {
             this.props.fetchParty(this.props.partyId, (response) => {
                 // Insert avak Hammali
@@ -50,7 +50,16 @@ class Transactions extends Component {
                 this.setState({ transactions: transactionResponse.data });
             });
         });
+    }
 
+    componentDidMount() {
+        this.iDontKnow();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(this.props !== nextProps) {
+            this.iDontKnow();
+        }
     }
 
     getFooterData = (transactions) => {

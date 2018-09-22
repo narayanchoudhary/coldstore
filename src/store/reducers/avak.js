@@ -9,7 +9,8 @@ const initState = {
     },
     deleteAvak: {
         error: false
-    }
+    },
+    avaksOfSingleParty: []
 }
 
 const reducer = (state = initState, action) => {
@@ -35,6 +36,13 @@ const reducer = (state = initState, action) => {
             } else {
                 newState = { ...state };
                 newState.deleteAvak = { ...state.deleteAvak, error: false };
+            }
+            break;
+        case actionTypes.FETCH_AVAKS_BY_PARTY_ID:
+            newState = {
+                ...state,
+                avaksOfSingleParty: action.payload.avaks,
+                avakIdsOfSingleParty: action.payload.avakIdsOfSingleParty
             }
             break;
         default: return state;

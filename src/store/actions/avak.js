@@ -29,21 +29,25 @@ export const fetchAvaks = (thenCallback) => {
 
 export const fetchAvaksByPartyId = (partyId, thenCallback) => {
     return dispatch => {
-        ipc.send('fetchAvaksByPartyId', {partyId : partyId});
+        ipc.send('fetchAvaksByPartyId', { partyId: partyId });
         ipc.once('fetchAvaksByPartyIdResponse', (event, response) => {
-            let avaks = response.data.map((avak) => {
-                // add label for remaining packet
-                let remainingPacket = avak.packet - avak.sentPacket;
-                let label = avak.packet.toString() + '-' + remainingPacket.toString();
-                // add disabled field if the remaining packet is 0
-                return { ...avak, remainingPacket: remainingPacket, packet: label, disabled: remainingPacket === 0 ? true : false }
+            // Extract avaks ids
+            let avakIdsOfSingleParty = [];// we will use this ids to fetch javak lots
+            response.data.forEach((avak) => {
+                avakIdsOfSingleParty.push(avak._id);
             });
+
+            // Add footer in the table
+            let footer = getFooterData(response.data);
+            if (footer) {
+                response.data.push(footer);
+            }
 
             dispatch({
                 type: actionTypes.FETCH_AVAKS_BY_PARTY_ID,
-                payload: avaks
+                payload: { avaks: response.data, avakIdsOfSingleParty: avakIdsOfSingleParty }
             });
-            thenCallback(response);
+            thenCallback();
         });
     }
 }
@@ -60,7 +64,7 @@ export const deleteAvak = (AvakId) => {
     }
 }
 
-export const editAvak = (data) => {
+export const editAvak = (data, thenCallback) => {
     return dispatch => {
         ipc.send('editAvak', data);
         ipc.once('editAvakResponse', (event, response) => {
@@ -68,6 +72,30 @@ export const editAvak = (data) => {
                 type: actionTypes.EDIT_AVAK,
                 payload: response
             });
+            thenCallback();
         });
     }
+}
+
+const getFooterData = (avaks) => {
+    // Do not create footer if no avaks
+    if (avaks.length === 0) {
+        return;
+    }
+
+    let totalPacket = 0;
+    let totalWeight = 0;
+    avaks.forEach((avak) => {
+        totalPacket += parseInt(avak.packet, 10);
+        totalWeight += parseInt(avak.weight, 10);
+    });
+
+    let footer = {
+        _id: 'footer',
+        packet: totalPacket,
+        weight: totalWeight,
+        deleteButton: 'no'
+    }
+
+    return footer;
 }
