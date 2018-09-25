@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import Header from './components/header/header';
-import Home from './components/home/home';
+import Home from './containers/dashboard/dashboard';
 import Avaks from './containers/avaks/avaks';
 import AddAvak from './containers/avaks/addAvak/addAvak';
 import Parties from './containers/parties/parties';

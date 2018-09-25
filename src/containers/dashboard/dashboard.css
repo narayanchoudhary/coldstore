@@ -1,0 +1,27 @@
+.dashboardContainer {
+}
+
+.stockGrid {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    justify-content: center;
+    grid-gap: 20px;
+}
+
+.stockGridItem {
+    box-shadow: 0px 0px 1px 1px #ccc;
+    border-radius: 4px;
+}
+
+.stockGridItem:hover {
+    box-shadow: 0px 0px 2px 2px #ccc;
+}
+
+.itemName {
+    background-color: #ccc;
+    padding: 4px;
+}
+
+.itemStatus {
+    padding: 4px;
+}

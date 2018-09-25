@@ -20,7 +20,7 @@ class Header extends Component {
         return (
             <div className='header'>
                 <div className='navigation'>
-                    <NavLink exact={true} activeClassName="is-active" to='/'> Status       </NavLink>
+                    <NavLink exact={true} activeClassName="is-active" to='/'> Dashboard       </NavLink>
                     <NavLink activeClassName="is-active" to='/parties'>       Parties      </NavLink>
                     <NavLink activeClassName="is-active" to='/avaks'>         Avak         </NavLink>
                     <NavLink activeClassName="is-active" to='/javaks'>        Javak        </NavLink>
