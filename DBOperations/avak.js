@@ -1,6 +1,5 @@
 const ipc = require('electron').ipcMain;
 const avaksDB = require('./connections').getInstance().avaksDB;
-const convertToLowerCase = require('../util').convertToLowerCase;
 class AvakDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -33,7 +32,7 @@ class AvakDatabase {
   };
 
   fetchAvaks(event, data) {
-    avaksDB.find({ receiptNumber : { $exists: true }}).sort({ date: 1 }).exec((err, data) => {
+    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ date: 1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;

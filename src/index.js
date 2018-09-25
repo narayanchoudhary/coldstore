@@ -19,6 +19,7 @@ import varietyReducer from './store/reducers/variety';
 import bankReducer from './store/reducers/bank';
 import expenseCategoryReducer from './store/reducers/expenseCategory';
 import expenseReducer from './store/reducers/expense';
+import dashboardReducer from './store/reducers/dashboard';
 import { reducer as formReducer } from 'redux-form';
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import thunk from 'redux-thunk';
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
     bank: bankReducer,
     expenseCategory: expenseCategoryReducer,
     expense: expenseReducer,
+    dashboard: dashboardReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

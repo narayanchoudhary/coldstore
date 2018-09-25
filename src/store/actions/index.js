@@ -113,3 +113,7 @@ export {
     deleteExpense,
     editExpense,
 } from './expense';
+
+export {
+    fetchDashboard,
+} from './dashboard';

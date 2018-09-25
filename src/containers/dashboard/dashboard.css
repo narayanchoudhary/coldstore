@@ -20,6 +20,7 @@
 .itemName {
     background-color: #ccc;
     padding: 4px;
+    text-transform: capitalize;
 }
 
 .itemStatus {

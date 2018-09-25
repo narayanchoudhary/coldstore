@@ -71,7 +71,6 @@ class BankDatabase {
 
   fetchExpensesOfSingleBank(event, data) {
     ExpensesDB.find({ bank: data.bankId }).exec((err, data) => {
-      console.log('data: ', data);
       let response = {};
       response.error = err;
       response.data = data;

@@ -15,6 +15,7 @@ const AddressDatabase = require('./DBOperations/address.js');
 const BankDatabase = require('./DBOperations/bank.js');
 const ExpenseCategoryDatabase = require('./DBOperations/expenseCategory.js');
 const Expense = require('./DBOperations/expense.js');
+const Dashboard = require('./DBOperations/dashboard.js');
 
 let mainWindow;
 
@@ -36,6 +37,7 @@ function createWindow() {
   const bankDatabase = new BankDatabase(mainWindow);
   const expenseCategoryDatabase = new ExpenseCategoryDatabase(mainWindow);
   const expense = new Expense(mainWindow);
+  const dashboard = new Dashboard(mainWindow);
 
   mainWindow.on('closed', function () {
     mainWindow = null;
