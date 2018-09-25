@@ -94,4 +94,19 @@ export const getAvakHammaliOfItem = (setups, itemId) => {
     return avakHammali;
 }
 
+export const getJavakHammaliOfItem = (setups, itemId) => {
+    // Find setup object of the item
+    let setupObject = setups.find((setup) => {
+        return setup.item === itemId
+    });
+
+    // Adding the if condition because the above setupObject will be undefined for the footer
+    let javakHammali = '';
+    if (setupObject) {
+        javakHammali = setupObject.javakHammali;
+    }
+    console.log('javakHammali: ', javakHammali);
+    return javakHammali;
+}
+
 export const headerSortingStyle = { backgroundColor: '#ccc' };

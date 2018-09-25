@@ -16,6 +16,16 @@ class Transactions extends Component {
     iDontKnow = () => {
         this.props.fetchTransactionsByPartyId(this.props.partyId, (transactionResponse) => {
             this.props.fetchParty(this.props.partyId, (response) => {
+                // Insert JavakHammali
+                let javakHammali = {
+                    _id: 'javakHammali',
+                    amount: this.props.totalJavakHammali,
+                    remark: 'Javak Hammali',
+                    side: 'debit',
+                    deleteButton: 'no'
+                }
+                transactionResponse.data.unshift(javakHammali);
+
                 // Insert avak Hammali
                 let avakHammali = {
                     _id: 'avakHammali',

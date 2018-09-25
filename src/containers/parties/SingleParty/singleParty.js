@@ -7,7 +7,7 @@ import './singleParty.css';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
-import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter, getRentOfItem, getAvakHammaliOfItem } from "../../../utils/utils";
+import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter, getRentOfItem, getAvakHammaliOfItem, getJavakHammaliOfItem } from "../../../utils/utils";
 
 class SingleParty extends Component {
 
@@ -124,6 +124,15 @@ class SingleParty extends Component {
         return Math.round(totalRent);
     }
 
+    getTotalJavakHammali = (javakLots) => {
+        let javakHammali = 0;
+        javakLots.forEach((javakLot) => {
+            javakHammali += (javakLot.packet * getJavakHammaliOfItem(this.props.setups, javakLot.itemId));
+        });
+
+        return javakHammali;
+    }
+
     render() {
 
         const columns = [{
@@ -193,8 +202,7 @@ class SingleParty extends Component {
             editable: false,
             formatter: this.javakLotsFormatter,
             classes: 'p-0 totalJavakPacket'
-        }
-            , {
+        }, {
             dataField: 'weight',
             text: 'Weight',
             sort: true,
@@ -237,7 +245,7 @@ class SingleParty extends Component {
             formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
-        console.log('this.props.avaksOfSingleParty', this.props.avaksOfSingleParty);
+        
 
         return (
             <Aux>
@@ -260,7 +268,7 @@ class SingleParty extends Component {
                     partyId={this.props.match.params.partyId}
                     totalRent={this.getTotalRent(this.props.avaksOfSingleParty)}
                     totalAvakHammali={this.getTotalAvakHammali(this.props.avaksOfSingleParty)}
-                    javakHammali={this.state.javakHammali}
+                    totalJavakHammali={this.getTotalJavakHammali(this.state.javakLots)}
                 />
             </Aux>
         )

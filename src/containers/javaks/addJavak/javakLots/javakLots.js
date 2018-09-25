@@ -20,9 +20,6 @@ class JavakLots extends Component {
             this.props.fetchAvaksOfParty(nextProps.partyId, () => { });
         }
     }
-
-
-
     handleClickOnDelete = (row) => {
         this.props.deleteJavakLot(row._id);
         this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
@@ -51,9 +48,13 @@ class JavakLots extends Component {
         );
     }
 
-    columns = [{
+    javakLotsColumns = [{
         dataField: '_id',
         text: 'ID',
+        hidden: true
+    }, {
+        dataField: 'itemId',
+        text: 'Item Id',
         hidden: true
     }, {
         dataField: 'packet',
@@ -192,7 +193,7 @@ class JavakLots extends Component {
                 </div>
                 <div className="grid-item javaksLots">
                     <BootstrapTable
-                        columns={this.columns}
+                        columns={this.javakLotsColumns}
                         keyField='_id'
                         data={this.props.lots}
                         wrapperClasses="javaksTableWrapper"

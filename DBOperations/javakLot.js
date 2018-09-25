@@ -41,12 +41,13 @@ class JavakLotsDatabase {
                 // Create lot object
                 let lot = {};
                 lot.avakId = data._id;
+                lot.itemId = data.item;
                 lot.packet = remainingPacket;
                 lot.chamber = data.chamber;
                 lot.floor = data.floor;
                 lot.rack = data.rack;
                 lot.javakId = javakId;
-
+                
                 // Insert lot in the db
                 javakLotsDB.insert(lot, (err, newDoc) => {
                     let response = {};
