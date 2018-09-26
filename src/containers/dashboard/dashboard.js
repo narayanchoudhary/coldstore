@@ -20,8 +20,8 @@ class Dashboard extends Component {
                                     <div className="itemName"> {dashboard.itemName} </div>
                                     <div className="itemStatus">
                                         <div className="TotalAvak">Total Avak: {dashboard.totalAvakPacket} </div>
-                                        <div className="TotoalJavak">Total Javak: 700 </div>
-                                        <div className="currentStock">Current Stock: 300 </div>
+                                        <div className="TotoalJavak">Total Javak: {dashboard.totalJavakLotsPacket} </div>
+                                        <div className="currentStock">Current Stock: {dashboard.totalAvakPacket - dashboard.totalJavakLotsPacket} </div>
                                     </div>
                                 </div>
                             )
