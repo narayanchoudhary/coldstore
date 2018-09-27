@@ -1,6 +1,5 @@
 const ipc = require('electron').ipcMain;
 const TransactionsDB = require('./connections').getInstance().transactionsDB;
-const convertToLowerCase = require('../util').convertToLowerCase;
 class TransactionDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
