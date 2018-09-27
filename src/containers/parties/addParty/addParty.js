@@ -107,13 +107,14 @@ class addParty extends Component {
                             <label className="col-md-4 control-label"></label>
                             <div className="col-md-4 inputGroupContainer">
                                 <Field
-                                    name="transactionType"
+                                    name="side"
+                                    // transaction side i.e. credit or debit
                                     type="radio"
                                     value="credit"
                                     component="input"
                                 /> credit &nbsp;
                                 <Field
-                                    name="transactionType"
+                                    name="side"
                                     type="radio"
                                     value="debit"
                                     component="input"
@@ -142,7 +143,7 @@ class addParty extends Component {
 const Form = reduxForm({
     form: 'party',
     validate, // a unique identifier for this form,
-    initialValues: { openingBalance: '0', transactionType: 'credit' }
+    initialValues: { openingBalance: '0', side: 'credit' }
 })(addParty);
 
 const mapStateToProps = state => {

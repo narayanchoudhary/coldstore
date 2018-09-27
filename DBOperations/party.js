@@ -1,5 +1,7 @@
 const ipc = require('electron').ipcMain;
 const Datastore = require('nedb');
+const yearsDB = require('./connections').getInstance().yearsDB;
+const OpeningBalanceDB = require('./connections').getInstance().openingBalanceDB;
 const partiesDB = new Datastore({ filename: 'database/parties', autoload: true, timestampData: true });
 class PartyDatabase {
   constructor(mainWindow) {
@@ -17,11 +19,38 @@ class PartyDatabase {
   }
 
   saveParty(event, data) {
+    // Convert name to lower case
     data.name = data.name.toLowerCase();
-    partiesDB.insert(data, (err, newDoc) => {
-      let response = {};
-      response.error = err;
-      this.mainWindow.webContents.send('savePartyResponse', response);
+
+    // store openingBalnce and side of transaction in different variable
+    let openingBalance = data.openingBalance;
+    let side = data.side;// side of transaction i.e debit or credit
+
+    // delete openingBalance and side from the data we dont want to store it in the party
+    delete data.openingBalance;
+    delete data.side;
+
+    // insert party
+    partiesDB.insert(data, (err, newParty) => {
+      
+      // find current year id
+      yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
+
+        // Create opening balance object
+        let openingBalanceData = {};
+        openingBalanceData.partyId = newParty._id;
+        openingBalanceData.openingBalance = openingBalance;// from the form submitted
+        openingBalanceData.yearId = currentYear.yearId;
+        openingBalanceData.side = side;
+
+        // insert opening balance
+        OpeningBalanceDB.insert(openingBalanceData, (err, newDoc) => {
+          let response = {};
+          response.error = err;
+          this.mainWindow.webContents.send('savePartyResponse', response);
+        });
+
+      });
     });
   };
 
