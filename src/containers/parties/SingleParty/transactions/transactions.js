@@ -15,7 +15,7 @@ class Transactions extends Component {
     
     iDontKnow = () => {
         this.props.fetchTransactionsByPartyId(this.props.partyId, (transactionResponse) => {
-            this.props.fetchParty(this.props.partyId, (response) => {
+            this.props.fetchOpeningBalanceOfParty(this.props.partyId, (response) => {
                 // Insert JavakHammali
                 let javakHammali = {
                     _id: 'javakHammali',
@@ -52,7 +52,7 @@ class Transactions extends Component {
                     _id: 'openingBalance',
                     amount: party.openingBalance,
                     remark: 'Opening Balance',
-                    side: party.openingBalance > 0 ? 'credit' : 'debit',
+                    side: party.side,
                     deleteButton: 'no',
                 };
                 transactionResponse.data.unshift(openingBalance);
@@ -218,7 +218,7 @@ const mapDispatchToProps = dispatch => {
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteTransaction: (transactionsId) => dispatch(actions.deleteTransaction(transactionsId)),
         editTransaction: (transaction) => dispatch(actions.editTransaction(transaction)),
-        fetchParty: (partyId, thenCallback) => dispatch(actions.fetchParty(partyId, thenCallback)),
+        fetchOpeningBalanceOfParty: (partyId, thenCallback) => dispatch(actions.fetchOpeningBalanceOfParty(partyId, thenCallback)),
     };
 };
 

@@ -5,6 +5,7 @@ export {
     deleteParty,
     editParty,
     filterPartiesByAddress,
+    fetchOpeningBalanceOfParty,
 } from './party';
 
 export {
@@ -12,7 +13,7 @@ export {
     fetchAvaks,
     fetchAvaksByPartyId,
     deleteAvak,
-    editAvak
+    editAvak,
 } from './avak';
 
 export {
@@ -20,7 +21,7 @@ export {
     fetchJavaks,
     deleteJavak,
     editJavak,
-    fetchJavaksByPartyId
+    fetchJavaksByPartyId,
 } from './javak';
 
 export {
@@ -44,21 +45,21 @@ export {
 } from './transactions';
 
 export {
-    changeYear
+    changeYear,
 } from './year';
 
 export {
     saveItem,
     fetchItems,
     deleteItem,
-    editItem
+    editItem,
 } from './item';
 
 export {
     saveVariety,
     fetchVarieties,
     deleteVariety,
-    editVariety
+    editVariety,
 } from './variety';
 
 export {
@@ -74,14 +75,14 @@ export {
     deleteYear,
     editYear,
     changeCurrentYear,
-    fetchCurrentYear
+    fetchCurrentYear,
 } from './year';
 
 export {
     saveSetup,
     fetchSetups,
     deleteSetup,
-    editSetup
+    editSetup,
 } from './setup';
 
 export {

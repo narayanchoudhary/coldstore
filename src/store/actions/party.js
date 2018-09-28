@@ -83,3 +83,13 @@ export const filterPartiesByAddress = (parties, address) => {
         });
     }
 }
+
+export const fetchOpeningBalanceOfParty = (partyId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchOpeningBalanceOfParty', { partyId: partyId });
+        ipc.once('fetchOpeningBalanceOfPartyResponse', (event, response) => {
+            // here generaly, we dispatch some action
+            thenCallback(response);
+        });
+    }
+}

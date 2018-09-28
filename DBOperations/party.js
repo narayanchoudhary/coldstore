@@ -11,11 +11,13 @@ class PartyDatabase {
     this.fetchParty = this.fetchParty.bind(this);
     this.deleteParty = this.deleteParty.bind(this);
     this.editParty = this.editParty.bind(this);
+    this.fetchOpeningBalanceOfParty = this.fetchOpeningBalanceOfParty.bind(this);
     ipc.on('saveParty', this.saveParty);
     ipc.on('fetchParties', this.fetchParties);
     ipc.on('fetchParty', this.fetchParty);
     ipc.on('deleteParty', this.deleteParty);
     ipc.on('editParty', this.editParty);
+    ipc.on('fetchOpeningBalanceOfParty', this.fetchOpeningBalanceOfParty);
   }
 
   saveParty(event, data) {
@@ -32,7 +34,7 @@ class PartyDatabase {
 
     // insert party
     partiesDB.insert(data, (err, newParty) => {
-      
+
       // find current year id
       yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
 
@@ -90,6 +92,21 @@ class PartyDatabase {
       let response = {};
       response.error = err;
       this.mainWindow.webContents.send('editPartyResponse', response);
+    });
+  };
+
+
+  // Remember to add listners
+  fetchOpeningBalanceOfParty(event, data) {
+    // fetch current year
+    yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
+      // get opening balance of the party of current year
+      OpeningBalanceDB.findOne({ $and: [{ partyId: data.partyId }, { yearId: currentYear.yearId }] }, (err, doc) => {
+        let response = {};
+        response.error = err;
+        response.data = doc
+        this.mainWindow.webContents.send('fetchOpeningBalanceOfPartyResponse', response);
+      });
     });
   };
 

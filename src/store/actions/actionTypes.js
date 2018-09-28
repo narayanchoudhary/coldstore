@@ -4,6 +4,7 @@ export const FILTER_PARTIES = 'FILTER_PARTIES';
 export const FETCH_PARTY = 'FETCH_PARTY';
 export const EDIT_PARTY = 'EDIT_PARTY';
 export const DELETE_PARTY = 'DELETE_PARTY';
+export const FETCH_OPENING_BALANCE_OF_PARTY = 'FETCH_OPENING_BALANCE_OF_PARTY';
 
 export const SAVE_AVAK = 'SAVE_AVAK';
 export const FETCH_AVAKS = 'FETCH_AVAKS';
