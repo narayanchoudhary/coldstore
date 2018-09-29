@@ -19,8 +19,11 @@ class addBank extends Component {
     }
 
     submit = (values) => {
-        this.props.saveBank(values);
-        this.setState({ redirectToBanks: true })
+        this.props.saveBank(values, () => {
+            this.props.fetchBanks(() => {
+                this.setState({ redirectToBanks: true })
+            });
+        });
     };
 
     render() {
@@ -52,7 +55,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveBank: (values) => dispatch(actions.saveBank(values))
+        saveBank: (values, thenCallback) => dispatch(actions.saveBank(values, thenCallback)),
+        fetchBanks: (thenCallback) => dispatch(actions.fetchBanks(thenCallback)),
     };
 };
 

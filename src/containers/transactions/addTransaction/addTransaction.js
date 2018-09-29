@@ -42,7 +42,7 @@ class addTransaction extends Component {
                     </div>
                     <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
                     <Field type="text" name='checkNumber' component={renderField} placeholder="Check Number" validate={[required()]} />
-                    <Field type="text" name='remark' component={renderField} placeholder="Remark" validate={[required()]}/>
+                    <Field type="text" name='remark' component={renderField} placeholder="Remark" validate={[required()]} />
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
@@ -69,7 +69,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         saveTransaction: (values, thenCallback) => dispatch(actions.saveTransaction(values, thenCallback)),
-        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
     };
 };

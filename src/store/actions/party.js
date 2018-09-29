@@ -56,7 +56,7 @@ export const deleteParty = (partyId) => {
     }
 }
 
-export const editParty = (data) => {
+export const editParty = (data, thenCallback) => {
     return dispatch => {
         ipc.send('editParty', data);
         ipc.once('editPartyResponse', (event, response) => {
@@ -65,6 +65,7 @@ export const editParty = (data) => {
                 payload: response
             });
         });
+        thenCallback();
     }
 }
 

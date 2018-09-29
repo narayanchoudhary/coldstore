@@ -114,6 +114,18 @@ class Transactions extends Component {
                 filter: textFilter(),
                 classes: 'remark'
             }, {
+                dataField: 'bank',
+                text: 'Bank',
+                sort: true,
+                headerSortingStyle: headerSortingStyle,
+                filter: textFilter(),
+                formatter: columnFormatter(this.props.banks),
+                filterValue: filterValue(this.props.banks),
+                editor: {
+                    type: Type.SELECT,
+                    options: this.props.banks,
+                },
+            }, {
                 dataField: '_id',
                 text: 'Action',
                 formatter: createDeleteButton(this.handleClickOnDelete)
@@ -146,6 +158,7 @@ class Transactions extends Component {
 const mapStateToProps = state => {
     return {
         parties: state.party.options,
+        banks: state.bank.options
     }
 }
 

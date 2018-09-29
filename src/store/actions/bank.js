@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 const ipc = window.require("electron").ipcRenderer;
 
-export const saveBank = (values) => {
+export const saveBank = (values, thenCallback) => {
     return dispatch => {
         ipc.send('saveBank', values);
         ipc.once('saveBankResponse', (event, response) => {
@@ -9,6 +9,7 @@ export const saveBank = (values) => {
                 type: actionTypes.SAVE_BANK,
                 payload: response
             });
+            thenCallback();
         })
     }
 };
