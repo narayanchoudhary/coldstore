@@ -31,7 +31,7 @@ class TransactionDatabase {
   };
 
   fetchTransactions(event, data) {
-    TransactionsDB.find({ receiptNumber : { $exists: true } }).sort({ date: 1 }).exec((err, data) => {
+    TransactionsDB.find({ receiptNumber : { $exists: true } }).sort({ updatedAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;

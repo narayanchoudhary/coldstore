@@ -95,7 +95,6 @@ class PartyDatabase {
     });
   };
 
-
   // Remember to add listners
   fetchOpeningBalanceOfParty(event, data) {
     // fetch current year
