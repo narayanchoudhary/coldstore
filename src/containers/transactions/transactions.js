@@ -18,30 +18,14 @@ class Transactions extends Component {
 
     componentDidMount() {
         this.props.fetchTransactions((response) => {
-            this.setState({ transactions: response.data });
+            this.setState({ transactions: response });
         });
     }
-
-    creditFormatter = (cell, row) => {
-        if (row.side === 'credit') {
-            return cell;
-        } else {
-            return '';
-        }
-    };
-
-    debitFormatter = (cell, row) => {
-        if (row.side === 'debit') {
-            return row.amount;
-        } else {
-            return '';
-        }
-    };
 
     handleClickOnDelete = (javakId) => {
         this.props.deleteTransaction(javakId);
         this.props.fetchTransactions((response) => {
-            this.setState({ transactions: response.data });
+            this.setState({ transactions: response });
         });
     }
 
@@ -49,7 +33,17 @@ class Transactions extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editTransaction(row);
+            // changing the row to save it in database correctly
+            let rowTosave = {};
+            if (column.dataField === 'debit') {
+                rowTosave = { ...row, side: 'debit', amount: newValue }
+            } else if (column.dataField === 'credit') {
+                rowTosave = { ...row, side: 'credit', amount: newValue }
+            }
+            this.props.editTransaction(rowTosave);
+            this.props.fetchTransactions((response) => {
+                this.setState({ transactions: response });
+            });
         },
     });
 
@@ -86,19 +80,19 @@ class Transactions extends Component {
                     options: this.props.parties
                 }
             }, {
-                dataField: 'amount',
+                dataField: 'credit',
                 text: 'Credit',
                 sort: true,
                 headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
-                formatter: this.creditFormatter
+                // formatter: this.creditFormatter
             }, {
-                dataField: 'debit',// debit key is not stored in the database it is give to just keep it unique
+                dataField: 'debit', // debit key is not stored in the database it is given to just keep it unique
                 text: 'Debit',
                 sort: true,
                 headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
-                formatter: this.debitFormatter,
+                // formatter: this.debitFormatter,
             }, {
                 dataField: 'checkNumber',
                 text: 'CheckNo',
@@ -158,7 +152,7 @@ class Transactions extends Component {
 const mapStateToProps = state => {
     return {
         parties: state.party.options,
-        banks: state.bank.options
+        banks: state.bank.options,
     }
 }
 

@@ -19,18 +19,26 @@ export const fetchTransactions = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchTransactions', {});
         ipc.once('fetchTransactionsResponse', (event, response) => {
+            // creating the proper formate for the table 
+            let formattedTransactions = response.data.map((transaction) => {
+                if (transaction.side === 'credit') {
+                    return ({ ...transaction, credit: transaction.amount, debit: '' });
+                } else {
+                    return ({ ...transaction, debit: transaction.amount, credit: '' });
+                }
+            });
             dispatch({
                 type: actionTypes.FETCH_TRANSACTIONS,
-                payload: response
+                payload: formattedTransactions
             });
-            thenCallback(response);
+            thenCallback(formattedTransactions);
         });
     }
 }
 
 export const fetchTransactionsByPartyId = (partyId, thenCallback) => {
     return dispatch => {
-        ipc.send('fetchTransactionsByPartyId', {partyId: partyId});
+        ipc.send('fetchTransactionsByPartyId', { partyId: partyId });
         ipc.once('fetchTransactionsByPartyIdResponse', (event, response) => {
             dispatch({
                 type: actionTypes.FETCH_TRANSACTIONS_BY_PARTY_ID,
