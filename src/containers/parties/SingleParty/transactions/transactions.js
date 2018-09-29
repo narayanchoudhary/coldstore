@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory from 'react-bootstrap-table2-editor';
 import filterFactory from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import './transactions.css';
-import { createDeleteButton, rowClasses } from "../../../../utils/utils";
+import { rowClasses, columnFormatter } from "../../../../utils/utils";
 
 class Transactions extends Component {
 
@@ -108,8 +107,7 @@ class Transactions extends Component {
     }
 
     creditFormatter = (cell, row) => {
-        // hariom se puchhe
-        if (row.side === 'debit') {
+        if (row.side === 'credit') {
             return cell;
         } else {
             return '';
@@ -117,7 +115,7 @@ class Transactions extends Component {
     };
 
     debitFormatter = (cell, row) => {
-        if (row.side === 'credit') {
+        if (row.side === 'debit') {
             return row.amount;
         } else {
             return '';
@@ -175,15 +173,10 @@ class Transactions extends Component {
                 text: 'CheckNo',
                 classes: 'uppercase'
             }, {
-                dataField: '_id',
-                text: 'Action',
-                formatter: createDeleteButton(this.handleClickOnDelete)
+                dataField: 'bank',
+                text: 'Bank',
+                formatter: columnFormatter(this.props.banks)
             }];
-
-        let cellEdit = cellEditFactory({
-            mode: 'click',
-            blurToSave: true,
-        });
 
         return (
             <div className="avaksContainer">
@@ -196,7 +189,6 @@ class Transactions extends Component {
                     bordered
                     hover
                     striped
-                    cellEdit={cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No items"
                     rowClasses={rowClasses}
@@ -209,6 +201,7 @@ class Transactions extends Component {
 const mapStateToProps = state => {
     return {
         parties: state.party.parties.data,
+        banks: state.bank.options,
     }
 }
 

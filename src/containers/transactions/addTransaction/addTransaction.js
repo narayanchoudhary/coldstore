@@ -37,8 +37,8 @@ class addTransaction extends Component {
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
                     <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
                     <div className="grid-item radioButtons">
-                        <div><Field name="side" component="input" type="radio" value="in" />Money In</div>
-                        <div><Field name="side" component="input" type="radio" value="out" />Money Out</div>
+                        <div><Field name="side" component="input" type="radio" value="credit" />Money In</div>
+                        <div><Field name="side" component="input" type="radio" value="debit" />Money Out</div>
                     </div>
                     <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
                     <Field type="text" name='checkNumber' component={renderField} placeholder="Check Number" validate={[required()]} />
