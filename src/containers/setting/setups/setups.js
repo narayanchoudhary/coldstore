@@ -62,9 +62,6 @@ class Setups extends Component {
 
         return (
             <div className="partiesContainer">
-                <Link to='/settings/addSetup'>
-                    <Button>  Add Setup </Button>
-                </Link>
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'

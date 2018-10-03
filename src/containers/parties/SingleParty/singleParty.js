@@ -245,7 +245,7 @@ class SingleParty extends Component {
             formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
-        
+
 
         return (
             <Aux>
