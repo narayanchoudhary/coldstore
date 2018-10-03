@@ -57,7 +57,7 @@ class PartyDatabase {
   };
 
   fetchParties(event, data) {
-    partiesDB.find({}).sort({ updatedAt: -1 }).exec((err, data) => {
+    partiesDB.find({}).sort({ name: 1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
