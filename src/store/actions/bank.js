@@ -80,3 +80,13 @@ export const fetchExpensesOfSingleBank = (bankId, thenCallback) => {
         });
     }
 }
+
+export const fetchOpeningBalanceOfBank = (bankId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchOpeningBalanceOfBank', { bankId: bankId });
+        ipc.once('fetchOpeningBalanceOfBankResponse', (event, response) => {
+            // here generaly, we dispatch some action
+            thenCallback(response);
+        });
+    }
+}

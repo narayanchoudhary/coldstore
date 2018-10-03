@@ -99,6 +99,7 @@ export {
     editBank,
     fetchTransactionsOfSingleBank,
     fetchExpensesOfSingleBank,
+    fetchOpeningBalanceOfBank,
 } from './bank';
 
 export {

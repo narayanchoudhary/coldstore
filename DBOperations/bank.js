@@ -1,8 +1,9 @@
 const ipc = require('electron').ipcMain;
+const yearsDB = require('./connections').getInstance().yearsDB;
 const banksDB = require('./connections').getInstance().banksDB;
 const TransactionsDB = require('./connections').getInstance().transactionsDB;
 const ExpensesDB = require('./connections').getInstance().expensesDB;
-const convertToLowerCase = require('../util').convertToLowerCase;
+const OpeningBalanceDB = require('./connections').getInstance().openingBalanceDB;
 
 class BankDatabase {
   constructor(mainWindow) {
@@ -13,20 +14,48 @@ class BankDatabase {
     this.editBank = this.editBank.bind(this);
     this.fetchTransactionsOfSingleBank = this.fetchTransactionsOfSingleBank.bind(this);
     this.fetchExpensesOfSingleBank = this.fetchExpensesOfSingleBank.bind(this);
+    this.fetchOpeningBalanceOfBank = this.fetchOpeningBalanceOfBank.bind(this);
+
     ipc.on('saveBank', this.saveBank);
     ipc.on('fetchBanks', this.fetchBanks);
     ipc.on('deleteBank', this.deleteBank);
     ipc.on('editBank', this.editBank);
     ipc.on('fetchTransactionsOfSingleBank', this.fetchTransactionsOfSingleBank);
     ipc.on('fetchExpensesOfSingleBank', this.fetchExpensesOfSingleBank);
+    ipc.on('fetchOpeningBalanceOfBank', this.fetchOpeningBalanceOfBank);
   }
 
   saveBank(event, data) {
-    data = convertToLowerCase(data);
-    banksDB.insert(data, (err, newDoc) => {
-      let response = {};
-      response.error = err;
-      this.mainWindow.webContents.send('saveBankResponse', response);
+
+    // store openingBalnce and side of transaction in different variable
+    let openingBalance = data.openingBalance;
+    let side = data.side;// side of transaction i.e debit or credit
+
+    // delete openingBalance and side from the data we dont want to store it in the bank
+    delete data.openingBalance;
+    delete data.side;
+
+    // insert bank 
+    banksDB.insert(data, (err, newBank) => {
+
+      // find current year id
+      yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
+
+        // Create opening balance object
+        let openingBalanceData = {};
+        openingBalanceData.particularId = newBank._id;
+        openingBalanceData.openingBalance = openingBalance;// from the form submitted
+        openingBalanceData.yearId = currentYear.yearId;
+        openingBalanceData.side = side;
+
+        // insert opening balance
+        OpeningBalanceDB.insert(openingBalanceData, (err, newDoc) => {
+          let response = {};
+          response.error = err;
+          this.mainWindow.webContents.send('saveBankResponse', response);
+        });
+
+      });
     });
   };
 
@@ -77,6 +106,19 @@ class BankDatabase {
       this.mainWindow.webContents.send('fetchExpensesOfsingleBankResponse', response);
     });
   }
+
+  fetchOpeningBalanceOfBank(event, data) {
+    // fetch current year
+    yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
+      // get opening balance of the Bank of current year
+      OpeningBalanceDB.findOne({ $and: [{ particularId: data.bankId }, { yearId: currentYear.yearId }] }, (err, doc) => {
+        let response = {};
+        response.error = err;
+        response.data = doc
+        this.mainWindow.webContents.send('fetchOpeningBalanceOfBankResponse', response);
+      });
+    });
+  };
 
 }
 

@@ -35,6 +35,10 @@ class addBank extends Component {
                     <Field type="text" name="ifsc" component={renderField} placeholder="IFSC" validate={[required()]} />
                     <Field type="number" name="openingBalance" component={renderField} placeholder="Opening Balance" />
                     <div className="grid-item">
+                        <Field name="side" type="radio" value="credit" component="input" /> credit &nbsp;
+                        <Field name="side" type="radio" value="debit" component="input" /> debit
+                    </div>
+                    <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>
                     </div>
                 </div>
@@ -45,6 +49,7 @@ class addBank extends Component {
 
 const Form = reduxForm({
     form: 'addBank',// a unique identifier for this form
+    initialValues: { openingBalance: '0', side: 'credit' }
 })(addBank);
 
 const mapStateToProps = state => {

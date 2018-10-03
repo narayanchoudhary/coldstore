@@ -28,7 +28,7 @@ class Banks extends Component {
 
     handleClickOnView(bankId) {
         let selectedBank = this.props.banks.find(bank => bankId === bank._id);
-        this.setState({selectedBank: selectedBank});
+        this.setState({ selectedBank: selectedBank });
     }
 
     cellEdit = cellEditFactory({
@@ -70,9 +70,6 @@ class Banks extends Component {
         }, {
             dataField: 'ifsc',
             text: 'IFSC',
-        }, {
-            dataField: 'openingBalance',
-            text: 'Opening Balance',
         }, {
             dataField: '_id',
             text: 'Action',

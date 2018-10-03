@@ -40,7 +40,7 @@ class PartyDatabase {
 
         // Create opening balance object
         let openingBalanceData = {};
-        openingBalanceData.partyId = newParty._id;
+        openingBalanceData.particularId = newParty._id;
         openingBalanceData.openingBalance = openingBalance;// from the form submitted
         openingBalanceData.yearId = currentYear.yearId;
         openingBalanceData.side = side;
@@ -95,12 +95,11 @@ class PartyDatabase {
     });
   };
 
-  // Remember to add listners
   fetchOpeningBalanceOfParty(event, data) {
     // fetch current year
     yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
       // get opening balance of the party of current year
-      OpeningBalanceDB.findOne({ $and: [{ partyId: data.partyId }, { yearId: currentYear.yearId }] }, (err, doc) => {
+      OpeningBalanceDB.findOne({ $and: [{ particularId: data.partyId }, { yearId: currentYear.yearId }] }, (err, doc) => {
         let response = {};
         response.error = err;
         response.data = doc

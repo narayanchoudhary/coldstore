@@ -39,6 +39,8 @@ class Transactions extends Component {
                 rowTosave = { ...row, side: 'debit', amount: newValue }
             } else if (column.dataField === 'credit') {
                 rowTosave = { ...row, side: 'credit', amount: newValue }
+            } else {
+                rowTosave = { ...row }
             }
             this.props.editTransaction(rowTosave);
             this.props.fetchTransactions((response) => {
@@ -85,14 +87,12 @@ class Transactions extends Component {
                 sort: true,
                 headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
-                // formatter: this.creditFormatter
             }, {
                 dataField: 'debit', // debit key is not stored in the database it is given to just keep it unique
                 text: 'Debit',
                 sort: true,
                 headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
-                // formatter: this.debitFormatter,
             }, {
                 dataField: 'checkNumber',
                 text: 'CheckNo',

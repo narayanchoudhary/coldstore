@@ -46,15 +46,15 @@ class Transactions extends Component {
                 transactionResponse.data.unshift(totalRent);
 
                 // insert opening balance in the transactions
-                let party = response.data;
-                let openingBalance = {
+                let openingBalance = response.data;
+                let openingBalanceRow = {
                     _id: 'openingBalance',
-                    amount: party.openingBalance,
+                    amount: openingBalance.openingBalance,
                     remark: 'Opening Balance',
-                    side: party.side,
+                    side: openingBalance.side,
                     deleteButton: 'no',
                 };
-                transactionResponse.data.unshift(openingBalance);
+                transactionResponse.data.unshift(openingBalanceRow);
                 transactionResponse.data.push(this.getFooterData(transactionResponse.data));
                 this.setState({ transactions: transactionResponse.data });
             });

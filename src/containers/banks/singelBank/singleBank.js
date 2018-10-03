@@ -15,31 +15,56 @@ class SingleBank extends Component {
     componentDidMount() {
         this.props.fetchTransactionsOfSingleBank(this.props.bank._id, () => {
             this.props.fetchExpensesOfSingleBank(this.props.bank._id, () => {
-                let statement = [...this.props.transactions, ...this.props.expenses];
-                statement.sort((a, b) => {
-                    const aDate = moment(a.date, 'DD-MM-YYYY');
-                    const bDate = moment(b.date, 'DD-MM-YYYY');
-                    return -( aDate.diff(bDate, 'days'));
-                });
-                
-                statement = statement.map((statement) => {
-                    let party =  statement.party;
-                    if(statement.expenseCategory) {
-                        party = statement.expenseCategory;
-                    }
-                    let debit;
-                    let credit;
-                    if(statement.side === 'credit') {
-                        credit = statement.amount;
-                    } else if(statement.side === 'debit') {
-                        debit = statement.amount;
-                    } else {
-                        debit = statement.amount;
-                    }
+                this.props.fetchOpeningBalanceOfBank(this.props.bank._id, (response) => {
 
-                    return { ...statement, party: party, debit: debit, credit: credit}
+                    let statement = [...this.props.transactions, ...this.props.expenses];
+                    // Sort statement according to date
+                    statement.sort((a, b) => {
+                        const aDate = moment(a.date, 'DD-MM-YYYY');
+                        const bDate = moment(b.date, 'DD-MM-YYYY');
+                        return -(aDate.diff(bDate, 'days'));
+                    });
+
+                    statement = statement.map((statement) => {
+                        let party = statement.party;
+                        if (statement.expenseCategory) {
+                            party = statement.expenseCategory;
+                        }
+                        let debit;
+                        let credit;
+                        if (statement.side === 'credit') {
+                            credit = statement.amount;
+                        } else if (statement.side === 'debit') {
+                            debit = statement.amount;
+                        } else {
+                            debit = statement.amount;
+                        }
+
+                        return { ...statement, party: party, debit: debit, credit: credit }
+                    });
+
+                    // insert opening balance in the transactions
+                    console.log('openingBalance', openingBalance);
+                    let openingBalance = response.data;
+                    let openingBalanceRow = {
+                        _id: 'openingBalance',
+                        date: openingBalance.date,
+                        party: 'Opening Balance',
+                        credit: '',
+                        debit: '',
+                        deleteButton: 'no',
+                    };
+
+                    if (openingBalance.side === 'credit') {
+                        openingBalanceRow = { ...openingBalanceRow, credit: openingBalance.openingBalance }
+                    } else {
+                        openingBalanceRow = { ...openingBalanceRow, debit: openingBalance.openingBalance }
+                    }
+                    console.log('openingBalanceRow: ', openingBalanceRow);
+
+                    statement.unshift(openingBalanceRow);
+                    this.setState({ statement: statement });
                 });
-                this.setState({ statement: statement });
             });
         });
     }
@@ -64,7 +89,7 @@ class SingleBank extends Component {
             text: 'Particular',
             sort: true,
             headerSortingStyle,
-            formatter: columnFormatter([...this.props.parties, ...this.props.expenseCategories ]),
+            formatter: columnFormatter([...this.props.parties, ...this.props.expenseCategories]),
         }, {
             dataField: 'checkNumber',
             text: 'Check Number',
@@ -88,7 +113,7 @@ class SingleBank extends Component {
         }];
 
         return (
-            <div className="partyAccount avaksContainer">
+            <div className="partyAccount avaksContainer" >
                 <h3 className="partyName" >{this.props.bank ? this.props.bank.bankName + ' statement' : null}</h3>
                 <BootstrapTable
                     columns={columns}
@@ -118,7 +143,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchTransactionsOfSingleBank: (bankId, thenCallback) => dispatch(actions.fetchTransactionsOfSingleBank(bankId, thenCallback)),
-        fetchExpensesOfSingleBank: (bankId, thenCallback) => dispatch(actions.fetchExpensesOfSingleBank(bankId, thenCallback))
+        fetchExpensesOfSingleBank: (bankId, thenCallback) => dispatch(actions.fetchExpensesOfSingleBank(bankId, thenCallback)),
+        fetchOpeningBalanceOfBank: (bankId, thenCallback) => dispatch(actions.fetchOpeningBalanceOfBank(bankId, thenCallback)),
     };
 };
 

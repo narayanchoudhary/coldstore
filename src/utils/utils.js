@@ -41,7 +41,7 @@ export const filterValue = (items) => {
 export const paginationOptions = (items) => {
     return {
         sizePerPageList: [{
-            text: '11', value: 11
+            text: '5', value: 5
         }, {
             text: '12', value: 12
         }, {
