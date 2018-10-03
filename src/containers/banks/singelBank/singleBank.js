@@ -44,7 +44,6 @@ class SingleBank extends Component {
                     });
 
                     // insert opening balance in the transactions
-                    console.log('openingBalance', openingBalance);
                     let openingBalance = response.data;
                     let openingBalanceRow = {
                         _id: 'openingBalance',

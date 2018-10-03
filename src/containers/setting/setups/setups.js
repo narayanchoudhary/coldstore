@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import filterFactory from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './setups.css';
-import Button from '../../../components/UI/button/button';
 import { columnFormatter } from '../../../utils/utils';
 import { rowClasses } from '../../../utils/utils';
 
