@@ -10,7 +10,6 @@ import AddVariety from './../../containers/setting/varieties/addVariety/addVarie
 import Size from './../../containers/setting/sizes/sizes';
 import AddSize from './../../containers/setting/sizes/addSize/addSize';
 import Setup from './../../containers/setting/setups/setups';
-import AddSetup from './../../containers/setting/setups/addSetup/addSetup';
 import Year from './years/years';
 import AddYear from './years/addYear/addYear';
 import Address from './../../containers/setting/addresses/addresses';
@@ -41,7 +40,6 @@ export class Settings extends Component {
                             <Route path='/settings/addYear' component={AddYear} />
 
                             <Route path='/settings/setups' component={Setup} />
-                            <Route path='/settings/addSetup' component={AddSetup} />
 
                             <Route path='/settings/addresses' component={Address} />
                             <Route path='/settings/addAddress' component={AddAddress} />
