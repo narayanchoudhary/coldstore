@@ -105,7 +105,6 @@ export const getJavakHammaliOfItem = (setups, itemId) => {
     if (setupObject) {
         javakHammali = setupObject.javakHammali;
     }
-    console.log('javakHammali: ', javakHammali);
     return javakHammali;
 }
 
