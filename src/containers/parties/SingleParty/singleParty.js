@@ -268,7 +268,6 @@ class SingleParty extends Component {
                     partyId={this.props.match.params.partyId}
                     totalRent={this.getTotalRent(this.props.avaksOfSingleParty)}
                     totalAvakHammali={this.getTotalAvakHammali(this.props.avaksOfSingleParty)}
-                    totalJavakHammali={this.getTotalJavakHammali(this.state.javakLots)}
                 />
             </Aux>
         )
