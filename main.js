@@ -17,12 +17,13 @@ const ExpenseCategoryDatabase = require('./DBOperations/expenseCategory.js');
 const Expense = require('./DBOperations/expense.js');
 const Dashboard = require('./DBOperations/dashboard.js');
 
-let mainWindow;
+const path = require('path');
 
+let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 1000, height: 700 });
   mainWindow.maximize();
-  mainWindow.loadURL('http://localhost:3000/');
+  mainWindow.loadURL(path.join('file://', __dirname, '/build/index.html'));
   const partyDatabase = new PartyDatabase(mainWindow);
   const avakDatabase = new AvakDatabase(mainWindow);
   const javakDatabase = new JavakDatabase(mainWindow);
