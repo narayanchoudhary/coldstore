@@ -4,9 +4,9 @@ import './button.css';
 class Button extends Component {
     render () {
         return (
-            <div className="button">
+            <button className="button" autoFocus>
                 {this.props.children}
-            </div>
+            </button>
         )
     }
 }
