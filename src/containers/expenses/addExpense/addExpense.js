@@ -21,16 +21,13 @@ class addExpense extends Component {
     submit = (values) => {
         values.expenseCategory = values.expenseCategory.value;
         values.bank = values.bank.value;
+        values.yearId = this.props.currentYear;
         this.props.saveExpense(values, () => {
-            console.log('inside thencallbak');
-            
             this.setState({ redirectToExpenses: true });
         });
     };
 
     render() {
-        console.log('this.state.redirectToExpense', this.state.redirectToExpenses);
-        
         return (
             <form onSubmit={this.handleSubmit(this.submit)}>
                 {this.state.redirectToExpenses ? <Redirect to="/expenses" /> : null}
@@ -58,7 +55,8 @@ const Form = reduxForm({
 const mapStateToProps = state => {
     return {
         expenseCategories: state.expenseCategory.options,
-        banks: state.bank.options
+        banks: state.bank.options,
+        currentYear: state.year.currentYear,
     }
 }
 

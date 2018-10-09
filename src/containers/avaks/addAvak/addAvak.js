@@ -36,6 +36,7 @@ class addAvak extends Component {
         values.size = values.size.value;
         values.item = values.item.value;
         values.variety = values.variety.value;
+        values.yearId = this.props.currentYear; // Add current year 
         this.props.saveAvak(values, () => {
             this.setState({ redirectToAvaks: true })
         });
@@ -81,7 +82,7 @@ const mapStateToProps = state => {
         items: state.item.options,
         varieties: state.variety.options,
         sizes: state.size.options,
-        addresses: state.address.options
+        addresses: state.address.options,
     }
 }
 

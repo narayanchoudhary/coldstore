@@ -22,6 +22,7 @@ class addTransaction extends Component {
         delete values.address;
         values.party = values.party.value;
         values.bank = values.bank.value;
+        values.yearId = this.props.currentYear;
         this.props.saveTransaction(values, () => {
             this.setState({ redirectToTransactions: true });
         });
@@ -62,7 +63,8 @@ const mapStateToProps = state => {
         parties: state.party.options,
         filteredParties: state.party.filteredPartiesOptions,
         addresses: state.address.options,
-        banks: state.bank.options
+        banks: state.bank.options,
+        currentYear: state.year.currentYear,
     }
 }
 
