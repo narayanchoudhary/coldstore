@@ -31,7 +31,7 @@ class addAvak extends Component {
     }
 
     submit = (values) => {
-        values.addressId = values.address.value;
+        values.address = values.address.value;
         values.party = values.party.value;
         values.size = values.size.value;
         values.item = values.item.value;

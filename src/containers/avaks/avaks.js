@@ -25,10 +25,13 @@ class Avaks extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editAvak(row, ()=> {
+            if (column.dataField === 'address') {
+                this.props.filterPartiesByAddress(this.props.parties, { value: newValue });
+            }
+            this.props.editAvak(row, () => {
 
             });
-        },
+        }
     });
 
     rowClasses = (row, rowIndex) => {
@@ -55,7 +58,21 @@ class Avaks extends Component {
             filter: textFilter(),
             validator: dateValidater
 
-        }, {
+        },
+        {
+            dataField: 'address',
+            text: 'Address',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter(),
+            formatter: columnFormatter(this.props.addresses),
+            filterValue: filterValue(this.props.addresses),
+            editor: {
+                type: Type.SELECT,
+                options: this.props.addresses
+            }
+        },
+        {
             dataField: 'party',
             text: 'Party',
             sort: true,
@@ -65,7 +82,17 @@ class Avaks extends Component {
             filterValue: filterValue(this.props.parties),
             editor: {
                 type: Type.SELECT,
-                options: this.props.parties
+                options: this.props.filteredParties
+            },
+            validator: (newValue, row, column) => {
+                console.log('newValue: ', newValue);
+                if (newValue === '') {
+                    return {
+                        valid: false,
+                        message: 'Party can not be empty',
+                    };
+                }
+                return true;
             }
         }, {
             dataField: 'item',
@@ -181,6 +208,7 @@ class Avaks extends Component {
             formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
+        console.log('this.props.filteredParties: ', this.props.filteredParties);
         return (
             <div className="avaksContainer">
                 <Link to='/avaks/addAvak'>
@@ -211,7 +239,9 @@ const mapStateToProps = state => {
         parties: state.party.options,
         items: state.item.options,
         varieties: state.variety.options,
-        sizes: state.size.options
+        sizes: state.size.options,
+        addresses: state.address.options,
+        filteredParties: state.party.filteredPartiesOptions,
     }
 }
 
@@ -220,7 +250,8 @@ const mapDispatchToProps = dispatch => {
         fetchAvaks: (thenCallback) => dispatch(actions.fetchAvaks(thenCallback)),
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
-        editAvak: (avak, thenCallback) => dispatch(actions.editAvak(avak, thenCallback))
+        editAvak: (avak, thenCallback) => dispatch(actions.editAvak(avak, thenCallback)),
+        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
     };
 };
 
