@@ -31,11 +31,12 @@ class addAvak extends Component {
     }
 
     submit = (values) => {
+        values.addressId = values.address.value;
         values.party = values.party.value;
         values.size = values.size.value;
         values.item = values.item.value;
         values.variety = values.variety.value;
-        values.yearId = this.props.currentYear; // Add current year 
+        values.yearId = this.props.currentYear.value; // Add current year 
         this.props.saveAvak(values, () => {
             this.setState({ redirectToAvaks: true })
         });

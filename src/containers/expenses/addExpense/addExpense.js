@@ -21,7 +21,7 @@ class addExpense extends Component {
     submit = (values) => {
         values.expenseCategory = values.expenseCategory.value;
         values.bank = values.bank.value;
-        values.yearId = this.props.currentYear;
+        values.yearId = this.props.currentYear.value;
         this.props.saveExpense(values, () => {
             this.setState({ redirectToExpenses: true });
         });

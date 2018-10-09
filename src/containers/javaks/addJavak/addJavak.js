@@ -32,7 +32,7 @@ class addJavak extends Component {
         delete values.address;
         values.party = values.party.value;
         values.merchant = values.merchant.value;
-        values.yearId = this.props.currentYear; // Add current year 
+        values.yearId = this.props.currentYear.value; // Add current year 
         this.props.saveJavak(values, (result) => {
             this.setState({ redirectToJavaks: true });
         });
