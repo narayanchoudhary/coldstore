@@ -42,6 +42,7 @@ class addParty extends Component {
 
     submit = (values) => {
         values.address = values.address.value;
+        if(!values.phone) values.phone = ''; // if we do not do this then this will create problem while editing the phone number in parties.js     
         this.props.saveParty(values, () => {
             this.props.fetchParties(() => {
                 this.setState({ redirectToParties: true })
