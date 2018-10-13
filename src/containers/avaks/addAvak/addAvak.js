@@ -28,6 +28,7 @@ class addAvak extends Component {
 
     componentDidMount() {
         this.props.filterPartiesByAddress(this.props.parties, {});
+        this.props.fetchLastAvak(() => {});
     }
 
     submit = (values) => {
@@ -72,6 +73,7 @@ class addAvak extends Component {
 
 const Form = reduxForm({
     form: 'avak',// a unique identifier for this form
+    enableReinitialize: true,
 })(addAvak);
 
 const mapStateToProps = state => {
@@ -83,14 +85,15 @@ const mapStateToProps = state => {
         varieties: state.variety.options,
         sizes: state.size.options,
         addresses: state.address.options,
+        initialValues: state.avak.lastAvak
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         saveAvak: (values, thenCallback) => dispatch(actions.saveAvak(values, thenCallback)),
-        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        fetchLastAvak: (thenCallback) => dispatch(actions.fetchLastAvak(thenCallback)),
     };
 };
 

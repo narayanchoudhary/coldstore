@@ -23,7 +23,7 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 1000, height: 700 });
   mainWindow.maximize();
-  //mainWindow.loadURL(path.join('file://', __dirname, '/build/index.html'));
+  // mainWindow.loadURL(path.join('file://', __dirname, '/build/index.html'));
   mainWindow.loadURL('http://localhost:3000');
   const partyDatabase = new PartyDatabase(mainWindow);
   const avakDatabase = new AvakDatabase(mainWindow);

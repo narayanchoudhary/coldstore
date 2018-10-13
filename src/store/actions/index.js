@@ -14,6 +14,7 @@ export {
     fetchAvaksByPartyId,
     deleteAvak,
     editAvak,
+    fetchLastAvak,
 } from './avak';
 
 export {

@@ -77,6 +77,29 @@ export const editAvak = (data, thenCallback) => {
     }
 }
 
+export const fetchLastAvak = (thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchLastAvak', {});
+        ipc.once('fetchLastAvakResponse', (event, response) => {
+            // delete the data we dont want to initialize in the add avak form
+            delete response.data[0].privateMarka;
+            delete response.data[0].remark;
+            delete response.data[0].floor;
+            delete response.data[0].rack;
+            delete response.data[0].motorNumber;
+            delete response.data[0].packet;
+            delete response.data[0].weight;
+            
+            dispatch({
+                type: actionTypes.FETCH_LAST_AVAK,
+                payload: response.data[0],
+            });
+            thenCallback(response);
+        });
+    }
+}
+
+
 const getFooterData = (avaks) => {
     // Do not create footer if no avaks
     if (avaks.length === 0) {

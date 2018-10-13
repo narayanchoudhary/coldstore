@@ -85,7 +85,6 @@ class Avaks extends Component {
                 options: this.props.filteredParties
             },
             validator: (newValue, row, column) => {
-                console.log('newValue: ', newValue);
                 if (newValue === '') {
                     return {
                         valid: false,
@@ -208,7 +207,6 @@ class Avaks extends Component {
             formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
-        console.log('this.props.filteredParties: ', this.props.filteredParties);
         return (
             <div className="avaksContainer">
                 <Link to='/avaks/addAvak'>

@@ -8,11 +8,13 @@ class AvakDatabase {
     this.fetchAvaksByPartyId = this.fetchAvaksByPartyId.bind(this);
     this.deleteAvak = this.deleteAvak.bind(this);
     this.editAvak = this.editAvak.bind(this);
+    this.fetchLastAvak = this.fetchLastAvak.bind(this);
     ipc.on('saveAvak', this.saveAvak);
     ipc.on('fetchAvaks', this.fetchAvaks);
     ipc.on('fetchAvaksByPartyId', this.fetchAvaksByPartyId);
     ipc.on('deleteAvak', this.deleteAvak);
     ipc.on('editAvak', this.editAvak);
+    ipc.on('fetchLastAvak', this.fetchLastAvak);
   }
 
   saveAvak(event, data) {
@@ -70,6 +72,17 @@ class AvakDatabase {
       this.mainWindow.webContents.send('editAvakResponse', response);
     });
   };
+
+  fetchLastAvak(event, data) {
+    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ receiptNumber: -1 }).limit(1).exec((err, data) => {
+      let response = {};
+      response.error = err;
+      response.data = data;
+
+      this.mainWindow.webContents.send('fetchLastAvakResponse', response);
+    });
+  };
+
 }
 
 module.exports = AvakDatabase;

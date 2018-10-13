@@ -5,7 +5,6 @@ export const fetchDashboard = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchDashboard', {});
         ipc.once('fetchDashboardResponse', (event, response) => {
-            console.log('response: ', response);
             dispatch({
                 type: actionTypes.FETCH_DASHBOARD,
                 payload: response

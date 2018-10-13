@@ -59,7 +59,6 @@ class SingleBank extends Component {
                     } else {
                         openingBalanceRow = { ...openingBalanceRow, debit: openingBalance.openingBalance }
                     }
-                    console.log('openingBalanceRow: ', openingBalanceRow);
 
                     statement.unshift(openingBalanceRow);
                     this.setState({ statement: statement });
