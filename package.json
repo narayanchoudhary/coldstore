@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "electron": "^2.0.2",
-    "jquery": "^3.3.1",
+    "bootstrap": "^3.3.7",
     "moment": "^2.22.2",
     "nedb": "^1.8.0",
     "react": "^16.4.0",
@@ -25,8 +24,7 @@
     "reactstrap": "^6.3.1",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
-    "redux-form-validators": "^2.7.2",
-    "redux-thunk": "^2.3.0"
+    "redux-form-validators": "^2.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
