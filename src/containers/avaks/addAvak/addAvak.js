@@ -28,7 +28,7 @@ class addAvak extends Component {
 
     componentDidMount() {
         this.props.filterPartiesByAddress(this.props.parties, {});
-        this.props.fetchLastAvak(() => {});
+        this.props.fetchLastAvak(() => { });
     }
 
     submit = (values) => {
@@ -72,8 +72,9 @@ class addAvak extends Component {
 }
 
 const Form = reduxForm({
-    form: 'avak',// a unique identifier for this form
-    enableReinitialize: true,
+    form: 'avakForm',// a unique identifier for this form
+    keepDirtyOnReinitialize: true,
+    enableReinitialize: true
 })(addAvak);
 
 const mapStateToProps = state => {
@@ -85,7 +86,7 @@ const mapStateToProps = state => {
         varieties: state.variety.options,
         sizes: state.size.options,
         addresses: state.address.options,
-        initialValues: state.avak.lastAvak
+        initialValues: state.avak.lastAvak,
     }
 }
 

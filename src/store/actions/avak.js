@@ -84,12 +84,14 @@ export const fetchLastAvak = (thenCallback) => {
             // delete the data we dont want to initialize in the add avak form
             delete response.data[0].privateMarka;
             delete response.data[0].remark;
-            delete response.data[0].floor;
             delete response.data[0].rack;
             delete response.data[0].motorNumber;
             delete response.data[0].packet;
             delete response.data[0].weight;
-            
+            delete response.data[0]._id;
+            delete response.data[0].createdAt;
+            delete response.data[0].updatedAt;
+
             dispatch({
                 type: actionTypes.FETCH_LAST_AVAK,
                 payload: response.data[0],

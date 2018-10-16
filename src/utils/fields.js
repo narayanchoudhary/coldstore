@@ -36,6 +36,20 @@ export const renderField = ({ input, label, type, meta: { touched, error, warnin
 
 export class renderSelectField extends Component {
     render() {
+        // Doing this shit because initialValues in addAvak form not working
+        // beacuse initialValues is passing only the value not both value and label
+
+        if (!this.props.input.value.label && this.props.options) { // if the this.props.input.value is not an object { value: '', label: '' }
+            let label = this.props.options.filter((option) => { // find the label of the value
+                return option.value === this.props.input.value;
+            })[0];
+
+            if (label) {
+                label = label.label;
+            }
+            this.props.input.value = { value: this.props.input.value, label: label }
+        }
+        // Shit ends here
         return (
             <div className="grid-item">
                 <div className="input-group">
