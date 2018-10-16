@@ -18,11 +18,17 @@ class AvakDatabase {
   }
 
   saveAvak(event, data) {
-    // for auto id
-    avaksDB.insert({ _id: '__autoid__', value: 0 });
+    // for auto id of rashan and chips
+    avaksDB.insert({ _id: '__autoid__chips', value: 0 });
+    avaksDB.insert({ _id: '__autoid__rashan', value: 0 });
 
-    avaksDB.findOne({ _id: '__autoid__' }, (err, doc) => {
-      avaksDB.update({ _id: '__autoid__' }, { $set: { value: ++doc.value } }, {}, () => {
+    let autoId = '__autoid__chips';
+    if (data.type === 'rashan') { // potato type
+      autoId = '__autoid__rashan';
+    }
+
+    avaksDB.findOne({ _id: autoId }, (err, doc) => {
+      avaksDB.update({ _id: autoId }, { $set: { value: ++doc.value } }, {}, () => {
         data.receiptNumber = doc.value;
         avaksDB.insert(data, (err, newDoc) => {
           let response = {};

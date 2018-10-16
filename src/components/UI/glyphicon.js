@@ -55,7 +55,10 @@ class Glyphicon extends Component {
             classes.push('glyphicon-qrcode')
         } else if (this.props.type === 'expenseCategory' || this.props.type === 'expenseCategoryName') {
             classes.push('glyphicon-tags')
+        }else if (this.props.type === 'type') {
+            classes.push('glyphicon-cutlery')
         }
+
         return (
             <i className={classes.join(" ")}></i>
         )

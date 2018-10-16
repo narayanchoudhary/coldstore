@@ -33,6 +33,7 @@ class addAvak extends Component {
 
     submit = (values) => {
         values.address = values.address.value;
+        values.type = values.type.value;
         values.party = values.party.value;
         values.size = values.size.value;
         values.item = values.item.value;
@@ -44,6 +45,7 @@ class addAvak extends Component {
     };
 
     render() {
+        console.log('this.props',this.props);
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
@@ -52,6 +54,7 @@ class addAvak extends Component {
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
                     <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
+                    <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} />
                     <Field name="variety" component={renderSelectField} placeholder="Variety" options={this.props.varieties} validate={[required()]} />
                     <Field name="size" component={renderSelectField} placeholder="Size" options={this.props.sizes} validate={[required()]} />
                     <Field type="text" name="privateMarka" component={renderField} placeholder="Priavate Marka" validate={[required()]} />
@@ -86,6 +89,7 @@ const mapStateToProps = state => {
         varieties: state.variety.options,
         sizes: state.size.options,
         addresses: state.address.options,
+        type: state.item.typeOptions,
         initialValues: state.avak.lastAvak,
     }
 }

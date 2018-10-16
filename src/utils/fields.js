@@ -39,7 +39,7 @@ export class renderSelectField extends Component {
         // Doing this shit because initialValues in addAvak form not working
         // beacuse initialValues is passing only the value not both value and label
 
-        if (!this.props.input.value.label && this.props.options) { // if the this.props.input.value is not an object { value: '', label: '' }
+        if (!this.props.input.value.label && this.props.input.value) { // if the this.props.input.value is not an object { value: '', label: '' }
             let label = this.props.options.filter((option) => { // find the label of the value
                 return option.value === this.props.input.value;
             })[0];

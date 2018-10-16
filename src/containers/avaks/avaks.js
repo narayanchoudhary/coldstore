@@ -94,6 +94,18 @@ class Avaks extends Component {
                 return true;
             }
         }, {
+            dataField: 'type',
+            text: 'Type',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter(),
+            formatter: columnFormatter(this.props.type),
+            editor: {
+                type: Type.SELECT,
+                options: this.props.type
+            },
+            filterValue: filterValue(this.props.type)
+        }, {
             dataField: 'item',
             text: 'Item',
             sort: true,
@@ -239,6 +251,7 @@ const mapStateToProps = state => {
         varieties: state.variety.options,
         sizes: state.size.options,
         addresses: state.address.options,
+        type: state.item.typeOptions,
         filteredParties: state.party.filteredPartiesOptions,
     }
 }

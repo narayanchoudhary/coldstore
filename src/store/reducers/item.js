@@ -1,7 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
     items: [],
-    options: []//    formatted items for dropdown
+    options: [], // formatted items for dropdown
+    type: ['chips', 'rashan'],
+    typeOptions: [
+        { value: 'chips', label: 'chips' },
+        { value: 'rashan', label: 'rashan' }
+    ],
 }
 
 const reducer = (state = initState, action) => {
@@ -9,21 +14,26 @@ const reducer = (state = initState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_ITEMS:
             newState = {
+                ...state,
                 items: action.payload.data,
                 options: action.payload.options
             };
             break;
         case actionTypes.DELETE_PARTY:
             if (action.payload.error) {
-                newState = { ...state
+                newState = {
+                    ...state
                 };
-                newState.deleteParty = { ...state.deleteParty,
+                newState.deleteParty = {
+                    ...state.deleteParty,
                     error: true
                 };
             } else {
-                newState = { ...state
+                newState = {
+                    ...state
                 };
-                newState.deleteParty = { ...state.deleteParty,
+                newState.deleteParty = {
+                    ...state.deleteParty,
                     error: false
                 };
             }
