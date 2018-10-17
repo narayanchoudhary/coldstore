@@ -27,10 +27,11 @@ class addAvak extends Component {
     }
 
     componentDidMount() {
-        this.props.filterPartiesByAddress(this.props.parties, {});
-        this.props.fetchLastAvak(() => { });
+        this.props.fetchLastAvak((response) => { 
+            this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
+        });
     }
-
+    
     submit = (values) => {
         values.address = values.address.value;
         values.type = values.type.value;
@@ -43,20 +44,19 @@ class addAvak extends Component {
             this.setState({ redirectToAvaks: true })
         });
     };
-
+    
     render() {
-        console.log('this.props',this.props);
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
                 <div className="grid-container">
-                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} autoFocus />
-                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
-                    <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
                     <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} />
+                    <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
+                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]}  />
                     <Field name="variety" component={renderSelectField} placeholder="Variety" options={this.props.varieties} validate={[required()]} />
                     <Field name="size" component={renderSelectField} placeholder="Size" options={this.props.sizes} validate={[required()]} />
+                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} autoFocus />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
                     <Field type="text" name="privateMarka" component={renderField} placeholder="Priavate Marka" validate={[required()]} />
                     <Field type="number" name="packet" component={renderField} placeholder="Packet" min="0" validate={[required()]} warn={overWeight} />
                     <Field type="number" name="weight" component={renderField} placeholder="Weight" min="0" validate={[required()]} />

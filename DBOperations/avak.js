@@ -40,7 +40,7 @@ class AvakDatabase {
   };
 
   fetchAvaks(event, data) {
-    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ date: 1 }).exec((err, data) => {
+    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
@@ -80,7 +80,7 @@ class AvakDatabase {
   };
 
   fetchLastAvak(event, data) {
-    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ receiptNumber: -1 }).limit(1).exec((err, data) => {
+    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).limit(1).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;

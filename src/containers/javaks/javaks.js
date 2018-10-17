@@ -138,7 +138,7 @@ class Javaks extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Javak"
-                    pagination={paginationFactory(paginationOptions(this.props.javaks))}
+                    pagination={paginationFactory(paginationOptions(this.props.data))}
                     rowClasses={rowClasses}
                 />
                 {

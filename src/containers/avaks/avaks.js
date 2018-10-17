@@ -235,7 +235,7 @@ class Avaks extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Avak"
-                    pagination={paginationFactory(paginationOptions(this.props.avaks))}
+                    pagination={paginationFactory(paginationOptions(this.props.data))}
                     rowClasses={rowClasses}
                 />
             </div>
