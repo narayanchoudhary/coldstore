@@ -82,7 +82,6 @@ export const fetchLastAvak = (thenCallback) => {
         ipc.send('fetchLastAvak', {});
         ipc.once('fetchLastAvakResponse', (event, response) => {
             // delete the data we dont want to initialize in the add avak form
-            delete response.data[0].privateMarka;
             delete response.data[0].remark;
             delete response.data[0].rack;
             delete response.data[0].motorNumber;
