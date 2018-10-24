@@ -8,6 +8,7 @@ import 'react-select/dist/react-select.css';
 import { renderField, renderSelectField } from '../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import { required, date } from 'redux-form-validators';
+import Aux from '../../../components/Auxilary/Auxilary';
 
 const overWeight = (value, allValues, props) => {
     let warning = undefined;
@@ -27,11 +28,11 @@ class addAvak extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchLastAvak((response) => { 
+        this.props.fetchLastAvak((response) => {
             this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
         });
     }
-    
+
     submit = (values) => {
         values.address = values.address.value;
         values.type = values.type.value;
@@ -42,39 +43,42 @@ class addAvak extends Component {
         values.yearId = this.props.currentYear.value; // Add current year 
 
         // doing this shit so that we dont face any problem while editing the avaks
-        if(!values.privateMarka) values.privateMarka = '';
-        if(!values.motorNumber) values.motorNumber = '';
+        if (!values.privateMarka) values.privateMarka = '';
+        if (!values.motorNumber) values.motorNumber = '';
 
         this.props.saveAvak(values, () => {
             this.setState({ redirectToAvaks: true })
         });
     };
-    
+
     render() {
         return (
-            <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
-                {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
-                <div className="grid-container">
-                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]}  />
-                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} validate={[required()]}  autoFocus />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
-                    <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} />
-                    <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
-                    <Field name="variety" component={renderSelectField} placeholder="Variety" options={this.props.varieties} validate={[required()]} />
-                    <Field name="size" component={renderSelectField} placeholder="Size" options={this.props.sizes} validate={[required()]} />
-                    <Field type="text" name="privateMarka" component={renderField} placeholder="Priavate Marka" />
-                    <Field type="number" name="packet" component={renderField} placeholder="Packet" min="0" validate={[required()]} warn={overWeight} />
-                    <Field type="number" name="weight" component={renderField} placeholder="Weight" min="0" validate={[required()]} />
-                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
-                    <Field type="text" name="remark" component={renderField} placeholder="Remark" />
-                    <Field type="number" name='chamber' component={renderField} placeholder="Chamber" validate={[required()]} />
-                    <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
-                    <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />
-                    <div className="grid-item">
-                        <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
+            <Aux>
+                <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
+                    {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
+                    <p className="receiptNumber">Reciept Number: {parseInt(this.props.receiptNumber, 10) + 1}</p>
+                    <div className="grid-container">
+                        <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
+                        <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} validate={[required()]} autoFocus />
+                        <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
+                        <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} />
+                        <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
+                        <Field name="variety" component={renderSelectField} placeholder="Variety" options={this.props.varieties} validate={[required()]} />
+                        <Field name="size" component={renderSelectField} placeholder="Size" options={this.props.sizes} validate={[required()]} />
+                        <Field type="text" name="privateMarka" component={renderField} placeholder="Priavate Marka" />
+                        <Field type="number" name="packet" component={renderField} placeholder="Packet" min="0" validate={[required()]} warn={overWeight} />
+                        <Field type="number" name="weight" component={renderField} placeholder="Weight" min="0" validate={[required()]} />
+                        <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
+                        <Field type="text" name="remark" component={renderField} placeholder="Remark" />
+                        <Field type="number" name='chamber' component={renderField} placeholder="Chamber" validate={[required()]} />
+                        <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
+                        <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />
+                        <div className="grid-item">
+                            <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </Aux>
         )
     }
 }
@@ -97,6 +101,7 @@ const mapStateToProps = state => {
         addresses: state.address.options,
         type: state.item.typeOptions,
         initialValues: state.avak.lastAvak,
+        receiptNumber: state.avak.lastAvak.receiptNumber,
     }
 }
 

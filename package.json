@@ -1,10 +1,11 @@
 {
-  "name": "hcs",
+  "name": "Cold-Store-Management",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "electron": "^2.0.2",
     "bootstrap": "^3.3.7",
+    "electron": "^2.0.2",
+    "electron-is-dev": "^1.0.1",
     "moment": "^2.22.2",
     "nedb": "^1.8.0",
     "react": "^16.4.0",

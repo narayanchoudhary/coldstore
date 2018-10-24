@@ -57,3 +57,8 @@
 .avakForm .errorMessage {
     color: red;
 }
+
+.receiptNumber {
+    text-align: center;
+    font-size: 18px;
+}

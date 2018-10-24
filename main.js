@@ -1,4 +1,5 @@
 const electron = require('electron');
+const isDev = require('electron-is-dev');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const PartyDatabase = require('./DBOperations/party.js');
@@ -23,8 +24,13 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 1000, height: 700 });
   mainWindow.maximize();
-  mainWindow.loadURL(path.join('file://', __dirname, '/build/index.html'));
-  // mainWindow.loadURL('http://localhost:3000');
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:3000');
+    console.log('Running in development');
+  } else {
+    mainWindow.loadURL(path.join('file://', __dirname, '/build/index.html'));
+    console.log('Running in production');
+  }
   const partyDatabase = new PartyDatabase(mainWindow);
   const avakDatabase = new AvakDatabase(mainWindow);
   const javakDatabase = new JavakDatabase(mainWindow);
