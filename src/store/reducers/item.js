@@ -2,10 +2,11 @@ import * as actionTypes from '../actions/actionTypes';
 const initState = {
     items: [],
     options: [], // formatted items for dropdown
-    type: ['chips', 'rashan'],
+    type: ['chips', 'rashan', 'beeju'],
     typeOptions: [
         { value: 'chips', label: 'chips' },
-        { value: 'rashan', label: 'rashan' }
+        { value: 'rashan', label: 'rashan' },
+        { value: 'beeju', label: 'beeju' },
     ],
 }
 

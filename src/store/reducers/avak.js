@@ -11,7 +11,8 @@ const initState = {
         error: false
     },
     avaksOfSingleParty: [],
-    lastAvak: {}
+    lastAvak: {},
+    newReceiptNumber: undefined
 }
 
 const reducer = (state = initState, action) => {
@@ -50,6 +51,12 @@ const reducer = (state = initState, action) => {
             newState = {
                 ...state,
                 lastAvak: action.payload
+            }
+            break;
+        case actionTypes.FETCH_NEW_RECEIPT_NUMBER:
+            newState = {
+                ...state,
+                newReceiptNumber: action.payload
             }
             break;
         default: return state;

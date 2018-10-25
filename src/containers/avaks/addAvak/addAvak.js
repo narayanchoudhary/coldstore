@@ -30,6 +30,8 @@ class addAvak extends Component {
     componentDidMount() {
         this.props.fetchLastAvak((response) => {
             this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
+            this.props.fetchNewReceiptNumber(response.data[0].type, () => {
+            });
         });
     }
 
@@ -56,12 +58,12 @@ class addAvak extends Component {
             <Aux>
                 <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                     {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
-                    <p className="receiptNumber">Reciept Number: {parseInt(this.props.receiptNumber, 10) + 1}</p>
+                    <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
                     <div className="grid-container">
                         <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
                         <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} validate={[required()]} autoFocus />
                         <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
-                        <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} />
+                        <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} onChange={(type) => this.props.fetchNewReceiptNumber(type.value, () => { })} />
                         <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
                         <Field name="variety" component={renderSelectField} placeholder="Variety" options={this.props.varieties} validate={[required()]} />
                         <Field name="size" component={renderSelectField} placeholder="Size" options={this.props.sizes} validate={[required()]} />
@@ -101,7 +103,8 @@ const mapStateToProps = state => {
         addresses: state.address.options,
         type: state.item.typeOptions,
         initialValues: state.avak.lastAvak,
-        receiptNumber: state.avak.lastAvak.receiptNumber,
+        newReceiptNumber: state.avak.newReceiptNumber,
+
     }
 }
 
@@ -110,6 +113,7 @@ const mapDispatchToProps = dispatch => {
         saveAvak: (values, thenCallback) => dispatch(actions.saveAvak(values, thenCallback)),
         filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
         fetchLastAvak: (thenCallback) => dispatch(actions.fetchLastAvak(thenCallback)),
+        fetchNewReceiptNumber: (type, thenCallback) => dispatch(actions.fetchNewReceiptNumber(type, thenCallback)),
     };
 };
 

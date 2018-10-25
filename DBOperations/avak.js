@@ -9,22 +9,24 @@ class AvakDatabase {
     this.deleteAvak = this.deleteAvak.bind(this);
     this.editAvak = this.editAvak.bind(this);
     this.fetchLastAvak = this.fetchLastAvak.bind(this);
+    this.fetchNewReceiptNumber = this.fetchNewReceiptNumber.bind(this);
     ipc.on('saveAvak', this.saveAvak);
     ipc.on('fetchAvaks', this.fetchAvaks);
     ipc.on('fetchAvaksByPartyId', this.fetchAvaksByPartyId);
     ipc.on('deleteAvak', this.deleteAvak);
     ipc.on('editAvak', this.editAvak);
     ipc.on('fetchLastAvak', this.fetchLastAvak);
+    ipc.on('fetchNewReceiptNumber', this.fetchNewReceiptNumber);
   }
 
   saveAvak(event, data) {
-    // for auto id of rashan and chips
-    avaksDB.insert({ _id: '__autoid__chips', value: 0 });
+    // for auto id of rashan/beeju and chips
     avaksDB.insert({ _id: '__autoid__rashan', value: 0 });
+    avaksDB.insert({ _id: '__autoid__chips', value: 0 });
 
-    let autoId = '__autoid__chips';
-    if (data.type === 'rashan') { // potato type
-      autoId = '__autoid__rashan';
+    let autoId = '__autoid__rashan';
+    if (data.type === 'chips') {
+      autoId = '__autoid__chips';
     }
 
     avaksDB.findOne({ _id: autoId }, (err, doc) => {
@@ -86,6 +88,22 @@ class AvakDatabase {
       response.data = data;
 
       this.mainWindow.webContents.send('fetchLastAvakResponse', response);
+    });
+  };
+
+  fetchNewReceiptNumber(event, data) {
+
+    let autoId = '__autoid__rashan';
+    if (data.type === 'chips') {
+      autoId = '__autoid__chips';
+    }
+    avaksDB.findOne({ _id: autoId }, (err, data) => {
+
+      let response = {};
+      response.error = err;
+      response.data = data.value;
+
+      this.mainWindow.webContents.send('fetchNewReceiptNumberResponse', response);
     });
   };
 

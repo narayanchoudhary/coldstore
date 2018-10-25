@@ -15,6 +15,7 @@ export {
     deleteAvak,
     editAvak,
     fetchLastAvak,
+    fetchNewReceiptNumber,
 } from './avak';
 
 export {

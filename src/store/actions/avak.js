@@ -100,6 +100,20 @@ export const fetchLastAvak = (thenCallback) => {
     }
 }
 
+export const fetchNewReceiptNumber = (type, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchNewReceiptNumber', { type });
+        ipc.once('fetchNewReceiptNumberResponse', (event, response) => {
+            // delete the data we dont want to initialize in the add avak form
+            dispatch({
+                type: actionTypes.FETCH_NEW_RECEIPT_NUMBER,
+                payload: response.data,
+            });
+            thenCallback(response);
+        });
+    }
+}
+
 
 const getFooterData = (avaks) => {
     // Do not create footer if no avaks

@@ -12,6 +12,7 @@ export const FETCH_AVAKS_BY_PARTY_ID = 'FETCH_AVAKS_BY_PARTY_ID';
 export const EDIT_AVAK = 'EDIT_AVAK';
 export const DELETE_AVAK = 'DELETE_AVAK';
 export const FETCH_LAST_AVAK  = 'FETCH_LAST_AVAK';
+export const FETCH_NEW_RECEIPT_NUMBER  = 'FETCH_NEW_RECEIPT_NUMBER';
 
 export const SAVE_JAVAK = 'SAVE_JAVAK';
 export const FETCH_JAVAKS = 'FETCH_JAVAKS';
