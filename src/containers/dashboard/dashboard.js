@@ -22,6 +22,27 @@ class Dashboard extends Component {
                                         <div className="TotalAvak">Total Avak: {dashboard.totalAvakPacket} </div>
                                         <div className="TotoalJavak">Total Javak: {dashboard.totalJavakLotsPacket} </div>
                                         <div className="currentStock">Current Stock: {dashboard.totalAvakPacket - dashboard.totalJavakLotsPacket} </div>
+                                        <div className="varietyDescription">
+                                            {
+                                                dashboard.varietiesDescription.map(variety => {
+                                                    return (
+                                                        <div>
+                                                            {variety.varietyName + ' : ' + variety.sumOfPackets}
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                        <div className="typeDescription">
+                                            <div>
+                                                Chips Chamber:    {dashboard.typeDescription.totalChipsPacket}
+                                            </div>
+                                            <div>
+                                                Rashan Chamber:    {dashboard.typeDescription.totalRashanPacket}
+                                            </div>
+
+
+                                        </div>
                                     </div>
                                 </div>
                             )

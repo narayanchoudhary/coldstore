@@ -17,6 +17,28 @@ class AvakDatabase {
     ipc.on('editAvak', this.editAvak);
     ipc.on('fetchLastAvak', this.fetchLastAvak);
     ipc.on('fetchNewReceiptNumber', this.fetchNewReceiptNumber);
+    
+    // This commented code is for the editing the avaks do not delete it
+    // avaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, data) => {
+    //   data.forEach(avak => {
+    //     if (avak.variety === 'aPzyNEZEmnLLHFnu') {
+    //       let _id = avak._id;
+    //       delete avak._id;
+    //       delete avak.createdAt;
+    //       delete avak.updatedAt;
+
+    //       avak.type = 'beeju';
+    //       avak.variety = 'SUMBeqAjuwkPXPqF';
+
+    //       avaksDB.update({ _id: _id }, { ...avak }, {}, (err, numReplaced) => {
+    //         console.log('numReplaced: ', numReplaced);
+    //       });
+    //     }
+
+    //   });
+
+    // });
+
   }
 
   saveAvak(event, data) {
