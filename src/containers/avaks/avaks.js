@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter, numberFilter,Comparator } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './avaks.css';
@@ -49,7 +49,9 @@ class Avaks extends Component {
             text: 'R No',
             sort: true,
             headerSortingStyle,
-            filter: textFilter()
+            filter: numberFilter({
+                defaultValue: { comparator: Comparator.EQ }
+            })
         }, {
             dataField: 'date',
             text: 'Date',
