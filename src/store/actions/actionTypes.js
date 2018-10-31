@@ -1,6 +1,7 @@
 export const SAVE_PARTY = 'SAVE_PARTY';
 export const FETCH_PARTIES = 'FETCH_PARTIES';
 export const FILTER_PARTIES = 'FILTER_PARTIES';
+export const FILTER_MERCHANTS = 'FILTER_MERCHANTS';
 export const FETCH_PARTY = 'FETCH_PARTY';
 export const EDIT_PARTY = 'EDIT_PARTY';
 export const DELETE_PARTY = 'DELETE_PARTY';
@@ -20,6 +21,7 @@ export const EDIT_JAVAK = 'EDIT_JAVAK';
 export const DELETE_JAVAK = 'DELETE_JAVAK';
 export const FETCH_AVAKS_OF_PARTY = 'FETCH_AVAKS_OF_PARTY';
 export const FETCH_JAVAKS_BY_PARTY_ID = 'FETCH_JAVAK_LOTS_BY_AVAK_ID';
+export const FETCH_LAST_JAVAK  = 'FETCH_LAST_JAVAK';
 
 export const SAVE_JAVAK_LOT = 'SAVE_JAVAK_LOT';
 export const DELETE_JAVAK_LOT = 'DELETE_JAVAK_LOT';

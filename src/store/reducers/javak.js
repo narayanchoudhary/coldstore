@@ -10,7 +10,8 @@ const initState = {
     deleteJavak: {
         error: false
     },
-    avaksOfParty: []
+    avaksOfParty: [],
+    lastJavak: {}
 }
 
 const reducer = (state = initState, action) => {
@@ -40,6 +41,9 @@ const reducer = (state = initState, action) => {
             break;
         case actionTypes.FETCH_AVAKS_OF_PARTY:
             newState = { ...state, avaksOfParty: action.payload.data };
+            break;
+        case actionTypes.FETCH_LAST_JAVAK:
+            newState = { ...state, lastJavak: action.payload };
             break;
         default: return state;
     }

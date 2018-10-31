@@ -5,6 +5,7 @@ export {
     deleteParty,
     editParty,
     filterPartiesByAddress,
+    filterMerchantsByAddress,
     fetchOpeningBalanceOfParty,
 } from './party';
 
@@ -24,6 +25,7 @@ export {
     deleteJavak,
     editJavak,
     fetchJavaksByPartyId,
+    fetchLastJavak,
 } from './javak';
 
 export {

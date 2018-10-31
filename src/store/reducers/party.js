@@ -3,6 +3,7 @@ const initState = {
     parties: [],
     options: [],
     filteredPartiesOptions: [],
+    filteredMerchantsOptions: [],
 }
 
 const reducer = (state = initState, action) => {
@@ -28,6 +29,12 @@ const reducer = (state = initState, action) => {
             newState = {
                 ...state,
                 filteredPartiesOptions: [...action.payload],
+            };
+            break;
+        case actionTypes.FILTER_MERCHANTS:
+            newState = {
+                ...state,
+                filteredMerchantsOptions: [...action.payload],
             };
             break;
         case actionTypes.DELETE_PARTY:

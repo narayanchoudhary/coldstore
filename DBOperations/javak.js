@@ -2,7 +2,6 @@ const ipc = require('electron').ipcMain;
 const javaksDB = require('./connections').getInstance().javaksDB;
 const avaksDB = require('./connections').getInstance().avaksDB;
 const javakLotsDB = require('./connections').getInstance().javakLotsDB;
-const convertToLowerCase = require('../util').convertToLowerCase;
 class JavakDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -12,12 +11,15 @@ class JavakDatabase {
     this.editJavak = this.editJavak.bind(this);
     this.fetchAvaksOfParty = this.fetchAvaksOfParty.bind(this);
     this.fetchJavaksByPartyId = this.fetchJavaksByPartyId.bind(this);
+    this.fetchLastJavak = this.fetchLastJavak.bind(this);
+
     ipc.on('saveJavak', this.saveJavak);
     ipc.on('fetchJavaks', this.fetchJavaks);
     ipc.on('deleteJavak', this.deleteJavak);
     ipc.on('editJavak', this.editJavak);
     ipc.on('fetchAvaksOfParty', this.fetchAvaksOfParty);
     ipc.on('fetchJavaksByPartyId', this.fetchJavaksByPartyId);
+    ipc.on('fetchLastJavak', this.fetchLastJavak);
   }
 
   saveJavak(event, data) {
@@ -43,7 +45,7 @@ class JavakDatabase {
   };
 
   fetchJavaks(event, data) {
-    javaksDB.find({ receiptNumber : { $exists: true } }).sort({ updatedAt: -1 }).exec((err, data) => {
+    javaksDB.find({ receiptNumber: { $exists: true } }).sort({ updatedAt: -1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
@@ -86,8 +88,8 @@ class JavakDatabase {
         let finalAvaks = avaksOuter.map((avakOuter) => {
           let sum = 0;
           javakLots.forEach((javakLot) => {
-            if (javakLot.avakId == avakOuter._id) {
-              sum += parseInt(javakLot.packet)
+            if (javakLot.avakId === avakOuter._id) {
+              sum += parseInt(javakLot.packet, 10)
             }
           });
           return { ...avakOuter, sentPacket: sum }
@@ -122,6 +124,14 @@ class JavakDatabase {
     });
   };
 
+  fetchLastJavak(event, data) {
+    javaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).limit(1).exec((err, data) => {
+      let response = {};
+      response.error = err;
+      response.data = data;
+      this.mainWindow.webContents.send('fetchLastJavakResponse', response);
+    });
+  };
 
 }
 

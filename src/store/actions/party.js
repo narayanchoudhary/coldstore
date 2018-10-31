@@ -85,6 +85,24 @@ export const filterPartiesByAddress = (parties, address) => {
     }
 }
 
+
+// Merchants are also parties
+export const filterMerchantsByAddress = (parties, address) => {
+    let filteredParties = parties;
+    if (address.value) {
+        filteredParties = parties.filter(party => {
+            return party.address === address.value;
+        });
+    }
+
+    return dispatch => {
+        dispatch({
+            type: actionTypes.FILTER_MERCHANTS,
+            payload: filteredParties
+        });
+    }
+}
+
 export const fetchOpeningBalanceOfParty = (partyId, thenCallback) => {
     return dispatch => {
         ipc.send('fetchOpeningBalanceOfParty', { partyId: partyId });

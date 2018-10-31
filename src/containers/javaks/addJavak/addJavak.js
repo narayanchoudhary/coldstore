@@ -17,11 +17,13 @@ class addJavak extends Component {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = { avaks: [], lots: [], javakId: null, partyId: null };
+        this.state = { partyId: null };
     }
 
     componentDidMount() {
-        this.props.filterPartiesByAddress(this.props.parties, {});
+        this.props.fetchLastJavak((response) => {
+            this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address.value });
+        });
     }
 
     componentWillUnmount() {
@@ -29,7 +31,6 @@ class addJavak extends Component {
     }
 
     submit = (values) => {
-        delete values.address;
         values.party = values.party.value;
         values.merchant = values.merchant.value;
         values.yearId = this.props.currentYear.value; // Add current year 
@@ -43,16 +44,17 @@ class addJavak extends Component {
     }
 
     render() {
-
+        console.log('this.props.filteredMerchants: ', this.props.filteredMerchants);
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
                 <div className="grid-container">
-                    <Field type="text" name="date" component={renderField} placeholder="Date" autoFocus validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
-                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={address => this.props.filterPartiesByAddress(this.props.parties, address)} />
-                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredParties} validate={[required()]} />
-                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" validate={[required()]} />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.parties} onChange={(party) => this.onPartySelect(party.value)} validate={[required()]} />
+                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
+                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={address => this.props.filterPartiesByAddress(this.props.parties, address)} autoFocus />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={(party) => this.onPartySelect(party.value)} validate={[required()]} />
+                    <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
+                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
+                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
                     <JavakLots partyId={this.state.partyId} />
                     <div className="grid-item saveButton">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
@@ -65,28 +67,34 @@ class addJavak extends Component {
 
 const Form = reduxForm({
     form: 'javak',// a unique identifier for this form
-    validate
+    validate,
+    keepDirtyOnReinitialize: true,
+    enableReinitialize: true,
+    updateUnregisteredFields: true,
 })(addJavak);
 
 const mapStateToProps = state => {
     return {
         parties: state.party.options,
         filteredParties: state.party.filteredPartiesOptions,
+        filteredMerchants: state.party.filteredMerchantsOptions,
         addresses: state.address.options,
         currentYear: state.year.currentYear,
+        initialValues: state.javak.lastJavak,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         saveJavak: (values, thenCallback) => dispatch(actions.saveJavak(values, thenCallback)),
-        fetchParties: (thenCallback) => dispatch(actions.fetchParties(thenCallback)),
-        filterPartiesByAddress: (parties, address) => dispatch(actions.filterPartiesByAddress(parties, address)),
+        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        filterMerchantsByAddress: (parties, address) => dispatch(actions.filterMerchantsByAddress(parties, address)),
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
         fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
         fetchJavakLotsByAvakIds: (avakId, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakId, thenCallback)),
-        removeTempJavakLots: () => dispatch(actions.removeTempJavakLots())
+        removeTempJavakLots: () => dispatch(actions.removeTempJavakLots()),
+        fetchLastJavak: (thenCallback) => dispatch(actions.fetchLastJavak(thenCallback)),
     };
 };
 
