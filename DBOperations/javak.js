@@ -23,11 +23,17 @@ class JavakDatabase {
   }
 
   saveJavak(event, data) {
-    // for auto id
-    javaksDB.insert({ _id: '__autoid__', value: 0 });
+    // for auto id of rashan and chips
+    javaksDB.insert({ _id: '__autoid__chips', value: 0 });
+    javaksDB.insert({ _id: '__autoid__rashan', value: 0 });
 
-    javaksDB.findOne({ _id: '__autoid__' }, (err, doc) => {
-      javaksDB.update({ _id: '__autoid__' }, { $set: { value: ++doc.value } }, {}, () => {
+    let autoId = '__autoid__chips';
+    if (data.type === 'rashan') { // potato type
+      autoId = '__autoid__rashan';
+    }
+
+    javaksDB.findOne({ _id: autoId }, (err, doc) => {
+      javaksDB.update({ _id: autoId }, { $set: { value: ++doc.value } }, {}, () => {
         data.receiptNumber = doc.value;
         javaksDB.insert(data, (err, newDoc) => {
           //Change id of javak lots from temp

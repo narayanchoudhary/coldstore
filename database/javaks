@@ -1,10 +1,2 @@
-{"_id":"__autoid__","value":1,"createdAt":{"$$date":1540984330883},"updatedAt":{"$$date":1540984330889}}
-{"address":{"label":"khandya","value":"WwirL0q2l24dMaFb"},"date":"12-05-2018","merchant":"OzhDI3uyugRSK8OK","motorNumber":"MP09 GH 2356","party":"lbOIJsCeLkc16Dzf","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":1,"_id":"pOPAevMLzfiZ8hwn","createdAt":{"$$date":1540984330891},"updatedAt":{"$$date":1540984330891}}
-{"_id":"__autoid__","value":2,"createdAt":{"$$date":1540984330883},"updatedAt":{"$$date":1540987702387}}
-{"address":{"label":"bhopal","value":"0TsVLheNQv2UCFGF"},"date":"12-05-2018","motorNumber":"mp9 jk 7890","party":"DE659sQs7GRhDcX3","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":2,"_id":"MPwDrqvHe58H1FJp","createdAt":{"$$date":1540987702394},"updatedAt":{"$$date":1540987702394}}
-{"$$deleted":true,"_id":"MPwDrqvHe58H1FJp"}
-{"$$deleted":true,"_id":"pOPAevMLzfiZ8hwn"}
-{"_id":"__autoid__","value":3,"createdAt":{"$$date":1540984330883},"updatedAt":{"$$date":1540987744277}}
-{"address":{"label":"rangwasa","value":"0u5aM17VZ9eC8wpd"},"date":"12-05-2018","merchant":"VUxAeAxA6f7w3jzk","motorNumber":"gfg","party":"yFnTIu6id7ZsFMnG","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":3,"_id":"ldX7Yad0ONUPaQWv","createdAt":{"$$date":1540987744280},"updatedAt":{"$$date":1540987744280}}
-{"_id":"__autoid__","value":4,"createdAt":{"$$date":1540984330883},"updatedAt":{"$$date":1540992411978}}
-{"address":{"label":"rangwasa","value":"0u5aM17VZ9eC8wpd"},"date":"12-05-2018","merchant":"VUxAeAxA6f7w3jzk","party":"yFnTIu6id7ZsFMnG","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":4,"_id":"69xeDnnEm6pXY3zY","createdAt":{"$$date":1540992411991},"updatedAt":{"$$date":1540992411991}}
+{"address":"Kg9tzOLEWyVEocWe","addressOfMerchant":"Kg9tzOLEWyVEocWe","date":"31-10-2018","merchant":"hFFr7Ei5WsI1Rc3q","party":"vh1rwKKlWUhn69Fy","type":"rashan","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":1,"_id":"Ifojl3vMD2NT5QGw","createdAt":{"$$date":1540996579117},"updatedAt":{"$$date":1540996579117}}
+{"_id":"__autoid__","value":1,"createdAt":{"$$date":1540996579089},"updatedAt":{"$$date":1540996579114}}

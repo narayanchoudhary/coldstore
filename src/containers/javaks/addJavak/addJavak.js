@@ -17,12 +17,13 @@ class addJavak extends Component {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = { partyId: null };
+        this.state = { partyId: null, submitFlag: false };
     }
 
     componentDidMount() {
         this.props.fetchLastJavak((response) => {
-            this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address.value });
+            this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
+            this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].address.value });
         });
     }
 
@@ -31,6 +32,9 @@ class addJavak extends Component {
     }
 
     submit = (values) => {
+        values.type = values.type.value;
+        values.address = values.address.value;
+        values.addressOfMerchant = values.addressOfMerchant.value;
         values.party = values.party.value;
         values.merchant = values.merchant.value;
         values.yearId = this.props.currentYear.value; // Add current year 
@@ -44,7 +48,6 @@ class addJavak extends Component {
     }
 
     render() {
-        console.log('this.props.filteredMerchants: ', this.props.filteredMerchants);
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
@@ -52,6 +55,7 @@ class addJavak extends Component {
                     <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={address => this.props.filterPartiesByAddress(this.props.parties, address)} autoFocus />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={(party) => this.onPartySelect(party.value)} validate={[required()]} />
+                    <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} />
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
                     <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
@@ -81,6 +85,8 @@ const mapStateToProps = state => {
         addresses: state.address.options,
         currentYear: state.year.currentYear,
         initialValues: state.javak.lastJavak,
+        type: state.item.typeOptions,
+        lots: state.javakLot.lots
     }
 }
 

@@ -79,6 +79,18 @@ class Javaks extends Component {
             headerSortingStyle,
             filter: textFilter()
         }, {
+            dataField: 'type',
+            text: 'Type',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter(),
+            formatter: columnFormatter(this.props.type),
+            editor: {
+                type: Type.SELECT,
+                options: this.props.type
+            },
+            filterValue: filterValue(this.props.type)
+        }, {
             dataField: 'date',
             text: 'Date',
             sort: true,
@@ -158,6 +170,7 @@ const mapStateToProps = state => {
     return {
         data: state.javak.javaks.data,
         parties: state.party.options,
+        type: state.item.typeOptions,
     }
 }
 

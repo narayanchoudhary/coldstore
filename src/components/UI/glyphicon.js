@@ -7,7 +7,7 @@ class Glyphicon extends Component {
             classes.push('glyphicon-user')
         } else if (this.props.type === 'phone') {
             classes.push('glyphicon-earphone')
-        } else if (this.props.type === 'address' || this.props.type === 'addressName') {
+        } else if (this.props.type === 'address' || this.props.type === 'addressName' || this.props.type === 'addressOfMerchant') {
             classes.push('glyphicon-home')
         } else if (this.props.type === 'receiptNumber') {
             classes.push('glyphicon-tag')

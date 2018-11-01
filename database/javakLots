@@ -1,5 +1,3 @@
-{"avakId":"GNHeCkrYkwABO4Pq","chamber":"3","floor":"5","itemId":"9uNkEORfzXQLLGMf","javakId":"pOPAevMLzfiZ8hwn","packet":"50","rack":"36,50","_id":"eBQgsbvfCd0Nntqj","createdAt":{"$$date":1540984315077},"updatedAt":{"$$date":1540984330896}}
-{"avakId":"f9CZGEheJlXJ4sR7","itemId":"9uNkEORfzXQLLGMf","packet":57,"chamber":"3","floor":"3","rack":"51,52","javakId":"tempJavakId","_id":"TqImQmB8ffZpzprU","createdAt":{"$$date":1540987693444},"updatedAt":{"$$date":1540987693444}}
-{"avakId":"f9CZGEheJlXJ4sR7","itemId":"9uNkEORfzXQLLGMf","packet":57,"chamber":"3","floor":"3","rack":"51,52","javakId":"MPwDrqvHe58H1FJp","_id":"TqImQmB8ffZpzprU","createdAt":{"$$date":1540987693444},"updatedAt":{"$$date":1540987702399}}
-{"avakId":"t6aPDnywTIZxSCxH","itemId":"9uNkEORfzXQLLGMf","packet":148,"chamber":"4","floor":"2","rack":"1,2,3","javakId":"tempJavakId","_id":"uZUQWfSEbqbnpGkB","createdAt":{"$$date":1540987735088},"updatedAt":{"$$date":1540987735088}}
-{"avakId":"t6aPDnywTIZxSCxH","itemId":"9uNkEORfzXQLLGMf","packet":148,"chamber":"4","floor":"2","rack":"1,2,3","javakId":"ldX7Yad0ONUPaQWv","_id":"uZUQWfSEbqbnpGkB","createdAt":{"$$date":1540987735088},"updatedAt":{"$$date":1540987744288}}
+{"avakId":"Ju989QyMK0Yv6Hoc","chamber":"2","floor":"7","itemId":"9uNkEORfzXQLLGMf","javakId":"Ifojl3vMD2NT5QGw","packet":"10","rack":"18","_id":"HY2etoLhYgTnLMdW","createdAt":{"$$date":1540996564389},"updatedAt":{"$$date":1540996579123}}
+{"avakId":"Ju989QyMK0Yv6Hoc","itemId":"9uNkEORfzXQLLGMf","packet":20,"chamber":"2","floor":"7","rack":"18","javakId":"tempJavakId","_id":"SNNo4wC22v1tlkzb","createdAt":{"$$date":1541000207129},"updatedAt":{"$$date":1541000207129}}
+{"$$deleted":true,"_id":"SNNo4wC22v1tlkzb"}

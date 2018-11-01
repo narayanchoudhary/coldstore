@@ -57,7 +57,7 @@
 }
 
 .avaksOfJavak {
-    grid-area: 3 / 1 / 3 / 4;
+    grid-area: 4 / 1 / 4 / 4;
 }
 
 .addJavakForm .table {
@@ -65,5 +65,5 @@
 }
 
 .saveButton {
-    grid-area: 5 / 1 / 5 / 1;
+    grid-area: 6 / 1 / 6 / 1;
 }
