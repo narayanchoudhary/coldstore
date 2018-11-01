@@ -17,6 +17,7 @@ class addJavak extends Component {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
+        this.change = this.props.change;
         this.state = { partyId: null, submitFlag: false };
     }
 
@@ -24,7 +25,7 @@ class addJavak extends Component {
         this.props.fetchLastJavak((response) => {
             this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
             this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].address.value });
-            this.props.fetchNewReceiptNumberForJavak(response.data[0].type, () => {});
+            this.props.fetchNewReceiptNumberForJavak(response.data[0].type, () => { });
         });
     }
 
@@ -48,6 +49,16 @@ class addJavak extends Component {
         this.setState({ partyId: partyId });
     }
 
+    onChangeAddress = (address) => {
+        this.props.filterPartiesByAddress(this.props.parties, address);
+        this.change('addressOfMerchant', address);
+    }
+
+    onPartyChange = (party) => {
+        this.onPartySelect(party.value);
+        this.change('merchant', party);
+    }
+
     render() {
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
@@ -55,13 +66,13 @@ class addJavak extends Component {
                 <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
                 <div className="grid-container">
                     <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
-                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={address => this.props.filterPartiesByAddress(this.props.parties, address)} autoFocus />
-                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={(party) => this.onPartySelect(party.value)} validate={[required()]} />
+                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} autoFocus />
+                    <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={this.onPartyChange} validate={[required()]} />
                     <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} onChange={(type) => this.props.fetchNewReceiptNumberForJavak(type.value, () => { })} />
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
                     <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
-                    <JavakLots partyId={this.state.partyId} />
+                    <JavakLots partyId={this.state.partyId ? this.state.partyId : this.props.initialValues.party} />
                     <div className="grid-item saveButton">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
