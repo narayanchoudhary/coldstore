@@ -12,6 +12,7 @@ class JavakDatabase {
     this.fetchAvaksOfParty = this.fetchAvaksOfParty.bind(this);
     this.fetchJavaksByPartyId = this.fetchJavaksByPartyId.bind(this);
     this.fetchLastJavak = this.fetchLastJavak.bind(this);
+    this.fetchNewReceiptNumberForJavak = this.fetchNewReceiptNumberForJavak.bind(this);
 
     ipc.on('saveJavak', this.saveJavak);
     ipc.on('fetchJavaks', this.fetchJavaks);
@@ -20,6 +21,7 @@ class JavakDatabase {
     ipc.on('fetchAvaksOfParty', this.fetchAvaksOfParty);
     ipc.on('fetchJavaksByPartyId', this.fetchJavaksByPartyId);
     ipc.on('fetchLastJavak', this.fetchLastJavak);
+    ipc.on('fetchNewReceiptNumberForJavak', this.fetchNewReceiptNumberForJavak);
   }
 
   saveJavak(event, data) {
@@ -136,6 +138,22 @@ class JavakDatabase {
       response.error = err;
       response.data = data;
       this.mainWindow.webContents.send('fetchLastJavakResponse', response);
+    });
+  };
+
+  fetchNewReceiptNumberForJavak(event, data) {
+
+    let autoId = '__autoid__rashan';
+    if (data.type === 'chips') {
+      autoId = '__autoid__chips';
+    }
+    javaksDB.findOne({ _id: autoId }, (err, data) => {
+
+      let response = {};
+      response.error = err;
+      response.data = data.value;
+
+      this.mainWindow.webContents.send('fetchNewReceiptNumberForJavakResponse', response);
     });
   };
 

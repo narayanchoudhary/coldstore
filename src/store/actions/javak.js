@@ -96,3 +96,17 @@ export const fetchLastJavak = (thenCallback) => {
         });
     }
 }
+
+export const fetchNewReceiptNumberForJavak = (type, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchNewReceiptNumberForJavak', { type });
+        ipc.once('fetchNewReceiptNumberForJavakResponse', (event, response) => {
+            // delete the data we dont want to initialize in the add avak form
+            dispatch({
+                type: actionTypes.FETCH_NEW_RECEIPT_NUMBER_FOR_JAVAK,
+                payload: response.data,
+            });
+            thenCallback(response);
+        });
+    }
+}

@@ -24,6 +24,7 @@ class addJavak extends Component {
         this.props.fetchLastJavak((response) => {
             this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
             this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].address.value });
+            this.props.fetchNewReceiptNumberForJavak(response.data[0].type, () => {});
         });
     }
 
@@ -51,11 +52,12 @@ class addJavak extends Component {
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
+                <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
                 <div className="grid-container">
                     <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={address => this.props.filterPartiesByAddress(this.props.parties, address)} autoFocus />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={(party) => this.onPartySelect(party.value)} validate={[required()]} />
-                    <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} />
+                    <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} onChange={(type) => this.props.fetchNewReceiptNumberForJavak(type.value, () => { })} />
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
                     <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
@@ -86,7 +88,8 @@ const mapStateToProps = state => {
         currentYear: state.year.currentYear,
         initialValues: state.javak.lastJavak,
         type: state.item.typeOptions,
-        lots: state.javakLot.lots
+        lots: state.javakLot.lots,
+        newReceiptNumber: state.javak.newReceiptNumber,
     }
 }
 
@@ -101,6 +104,7 @@ const mapDispatchToProps = dispatch => {
         fetchJavakLotsByAvakIds: (avakId, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakId, thenCallback)),
         removeTempJavakLots: () => dispatch(actions.removeTempJavakLots()),
         fetchLastJavak: (thenCallback) => dispatch(actions.fetchLastJavak(thenCallback)),
+        fetchNewReceiptNumberForJavak: (type, thenCallback) => dispatch(actions.fetchNewReceiptNumberForJavak(type, thenCallback)),
     };
 };
 

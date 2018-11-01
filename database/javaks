@@ -1,2 +1,11 @@
-{"address":"Kg9tzOLEWyVEocWe","addressOfMerchant":"Kg9tzOLEWyVEocWe","date":"31-10-2018","merchant":"hFFr7Ei5WsI1Rc3q","party":"vh1rwKKlWUhn69Fy","type":"rashan","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":1,"_id":"Ifojl3vMD2NT5QGw","createdAt":{"$$date":1540996579117},"updatedAt":{"$$date":1540996579117}}
-{"_id":"__autoid__","value":1,"createdAt":{"$$date":1540996579089},"updatedAt":{"$$date":1540996579114}}
+{"address":"Kg9tzOLEWyVEocWe","addressOfMerchant":"Kg9tzOLEWyVEocWe","date":"01-11-2018","merchant":"30oVk6xYzMYGnq1U","motorNumber":"mp09 kd 9631","party":"vh1rwKKlWUhn69Fy","type":"rashan","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":1,"_id":"BFMgEA9YUi7ewI7T","createdAt":{"$$date":1541049818158},"updatedAt":{"$$date":1541049818158}}
+{"address":"Kg9tzOLEWyVEocWe","addressOfMerchant":"Kg9tzOLEWyVEocWe","date":"01-11-2018","merchant":"hFFr7Ei5WsI1Rc3q","party":"vh1rwKKlWUhn69Fy","type":"chips","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":1,"_id":"D3qFxGC1K3QbT9Tz","createdAt":{"$$date":1541049976382},"updatedAt":{"$$date":1541049976382}}
+{"address":"kIgnTRFoDTwzIudk","addressOfMerchant":"kIgnTRFoDTwzIudk","date":"01-11-2018","merchant":"dr4dAqkVQlArTjRP","party":"dr4dAqkVQlArTjRP","type":"rashan","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":2,"_id":"DVjh8nP6mXRggFw4","createdAt":{"$$date":1541049859763},"updatedAt":{"$$date":1541049859763}}
+{"_id":"__autoid__chips","value":1,"createdAt":{"$$date":1541049818147},"updatedAt":{"$$date":1541049976379}}
+{"_id":"__autoid__rashan","value":3,"createdAt":{"$$date":1541049818148},"updatedAt":{"$$date":1541049912791}}
+{"address":"Kg9tzOLEWyVEocWe","addressOfMerchant":"Kg9tzOLEWyVEocWe","date":"01-11-2018","merchant":"36NJRsBSXuEnFdDm","party":"vh1rwKKlWUhn69Fy","type":"rashan","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":3,"_id":"oYue7IoBQEfL6Jrb","createdAt":{"$$date":1541049912793},"updatedAt":{"$$date":1541049912793}}
+{"_id":"__autoid__chips","value":2,"createdAt":{"$$date":1541049818147},"updatedAt":{"$$date":1541050776027}}
+{"address":"Kg9tzOLEWyVEocWe","date":"01-11-2018","party":"vh1rwKKlWUhn69Fy","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":2,"_id":"3i5iiaVwppeCEzh1","createdAt":{"$$date":1541050776032},"updatedAt":{"$$date":1541050776032}}
+{"$$deleted":true,"_id":"3i5iiaVwppeCEzh1"}
+{"_id":"__autoid__chips","value":3,"createdAt":{"$$date":1541049818147},"updatedAt":{"$$date":1541050824607}}
+{"address":"Kg9tzOLEWyVEocWe","addressOfMerchant":"Kg9tzOLEWyVEocWe","date":"01-11-2018","merchant":"hFFr7Ei5WsI1Rc3q","party":"vh1rwKKlWUhn69Fy","type":"chips","yearId":"2VlrXmbVl5UWTzHR","receiptNumber":3,"_id":"NxgQ1AXvVIYuvijL","createdAt":{"$$date":1541050824609},"updatedAt":{"$$date":1541050824609}}

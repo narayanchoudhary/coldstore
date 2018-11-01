@@ -26,6 +26,7 @@ export {
     editJavak,
     fetchJavaksByPartyId,
     fetchLastJavak,
+    fetchNewReceiptNumberForJavak,
 } from './javak';
 
 export {
