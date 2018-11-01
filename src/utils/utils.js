@@ -19,11 +19,12 @@ export const createDeleteButton = (handleClickOnDelete) => {
         if (row.deleteButton === 'no') return; // Do not create delete button for footer and opening balance etc
         return (
             <button
+                type="button"
                 className="btn btn-danger btn-xs"
                 onClick={() => handleClickOnDelete(row)}
             >
                 Delete
-        </button>
+            </button>
         );
     }
 }
@@ -34,7 +35,7 @@ export const filterValue = (items) => {
         let filterValue = items.filter(item => {
             return item.value === cell;
         })[0];
-        
+
         if (filterValue)
             return filterValue.label;
         else {
