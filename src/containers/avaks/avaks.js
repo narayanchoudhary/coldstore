@@ -16,8 +16,8 @@ class Avaks extends Component {
         this.props.fetchAvaks(() => { });
     }
 
-    handleClickOnDelete = (avakId) => {
-        this.props.deleteAvak(avakId);
+    handleClickOnDelete = (row) => {
+        this.props.deleteAvak(row._id);
         this.props.fetchAvaks(() => { });
     }
 

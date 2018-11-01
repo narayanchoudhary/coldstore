@@ -20,7 +20,7 @@ export const createDeleteButton = (handleClickOnDelete) => {
         return (
             <button
                 className="btn btn-danger btn-xs"
-                onClick={() => handleClickOnDelete(cell)}
+                onClick={() => handleClickOnDelete(row)}
             >
                 Delete
         </button>
