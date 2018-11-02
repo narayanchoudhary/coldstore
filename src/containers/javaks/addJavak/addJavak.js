@@ -82,6 +82,7 @@ class addJavak extends Component {
                         partyId={this.state.partyId ? this.state.partyId : this.props.initialValues.party}
                         type={this.state.type ? this.state.type : this.props.initialValues.type}
                     />
+                    <div className="grid-item totalOfJavaklots">Total: {this.props.sumOfJavakLots}  </div>
                     <div className="grid-item saveButton">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
@@ -109,6 +110,7 @@ const mapStateToProps = state => {
         initialValues: state.javak.lastJavak,
         type: state.item.typeOptions,
         lots: state.javakLot.lots,
+        sumOfJavakLots: state.javakLot.sumOfJavakLots,
         newReceiptNumber: state.javak.newReceiptNumber,
     }
 }

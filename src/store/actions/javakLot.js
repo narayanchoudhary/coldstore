@@ -18,9 +18,20 @@ export const fetchJavakLotsByJavakId = (javakId, thenCallback) => {
     return dispatch => {
         ipc.send('fetchJavakLotsByJavakId', { javakId: javakId });
         ipc.once('fetchJavakLotsByJavakIdResponse', (event, response) => {
+            // Calculate sum of packets of javak lots
+            let sumOfJavakLots = 0;
+            response.data.forEach(javakLot => {
+                sumOfJavakLots += javakLot.packet;
+            });
+
+            // Prepare payload
+            let payload = {};
+            payload.sumOfJavakLots = sumOfJavakLots;
+            payload.lots = response.data;
+
             dispatch({
                 type: actionTypes.FETCH_JAVAK_LOTS_BY_JAVAK_ID,
-                payload: response.data
+                payload: payload
             });
             thenCallback(response);
         });
@@ -90,17 +101,16 @@ export const editJavakLot = (data) => {
 }
 
 export const fetchAvaksOfParty = (partyId, type, thenCallback) => {
-    console.log('type: ', type);
     return dispatch => {
         ipc.send('fetchAvaksOfParty', { partyId: partyId });
         ipc.once('fetchAvaksOfPartyResponse', (event, response) => {
+            // filter avakOfParty according to type
             if (type === 'chips') {
                 response.data = response.data.filter(avak => avak.type === 'chips');
-                console.log('if ke under');
             } else {
                 response.data = response.data.filter(avak => avak.type !== 'chips');
-                console.log('else ke under');
             }
+
             let avaks = response.data.map((avak) => {
                 // add label for remaining packet
                 let remainingPacket = avak.packet - avak.sentPacket;

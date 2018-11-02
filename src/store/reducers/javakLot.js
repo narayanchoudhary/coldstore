@@ -11,7 +11,8 @@ const initState = {
         error: false
     },
     avaks: [],
-    lots: []
+    lots: [],
+    sumOfJavakLots: 0,
 }
 
 const reducer = (state = initState, action) => {
@@ -43,7 +44,7 @@ const reducer = (state = initState, action) => {
             newState = { ...state, avaks: action.payload };
             break;
         case actionTypes.FETCH_JAVAK_LOTS_BY_JAVAK_ID:
-            newState = { ...state, lots: action.payload };
+            newState = { ...state, lots: action.payload.lots, sumOfJavakLots: action.payload.sumOfJavakLots };
             break;
         case actionTypes.MODIFY_AVAKS:
             newState = { ...state, avaks: action.payload };
