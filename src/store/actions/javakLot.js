@@ -21,7 +21,7 @@ export const fetchJavakLotsByJavakId = (javakId, thenCallback) => {
             // Calculate sum of packets of javak lots
             let sumOfJavakLots = 0;
             response.data.forEach(javakLot => {
-                sumOfJavakLots += javakLot.packet;
+                sumOfJavakLots += parseInt(javakLot.packet, 10);
             });
 
             // Prepare payload
@@ -88,7 +88,7 @@ export const removeTempJavakLots = () => {
     }
 }
 
-export const editJavakLot = (data) => {
+export const editJavakLot = (data, thenCallback) => {
     return dispatch => {
         ipc.send('editJavakLot', data);
         ipc.once('editJavakLotResponse', (event, response) => {
@@ -97,6 +97,7 @@ export const editJavakLot = (data) => {
                 payload: response
             });
         });
+        thenCallback();
     }
 }
 

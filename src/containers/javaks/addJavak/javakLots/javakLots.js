@@ -16,7 +16,7 @@ class JavakLots extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.partyId !== this.props.partyId || nextProps.type !== this.props.type  ) {
+        if (nextProps.partyId !== this.props.partyId || nextProps.type !== this.props.type) {
             this.props.fetchAvaksOfParty(nextProps.partyId, nextProps.type, () => { });
         }
     }
@@ -167,7 +167,9 @@ class JavakLots extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editJavakLot(row);
+            this.props.editJavakLot(row, () => {
+                this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
+            });
         }
     });
 
@@ -221,7 +223,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        editJavakLot: (javakLot) => dispatch(actions.editJavakLot(javakLot)),
+        editJavakLot: (javakLot, thenCallback) => dispatch(actions.editJavakLot(javakLot, thenCallback)),
         deleteJavakLot: (javakLotId) => dispatch(actions.deleteJavakLot(javakLotId)),
         fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
         fetchAvaksOfParty: (partyId, type, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, type, thenCallback)),

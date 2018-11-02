@@ -60,7 +60,7 @@ class JavakLotsDatabase {
 
     fetchLots(avakId) {
         return new Promise((resolve, reject) => {
-            javakLotsDB.find({ avakId: avakId }).sort({ updatedAt: -1 }).exec((err, javakLots) => {
+            javakLotsDB.find({ avakId: avakId }).sort({ createdAt: -1 }).exec((err, javakLots) => {
                 resolve(javakLots);
             });
         });
