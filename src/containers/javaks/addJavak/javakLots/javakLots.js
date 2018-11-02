@@ -10,14 +10,14 @@ import { columnFormatter, createDeleteButton, rowClasses, headerSortingStyle } f
 class JavakLots extends Component {
 
     componentDidMount() {
-        this.props.fetchAvaksOfParty(this.props.partyId, () => {
+        this.props.fetchAvaksOfParty(this.props.partyId, this.props.type, () => {
             this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
         });
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.partyId !== this.props.partyId) {
-            this.props.fetchAvaksOfParty(nextProps.partyId, () => { });
+        if (nextProps.partyId !== this.props.partyId || nextProps.type !== this.props.type  ) {
+            this.props.fetchAvaksOfParty(nextProps.partyId, nextProps.type, () => { });
         }
     }
     handleClickOnDelete = (row) => {
@@ -224,7 +224,7 @@ const mapDispatchToProps = dispatch => {
         editJavakLot: (javakLot) => dispatch(actions.editJavakLot(javakLot)),
         deleteJavakLot: (javakLotId) => dispatch(actions.deleteJavakLot(javakLotId)),
         fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
-        fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
+        fetchAvaksOfParty: (partyId, type, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, type, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
         modifyAvaks: (avaks, avakId, status) => dispatch(actions.modifyAvaks(avaks, avakId, status)),
     };

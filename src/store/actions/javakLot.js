@@ -89,10 +89,18 @@ export const editJavakLot = (data) => {
     }
 }
 
-export const fetchAvaksOfParty = (partyId, thenCallback) => {
+export const fetchAvaksOfParty = (partyId, type, thenCallback) => {
+    console.log('type: ', type);
     return dispatch => {
         ipc.send('fetchAvaksOfParty', { partyId: partyId });
         ipc.once('fetchAvaksOfPartyResponse', (event, response) => {
+            if (type === 'chips') {
+                response.data = response.data.filter(avak => avak.type === 'chips');
+                console.log('if ke under');
+            } else {
+                response.data = response.data.filter(avak => avak.type !== 'chips');
+                console.log('else ke under');
+            }
             let avaks = response.data.map((avak) => {
                 // add label for remaining packet
                 let remainingPacket = avak.packet - avak.sentPacket;

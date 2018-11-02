@@ -51,18 +51,6 @@ export const editJavak = (data) => {
     }
 }
 
-export const fetchAvaksOfParty = (partyId, thenCallback) => {
-    return dispatch => {
-        ipc.send('fetchAvaksOfParty', { partyId: partyId });
-        ipc.once('fetchAvaksOfPartyResponse', (event, response) => {
-            dispatch({
-                type: actionTypes.FETCH_AVAKS_OF_PARTY,
-                payload: response
-            });
-            thenCallback(response);
-        });
-    }
-}
 
 export const fetchJavaksByPartyId = (partyId, thenCallback) => {
     return dispatch => {

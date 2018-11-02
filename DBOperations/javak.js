@@ -102,7 +102,7 @@ class JavakDatabase {
           });
           return { ...avakOuter, sentPacket: sum }
         });
-        response.data = finalAvaks
+        response.data = finalAvaks;
         this.mainWindow.webContents.send('fetchAvaksOfPartyResponse', response);
       });
   };
