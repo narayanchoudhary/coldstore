@@ -39,7 +39,7 @@ class JavakDatabase {
         data.receiptNumber = doc.value;
         javaksDB.insert(data, (err, newDoc) => {
           //Change id of javak lots from temp
-          javakLotsDB.update({ javakId: 'tempJavakId' }, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
+          javakLotsDB.update({ javakId: 'tempJavakId', type: newDoc.type }, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
           });
           let response = {};
           response.error = err;

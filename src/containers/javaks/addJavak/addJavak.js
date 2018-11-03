@@ -34,6 +34,10 @@ class addJavak extends Component {
     }
 
     submit = (values) => {
+        // Do not submit the form if there is no javakLots;
+        if(this.props.sumOfJavakLots === 0) return false;
+
+        // Get the values from dropdown
         values.type = values.type.value;
         values.address = values.address.value;
         values.addressOfMerchant = values.addressOfMerchant.value;

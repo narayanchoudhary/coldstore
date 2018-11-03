@@ -28,7 +28,7 @@ class LotsModal extends Component {
     }
 
     fetchJavakLots = () => {
-        this.props.fetchJavakLotsByJavakId(this.props.javakId, (response) => {
+        this.props.fetchJavakLotsByJavakId(this.props.javakId, 'all', (response) => {
             let lots = response.data.map((lot) => {
                 return {
                     _id: lot._id,
@@ -128,7 +128,7 @@ const mapDispatchToProps = dispatch => {
     return {
         editJavakLot: (javakLot) => dispatch(actions.editJavakLot(javakLot)),
         deleteJavakLot: (javakLotId) => dispatch(actions.deleteJavakLot(javakLotId)),
-        fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
+        fetchJavakLotsByJavakId: (javakId, type, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, type, thenCallback)),
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
     };

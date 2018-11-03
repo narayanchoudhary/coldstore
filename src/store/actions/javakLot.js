@@ -14,9 +14,9 @@ export const saveJavakLot = (avakId, javakId, thenCallback) => {
     }
 };
 
-export const fetchJavakLotsByJavakId = (javakId, thenCallback) => {
+export const fetchJavakLotsByJavakId = (javakId, type, thenCallback) => {
     return dispatch => {
-        ipc.send('fetchJavakLotsByJavakId', { javakId: javakId });
+        ipc.send('fetchJavakLotsByJavakId', { javakId: javakId, type: type });
         ipc.once('fetchJavakLotsByJavakIdResponse', (event, response) => {
             // Calculate sum of packets of javak lots
             let sumOfJavakLots = 0;
@@ -106,11 +106,7 @@ export const fetchAvaksOfParty = (partyId, type, thenCallback) => {
         ipc.send('fetchAvaksOfParty', { partyId: partyId });
         ipc.once('fetchAvaksOfPartyResponse', (event, response) => {
             // filter avakOfParty according to type
-            if (type === 'chips') {
-                response.data = response.data.filter(avak => avak.type === 'chips');
-            } else {
-                response.data = response.data.filter(avak => avak.type !== 'chips');
-            }
+            response.data = response.data.filter(avak => avak.type === type);
 
             let avaks = response.data.map((avak) => {
                 // add label for remaining packet

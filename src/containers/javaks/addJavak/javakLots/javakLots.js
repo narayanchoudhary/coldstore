@@ -11,25 +11,27 @@ class JavakLots extends Component {
 
     componentDidMount() {
         this.props.fetchAvaksOfParty(this.props.partyId, this.props.type, () => {
-            this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
+            this.props.fetchJavakLotsByJavakId('tempJavakId', this.props.type, (response) => { });
         });
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.partyId !== this.props.partyId || nextProps.type !== this.props.type) {
-            this.props.fetchAvaksOfParty(nextProps.partyId, nextProps.type, () => { });
+            this.props.fetchAvaksOfParty(nextProps.partyId, nextProps.type, () => {
+                this.props.fetchJavakLotsByJavakId('tempJavakId', this.props.type, (response) => { });
+            });
         }
     }
     handleClickOnDelete = (row) => {
         this.props.deleteJavakLot(row._id);
-        this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
+        this.props.fetchJavakLotsByJavakId('tempJavakId', this.props.type, (response) => { });
         // enable again the avak whose lot is deleted
         this.props.modifyAvaks(this.props.avaks, row.avakId, false);
     }
 
     handleClickOnAdd = (avakId) => {
         this.props.saveJavakLot(avakId, 'tempJavakId', () => {
-            this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
+            this.props.fetchJavakLotsByJavakId('tempJavakId', this.props.type, (response) => { });
         });
 
         // disable the avak which is added
@@ -105,6 +107,11 @@ class JavakLots extends Component {
         headerSortingStyle: headerSortingStyle,
         hidden: true
     }, {
+        dataField: 'type',
+        text: 'type',
+        headerSortingStyle: headerSortingStyle,
+        hidden: true
+    }, {
         dataField: '_id',
         text: 'Action',
         formatter: createDeleteButton(this.handleClickOnDelete)
@@ -120,6 +127,10 @@ class JavakLots extends Component {
     }, {
         dataField: 'date',
         text: 'Date',
+    }, {
+        dataField: 'type',
+        text: 'Type',
+        formatter: columnFormatter(this.props.types)
     }, {
         dataField: 'item',
         text: 'Item',
@@ -161,6 +172,9 @@ class JavakLots extends Component {
         dataField: '_id',
         text: 'Action',
         formatter: this.createAddButton
+    }, {
+        dataField: 'remark',
+        text: 'remark',
     }];
 
     cellEdit = cellEditFactory({
@@ -168,7 +182,7 @@ class JavakLots extends Component {
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
             this.props.editJavakLot(row, () => {
-                this.props.fetchJavakLotsByJavakId('tempJavakId', (response) => { });
+                this.props.fetchJavakLotsByJavakId('tempJavakId', this.props.type, (response) => { });
             });
         }
     });
@@ -214,6 +228,7 @@ class JavakLots extends Component {
 const mapStateToProps = state => {
     return {
         items: state.item.options,
+        types: state.item.typeOptions,
         varieties: state.variety.options,
         sizes: state.size.options,
         avaks: state.javakLot.avaks,
@@ -225,7 +240,7 @@ const mapDispatchToProps = dispatch => {
     return {
         editJavakLot: (javakLot, thenCallback) => dispatch(actions.editJavakLot(javakLot, thenCallback)),
         deleteJavakLot: (javakLotId) => dispatch(actions.deleteJavakLot(javakLotId)),
-        fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
+        fetchJavakLotsByJavakId: (javakId, type, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, type, thenCallback)),
         fetchAvaksOfParty: (partyId, type, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, type, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
         modifyAvaks: (avaks, avakId, status) => dispatch(actions.modifyAvaks(avaks, avakId, status)),

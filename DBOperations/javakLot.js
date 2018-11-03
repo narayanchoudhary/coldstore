@@ -8,7 +8,7 @@ class JavakLotsDatabase {
         this.mainWindow = mainWindow;
         this.saveJavakLot = this.saveJavakLot.bind(this);
         this.fetchJavakLotsByJavakId = this.fetchJavakLotsByJavakId.bind(this);
-        this.fetchJavakLotsByAvakIds     = this.fetchJavakLotsByAvakIds.bind(this);
+        this.fetchJavakLotsByAvakIds = this.fetchJavakLotsByAvakIds.bind(this);
         this.deleteJavakLot = this.deleteJavakLot.bind(this);
         this.removeTempJavakLots = this.removeTempJavakLots.bind(this);
         this.editJavakLot = this.editJavakLot.bind(this);
@@ -47,7 +47,8 @@ class JavakLotsDatabase {
                 lot.floor = data.floor;
                 lot.rack = data.rack;
                 lot.javakId = javakId;
-                
+                lot.type = data.type;
+
                 // Insert lot in the db
                 javakLotsDB.insert(lot, (err, newDoc) => {
                     let response = {};
@@ -67,7 +68,11 @@ class JavakLotsDatabase {
     }
 
     fetchJavakLotsByJavakId(event, data) {
-        javakLotsDB.find({ javakId: data.javakId }).sort({ updatedAt: -1 }).exec((err, data) => {
+        let whereCondition = { javakId: data.javakId };
+        if (data.type !== 'all') {
+            whereCondition = { ...whereCondition, type: data.type }
+        }
+        javakLotsDB.find(whereCondition).sort({ updatedAt: -1 }).exec((err, data) => {
             let response = {};
             response.error = err;
             response.data = data;
