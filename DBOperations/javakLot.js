@@ -33,7 +33,7 @@ class JavakLotsDatabase {
                 // Get already sent packet of this avak
                 let sentPacket = 0;
                 javakLots.forEach((javakLot) => {
-                    sentPacket += parseInt(javakLot.packet)
+                    sentPacket += parseInt(javakLot.packet, 10)
                 });
 
                 // Get remaining packet
@@ -48,6 +48,7 @@ class JavakLotsDatabase {
                 lot.rack = data.rack;
                 lot.javakId = javakId;
                 lot.type = data.type;
+                lot.lotNumber = data.receiptNumber + '/' + data.packet;
 
                 // Insert lot in the db
                 javakLotsDB.insert(lot, (err, newDoc) => {
@@ -72,7 +73,7 @@ class JavakLotsDatabase {
         if (data.type !== 'all') {
             whereCondition = { ...whereCondition, type: data.type }
         }
-        javakLotsDB.find(whereCondition).sort({ updatedAt: -1 }).exec((err, data) => {
+        javakLotsDB.find(whereCondition).sort({ createdAt: -1 }).exec((err, data) => {
             let response = {};
             response.error = err;
             response.data = data;

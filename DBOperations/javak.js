@@ -53,19 +53,33 @@ class JavakDatabase {
   };
 
   fetchJavaks(event, data) {
-    javaksDB.find({ receiptNumber: { $exists: true } }).sort({ updatedAt: -1 }).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-      this.mainWindow.webContents.send('fetchJavaksResponse', response);
+    javaksDB.find({ receiptNumber: { $exists: true } }).sort({ updatedAt: -1 }).exec((err, javaks) => {
+      javakLotsDB.find({}, (err, javakLots) => {
+        let finalJavaks = [];
+        javaks.forEach(javak => {
+          let sumOfPacketsOfJavakLots = 0;
+          javakLots.forEach((javakLot) => {
+            if (javakLot.javakId === javak._id) {
+              sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
+            }
+          });
+          finalJavaks.push({...javak, sumOfPacketsOfJavakLots});
+        });
+        let response = {};
+        response.error = err;
+        response.data = finalJavaks;
+        this.mainWindow.webContents.send('fetchJavaksResponse', response);
+      });
     });
   };
 
   deleteJavak(event, data) {
     javaksDB.remove({ _id: data.JavakId }, {}, (err, numRemoved) => {
-      let response = {};
-      response.error = err;
-      this.mainWindow.webContents.send('deleteJavakResponse', response);
+      javakLotsDB.remove({ javakId: data.JavakId }, { multi: true }, (err, numRemoved) => {
+        let response = {};
+        response.error = err;
+        this.mainWindow.webContents.send('deleteJavakResponse', response);
+      });
     });
   };
 

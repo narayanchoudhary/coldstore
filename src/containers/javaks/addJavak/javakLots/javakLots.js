@@ -58,6 +58,10 @@ class JavakLots extends Component {
         dataField: 'itemId',
         text: 'Item Id',
         hidden: true
+    },{
+        dataField: 'lotNumber',
+        text: 'Lot',
+        editable: false,
     }, {
         dataField: 'packet',
         text: 'Packet',

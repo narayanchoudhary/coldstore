@@ -11,7 +11,6 @@ class LotsModal extends Component {
 
     state = {
         open: true,
-        lots: []
     };
 
     onOpenModal = () => {
@@ -29,18 +28,6 @@ class LotsModal extends Component {
 
     fetchJavakLots = () => {
         this.props.fetchJavakLotsByJavakId(this.props.javakId, 'all', (response) => {
-            let lots = response.data.map((lot) => {
-                return {
-                    _id: lot._id,
-                    packet: lot.packet,
-                    chamber: lot.chamber,
-                    floor: lot.floor,
-                    rack: lot.rack,
-                    avakId: lot.avakId,
-                    javakId: lot.javakId
-                };
-            });
-            this.setState({ lots: lots });
         });
     }
 
@@ -53,7 +40,9 @@ class LotsModal extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editJavakLot(row);
+            this.props.editJavakLot(row, () => {
+                this.fetchJavakLots();
+            });
         }
     });
 
@@ -61,6 +50,10 @@ class LotsModal extends Component {
         dataField: '_id',
         text: 'ID',
         hidden: true
+    },{
+        dataField: 'lotNumber',
+        text: 'Lot',
+        editable: false,
     }, {
         dataField: 'packet',
         text: 'Packet',
@@ -100,12 +93,11 @@ class LotsModal extends Component {
                 onClose={this.onCloseModal}
                 animationDuration={1000}
                 center
-
             >
                 <BootstrapTable
                     columns={this.columns}
                     keyField='_id'
-                    data={this.state.lots}
+                    data={this.props.lots}
                     wrapperClasses="javaksTableWrapper lotsTable"
                     bordered
                     hover
@@ -113,6 +105,7 @@ class LotsModal extends Component {
                     cellEdit={this.cellEdit}
                     noDataIndication="No Item"
                 />
+                Total: {this.props.sumOfJavakLots}
             </Modal>
         );
     }
@@ -120,13 +113,14 @@ class LotsModal extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.avak.avaks.data,
+        lots: state.javakLot.lots,
+        sumOfJavakLots: state.javakLot.sumOfJavakLots,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        editJavakLot: (javakLot) => dispatch(actions.editJavakLot(javakLot)),
+        editJavakLot: (javakLot, thenCallback) => dispatch(actions.editJavakLot(javakLot, thenCallback)),
         deleteJavakLot: (javakLotId) => dispatch(actions.deleteJavakLot(javakLotId)),
         fetchJavakLotsByJavakId: (javakId, type, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, type, thenCallback)),
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),

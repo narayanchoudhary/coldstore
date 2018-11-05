@@ -122,12 +122,12 @@ class Javaks extends Component {
                 options: this.props.parties
             }
         }, {
-            dataField: 'motorNumber',
-            text: 'M No',
+            dataField: 'sumOfPacketsOfJavakLots',
+            text: 'Total Packet',
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
-            classes: 'motor-no'
+            editable: false,
         }, {
             dataField: '_id',
             text: 'Action',

@@ -63,7 +63,7 @@ class addJavak extends Component {
         this.change('merchant', party);// Change merchant to the party
     }
 
-    onChangeType = (type) => {
+    onChangeType = (type) => {// Aloo type chamber or rashan
         this.setState({ ...this.state, type: type.value });
         this.props.fetchNewReceiptNumberForJavak(type.value, () => { });
     }
