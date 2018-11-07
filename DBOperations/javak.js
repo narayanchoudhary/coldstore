@@ -29,9 +29,9 @@ class JavakDatabase {
     javaksDB.insert({ _id: '__autoid__chips', value: 0 });
     javaksDB.insert({ _id: '__autoid__rashan', value: 0 });
 
-    let autoId = '__autoid__chips';
-    if (data.type === 'rashan') { // potato type
-      autoId = '__autoid__rashan';
+    let autoId = '__autoid__rashan';
+    if (data.type === 'chips') {
+      autoId = '__autoid__chips';
     }
 
     javaksDB.findOne({ _id: autoId }, (err, doc) => {

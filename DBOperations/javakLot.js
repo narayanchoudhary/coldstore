@@ -71,9 +71,13 @@ class JavakLotsDatabase {
     fetchJavakLotsByJavakId(event, data) {
         let whereCondition = { javakId: data.javakId };
         if (data.type !== 'all') {
-            whereCondition = { ...whereCondition, type: data.type }
+            if (data.type === 'chips') {
+                whereCondition = { ...whereCondition, type: 'chips' }
+            } else {
+                whereCondition = { ...whereCondition, type: { $ne: 'chips' } }
+            }
         }
-        javakLotsDB.find(whereCondition).sort({ createdAt: -1 }).exec((err, data) => {
+        javakLotsDB.find(whereCondition).sort({ createdAt: 1 }).exec((err, data) => {
             let response = {};
             response.error = err;
             response.data = data;

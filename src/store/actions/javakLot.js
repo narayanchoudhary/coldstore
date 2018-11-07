@@ -105,8 +105,13 @@ export const fetchAvaksOfParty = (partyId, type, thenCallback) => {
     return dispatch => {
         ipc.send('fetchAvaksOfParty', { partyId: partyId });
         ipc.once('fetchAvaksOfPartyResponse', (event, response) => {
+
             // filter avakOfParty according to type
-            response.data = response.data.filter(avak => avak.type === type);
+            if (type === 'chips') {
+                response.data = response.data.filter(avak => avak.type === 'chips');
+            } else {
+                response.data = response.data.filter(avak => avak.type !== 'chips');
+            }
 
             let avaks = response.data.map((avak) => {
                 // add label for remaining packet
