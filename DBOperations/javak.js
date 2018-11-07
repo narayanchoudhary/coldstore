@@ -38,8 +38,13 @@ class JavakDatabase {
       javaksDB.update({ _id: autoId }, { $set: { value: ++doc.value } }, {}, () => {
         data.receiptNumber = doc.value;
         javaksDB.insert(data, (err, newDoc) => {
+
+          let whereCondition = { javakId: 'tempJavakId', type: newDoc.type };
+          if (newDoc.type === 'rashan' || newDoc.type === 'beeju') {
+            whereCondition = { javakId: 'tempJavakId', type: { $in: ['rashan', 'beeju'] } };
+          }
           //Change id of javak lots from temp
-          javakLotsDB.update({ javakId: 'tempJavakId', type: newDoc.type }, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
+          javakLotsDB.update(whereCondition, { $set: { javakId: newDoc._id } }, { multi: true }, function (err, numReplaced) {
           });
           let response = {};
           response.error = err;
@@ -63,7 +68,7 @@ class JavakDatabase {
               sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
             }
           });
-          finalJavaks.push({...javak, sumOfPacketsOfJavakLots});
+          finalJavaks.push({ ...javak, sumOfPacketsOfJavakLots });
         });
         let response = {};
         response.error = err;
