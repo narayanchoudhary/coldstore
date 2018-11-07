@@ -75,6 +75,8 @@ export const fetchLastJavak = (thenCallback) => {
             delete response.data[0]._id;
             delete response.data[0].createdAt;
             delete response.data[0].updatedAt;
+            delete response.data[0].updatedAt;
+            delete response.data[0].remark;
 
             dispatch({
                 type: actionTypes.FETCH_LAST_JAVAK,
