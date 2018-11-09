@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './dashboard.css';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
+import VarietiesDescription from './varietyDescription/varietyDescription';
 
 class Dashboard extends Component {
     componentDidMount() {
@@ -18,21 +19,11 @@ class Dashboard extends Component {
                             return (
                                 <div className="stockGridItem" key={dashboard._id}>
                                     <div className="itemName"> {dashboard.itemName} </div>
+                                    <VarietiesDescription data={dashboard.varietiesDescription} />
                                     <div className="itemStatus">
                                         <div className="TotalAvak">Total Avak: {dashboard.totalAvakPacket} </div>
                                         <div className="TotoalJavak">Total Javak: {dashboard.totalJavakLotsPacket} </div>
                                         <div className="currentStock">Current Stock: {dashboard.totalAvakPacket - dashboard.totalJavakLotsPacket} </div>
-                                        <div className="varietyDescription">
-                                            {
-                                                dashboard.varietiesDescription.map(variety => {
-                                                    return (
-                                                        <div key={variety.varietyName}>
-                                                            {variety.varietyName + ' : ' + variety.sumOfPackets}
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </div>
                                         <div className="typeDescription">
                                             <div>
                                                 Chips Chamber:    {dashboard.typeDescription.totalChipsPacket}

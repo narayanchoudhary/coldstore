@@ -46,16 +46,33 @@ class DashboardDatabase {
                             let varietiesDescription = [];
                             //foreach variety
                             varieties.forEach((variety) => {
-                                let sumOfPackets = 0;
+                                let totalAvakPackets = 0;
+                                let filteredAvakIds = []; // for getting all the javakLots of this variety to calculate the sum of packts of javakLots
+                                let totalJavakPackets = 0;
+
                                 filteredAvaks.forEach(avak => {
-                                    if (variety._id === avak.variety)
-                                        sumOfPackets += parseInt(avak.packet, 10);
+                                    if (variety._id === avak.variety) {
+                                        totalAvakPackets += parseInt(avak.packet, 10);
+                                        filteredAvakIds.push(avak._id);
+                                    }
                                 });
 
-                                if(sumOfPackets !== 0) // We want to show the varieties in dashboard which has at least one packet of this item
-                                varietiesDescription.push(
-                                    { varietyName: variety.varietyName, sumOfPackets }
-                                );
+                                filteredJavakLots.forEach(javakLot => {
+                                    if (filteredAvakIds.includes(javakLot.avakId)) {
+                                        totalJavakPackets += parseInt(javakLot.packet, 10);
+                                    }
+                                });
+
+                                if (totalAvakPackets !== 0) { // We want to show the varieties in dashboard which has at least one packet of this item
+                                    varietiesDescription.push(
+                                        {
+                                            varietyName: variety.varietyName,
+                                            totalAvak: totalAvakPackets,
+                                            totalJavak: totalJavakPackets,
+                                            balance: totalAvakPackets - totalJavakPackets,
+                                        }
+                                    );
+                                }
 
                             });
 
