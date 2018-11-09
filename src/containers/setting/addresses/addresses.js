@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-import filterFactory from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './addresses.css';
 import Button from '../../../components/UI/button/button';
 import Aux from '../../../components/Auxilary/Auxilary';
 import { rowClasses } from '../../../utils/utils';
-
+import { paginationOptions } from '../../../utils/utils';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 class Addresses extends Component {
 
     handleClickOnDelete = (addressId) => {
@@ -53,6 +54,7 @@ class Addresses extends Component {
         }, {
             dataField: 'addressName',
             text: 'Name',
+            filter: textFilter(),
         }, {
             dataField: '_id',
             text: 'Action',
@@ -76,6 +78,7 @@ class Addresses extends Component {
                     filter={filterFactory()}
                     noDataIndication="No Addresses"
                     rowClasses={rowClasses}
+                    pagination={paginationFactory(paginationOptions(this.props.addresses))}
                 />
             </div>
         )

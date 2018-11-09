@@ -121,6 +121,10 @@ class JavakDatabase {
           });
           return { ...avakOuter, sentPacket: sum }
         });
+
+        // Sort avaks according to the receipt Number
+        finalAvaks.sort((a,b) => (a.receiptNumber > b.receiptNumber) ? 1 : ((b.receiptNumber > a.receiptNumber) ? -1 : 0)); 
+
         response.data = finalAvaks;
         this.mainWindow.webContents.send('fetchAvaksOfPartyResponse', response);
       });

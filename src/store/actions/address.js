@@ -42,7 +42,7 @@ export const deleteAddress = (addressId) => {
     }
 }
 
-export const editAddress = (data) => {
+export const editAddress = (data, thenCallback) => {
     return dispatch => {
         ipc.send('editAddress', data);
         ipc.once('editAddressResponse', (event, response) => {
@@ -50,6 +50,7 @@ export const editAddress = (data) => {
                 type: actionTypes.EDIT_SIZE,
                 payload: response
             });
+            thenCallback();
         });
     }
 }

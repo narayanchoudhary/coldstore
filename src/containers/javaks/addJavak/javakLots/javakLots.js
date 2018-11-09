@@ -77,7 +77,7 @@ class JavakLots extends Component {
             if (newValue > avak.remainingPacket) {
                 return {
                     valid: false,
-                    message: 'Packets should be up to' + avak.remainingPacket
+                    message: 'Packets ' + (parseInt(avak.remainingPacket, 10) + 1) + ' se kam hona chahiye'
                 };
             }
             if (newValue < 1) {

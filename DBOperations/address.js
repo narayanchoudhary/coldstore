@@ -24,7 +24,7 @@ class AddressDatabase {
   };
 
   fetchAddresses(event, data) {
-    addressesDB.find().sort({ date: 1 }).exec((err, data) => {
+    addressesDB.find().sort({ addressName: 1 }).exec((err, data) => {
       let response = {};
       response.error = err;
       response.data = data;
