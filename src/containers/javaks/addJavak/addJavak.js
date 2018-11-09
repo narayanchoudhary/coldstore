@@ -24,7 +24,7 @@ class addJavak extends Component {
     componentDidMount() {
         this.props.fetchLastJavak((response) => {
             this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
-            this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].address.value });
+            this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].address });
             this.props.fetchNewReceiptNumberForJavak(response.data[0].type, () => { });
         });
     }

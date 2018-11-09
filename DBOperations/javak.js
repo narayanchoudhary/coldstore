@@ -58,7 +58,7 @@ class JavakDatabase {
   };
 
   fetchJavaks(event, data) {
-    javaksDB.find({ receiptNumber: { $exists: true } }).sort({ updatedAt: -1 }).exec((err, javaks) => {
+    javaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, javaks) => {
       javakLotsDB.find({}, (err, javakLots) => {
         let finalJavaks = [];
         javaks.forEach(javak => {
