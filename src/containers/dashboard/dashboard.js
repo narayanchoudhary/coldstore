@@ -26,7 +26,7 @@ class Dashboard extends Component {
                                             {
                                                 dashboard.varietiesDescription.map(variety => {
                                                     return (
-                                                        <div>
+                                                        <div key={variety.varietyName}>
                                                             {variety.varietyName + ' : ' + variety.sumOfPackets}
                                                         </div>
                                                     )
