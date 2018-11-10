@@ -24,7 +24,7 @@ class addJavak extends Component {
     componentDidMount() {
         this.props.fetchLastJavak((response) => {
             this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
-            this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].address });
+            this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].addressOfMerchant });
             this.props.fetchNewReceiptNumberForJavak(response.data[0].type, () => { });
         });
     }
@@ -80,7 +80,6 @@ class addJavak extends Component {
                     <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} onChange={this.onChangeType} validate={[required()]} />
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
-                    <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
                     <Field type="text" name="remark" component={renderField} placeholder="Remark" />
                     <JavakLots
                         partyId={this.state.partyId ? this.state.partyId : this.props.initialValues.party}
