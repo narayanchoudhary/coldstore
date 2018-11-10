@@ -41,7 +41,7 @@ class JavakLots extends Component {
     createAddButton = (cell, row) => {
         return (
             <button
-                className="btn btn-success btn-xs"
+                className="btn btn-success btn-xs addButton"
                 onClick={() => this.handleClickOnAdd(cell)}
                 disabled={row.disabled}
             >
@@ -58,7 +58,7 @@ class JavakLots extends Component {
         dataField: 'itemId',
         text: 'Item Id',
         hidden: true
-    },{
+    }, {
         dataField: 'lotNumber',
         text: 'Lot',
         editable: false,
@@ -129,6 +129,13 @@ class JavakLots extends Component {
         dataField: 'receiptNumber',
         text: 'R No',
     }, {
+        dataField: 'packet',
+        text: 'Packet',
+    }, {
+        dataField: '_id',
+        text: 'Action',
+        formatter: this.createAddButton
+    }, {
         dataField: 'date',
         text: 'Date',
     }, {
@@ -154,9 +161,6 @@ class JavakLots extends Component {
         dataField: 'privateMarka',
         text: 'Marka',
     }, {
-        dataField: 'packet',
-        text: 'Packet',
-    }, {
         dataField: 'weight',
         text: 'Weight',
     }, {
@@ -172,10 +176,6 @@ class JavakLots extends Component {
     }, {
         dataField: 'rack',
         text: 'Rack',
-    }, {
-        dataField: '_id',
-        text: 'Action',
-        formatter: this.createAddButton
     }, {
         dataField: 'remark',
         text: 'remark',

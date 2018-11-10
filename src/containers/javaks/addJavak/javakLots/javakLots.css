@@ -1,3 +1,7 @@
 .javaksLots {
     grid-area: 5 /1 /5 /4;
 }
+
+.addButton:focus {
+    background-color: blueviolet !important;
+}
