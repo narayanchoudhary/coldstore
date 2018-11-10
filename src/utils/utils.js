@@ -18,13 +18,13 @@ export const createDeleteButton = (handleClickOnDelete) => {
     return (cell, row) => {
         if (row.deleteButton === 'no') return; // Do not create delete button for footer and opening balance etc
         return (
-            <button
-                type="button"
+            <div
+                // type="button"
                 className="btn btn-danger btn-xs"
                 onClick={() => handleClickOnDelete(row)}
             >
                 Delete
-            </button>
+            </div>
         );
     }
 }
