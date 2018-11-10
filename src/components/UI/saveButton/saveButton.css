@@ -1,0 +1,7 @@
+.saveButtonInner:focus {
+    background-color: magenta !important;
+}
+
+.saveButtonInner:hover {
+    background-color: magenta !important;
+}
