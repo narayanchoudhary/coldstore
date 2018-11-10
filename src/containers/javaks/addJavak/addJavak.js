@@ -12,6 +12,8 @@ import { withRouter } from 'react-router';
 import { required, date } from 'redux-form-validators';
 import { renderField, renderSelectField } from '../../../utils/fields';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
+import { formValueSelector } from "redux-form";
+const selector = formValueSelector("javak");
 
 class addJavak extends Component {
     constructor(props) {
@@ -36,7 +38,7 @@ class addJavak extends Component {
 
     submit = (values) => {
         // Do not submit the form if there is no javakLots;
-        if(this.props.sumOfJavakLots === 0) return false;
+        if (this.props.sumOfJavakLots === 0) return false;
 
         // Get the values from dropdown
         values.type = values.type.value;
@@ -56,11 +58,13 @@ class addJavak extends Component {
 
     onChangeAddress = (address) => {
         this.props.filterPartiesByAddress(this.props.parties, address);
+        if(!(this.props.typeFieldValue === 'chips' ||  this.props.typeFieldValue.value === 'chips'))
         this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
     }
 
     onPartyChange = (party) => {
         this.onPartySelect(party.value);
+        if(!(this.props.typeFieldValue === 'chips' ||  this.props.typeFieldValue.value === 'chips'))
         this.change('merchant', party);// Change merchant to the party
     }
 
@@ -116,6 +120,7 @@ const mapStateToProps = state => {
         lots: state.javakLot.lots,
         sumOfJavakLots: state.javakLot.sumOfJavakLots,
         newReceiptNumber: state.javak.newReceiptNumber,
+        typeFieldValue: selector(state, "type")
     }
 }
 
