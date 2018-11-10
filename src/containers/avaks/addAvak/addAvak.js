@@ -9,6 +9,7 @@ import { renderField, renderSelectField } from '../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import { required, date } from 'redux-form-validators';
 import Aux from '../../../components/Auxilary/Auxilary';
+import SaveButton from '../../../components/UI/saveButton/saveButton';
 
 const overWeight = (value, allValues, props) => {
     let warning = undefined;
@@ -76,7 +77,7 @@ class addAvak extends Component {
                         <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
                         <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />
                         <div className="grid-item">
-                            <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
+                            <SaveButton disabled={this.submitting}  />
                     </div>
                     </div>
                 </form>

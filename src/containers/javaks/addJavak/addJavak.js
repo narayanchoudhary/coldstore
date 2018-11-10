@@ -11,6 +11,7 @@ import JavakLots from './javakLots/javakLots';
 import { withRouter } from 'react-router';
 import { required, date } from 'redux-form-validators';
 import { renderField, renderSelectField } from '../../../utils/fields';
+import SaveButton from '../../../components/UI/saveButton/saveButton';
 
 class addJavak extends Component {
     constructor(props) {
@@ -87,7 +88,7 @@ class addJavak extends Component {
                     />
                     <div className="grid-item totalOfJavaklots">Total: {this.props.sumOfJavakLots}  </div>
                     <div className="grid-item saveButton">
-                        <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
+                        <SaveButton disabled={this.submitting} />
                     </div>
                 </div>
             </form>
