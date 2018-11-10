@@ -88,15 +88,12 @@ export const filterPartiesByAddress = (parties, address) => {
 
 // Merchants are also parties
 export const filterMerchantsByAddress = (parties, address) => {
-    console.log('parties: ', parties);
-    console.log('address: ', address);
     let filteredParties = parties;
     if (address.value) {
         filteredParties = parties.filter(party => {
             return party.address === address.value;
         });
     }
-    console.log('filteredParties: ', filteredParties);
 
     return dispatch => {
         dispatch({
