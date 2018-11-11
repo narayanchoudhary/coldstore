@@ -71,3 +71,7 @@
 .totalOfJavaklots {
     grid-area: 6 / 1 / 6 / 1;
 }
+
+.addJavakForm .grid-container .grid-item:last-child {
+    grid-area: 7/2/7/3;
+}
