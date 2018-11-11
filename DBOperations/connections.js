@@ -6,6 +6,7 @@ var Connections = (function () {
 
     function createInstance() {
         var object = {
+            partiesDB: new Datastore({ filename: 'database/parties', autoload: true, timestampData: true }),
             javaksDB: new Datastore({ filename: 'database/javaks', autoload: true, timestampData: true }),
             avaksDB: new Datastore({ filename: 'database/avaks', autoload: true, timestampData: true }),
             javakLotsDB: new Datastore({ filename: 'database/javakLots', autoload: true, timestampData: true }),

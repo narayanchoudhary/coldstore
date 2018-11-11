@@ -1,8 +1,7 @@
 const ipc = require('electron').ipcMain;
-const Datastore = require('nedb');
 const yearsDB = require('./connections').getInstance().yearsDB;
 const OpeningBalanceDB = require('./connections').getInstance().openingBalanceDB;
-const partiesDB = new Datastore({ filename: 'database/parties', autoload: true, timestampData: true });
+const partiesDB = require('./connections').getInstance().partiesDB;
 class PartyDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
