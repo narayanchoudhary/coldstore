@@ -61,6 +61,7 @@
 {"addressName":"banediya","_id":"pC4Efrymg3DOtIbz","createdAt":{"$$date":1539102159579},"updatedAt":{"$$date":1539102159579}}
 {"addressName":"baghana","_id":"qOGBNbnz2MtB4Mst","createdAt":{"$$date":1539186956180},"updatedAt":{"$$date":1539186956180}}
 {"addressName":"kanadiya","_id":"qQOJQJKAxT7bVztc","createdAt":{"$$date":1540297131568},"updatedAt":{"$$date":1540297131568}}
+{"addressName":"gumnam","_id":"qdoQu2vnVMC1f9w1","createdAt":{"$$date":1541864132542},"updatedAt":{"$$date":1541864132542}}
 {"addressName":"borsi","_id":"qylbmjVksgMiWvBO","createdAt":{"$$date":1539185975924},"updatedAt":{"$$date":1539185975924}}
 {"addressName":"mundi","_id":"r8KvJC1QekpOobFw","createdAt":{"$$date":1539317022069},"updatedAt":{"$$date":1539317022069}}
 {"addressName":"ranipura","_id":"sYg5lN195cQj80zX","createdAt":{"$$date":1539102413672},"updatedAt":{"$$date":1539102413672}}
@@ -69,7 +70,7 @@
 {"addressName":"mumbai","_id":"vSialX69goVjNwHW","createdAt":{"$$date":1539951383708},"updatedAt":{"$$date":1539951383708}}
 {"addressName":"harankhedi","_id":"w2TRYEXPlvGywiCs","createdAt":{"$$date":1539072858851},"updatedAt":{"$$date":1539072858851}}
 {"addressName":"osarud","_id":"xEx6vfcoezeSm3Id","createdAt":{"$$date":1539316906615},"updatedAt":{"$$date":1539316906615}}
-{"addressName":"balsad","_id":"xPn8YxewlBSb43MM","createdAt":{"$$date":1539184848733},"updatedAt":{"$$date":1539184848733}}
+{"addressName":"valsad","_id":"xPn8YxewlBSb43MM","createdAt":{"$$date":1539184848733},"updatedAt":{"$$date":1541863235095}}
 {"addressName":"badnagar","_id":"xU7yrtCUGblzh3jh","createdAt":{"$$date":1539319927968},"updatedAt":{"$$date":1539319927968}}
 {"addressName":"radhanagar","_id":"xfWamtOqljLazCDy","createdAt":{"$$date":1539186011634},"updatedAt":{"$$date":1539186011634}}
 {"addressName":"chirakhan","_id":"yOE4AWL9p6RUrTCC","createdAt":{"$$date":1539100155277},"updatedAt":{"$$date":1539100155277}}
