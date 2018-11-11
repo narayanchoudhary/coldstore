@@ -89,7 +89,7 @@ class AvakDatabase {
               sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
             }
           });
-          finalAvaks.push({ ...avak, balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots });
+          finalAvaks.push({ ...avak, totalJavakPacket: sumOfPacketsOfJavakLots,  balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots });
 
         });
         let response = {};

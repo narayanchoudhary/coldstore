@@ -91,22 +91,6 @@ class SingleParty extends Component {
         );
     }
 
-    packetFormatter = (cell, row) => {
-        let sumJavakLots = 0;
-        this.state.javakLots.forEach((javakLot) => {
-            if (row._id !== 'footer') {
-                if (javakLot.avakId === row._id)
-                    sumJavakLots += parseInt(javakLot.packet, 10);
-            } else {
-                sumJavakLots += parseInt(javakLot.packet, 10);
-            }
-        });
-        let display = <div>{cell} - {sumJavakLots} = {cell - sumJavakLots}</div>
-        return (
-            display
-        );
-    }
-
     getTotalAvakHammali = (avaks) => {
         let avakHammali = 0;
         avaks.forEach((avak) => {
@@ -165,6 +149,11 @@ class SingleParty extends Component {
                 type: Type.SELECT,
                 options: this.props.items
             }
+        },{
+            dataField: 'type',
+            text: 'Type',
+            sort: true,
+            headerSortingStyle
         }, {
             dataField: 'variety',
             text: 'Variety',
@@ -193,7 +182,6 @@ class SingleParty extends Component {
             text: 'Packet',
             sort: true,
             headerSortingStyle,
-            formatter: this.packetFormatter,
         }, {
             dataField: '',
             text: 'Javak',
@@ -202,6 +190,11 @@ class SingleParty extends Component {
             editable: false,
             formatter: this.javakLotsFormatter,
             classes: 'totalJavakPacket'
+        },{
+            dataField: 'totalJavakPacket',
+            text: 'Javak',
+            sort: true,
+            editable: false,
         }, {
             dataField: 'balance',
             text: 'Balance',
