@@ -13,6 +13,7 @@ import { required, date } from 'redux-form-validators';
 import { renderField, renderSelectField } from '../../../utils/fields';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
 import { formValueSelector } from "redux-form";
+import DateField from '../../../components/dateField/dateField';
 const selector = formValueSelector("javak");
 
 class addJavak extends Component {
@@ -79,7 +80,7 @@ class addJavak extends Component {
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
                 <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
                 <div className="grid-container">
-                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} onFocus={e => e.target.setSelectionRange(0, 2) }  autoFocus />
+                    <DateField />
                     <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} onChange={this.onChangeType} validate={[required()]} />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={this.onPartyChange} validate={[required()]} />

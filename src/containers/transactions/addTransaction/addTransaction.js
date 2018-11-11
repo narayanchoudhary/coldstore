@@ -8,7 +8,8 @@ import validate from './validation';
 import { renderField, renderSelectField } from '../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
 import './addTransaction.css';
-import { required, date } from 'redux-form-validators';
+import { required } from 'redux-form-validators';
+import DateField from '../../../components/dateField/dateField';
 
 class addTransaction extends Component {
     constructor(props) {
@@ -35,13 +36,12 @@ class addTransaction extends Component {
     };
 
     render() {
-        console.log('this.props.initialValues',this.props.initialValues);
         return (
             <form onSubmit={this.handleSubmit(this.submit)}>
                 {this.state.redirectToTransactions ? <Redirect to="/transactions" /> : null}
                 <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumberOfTransaction, 10) + 1}</p>
                 <div className="grid-container">
-                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} autoFocus />
+                    <DateField />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
                     <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
