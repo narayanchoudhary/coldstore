@@ -13,20 +13,12 @@ export const renderField = ({ input, label, type, meta: { touched, error, warnin
                     <Glyphicon type={input.name} />
                 </span>
                 {
-                    type === 'date'
-                        ? <input
-                            {...input}
-                            className="form-control"
-                            type={type}
-                            {...rest}
-                            format="MM/dd/yyyy"
-                        />
-                        : <input
-                            {...input}
-                            className="form-control"
-                            type={type}
-                            {...rest}
-                        />
+                    <input
+                        {...input}
+                        className="form-control"
+                        type={type}
+                        {...rest}
+                    />
                 }
             </div>
             {touched && ((error && <span className='errorMessage' >{error}</span>) || (warning && <span>{warning}</span>))}

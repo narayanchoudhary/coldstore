@@ -79,13 +79,12 @@ class addJavak extends Component {
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
                 <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
                 <div className="grid-container">
-                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
-                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} autoFocus />
+                    <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} onFocus={e => e.target.setSelectionRange(0, 2) }  autoFocus />
+                    <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={this.onPartyChange} validate={[required()]} />
                     <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} onChange={this.onChangeType} validate={[required()]} />
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
-                    <Field type="text" name="remark" component={renderField} placeholder="Remark" />
                     <JavakLots
                         partyId={this.state.partyId ? this.state.partyId : this.props.initialValues.party}
                         type={this.state.type ? this.state.type : this.props.initialValues.type}
@@ -94,6 +93,7 @@ class addJavak extends Component {
                     <div className="grid-item saveButton">
                         <SaveButton disabled={this.submitting} />
                     </div>
+                    <Field type="text" name="remark" component={renderField} placeholder="Remark"/>
                 </div>
             </form>
         )
