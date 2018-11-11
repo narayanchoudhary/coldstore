@@ -1,14 +1,12 @@
-.grid-container {
+.addJavakForm .grid-container {
     display: grid;
-    grid-template-columns: 30% 30% 30%;
+    grid-template-columns: 25% 25% 25% 25%;
     box-shadow: 0px 0px 6px #ccc;
     margin: 20px;
     padding: 4px;
     border-radius: 8px;
-    max-width: 1085px;
     justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: unset;
 }
 
 .grid-item {
@@ -57,7 +55,7 @@
 }
 
 .avaksOfJavak {
-    grid-area: 4 / 1 / 4 / 4;
+    grid-area: 4 / 1 / 4 / 5;
 }
 
 .addJavakForm .table {
@@ -65,13 +63,13 @@
 }
 
 .saveButton {
-    grid-area: 7 / 1 / 7 / 1; 
+    grid-area: 7 / 2 / 7 / 3; 
 }
 
 .totalOfJavaklots {
-    grid-area: 6 / 1 / 6 / 1;
+    grid-area: 6 / 2 / 6 / 3;
 }
 
 .addJavakForm .grid-container .grid-item:last-child {
-    grid-area: 7/2/7/3;
+    grid-area: 7/3/7/4;
 }
