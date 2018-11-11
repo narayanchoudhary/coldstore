@@ -203,6 +203,12 @@ class SingleParty extends Component {
             formatter: this.javakLotsFormatter,
             classes: 'totalJavakPacket'
         }, {
+            dataField: 'balance',
+            text: 'Balance',
+            sort: true,
+            headerSortingStyle,
+            editable: false,
+        }, {
             dataField: 'weight',
             text: 'Weight',
             sort: true,

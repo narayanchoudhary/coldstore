@@ -1,5 +1,6 @@
 const ipc = require('electron').ipcMain;
 const avaksDB = require('./connections').getInstance().avaksDB;
+const javakLotsDB = require('./connections').getInstance().javakLotsDB;
 class AvakDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -17,7 +18,7 @@ class AvakDatabase {
     ipc.on('editAvak', this.editAvak);
     ipc.on('fetchLastAvak', this.fetchLastAvak);
     ipc.on('fetchNewReceiptNumber', this.fetchNewReceiptNumber);
-    
+
     // This commented code is for the editing the avaks do not delete it
     // avaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, data) => {
     //   data.forEach(avak => {
@@ -74,11 +75,28 @@ class AvakDatabase {
   };
 
   fetchAvaksByPartyId(event, data) {
-    avaksDB.find({ party: data.partyId }).sort({ receiptNumber: 1 }).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-      this.mainWindow.webContents.send('fetchAvaksByPartyIdResponse', response);
+    avaksDB.find({ party: data.partyId }).sort({ receiptNumber: 1 }).exec((err, avaks) => {
+      // Doing this shit to add remaining and balance packet column
+
+      // fetch javakLots
+      javakLotsDB.find({}, (err, javakLots) => {
+        let finalAvaks = [];
+        avaks.forEach(avak => {
+          // Calculate the sum of packets of javakLots
+          let sumOfPacketsOfJavakLots = 0;
+          javakLots.forEach(javakLot => {
+            if (javakLot.avakId === avak._id) {
+              sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
+            }
+          });
+          finalAvaks.push({ ...avak, balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots });
+
+        });
+        let response = {};
+        response.error = err;
+        response.data = finalAvaks;
+        this.mainWindow.webContents.send('fetchAvaksByPartyIdResponse', response);
+      });
     });
   };
 
