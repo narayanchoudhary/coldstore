@@ -36,13 +36,7 @@ export const fetchAvaksByPartyId = (partyId, thenCallback) => {
             response.data.forEach((avak) => {
                 avakIdsOfSingleParty.push(avak._id);
             });
-
-            // Add footer in the table
-            let footer = getFooterData(response.data);
-            if (footer) {
-                response.data.push(footer);
-            }
-
+            
             dispatch({
                 type: actionTypes.FETCH_AVAKS_BY_PARTY_ID,
                 payload: { avaks: response.data, avakIdsOfSingleParty: avakIdsOfSingleParty }
@@ -112,28 +106,4 @@ export const fetchNewReceiptNumber = (type, thenCallback) => {
             thenCallback(response);
         });
     }
-}
-
-
-const getFooterData = (avaks) => {
-    // Do not create footer if no avaks
-    if (avaks.length === 0) {
-        return;
-    }
-
-    let totalPacket = 0;
-    let totalWeight = 0;
-    avaks.forEach((avak) => {
-        totalPacket += parseInt(avak.packet, 10);
-        totalWeight += parseInt(avak.weight, 10);
-    });
-
-    let footer = {
-        _id: 'footer',
-        packet: totalPacket,
-        weight: totalWeight,
-        deleteButton: 'no'
-    }
-
-    return footer;
 }

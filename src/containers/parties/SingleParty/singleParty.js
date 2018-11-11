@@ -15,10 +15,6 @@ class SingleParty extends Component {
         party: null,
         javakLots: [],
         javaks: [],
-        totalJavakPacket: null,
-        totalRent: 0,
-        totalAvakHammali: 0,
-        javakHammali: 0
     };
 
     componentDidMount() {
@@ -53,8 +49,12 @@ class SingleParty extends Component {
     }
 
     rentFormatter = (cell, row) => {
-        let rent = '';
-        rent = row.weight * getRentOfItem(this.props.setups, row.item);
+        let rent = null;
+        if (row._id === 'footer') {
+            rent = this.getTotalRent(this.props.avaksOfSingleParty);
+        } else {
+            rent = row.weight * getRentOfItem(this.props.setups, row.item);
+        }
         rent = Math.round(rent);
         return rent;
     }
@@ -81,7 +81,7 @@ class SingleParty extends Component {
     };
 
     javakLotsFormatter = (cell, row) => {
-        if (row._id === 'footer') return this.state.totalJavakPacket;
+        if (row._id === 'footer') return '';
         return (
             <JavakLots
                 key={row._id}
@@ -149,7 +149,7 @@ class SingleParty extends Component {
                 type: Type.SELECT,
                 options: this.props.items
             }
-        },{
+        }, {
             dataField: 'type',
             text: 'Type',
             sort: true,
@@ -190,7 +190,7 @@ class SingleParty extends Component {
             editable: false,
             formatter: this.javakLotsFormatter,
             classes: 'totalJavakPacket'
-        },{
+        }, {
             dataField: 'totalJavakPacket',
             text: 'Javak',
             sort: true,
@@ -211,7 +211,8 @@ class SingleParty extends Component {
             text: 'Rent',
             sort: true,
             headerSortingStyle,
-            formatter: this.rentFormatter
+            formatter: this.rentFormatter,
+            editable: false,
         }, {
             dataField: 'chamber',
             text: 'Chamber',

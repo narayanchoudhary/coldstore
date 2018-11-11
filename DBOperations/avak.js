@@ -76,6 +76,11 @@ class AvakDatabase {
 
   fetchAvaksByPartyId(event, data) {
     avaksDB.find({ party: data.partyId }).sort({ receiptNumber: 1 }).exec((err, avaks) => {
+      // For adding in footer
+      let totalPacket = 0;
+      let totalWeight = 0;
+      let totalJavakPacket = 0; // total of javak lots
+
       // Doing this shit to add remaining and balance packet column
 
       // fetch javakLots
@@ -89,9 +94,26 @@ class AvakDatabase {
               sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
             }
           });
-          finalAvaks.push({ ...avak, totalJavakPacket: sumOfPacketsOfJavakLots,  balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots });
+          finalAvaks.push({ ...avak, totalJavakPacket: sumOfPacketsOfJavakLots, balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots });
+
+          // Calculate the totals to add into footer
+          totalPacket += parseInt(avak.packet, 10);
+          totalWeight += parseInt(avak.weight, 10);
+          totalJavakPacket += sumOfPacketsOfJavakLots;
 
         });
+
+        // Add footer
+        let footer = {
+          _id: 'footer',
+          packet: totalPacket,
+          weight: totalWeight,
+          totalJavakPacket: totalJavakPacket,
+          balance: totalPacket - totalJavakPacket,
+          deleteButton: 'no'
+        }
+        finalAvaks.push(footer);
+
         let response = {};
         response.error = err;
         response.data = finalAvaks;
