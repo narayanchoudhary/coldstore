@@ -47,6 +47,8 @@ export {
     fetchTransactionsByPartyId,
     deleteTransaction,
     editTransaction,
+    fetchLastTransaction,
+    fetchNewReceiptNumberOfTransaction
 } from './transactions';
 
 export {

@@ -18,8 +18,14 @@ class addTransaction extends Component {
         this.state = {};
     }
 
+    componentDidMount = () => {
+        this.props.fetchLastTransaction(() => {
+            this.props.fetchNewReceiptNumberOfTransaction(() => { });
+        });
+    }
+
     submit = (values) => {
-        delete values.address;
+        values.address = values.address.value;
         values.party = values.party.value;
         values.bank = values.bank.value;
         values.yearId = this.props.currentYear.value;
@@ -29,9 +35,11 @@ class addTransaction extends Component {
     };
 
     render() {
+        console.log('this.props.initialValues',this.props.initialValues);
         return (
             <form onSubmit={this.handleSubmit(this.submit)}>
                 {this.state.redirectToTransactions ? <Redirect to="/transactions" /> : null}
+                <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumberOfTransaction, 10) + 1}</p>
                 <div className="grid-container">
                     <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} autoFocus />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} />
@@ -65,6 +73,8 @@ const mapStateToProps = state => {
         addresses: state.address.options,
         banks: state.bank.options,
         currentYear: state.year.currentYear,
+        initialValues: state.transaction.lastTransaction,
+        newReceiptNumberOfTransaction: state.transaction.newReceiptNumberOfTransaction,
     }
 }
 
@@ -72,6 +82,8 @@ const mapDispatchToProps = dispatch => {
     return {
         saveTransaction: (values, thenCallback) => dispatch(actions.saveTransaction(values, thenCallback)),
         filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        fetchLastTransaction: (thenCallback) => dispatch(actions.fetchLastTransaction(thenCallback)),
+        fetchNewReceiptNumberOfTransaction: (thenCallback) => dispatch(actions.fetchNewReceiptNumberOfTransaction(thenCallback)),
     };
 };
 

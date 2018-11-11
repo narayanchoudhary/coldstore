@@ -12,20 +12,13 @@ import { columnFormatter, createDeleteButton, rowClasses, paginationOptions, fil
 
 class Transactions extends Component {
 
-    state = {
-        transactions: [],
-    };
-
     componentDidMount() {
-        this.props.fetchTransactions((response) => {
-            this.setState({ transactions: response });
-        });
+        this.props.fetchTransactions(() => { });
     }
 
     handleClickOnDelete = (javakId) => {
-        this.props.deleteTransaction(javakId);
-        this.props.fetchTransactions((response) => {
-            this.setState({ transactions: response });
+        this.props.deleteTransaction(javakId, () => {
+            this.props.fetchTransactions(() => { });
         });
     }
 
@@ -42,9 +35,8 @@ class Transactions extends Component {
             } else {
                 rowTosave = { ...row }
             }
-            this.props.editTransaction(rowTosave);
-            this.props.fetchTransactions((response) => {
-                this.setState({ transactions: response });
+            this.props.editTransaction(rowTosave, () => {
+                this.props.fetchTransactions(() => { });
             });
         },
     });
@@ -133,7 +125,7 @@ class Transactions extends Component {
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
-                    data={this.state.transactions}
+                    data={this.props.transactions}
                     wrapperClasses="avaksTableWrapper"
                     bordered
                     hover
@@ -141,7 +133,7 @@ class Transactions extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No items"
-                    pagination={paginationFactory(paginationOptions(this.state.transactions))}
+                    pagination={paginationFactory(paginationOptions(this.props.transactions))}
                     rowClasses={rowClasses}
                 />
             </div>
@@ -153,14 +145,15 @@ const mapStateToProps = state => {
     return {
         parties: state.party.options,
         banks: state.bank.options,
+        transactions: state.transaction.transactions,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchTransactions: (thenCallback) => dispatch(actions.fetchTransactions(thenCallback)),
-        deleteTransaction: (transactionsId) => dispatch(actions.deleteTransaction(transactionsId)),
-        editTransaction: (transaction) => dispatch(actions.editTransaction(transaction))
+        deleteTransaction: (transactionsId, thenCallback) => dispatch(actions.deleteTransaction(transactionsId, thenCallback)),
+        editTransaction: (transaction, thenCallback) => dispatch(actions.editTransaction(transaction, thenCallback))
     };
 };
 

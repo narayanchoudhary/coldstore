@@ -31,7 +31,7 @@ export const fetchTransactions = (thenCallback) => {
                 type: actionTypes.FETCH_TRANSACTIONS,
                 payload: formattedTransactions
             });
-            thenCallback(formattedTransactions);
+            thenCallback();
         });
     }
 }
@@ -49,7 +49,7 @@ export const fetchTransactionsByPartyId = (partyId, thenCallback) => {
     }
 }
 
-export const deleteTransaction = (TransactionId) => {
+export const deleteTransaction = (TransactionId, thenCallback) => {
     return dispatch => {
         ipc.send('deleteTransaction', { TransactionId: TransactionId });
         ipc.once('deleteTransactionResponse', (event, response) => {
@@ -58,10 +58,11 @@ export const deleteTransaction = (TransactionId) => {
                 payload: response
             });
         });
+        thenCallback();
     }
 }
 
-export const editTransaction = (data) => {
+export const editTransaction = (data, thenCallback) => {
     return dispatch => {
         ipc.send('editTransaction', data);
         ipc.once('editTransactionResponse', (event, response) => {
@@ -69,6 +70,35 @@ export const editTransaction = (data) => {
                 type: actionTypes.EDIT_TRANSACTION,
                 payload: response
             });
+            thenCallback();
+        });
+    }
+}
+
+export const fetchLastTransaction = (thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchLastTransaction', {});
+        ipc.once('fetchLastTransactionResponse', (event, response) => {
+            // delete the data we dont want to initialize in the add transaction form
+
+            dispatch({
+                type: actionTypes.FETCH_LAST_TRANSACTION,
+                payload: response.data,
+            });
+            thenCallback(response);
+        });
+    }
+}
+
+export const fetchNewReceiptNumberOfTransaction = (thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchNewReceiptNumberOfTransaction', { });
+        ipc.once('fetchNewReceiptNumberOfTransactionResponse', (event, response) => {
+            dispatch({
+                type: actionTypes.FETCH_NEW_RECEIPT_NUMBER_OF_TRANSACTION,
+                payload: response.data,
+            });
+            thenCallback(response);
         });
     }
 }
