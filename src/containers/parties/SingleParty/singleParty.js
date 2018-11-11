@@ -201,7 +201,7 @@ class SingleParty extends Component {
             headerSortingStyle,
             editable: false,
             formatter: this.javakLotsFormatter,
-            classes: 'p-0 totalJavakPacket'
+            classes: 'totalJavakPacket'
         }, {
             dataField: 'weight',
             text: 'Weight',

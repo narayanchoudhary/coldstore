@@ -6,10 +6,6 @@ import * as actions from '../../../../store/actions';
 
 class JavakLots extends Component {
 
-    state = {
-        javakLots: []
-    }
-
     javakIdFormatter = (cell, row) => {
         let javak = this.props.javaks.find((javak) => {
             return javak._id === cell;
