@@ -36,7 +36,7 @@ export const fetchAvaksByPartyId = (partyId, thenCallback) => {
             response.data.forEach((avak) => {
                 avakIdsOfSingleParty.push(avak._id);
             });
-            
+
             dispatch({
                 type: actionTypes.FETCH_AVAKS_BY_PARTY_ID,
                 payload: { avaks: response.data, avakIdsOfSingleParty: avakIdsOfSingleParty }
@@ -74,22 +74,12 @@ export const editAvak = (data, thenCallback) => {
 export const fetchLastAvak = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchLastAvak', {});
-        ipc.once('fetchLastAvakResponse', (event, response) => {
-            // delete the data we dont want to initialize in the add avak form
-            delete response.data[0].remark;
-            delete response.data[0].rack;
-            delete response.data[0].motorNumber;
-            delete response.data[0].packet;
-            delete response.data[0].weight;
-            delete response.data[0]._id;
-            delete response.data[0].createdAt;
-            delete response.data[0].updatedAt;
-
+        ipc.once('fetchLastAvakResponse', (event, lastAvak) => {
             dispatch({
                 type: actionTypes.FETCH_LAST_AVAK,
-                payload: response.data[0],
+                payload: lastAvak,
             });
-            thenCallback(response);
+            thenCallback(lastAvak);
         });
     }
 }

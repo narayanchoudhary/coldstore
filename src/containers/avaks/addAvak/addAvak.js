@@ -30,9 +30,9 @@ class addAvak extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchLastAvak((response) => {
-            this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
-            this.props.fetchNewReceiptNumber(response.data[0].type, () => {
+        this.props.fetchLastAvak((lastAvak) => {
+            this.props.filterPartiesByAddress(this.props.parties, { value: lastAvak.address.value });
+            this.props.fetchNewReceiptNumber(lastAvak.type.value, () => {
             });
         });
     }
@@ -78,8 +78,8 @@ class addAvak extends Component {
                         <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
                         <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />
                         <div className="grid-item">
-                            <SaveButton disabled={this.submitting}  />
-                    </div>
+                            <SaveButton disabled={this.submitting} />
+                        </div>
                     </div>
                 </form>
             </Aux>

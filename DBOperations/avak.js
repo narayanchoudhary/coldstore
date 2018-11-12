@@ -1,6 +1,12 @@
 const ipc = require('electron').ipcMain;
 const avaksDB = require('./connections').getInstance().avaksDB;
 const javakLotsDB = require('./connections').getInstance().javakLotsDB;
+const addressesDB = require('./connections').getInstance().addressesDB;
+const partiesDB = require('./connections').getInstance().partiesDB;
+const itemsDB = require('./connections').getInstance().itemsDB;
+const varietyDB = require('./connections').getInstance().varietyDB;
+const sizesDB = require('./connections').getInstance().sizesDB;
+
 class AvakDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -144,12 +150,37 @@ class AvakDatabase {
   };
 
   fetchLastAvak(event, data) {
-    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).limit(1).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
+    avaksDB.findOne({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).limit(1).exec((err, lastAvak) => {
+      addressesDB.findOne({ _id: lastAvak.address }, (err, address) => {
+        partiesDB.findOne({ _id: lastAvak.party }, (err, party) => {
+          itemsDB.findOne({ _id: lastAvak.item }, (err, item) => {
+            varietyDB.findOne({ _id: lastAvak.variety }, (err, variety) => {
+              sizesDB.findOne({ _id: lastAvak.size }, (err, size) => {
 
-      this.mainWindow.webContents.send('fetchLastAvakResponse', response);
+                lastAvak.address = { label: address.addressName, value: address._id };
+                lastAvak.party = { label: party.name, value: party._id };
+                lastAvak.item = { label: item.itemName, value: item._id };
+                lastAvak.variety = { label: variety.varietyName, value: variety._id };
+                lastAvak.size = { label: size.sizeName, value: size._id };
+                lastAvak.type = { label: lastAvak.type, value: lastAvak.type };
+
+                // delete the data we dont want to initialize in the add avak form
+                delete lastAvak.remark;
+                delete lastAvak.rack;
+                delete lastAvak.motorNumber;
+                delete lastAvak.packet;
+                delete lastAvak.weight;
+                delete lastAvak._id;
+                delete lastAvak.createdAt;
+                delete lastAvak.updatedAt;
+                delete lastAvak.yearId;
+
+                this.mainWindow.webContents.send('fetchLastAvakResponse', lastAvak);
+              });
+            });
+          });
+        });
+      });
     });
   };
 
