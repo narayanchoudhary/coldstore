@@ -7,7 +7,7 @@ import './addAvak.css';
 import 'react-select/dist/react-select.css';
 import { renderField, renderSelectField } from '../../../utils/fields';
 import 'react-datepicker/dist/react-datepicker.css';
-import { required, date } from 'redux-form-validators';
+import { required } from 'redux-form-validators';
 import Aux from '../../../components/Auxilary/Auxilary';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
 import DateField from '../../../components/dateField/dateField';

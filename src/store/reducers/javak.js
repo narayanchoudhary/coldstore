@@ -11,7 +11,7 @@ const initState = {
         error: false
     },
     avaksOfParty: [],
-    lastJavak: {},
+    lastJavak: { party: {}, type: {} },
     newReceiptNumber: undefined
 }
 

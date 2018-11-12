@@ -14,7 +14,7 @@ class JavakLots extends Component {
             this.props.fetchJavakLotsByJavakId('tempJavakId', this.props.type, (response) => { });
         });
     }
-
+    
     componentWillReceiveProps(nextProps) {
         if (nextProps.partyId !== this.props.partyId || nextProps.type !== this.props.type) {
             this.props.fetchAvaksOfParty(nextProps.partyId, nextProps.type, () => {

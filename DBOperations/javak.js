@@ -2,6 +2,8 @@ const ipc = require('electron').ipcMain;
 const javaksDB = require('./connections').getInstance().javaksDB;
 const avaksDB = require('./connections').getInstance().avaksDB;
 const javakLotsDB = require('./connections').getInstance().javakLotsDB;
+const addressesDB = require('./connections').getInstance().addressesDB;
+const partiesDB = require('./connections').getInstance().partiesDB;
 class JavakDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -123,7 +125,7 @@ class JavakDatabase {
         });
 
         // Sort avaks according to the receipt Number
-        finalAvaks.sort((a,b) => (a.receiptNumber > b.receiptNumber) ? 1 : ((b.receiptNumber > a.receiptNumber) ? -1 : 0)); 
+        finalAvaks.sort((a, b) => (a.receiptNumber > b.receiptNumber) ? 1 : ((b.receiptNumber > a.receiptNumber) ? -1 : 0));
 
         response.data = finalAvaks;
         this.mainWindow.webContents.send('fetchAvaksOfPartyResponse', response);
@@ -156,11 +158,33 @@ class JavakDatabase {
   };
 
   fetchLastJavak(event, data) {
-    javaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).limit(1).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-      this.mainWindow.webContents.send('fetchLastJavakResponse', response);
+    javaksDB.findOne({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).limit(1).exec((err, lastJavak) => {
+      addressesDB.findOne({ _id: lastJavak.address }, (err, address) => {
+        partiesDB.findOne({ _id: lastJavak.party }, (err, party) => {
+          addressesDB.findOne({ _id: lastJavak.addressOfMerchant }, (err, addressOfMerchant) => {
+            partiesDB.findOne({ _id: lastJavak.merchant }, (err, merchant) => {
+
+              // Doing this shit so that the react-select does work correctly in the redux-form
+              lastJavak.address = { label: address.addressName, value: address._id };
+              lastJavak.addressOfMerchant = { label: addressOfMerchant.addressName, value: addressOfMerchant._id };
+              lastJavak.party = { label: party.name, value: party._id };
+              lastJavak.merchant = { label: merchant.name, value: merchant._id };
+              lastJavak.type = { label: lastJavak.type, value: lastJavak.type };
+
+              // Delete the data we dont want to initialize in the add javak form
+              delete lastJavak.motorNumber;
+              delete lastJavak.receiptNumber;
+              delete lastJavak._id;
+              delete lastJavak.createdAt;
+              delete lastJavak.updatedAt;
+              delete lastJavak.remark;
+              delete lastJavak.yearId;
+
+              this.mainWindow.webContents.send('fetchLastJavakResponse', lastJavak);
+            });
+          });
+        });
+      });
     });
   };
 

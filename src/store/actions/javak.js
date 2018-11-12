@@ -68,21 +68,13 @@ export const fetchJavaksByPartyId = (partyId, thenCallback) => {
 export const fetchLastJavak = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchLastJavak', {});
-        ipc.once('fetchLastJavakResponse', (event, response) => {
-            // delete the data we dont want to initialize in the add javak form
-            delete response.data[0].motorNumber;
-            delete response.data[0].receiptNumber;
-            delete response.data[0]._id;
-            delete response.data[0].createdAt;
-            delete response.data[0].updatedAt;
-            delete response.data[0].updatedAt;
-            delete response.data[0].remark;
+        ipc.once('fetchLastJavakResponse', (event, lastJavak) => {
 
             dispatch({
                 type: actionTypes.FETCH_LAST_JAVAK,
-                payload: response.data[0],
+                payload: lastJavak,
             });
-            thenCallback(response);
+            thenCallback(lastJavak);
         });
     }
 }

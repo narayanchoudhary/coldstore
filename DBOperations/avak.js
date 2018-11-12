@@ -157,6 +157,7 @@ class AvakDatabase {
             varietyDB.findOne({ _id: lastAvak.variety }, (err, variety) => {
               sizesDB.findOne({ _id: lastAvak.size }, (err, size) => {
 
+                // Doing this shit so that the react-select does work correctly in the redux-form
                 lastAvak.address = { label: address.addressName, value: address._id };
                 lastAvak.party = { label: party.name, value: party._id };
                 lastAvak.item = { label: item.itemName, value: item._id };

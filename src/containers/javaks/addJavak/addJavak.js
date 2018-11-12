@@ -26,10 +26,11 @@ class addJavak extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchLastJavak((response) => {
-            this.props.filterPartiesByAddress(this.props.parties, { value: response.data[0].address });
-            this.props.filterMerchantsByAddress(this.props.parties, { value: response.data[0].addressOfMerchant });
-            this.props.fetchNewReceiptNumberForJavak(response.data[0].type, () => { });
+        this.props.removeTempJavakLots();
+        this.props.fetchLastJavak((lastJavak) => {
+            this.props.filterPartiesByAddress(this.props.parties, lastJavak.address);
+            this.props.filterMerchantsByAddress(this.props.parties, lastJavak.addressOfMerchant);
+            this.props.fetchNewReceiptNumberForJavak(lastJavak.type.value, () => { });
         });
     }
 
@@ -59,14 +60,14 @@ class addJavak extends Component {
 
     onChangeAddress = (address) => {
         this.props.filterPartiesByAddress(this.props.parties, address);
-        if(!(this.props.typeFieldValue === 'chips' ||  this.props.typeFieldValue.value === 'chips'))
-        this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
+        if (!(this.props.typeFieldValue === 'chips' || this.props.typeFieldValue.value === 'chips'))
+            this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
     }
 
     onPartyChange = (party) => {
         this.onPartySelect(party.value);
-        if(!(this.props.typeFieldValue === 'chips' ||  this.props.typeFieldValue.value === 'chips'))
-        this.change('merchant', party);// Change merchant to the party
+        if (!(this.props.typeFieldValue === 'chips' || this.props.typeFieldValue.value === 'chips'))
+            this.change('merchant', party);// Change merchant to the party
     }
 
     onChangeType = (type) => {// Aloo type chamber or rashan
@@ -87,14 +88,14 @@ class addJavak extends Component {
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
                     <JavakLots
-                        partyId={this.state.partyId ? this.state.partyId : this.props.initialValues.party}
-                        type={this.state.type ? this.state.type : this.props.initialValues.type}
+                        partyId={this.state.partyId ? this.state.partyId : this.props.initialValues.party.value}
+                        type={this.state.type ? this.state.type : this.props.initialValues.type.value}
                     />
                     <div className="grid-item totalOfJavaklots">Total: {this.props.sumOfJavakLots}  </div>
                     <div className="grid-item saveButton">
                         <SaveButton disabled={this.submitting} />
                     </div>
-                    <Field type="text" name="remark" component={renderField} placeholder="Remark"/>
+                    <Field type="text" name="remark" component={renderField} placeholder="Remark" />
                 </div>
             </form>
         )
