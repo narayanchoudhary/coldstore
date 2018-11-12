@@ -87,13 +87,13 @@ export const fetchLastAvak = (thenCallback) => {
 export const fetchNewReceiptNumber = (type, thenCallback) => {
     return dispatch => {
         ipc.send('fetchNewReceiptNumber', { type });
-        ipc.once('fetchNewReceiptNumberResponse', (event, response) => {
+        ipc.once('fetchNewReceiptNumberResponse', (event, newAvakReceiptNumber) => {
             // delete the data we dont want to initialize in the add avak form
             dispatch({
                 type: actionTypes.FETCH_NEW_RECEIPT_NUMBER,
-                payload: response.data,
+                payload: newAvakReceiptNumber,
             });
-            thenCallback(response);
+            thenCallback(newAvakReceiptNumber);
         });
     }
 }

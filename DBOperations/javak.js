@@ -194,13 +194,8 @@ class JavakDatabase {
     if (data.type === 'chips') {
       autoId = '__autoid__chips';
     }
-    javaksDB.findOne({ _id: autoId }, (err, data) => {
-
-      let response = {};
-      response.error = err;
-      response.data = data.value;
-
-      this.mainWindow.webContents.send('fetchNewReceiptNumberForJavakResponse', response);
+    javaksDB.findOne({ _id: autoId }, (err, javak) => {
+      this.mainWindow.webContents.send('fetchNewReceiptNumberForJavakResponse', parseInt(javak.value, 10) + 1);
     });
   };
 

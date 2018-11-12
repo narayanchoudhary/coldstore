@@ -39,7 +39,7 @@ class addTransaction extends Component {
         return (
             <form onSubmit={this.handleSubmit(this.submit)}>
                 {this.state.redirectToTransactions ? <Redirect to="/transactions" /> : null}
-                <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumberOfTransaction, 10) + 1}</p>
+                <p className="newReceiptNumber">Reciept Number: {this.props.newReceiptNumberOfTransaction}</p>
                 <div className="grid-container">
                     <DateField />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} />

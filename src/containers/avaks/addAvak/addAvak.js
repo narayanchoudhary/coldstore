@@ -60,7 +60,7 @@ class addAvak extends Component {
             <Aux>
                 <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                     {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
-                    <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
+                    <p className="newReceiptNumber">Reciept Number: {this.props.newReceiptNumber}</p>
                     <div className="grid-container">
                         <DateField />
                         <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} onChange={(type) => this.props.fetchNewReceiptNumber(type.value, () => { })} />

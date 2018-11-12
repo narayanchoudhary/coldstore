@@ -79,7 +79,7 @@ class addJavak extends Component {
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="addJavakForm">
                 {this.state.redirectToJavaks ? <Redirect to="/javaks" /> : null}
-                <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
+                <p className="newReceiptNumber">Reciept Number: {this.props.newReceiptNumber}</p>
                 <div className="grid-container">
                     <DateField />
                     <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} onChange={this.onChangeType} validate={[required()]} />

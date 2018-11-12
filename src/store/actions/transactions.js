@@ -91,13 +91,13 @@ export const fetchLastTransaction = (thenCallback) => {
 
 export const fetchNewReceiptNumberOfTransaction = (thenCallback) => {
     return dispatch => {
-        ipc.send('fetchNewReceiptNumberOfTransaction', { });
-        ipc.once('fetchNewReceiptNumberOfTransactionResponse', (event, response) => {
+        ipc.send('fetchNewReceiptNumberOfTransaction', {});
+        ipc.once('fetchNewReceiptNumberOfTransactionResponse', (event, newTransactionReceiptNumber) => {
             dispatch({
                 type: actionTypes.FETCH_NEW_RECEIPT_NUMBER_OF_TRANSACTION,
-                payload: response.data,
+                payload: newTransactionReceiptNumber,
             });
-            thenCallback(response);
+            thenCallback(newTransactionReceiptNumber);
         });
     }
 }

@@ -191,13 +191,8 @@ class AvakDatabase {
     if (data.type === 'chips') {
       autoId = '__autoid__chips';
     }
-    avaksDB.findOne({ _id: autoId }, (err, data) => {
-
-      let response = {};
-      response.error = err;
-      response.data = data.value;
-
-      this.mainWindow.webContents.send('fetchNewReceiptNumberResponse', response);
+    avaksDB.findOne({ _id: autoId }, (err, avak) => {
+      this.mainWindow.webContents.send('fetchNewReceiptNumberResponse', parseInt(avak.value, 10) + 1);
     });
   };
 

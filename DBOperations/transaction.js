@@ -103,12 +103,8 @@ class TransactionDatabase {
   };
 
   fetchNewReceiptNumberOfTransaction(event, data) {
-    TransactionsDB.findOne({ _id: '__autoid__' }, (err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data.value;
-
-      this.mainWindow.webContents.send('fetchNewReceiptNumberOfTransactionResponse', response);
+    TransactionsDB.findOne({ _id: '__autoid__' }, (err, transaction) => {
+      this.mainWindow.webContents.send('fetchNewReceiptNumberOfTransactionResponse', parseInt(transaction.value, 10) + 1);
     });
   };
 
