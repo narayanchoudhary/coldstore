@@ -24,13 +24,13 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 1000, height: 700 });
   mainWindow.maximize();
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:3000');
-    console.log('Running in development');
-  } else {
+  // if (isDev) {
+  //   mainWindow.loadURL('http://localhost:3000');
+  //   console.log('Running in development');
+  // } else {
     mainWindow.loadURL(path.join('file://', __dirname, '/build/index.html'));
-    console.log('Running in production');
-  }
+  //   console.log('Running in production');
+  // }
   const partyDatabase = new PartyDatabase(mainWindow);
   const avakDatabase = new AvakDatabase(mainWindow);
   const javakDatabase = new JavakDatabase(mainWindow);
