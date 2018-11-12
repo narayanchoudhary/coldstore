@@ -84,21 +84,18 @@ class TransactionDatabase {
         partiesDB.findOne({ _id: lastTransaction.party }, (err2, party) => {
           banksDB.findOne({ _id: lastTransaction.bank }, (err3, bank) => {
 
-            // Shit starts here   If we do not do this shit then the react-select will not work properly
+            // Shit starts here   If we do not do this shit then the react-select will not work properly with redux form
             lastTransaction.address = { label: address.addressName, value: lastTransaction.address };
             lastTransaction.party = { label: party.name, value: lastTransaction.party };
             lastTransaction.bank = { label: bank.bankName, value: lastTransaction.bank };
             // Shit ends here
 
-            delete lastTransaction.remark;// Delete the unnessecary data we don't want to initialize in the transaction form
+            delete lastTransaction.remark;// Delete the unnessecary data we don't want to initialize in the add transaction form
             delete lastTransaction._id;
             delete lastTransaction.createdAt;
             delete lastTransaction.updatedAt;
 
-            let response = {};
-            response.error = err;
-            response.data = lastTransaction;
-            this.mainWindow.webContents.send('fetchLastTransactionResponse', response);
+            this.mainWindow.webContents.send('fetchLastTransactionResponse', lastTransaction);
           });
         });
       });

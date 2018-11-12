@@ -9,7 +9,7 @@ import validate from './validation';
 import 'react-datepicker/dist/react-datepicker.css';
 import JavakLots from './javakLots/javakLots';
 import { withRouter } from 'react-router';
-import { required, date } from 'redux-form-validators';
+import { required } from 'redux-form-validators';
 import { renderField, renderSelectField } from '../../../utils/fields';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
 import { formValueSelector } from "redux-form";

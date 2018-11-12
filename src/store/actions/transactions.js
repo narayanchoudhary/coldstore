@@ -78,14 +78,13 @@ export const editTransaction = (data, thenCallback) => {
 export const fetchLastTransaction = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchLastTransaction', {});
-        ipc.once('fetchLastTransactionResponse', (event, response) => {
-            // delete the data we dont want to initialize in the add transaction form
+        ipc.once('fetchLastTransactionResponse', (event, lastTransaction) => {
 
             dispatch({
                 type: actionTypes.FETCH_LAST_TRANSACTION,
-                payload: response.data,
+                payload: lastTransaction,
             });
-            thenCallback(response);
+            thenCallback();
         });
     }
 }

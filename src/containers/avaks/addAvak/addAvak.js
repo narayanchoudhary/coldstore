@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { required, date } from 'redux-form-validators';
 import Aux from '../../../components/Auxilary/Auxilary';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
+import DateField from '../../../components/dateField/dateField';
 
 const overWeight = (value, allValues, props) => {
     let warning = undefined;
@@ -61,7 +62,7 @@ class addAvak extends Component {
                     {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
                     <p className="newReceiptNumber">Reciept Number: {parseInt(this.props.newReceiptNumber, 10) + 1}</p>
                     <div className="grid-container">
-                        <Field type="text" name="date" component={renderField} placeholder="Date" validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]} />
+                        <DateField />
                         <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} validate={[required()]} autoFocus />
                         <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
                         <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} onChange={(type) => this.props.fetchNewReceiptNumber(type.value, () => { })} />

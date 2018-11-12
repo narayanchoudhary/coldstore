@@ -63,7 +63,10 @@ class addTransaction extends Component {
 
 const Form = reduxForm({
     form: 'transaction',// a unique identifier for this form
-    validate
+    validate,
+    keepDirtyOnReinitialize: true,
+    enableReinitialize: true,
+    updateUnregisteredFields: true,
 })(addTransaction);
 
 const mapStateToProps = state => {
