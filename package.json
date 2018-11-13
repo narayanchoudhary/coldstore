@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "electron": "^2.0.2",
+    "electron": "^3.0.8",
     "electron-is-dev": "^1.0.1",
     "moment": "^2.22.2",
     "nedb": "^1.8.0",
