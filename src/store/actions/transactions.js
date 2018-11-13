@@ -84,7 +84,7 @@ export const fetchLastTransaction = (thenCallback) => {
                 type: actionTypes.FETCH_LAST_TRANSACTION,
                 payload: lastTransaction,
             });
-            thenCallback();
+            thenCallback(lastTransaction);
         });
     }
 }
