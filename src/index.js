@@ -21,6 +21,7 @@ import expenseCategoryReducer from './store/reducers/expenseCategory';
 import expenseReducer from './store/reducers/expense';
 import dashboardReducer from './store/reducers/dashboard';
 import transactionReducer from './store/reducers/transaction';
+import rentReducer from './store/reducers/rent';
 import { reducer as formReducer } from 'redux-form';
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import thunk from 'redux-thunk';
@@ -43,6 +44,7 @@ const rootReducer = combineReducers({
     expense: expenseReducer,
     dashboard: dashboardReducer,
     transaction: transactionReducer,
+    rent: rentReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

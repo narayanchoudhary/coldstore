@@ -12,6 +12,8 @@ import AddJavak from './containers/javaks/addJavak/addJavak';
 import SingleParty from './containers/parties/SingleParty/singleParty';
 import Transactions from './containers/transactions/transactions';
 import AddTransaction from './containers/transactions/addTransaction/addTransaction';
+import Rents from './containers/rents/rents';
+import AddRent from './containers/rents/addRent/addRent';
 import Settings from './containers/setting/setting';
 import Expenses from './containers/expenses/expenses';
 import AddExpense from './containers/expenses/addExpense/addExpense';
@@ -49,6 +51,8 @@ class App extends Component {
           <Route path='/javaks' component={Javaks} />
           <Route path='/transactions/addTransaction' component={AddTransaction} />
           <Route path='/transactions' component={Transactions} />
+          <Route path='/rents/addRent' component={AddRent} />
+          <Route path='/rents' component={Rents} />
           <Route path='/expenses/addExpense' component={AddExpense} />
           <Route path='/expenses' component={Expenses} />
           <Route path='/banks/addBank' component={AddBank} />

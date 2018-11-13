@@ -1,0 +1,11 @@
+.radioButtons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.amountInWords {
+    font-size: 20px;
+    text-align: center;
+    text-transform: capitalize;
+}

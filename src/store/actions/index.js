@@ -126,3 +126,13 @@ export {
 export {
     fetchDashboard,
 } from './dashboard';
+
+export {
+    saveRent,
+    fetchRents,
+    fetchRentsByPartyId,
+    deleteRent,
+    editRent,
+    fetchLastRent,
+    fetchNewReceiptNumberOfRent
+} from './rents';
