@@ -10,6 +10,7 @@ import './addRent.css';
 import { required } from 'redux-form-validators';
 import DateField from '../../../components/dateField/dateField';
 import Aux from '../../../components/Auxilary/Auxilary';
+import PartySelector from '../../../components/partySelector/partySelector';
 class addRent extends Component {
     constructor(props) {
         super(props);
@@ -21,8 +22,8 @@ class addRent extends Component {
 
     duplicateLogic = () => {
         this.props.fetchLastRent((lastRent) => {
-            this.props.filterPartiesByAddress(this.props.parties, lastRent.address);
-            this.props.filterMerchantsByAddress(this.props.parties, lastRent.addressOfMerchant);
+            this.props.filterPartiesByAddress(this.props.parties, lastRent.address, () => {});
+            this.props.filterMerchantsByAddress(this.props.parties, lastRent.addressOfMerchant, () => {});
             this.props.fetchNewReceiptNumberOfRent(() => { });
         });
     }
@@ -37,11 +38,6 @@ class addRent extends Component {
         }
     }
 
-    onChangeAddress = (address) => {
-        this.props.filterPartiesByAddress(this.props.parties, address);
-        this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
-    }
-
     submit = (values) => {
         values.address = values.address.value;
         values.addressOfMerchant = values.addressOfMerchant.value;
@@ -54,10 +50,6 @@ class addRent extends Component {
         });
     };
 
-    onPartyChange = (party) => {
-        this.change('merchant', party);// Change merchant to the party
-    }
-
     render() {
         return (
             <Aux>
@@ -67,8 +59,7 @@ class addRent extends Component {
                     <div className="grid-container">
                         <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
                         <DateField />
-                        <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} />
-                        <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} onChange={this.onPartyChange} />
+                        <PartySelector change={this.props.change} />
                         <Field name="amount" type="number" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
                         <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                         <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
@@ -106,10 +97,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         saveRent: (values, thenCallback) => dispatch(actions.saveRent(values, thenCallback)),
-        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
         fetchLastRent: (thenCallback) => dispatch(actions.fetchLastRent(thenCallback)),
         fetchNewReceiptNumberOfRent: (thenCallback) => dispatch(actions.fetchNewReceiptNumberOfRent(thenCallback)),
-        filterMerchantsByAddress: (parties, address) => dispatch(actions.filterMerchantsByAddress(parties, address)),
+        filterMerchantsByAddress: (parties, address, thenCallback) => dispatch(actions.filterMerchantsByAddress(parties, address, thenCallback)),
     };
 };
 

@@ -114,7 +114,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         saveTransaction: (values, thenCallback) => dispatch(actions.saveTransaction(values, thenCallback)),
-        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),        
         fetchLastTransaction: (thenCallback) => dispatch(actions.fetchLastTransaction(thenCallback)),
         fetchNewReceiptNumberOfTransaction: (thenCallback) => dispatch(actions.fetchNewReceiptNumberOfTransaction(thenCallback)),
         filterMerchantsByAddress: (parties, address) => dispatch(actions.filterMerchantsByAddress(parties, address)),

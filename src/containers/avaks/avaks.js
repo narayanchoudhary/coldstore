@@ -267,7 +267,7 @@ const mapDispatchToProps = dispatch => {
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
         deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
         editAvak: (avak, thenCallback) => dispatch(actions.editAvak(avak, thenCallback)),
-        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
     };
 };
 

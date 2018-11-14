@@ -113,7 +113,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         saveAvak: (values, thenCallback) => dispatch(actions.saveAvak(values, thenCallback)),
-        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
         fetchLastAvak: (thenCallback) => dispatch(actions.fetchLastAvak(thenCallback)),
         fetchNewReceiptNumber: (type, thenCallback) => dispatch(actions.fetchNewReceiptNumber(type, thenCallback)),
     };

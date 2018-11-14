@@ -64,7 +64,7 @@ const mapDispatchToProps = dispatch => {
     return {
         saveExpense: (values, thenCallback) => dispatch(actions.saveExpense(values, thenCallback)),
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
-        filterPartiesByAddress: (type, thenCallback) => dispatch(actions.filterPartiesByAddress(type, thenCallback)),
+        filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
     };
 };
 

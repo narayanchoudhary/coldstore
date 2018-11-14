@@ -64,12 +64,12 @@ export const editParty = (data, thenCallback) => {
                 type: actionTypes.EDIT_PARTY,
                 payload: response
             });
+            thenCallback();
         });
-        thenCallback();
     }
 }
 
-export const filterPartiesByAddress = (parties, address) => {
+export const filterPartiesByAddress = (parties, address, thenCallback) => {
     let filteredParties = parties;
     if (address.value) {
         filteredParties = parties.filter(party => {
@@ -82,12 +82,13 @@ export const filterPartiesByAddress = (parties, address) => {
             type: actionTypes.FILTER_PARTIES,
             payload: filteredParties
         });
+        thenCallback(filteredParties);
     }
 }
 
 
 // Merchants are also parties
-export const filterMerchantsByAddress = (parties, address) => {
+export const filterMerchantsByAddress = (parties, address, thenCallback) => {
     let filteredParties = parties;
     if (address.value) {
         filteredParties = parties.filter(party => {
@@ -100,6 +101,7 @@ export const filterMerchantsByAddress = (parties, address) => {
             type: actionTypes.FILTER_MERCHANTS,
             payload: filteredParties
         });
+        thenCallback();
     }
 }
 
