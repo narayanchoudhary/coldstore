@@ -18,18 +18,10 @@ export const saveRent = (values, thenCallback) => {
 export const fetchRents = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchRents', {});
-        ipc.once('fetchRentsResponse', (event, response) => {
-            // creating the proper formate for the table 
-            let formattedRents = response.data.map((rent) => {
-                if (rent.side === 'credit') {
-                    return ({ ...rent, credit: rent.amount, debit: '' });
-                } else {
-                    return ({ ...rent, debit: rent.amount, credit: '' });
-                }
-            });
+        ipc.once('fetchRentsResponse', (event, rents) => {
             dispatch({
                 type: actionTypes.FETCH_RENTS,
-                payload: formattedRents
+                payload: rents
             });
             thenCallback();
         });

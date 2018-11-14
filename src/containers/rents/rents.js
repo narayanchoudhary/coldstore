@@ -26,22 +26,14 @@ class Rents extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            // changing the row to save it in database correctly
-            let rowTosave = {};
-            if (column.dataField === 'debit') {
-                rowTosave = { ...row, side: 'debit', amount: newValue }
-            } else if (column.dataField === 'credit') {
-                rowTosave = { ...row, side: 'credit', amount: newValue }
-            } else {
-                rowTosave = { ...row }
-            }
-            this.props.editRent(rowTosave, () => {
+            this.props.editRent(row, () => {
                 this.props.fetchRents(() => { });
             });
         },
     });
 
     render() {
+
         let columns = [
             {
                 dataField: '_id',
@@ -74,31 +66,11 @@ class Rents extends Component {
                     options: this.props.parties
                 }
             }, {
-                dataField: 'credit',
-                text: 'Credit',
+                dataField: 'amount',
+                text: 'Amount',
                 sort: true,
                 headerSortingStyle: headerSortingStyle,
                 filter: textFilter(),
-            }, {
-                dataField: 'debit', // debit key is not stored in the database it is given to just keep it unique
-                text: 'Debit',
-                sort: true,
-                headerSortingStyle: headerSortingStyle,
-                filter: textFilter(),
-            }, {
-                dataField: 'checkNumber',
-                text: 'CheckNo',
-                sort: true,
-                headerSortingStyle: headerSortingStyle,
-                filter: textFilter(),
-                classes: 'uppercase'
-            }, {
-                dataField: 'remark',
-                text: 'Remark',
-                sort: true,
-                headerSortingStyle: headerSortingStyle,
-                filter: textFilter(),
-                classes: 'remark'
             }, {
                 dataField: 'bank',
                 text: 'Bank',
@@ -111,6 +83,13 @@ class Rents extends Component {
                     type: Type.SELECT,
                     options: this.props.banks,
                 },
+            }, {
+                dataField: 'remark',
+                text: 'Remark',
+                sort: true,
+                headerSortingStyle: headerSortingStyle,
+                filter: textFilter(),
+                classes: 'remark'
             }, {
                 dataField: '_id',
                 text: 'Action',

@@ -1,5 +1,5 @@
 const ipc = require('electron').ipcMain;
-const RentsDB = require('./connections').getInstance().RentsDB;
+const RentsDB = require('./connections').getInstance().rentsDB;
 const addressesDB = require('./connections').getInstance().addressesDB;
 const partiesDB = require('./connections').getInstance().partiesDB;
 const banksDB = require('./connections').getInstance().banksDB;
@@ -40,11 +40,8 @@ class RentDatabase {
   };
 
   fetchRents(event, data) {
-    RentsDB.find({ receiptNumber: { $exists: true } }).sort({ receiptNumber: -1 }).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-      this.mainWindow.webContents.send('fetchRentsResponse', response);
+    RentsDB.find({ receiptNumber: { $exists: true } }).sort({ receiptNumber: -1 }).exec((err, rents) => {
+      this.mainWindow.webContents.send('fetchRentsResponse', rents);
     });
   };
 
@@ -83,19 +80,22 @@ class RentDatabase {
       addressesDB.findOne({ _id: lastRent.address }, (err1, address) => {
         partiesDB.findOne({ _id: lastRent.party }, (err2, party) => {
           banksDB.findOne({ _id: lastRent.bank }, (err3, bank) => {
+            addressesDB.findOne({ _id: lastRent.addressOfMerchant }, (err1, addressOfMerchant) => {
 
-            // Shit starts here   If we do not do this shit then the react-select will not work properly with redux form
-            lastRent.address = { label: address.addressName, value: lastRent.address };
-            lastRent.party = { label: party.name, value: lastRent.party };
-            lastRent.bank = { label: bank.bankName, value: lastRent.bank };
-            // Shit ends here
+              // Shit starts here   If we do not do this shit then the react-select will not work properly with redux form
+              lastRent.address = { label: address.addressName, value: lastRent.address };
+              lastRent.addressOfMerchant = { label: addressOfMerchant.addressName, value: lastRent.addressOfMerchant };
+              lastRent.party = { label: party.name, value: lastRent.party };
+              lastRent.bank = { label: bank.bankName, value: lastRent.bank };
+              // Shit ends here
 
-            delete lastRent.remark;// Delete the unnessecary data we don't want to initialize in the add Rent form
-            delete lastRent._id;
-            delete lastRent.createdAt;
-            delete lastRent.updatedAt;
+              // Delete the unnessecary data we don't want to initialize in the add Rent form
+              delete lastRent._id;
+              delete lastRent.createdAt;
+              delete lastRent.updatedAt;
 
-            this.mainWindow.webContents.send('fetchLastRentResponse', lastRent);
+              this.mainWindow.webContents.send('fetchLastRentResponse', lastRent);
+            });
           });
         });
       });

@@ -10,14 +10,13 @@ import './addRent.css';
 import { required } from 'redux-form-validators';
 import DateField from '../../../components/dateField/dateField';
 import Aux from '../../../components/Auxilary/Auxilary';
-import numWords from 'num-words';
 class addRent extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
         this.change = this.props.change;
-        this.state = { amountInWords: null };
+        this.state = {};
     }
 
     duplicateLogic = () => {
@@ -28,7 +27,7 @@ class addRent extends Component {
         });
     }
 
-    componentDidMount = () => { 
+    componentDidMount = () => {
         this.duplicateLogic();
     }
 
@@ -38,10 +37,6 @@ class addRent extends Component {
         }
     }
 
-    handleKeyPressOnAmount = (event) => {
-        this.setState({ amountInWords: numWords(event.target.value) })
-    };
-
     onChangeAddress = (address) => {
         this.props.filterPartiesByAddress(this.props.parties, address);
         this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
@@ -49,9 +44,11 @@ class addRent extends Component {
 
     submit = (values) => {
         values.address = values.address.value;
+        values.addressOfMerchant = values.addressOfMerchant.value;
         values.party = values.party.value;
         values.bank = values.bank.value;
         values.yearId = this.props.currentYear.value;
+        values.merchant = values.merchant.value;
         this.props.saveRent(values, () => {
             this.setState({ redirectToRents: true });
         });
@@ -69,26 +66,18 @@ class addRent extends Component {
                     <p className="newReceiptNumber">Reciept Number: {this.props.newReceiptNumberOfRent}</p>
                     <div className="grid-container">
                         <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
-                        <div className="grid-item radioButtons">
-                            <div><Field name="side" component="input" type="radio" value="credit" />Money In</div>
-                            <div><Field name="side" component="input" type="radio" value="debit" />Money Out</div>
-                        </div>
                         <DateField />
+                        <Field name='remark' type="text" component={renderField} placeholder="Remark" validate={[required()]} />
                         <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} />
                         <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} onChange={this.onPartyChange} />
-                        <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" validate={[required()]} onChange={this.handleKeyPressOnAmount} />
+                        <Field name="amount" type="number" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
                         <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                         <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
-                        <Field type="text" name='checkNumber' component={renderField} placeholder="Check Number" validate={[required()]} />
-                        <Field type="text" name='remark' component={renderField} placeholder="Remark" validate={[required()]} />
                         <div className="grid-item">
                             <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
                     </div>
                 </form>
-                <div className="amountInWords">
-                    {this.state.amountInWords}
-                </div>
             </Aux>
         )
     }
