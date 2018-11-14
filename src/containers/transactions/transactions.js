@@ -16,8 +16,8 @@ class Transactions extends Component {
         this.props.fetchTransactions(() => { });
     }
 
-    handleClickOnDelete = (javakId) => {
-        this.props.deleteTransaction(javakId, () => {
+    handleClickOnDelete = (row) => {
+        this.props.deleteTransaction(row._id, () => {
             this.props.fetchTransactions(() => { });
         });
     }

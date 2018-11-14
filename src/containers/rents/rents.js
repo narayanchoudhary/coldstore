@@ -16,8 +16,8 @@ class Rents extends Component {
         this.props.fetchRents(() => { });
     }
 
-    handleClickOnDelete = (javakId) => {
-        this.props.deleteRent(javakId, () => {
+    handleClickOnDelete = (row) => {
+        this.props.deleteRent(row._id, () => {
             this.props.fetchRents(() => { });
         });
     }
@@ -83,6 +83,19 @@ class Rents extends Component {
                     type: Type.SELECT,
                     options: this.props.banks,
                 },
+            }, {
+                dataField: 'merchant',
+                text: 'Haste',
+                sort: true,
+                headerSortingStyle: headerSortingStyle,
+                formatter: columnFormatter(this.props.parties),
+                filter: textFilter(),
+                classes: 'capitalize',
+                filterValue: filterValue(this.props.parties),
+                editor: {
+                    type: Type.SELECT,
+                    options: this.props.parties
+                }
             }, {
                 dataField: 'remark',
                 text: 'Remark',
