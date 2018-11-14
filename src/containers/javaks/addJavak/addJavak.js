@@ -28,10 +28,17 @@ class addJavak extends Component {
     componentDidMount() {
         this.props.removeTempJavakLots();
         this.props.fetchLastJavak((lastJavak) => {
-            this.props.filterPartiesByAddress(this.props.parties, lastJavak.address);
+            this.props.filterPartiesByAddress(this.props.parties, lastJavak.address, () => { });
             this.props.filterMerchantsByAddress(this.props.parties, lastJavak.addressOfMerchant);
             this.props.fetchNewReceiptNumberForJavak(lastJavak.type.value, () => { });
+            this.onPartySelect(this.props.initialValues.party.value);
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.initialValues.party.value !== this.props.initialValues.party.value) {
+            this.onPartySelect(nextProps.initialValues.party.value);
+        }
     }
 
     componentWillUnmount() {
@@ -59,15 +66,38 @@ class addJavak extends Component {
     }
 
     onChangeAddress = (address) => {
-        this.props.filterPartiesByAddress(this.props.parties, address);
-        if (!(this.props.typeFieldValue === 'chips' || this.props.typeFieldValue.value === 'chips'))
-            this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
+        this.props.filterPartiesByAddress(this.props.parties, address, (filteredParties) => {
+
+            if (filteredParties.length === 1) {
+                this.props.change('party', filteredParties[0]);
+                this.onPartyChange(filteredParties[0]);
+            } else {
+                this.props.change('party', null);
+                this.onPartyChange({});
+            }
+
+            if (this.props.typeFieldValue.value !== 'chips') {
+                this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
+            }
+        });
     }
 
     onPartyChange = (party) => {
         this.onPartySelect(party.value);
-        if (!(this.props.typeFieldValue === 'chips' || this.props.typeFieldValue.value === 'chips'))
+        if ( this.props.typeFieldValue.value !== 'chips')
             this.change('merchant', party);// Change merchant to the party
+
+        // Change the address also
+        this.props.addresses.every((address, index) => {
+            if (address.value === party.address) {
+                this.props.change('address', address);
+                if (this.props.typeFieldValue.value !== 'chips') {
+                    this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
+                }
+                return false;// break loop
+            }
+            return true;
+        });
     }
 
     onChangeType = (type) => {// Aloo type chamber or rashan
@@ -88,7 +118,7 @@ class addJavak extends Component {
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
                     <JavakLots
-                        partyId={this.state.partyId ? this.state.partyId : this.props.initialValues.party.value}
+                        partyId={this.state.partyId}
                         type={this.state.type ? this.state.type : this.props.initialValues.type.value}
                     />
                     <div className="grid-item totalOfJavaklots">Total: {this.props.sumOfJavakLots}  </div>
@@ -129,7 +159,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         saveJavak: (values, thenCallback) => dispatch(actions.saveJavak(values, thenCallback)),
-        filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),        
+        filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
         filterMerchantsByAddress: (parties, address) => dispatch(actions.filterMerchantsByAddress(parties, address)),
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
