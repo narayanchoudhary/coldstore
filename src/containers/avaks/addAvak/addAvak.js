@@ -11,6 +11,7 @@ import { required } from 'redux-form-validators';
 import Aux from '../../../components/Auxilary/Auxilary';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
 import DateField from '../../../components/dateField/dateField';
+import PartySelector from '../../../components/partySelector/partySelector';
 
 const overWeight = (value, allValues, props) => {
     let warning = undefined;
@@ -31,7 +32,7 @@ class addAvak extends Component {
 
     componentDidMount() {
         this.props.fetchLastAvak((lastAvak) => {
-            this.props.filterPartiesByAddress(this.props.parties, { value: lastAvak.address.value });
+            this.props.filterPartiesByAddress(this.props.parties, lastAvak.address, () => { });
             this.props.fetchNewReceiptNumber(lastAvak.type.value, () => {
             });
         });
@@ -65,8 +66,7 @@ class addAvak extends Component {
                         <DateField />
                         <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} onChange={(type) => this.props.fetchNewReceiptNumber(type.value, () => { })} />
                         <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
-                        <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={(address) => this.props.filterPartiesByAddress(this.props.parties, address)} validate={[required()]} autoFocus />
-                        <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} />
+                        <PartySelector change={this.props.change} />
                         <Field name="variety" component={renderSelectField} placeholder="Variety" options={this.props.varieties} validate={[required()]} />
                         <Field name="size" component={renderSelectField} placeholder="Size" options={this.props.sizes} validate={[required()]} />
                         <Field type="text" name="privateMarka" component={renderField} placeholder="Priavate Marka" />
