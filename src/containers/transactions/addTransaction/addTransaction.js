@@ -11,7 +11,6 @@ import './addTransaction.css';
 import { required } from 'redux-form-validators';
 import DateField from '../../../components/dateField/dateField';
 import Aux from '../../../components/Auxilary/Auxilary';
-import numWords from 'num-words';
 class addTransaction extends Component {
     constructor(props) {
         super(props);
@@ -38,10 +37,6 @@ class addTransaction extends Component {
             this.duplicateLogic();
         }
     }
-
-    handleKeyPressOnAmount = (event) => {
-        this.setState({ amountInWords: numWords(event.target.value) })
-    };
 
     onChangeAddress = (address) => {
         this.props.filterPartiesByAddress(this.props.parties, address);
@@ -77,7 +72,7 @@ class addTransaction extends Component {
                         <DateField />
                         <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} />
                         <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} onChange={this.onPartyChange} />
-                        <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" validate={[required()]} onChange={this.handleKeyPressOnAmount} />
+                        <Field type="number" name="amount" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
                         <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                         <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
                         <Field type="text" name='checkNumber' component={renderField} placeholder="Check Number" validate={[required()]} />

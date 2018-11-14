@@ -67,12 +67,12 @@ class addRent extends Component {
                     <div className="grid-container">
                         <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
                         <DateField />
-                        <Field name='remark' type="text" component={renderField} placeholder="Remark" validate={[required()]} />
                         <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} />
                         <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} validate={[required()]} onChange={this.onPartyChange} />
                         <Field name="amount" type="number" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
                         <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                         <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
+                        <Field name='remark' type="text" component={renderField} placeholder="Remark" validate={[required()]} />
                         <div className="grid-item">
                             <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
