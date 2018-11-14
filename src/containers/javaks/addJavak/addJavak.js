@@ -117,6 +117,7 @@ class addJavak extends Component {
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={this.onPartyChange} validate={[required()]} />
                     <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
                     <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
+                    <Field type="text" name="remark" component={renderField} placeholder="Remark" />
                     <JavakLots
                         partyId={this.state.partyId}
                         type={this.state.type ? this.state.type : this.props.initialValues.type.value}
@@ -125,7 +126,6 @@ class addJavak extends Component {
                     <div className="grid-item saveButton">
                         <SaveButton disabled={this.submitting} />
                     </div>
-                    <Field type="text" name="remark" component={renderField} placeholder="Remark" />
                 </div>
             </form>
         )
