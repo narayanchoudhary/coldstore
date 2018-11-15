@@ -63,8 +63,8 @@ class addAvak extends Component {
                     {this.state.redirectToAvaks ? <Redirect to="/avaks" /> : null}
                     <p className="newReceiptNumber">Reciept Number: {this.props.newReceiptNumber}</p>
                     <div className="grid-container">
-                        <DateField />
                         <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} validate={[required()]} onChange={(type) => this.props.fetchNewReceiptNumber(type.value, () => { })} />
+                        <DateField />
                         <Field name="item" component={renderSelectField} placeholder="Item" options={this.props.items} validate={[required()]} />
                         <PartySelector change={this.props.change} />
                         <Field name="variety" component={renderSelectField} placeholder="Variety" options={this.props.varieties} validate={[required()]} />
@@ -106,7 +106,6 @@ const mapStateToProps = state => {
         type: state.item.typeOptions,
         initialValues: state.avak.lastAvak,
         newReceiptNumber: state.avak.newReceiptNumber,
-
     }
 }
 
