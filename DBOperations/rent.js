@@ -68,6 +68,8 @@ class RentDatabase {
     delete data.createdAt;
     delete data.updatedAt;
 
+    data.receiptNumber = parseInt(data.receiptNumber, 10);// so that we don't face any problem in the sorting
+    
     RentsDB.update({ _id: _id }, { ...data }, {}, (err, numReplaced) => {
       let response = {};
       response.error = err;

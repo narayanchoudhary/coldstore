@@ -6,28 +6,23 @@ import { required } from 'redux-form-validators';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 
-class PartySelector extends Component {
+class MerchantSelector extends Component {
 
-    onChangeAddress = (address) => {
-        this.props.filterPartiesByAddress(this.props.parties, address, (filteredParties) => {
-            if (filteredParties.length === 1) {
-                this.props.change('party', filteredParties[0]);
+    onChangeAddressOfMerchant = (addressOfMerchant) => {
+        this.props.filterMerchantsByAddress(this.props.parties, addressOfMerchant, (filteredMerchants) => {
+            if (filteredMerchants.length === 1) {
+                this.props.change('merchant', filteredMerchants[0]);
             } else {
-                this.props.change('party', null);
+                this.props.change('merchant', null);
             }
-            this.props.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
         });
     }
 
-    onPartyChange = (party) => {
-        // Change merchant to the party
-        this.props.change('merchant', party);
-
+    onChangeMerchant = (merchant) => {
         // Change the address also
         this.props.addresses.every((address, index) => {
-            if (address.value === party.address) {
-                this.props.change('address', address);
-                this.onChangeAddress(address);
+            if (address.value === merchant.address) {
+                this.props.change('addressOfMerchant', address);
                 return false;// break loop
             }
             return true;
@@ -39,20 +34,19 @@ class PartySelector extends Component {
         return (
             <Aux>
                 <Field
-                    name="address"
+                    name="addressOfMerchant"
                     component={renderSelectField}
-                    placeholder="Address"
+                    placeholder="Address of merchant"
                     options={this.props.addresses}
-                    onChange={this.onChangeAddress}
+                    onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)}
                 />
-
                 <Field
-                    name="party"
+                    name="merchant"
                     component={renderSelectField}
-                    placeholder="Party"
-                    options={this.props.filteredParties}
+                    placeholder="Merchant"
+                    options={this.props.filteredMerchants}
                     validate={[required()]}
-                    onChange={this.onPartyChange}
+                    onChange={merchant => this.onChangeMerchant(merchant)}
                 />
             </Aux>
         );
@@ -63,6 +57,7 @@ const mapStateToProps = state => {
     return {
         parties: state.party.options,
         filteredParties: state.party.filteredPartiesOptions,
+        filteredMerchants: state.party.filteredMerchantsOptions,
         addresses: state.address.options,
     }
 }
@@ -74,4 +69,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PartySelector);
+export default connect(mapStateToProps, mapDispatchToProps)(MerchantSelector);

@@ -25,9 +25,7 @@ class Avaks extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-
-            row.receiptNumber = parseInt(row.receiptNumber, 10);// so that we don't face any problem in the sorting
-
+            
             if (column.dataField === 'address') {
                 this.props.filterPartiesByAddress(this.props.parties, { value: newValue });
             }

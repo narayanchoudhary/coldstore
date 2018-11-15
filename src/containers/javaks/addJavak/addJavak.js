@@ -14,6 +14,7 @@ import { renderField, renderSelectField } from '../../../utils/fields';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
 import { formValueSelector } from "redux-form";
 import DateField from '../../../components/dateField/dateField';
+import MerchantSelector from '../../../components/merchantSelector/merchantSelector';
 const selector = formValueSelector("javak");
 
 class addJavak extends Component {
@@ -115,8 +116,7 @@ class addJavak extends Component {
                     <Field name="type" component={renderSelectField} placeholder="Type" options={this.props.type} onChange={this.onChangeType} validate={[required()]} />
                     <Field name="address" component={renderSelectField} placeholder="Address" options={this.props.addresses} onChange={this.onChangeAddress} />
                     <Field name="party" component={renderSelectField} placeholder="Party" options={this.props.filteredParties} onChange={this.onPartyChange} validate={[required()]} />
-                    <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
-                    <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} />
+                    <MerchantSelector change={this.props.change} />
                     <Field type="text" name="remark" component={renderField} placeholder="Remark" />
                     <JavakLots
                         partyId={this.state.partyId}
