@@ -101,7 +101,7 @@ export const filterMerchantsByAddress = (parties, address, thenCallback) => {
             type: actionTypes.FILTER_MERCHANTS,
             payload: filteredParties
         });
-        // thenCallback();
+        thenCallback(filteredParties);
     }
 }
 

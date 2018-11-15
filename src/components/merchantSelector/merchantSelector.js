@@ -38,7 +38,7 @@ class MerchantSelector extends Component {
                     component={renderSelectField}
                     placeholder="Address of merchant"
                     options={this.props.addresses}
-                    onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)}
+                    onChange={address => this.onChangeAddressOfMerchant(address)}
                 />
                 <Field
                     name="merchant"
