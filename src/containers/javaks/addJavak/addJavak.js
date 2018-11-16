@@ -30,7 +30,7 @@ class addJavak extends Component {
         this.props.removeTempJavakLots();
         this.props.fetchLastJavak((lastJavak) => {
             this.props.filterPartiesByAddress(this.props.parties, lastJavak.address, () => { });
-            this.props.filterMerchantsByAddress(this.props.parties, lastJavak.addressOfMerchant);
+            this.props.filterMerchantsByAddress(this.props.parties, lastJavak.addressOfMerchant, () => { });
             this.props.fetchNewReceiptNumberForJavak(lastJavak.type.value, () => { });
             this.onPartySelect(this.props.initialValues.party.value);
         });
@@ -85,7 +85,7 @@ class addJavak extends Component {
 
     onPartyChange = (party) => {
         this.onPartySelect(party.value);
-        if ( this.props.typeFieldValue.value !== 'chips')
+        if (this.props.typeFieldValue.value !== 'chips')
             this.change('merchant', party);// Change merchant to the party
 
         // Change the address also
@@ -160,7 +160,7 @@ const mapDispatchToProps = dispatch => {
     return {
         saveJavak: (values, thenCallback) => dispatch(actions.saveJavak(values, thenCallback)),
         filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
-        filterMerchantsByAddress: (parties, address) => dispatch(actions.filterMerchantsByAddress(parties, address)),
+        filterMerchantsByAddress: (parties, address, thenCallback) => dispatch(actions.filterMerchantsByAddress(parties, address, thenCallback)),
         fetchAvaksOfParty: (partyId, thenCallback) => dispatch(actions.fetchAvaksOfParty(partyId, thenCallback)),
         saveJavakLot: (avakId, javakId, thenCallback) => dispatch(actions.saveJavakLot(avakId, javakId, thenCallback)),
         fetchJavakLotsByJavakId: (javakId, thenCallback) => dispatch(actions.fetchJavakLotsByJavakId(javakId, thenCallback)),
