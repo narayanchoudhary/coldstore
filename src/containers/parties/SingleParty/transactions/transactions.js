@@ -63,7 +63,7 @@ class Transactions extends Component {
                 hidden: true
             }, {
                 dataField: 'particular',
-                text: 'Remark',
+                text: 'Particular',
                 classes: 'remark'
             }, {
                 dataField: 'amount',

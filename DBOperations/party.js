@@ -147,11 +147,15 @@ class PartyDatabase {
 
                 // Add rents
                 rents.forEach(rent => {
+                  let merchant = 'self';
+                  if (rent.merchant !== rent.party) {
+                    merchant = parties.filter((party) => party._id === rent.merchant)[0].name; // get Merchant
+                  }
                   transactions.push({
                     _id: rent._id,
                     date: rent.date,
                     amount: rent.amount,
-                    particular: 'RNo: ' + rent.receiptNumber + ' ' + rent.remark,
+                    particular: 'RNo: ' + rent.receiptNumber + ' ' + merchant + rent.remark,
                     side: 'credit',
                   });
                 });
