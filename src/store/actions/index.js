@@ -7,6 +7,7 @@ export {
     filterPartiesByAddress,
     filterMerchantsByAddress,
     fetchOpeningBalanceOfParty,
+    fetchTransactionsOfSingleParty,
 } from './party';
 
 export {

@@ -2,6 +2,10 @@ const ipc = require('electron').ipcMain;
 const yearsDB = require('./connections').getInstance().yearsDB;
 const OpeningBalanceDB = require('./connections').getInstance().openingBalanceDB;
 const partiesDB = require('./connections').getInstance().partiesDB;
+const avaksDB = require('./connections').getInstance().avaksDB;
+const setupsDB = require('./connections').getInstance().setupsDB;
+const rentsDB = require('./connections').getInstance().rentsDB;
+
 class PartyDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -11,12 +15,14 @@ class PartyDatabase {
     this.deleteParty = this.deleteParty.bind(this);
     this.editParty = this.editParty.bind(this);
     this.fetchOpeningBalanceOfParty = this.fetchOpeningBalanceOfParty.bind(this);
+    this.fetchTransactionsOfSingleParty = this.fetchTransactionsOfSingleParty.bind(this);
     ipc.on('saveParty', this.saveParty);
     ipc.on('fetchParties', this.fetchParties);
     ipc.on('fetchParty', this.fetchParty);
     ipc.on('deleteParty', this.deleteParty);
     ipc.on('editParty', this.editParty);
     ipc.on('fetchOpeningBalanceOfParty', this.fetchOpeningBalanceOfParty);
+    ipc.on('fetchTransactionsOfSingleParty', this.fetchTransactionsOfSingleParty);
   }
 
   saveParty(event, data) {
@@ -106,6 +112,78 @@ class PartyDatabase {
       });
     });
   };
+
+  fetchTransactionsOfSingleParty(event, partyId) {
+    let transactions = [];
+    yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => { // fetch current year
+      OpeningBalanceDB.findOne({ $and: [{ particularId: partyId }, { yearId: currentYear.yearId }] }, (err, openingBalanceDoc) => { // get opening balance of the party of current year
+        avaksDB.find({ party: partyId }, (err, avaks) => {
+          setupsDB.find({ year: currentYear.yearId }, (err, setups) => {
+            rentsDB.find({ party: partyId }).sort({ createdAt: 1 }).exec((err, rents) => {
+              partiesDB.find({}, (err, parties) => {
+                // Calculate totoalRent and TotalAvakHammali
+                let totalRent = 0;
+                let totalAvakHammali = 0;
+
+                avaks.forEach(avak => {
+                  // find avak hammali and rent of single item from setup
+                  let itemRent = null;
+                  let itemAvakHammali = null;
+
+                  setups.forEach(setup => {
+                    if (setup.item === avak.item) {
+                      itemRent = setup.rent;
+                      itemAvakHammali = setup.avakHammali;
+                    }
+                  });
+
+                  totalRent += parseInt(avak.weight, 10) * parseFloat(itemRent, 10);
+                  totalAvakHammali += parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10);
+                });
+
+                transactions.push({ _id: 'openingBalance', amount: openingBalanceDoc.openingBalance, particular: 'Opening Balance', side: openingBalanceDoc.side, deleteButton: 'no' }); // Insert opening balance row
+                transactions.push({ _id: 'totalRent', amount: Math.round(totalRent), particular: 'Total Rent', side: 'debit', deleteButton: 'no' }); // Insert total rent row
+                transactions.push({ _id: 'avakHammali', amount: Math.round(totalAvakHammali), particular: 'Avak Hammali', side: 'debit', deleteButton: 'no' }); // Insert avak Hammali
+
+                // Add rents
+                rents.forEach(rent => {
+                  transactions.push({
+                    _id: rent._id,
+                    date: rent.date,
+                    amount: rent.amount,
+                    particular: 'RNo: ' + rent.receiptNumber + ' ' + rent.remark,
+                    side: 'credit',
+                  });
+                });
+
+                // Add footer
+                let sumOfCredits = 0;
+                let sumOfDebits = 0;
+                transactions.forEach(transaction => {
+                  if (transaction.side === 'credit') {
+                    sumOfCredits += parseInt(transaction.amount, 10);
+                  } else {
+                    sumOfDebits += transaction.amount;
+                  }
+                });
+
+                let balance = parseInt((sumOfCredits - sumOfDebits), 10);
+
+                transactions.push({
+                  _id: 'footer',
+                  amount: Math.abs(balance),
+                  particular: 'Balance',
+                  side: balance > 0 ? 'credit' : 'debit'
+                });
+
+                this.mainWindow.webContents.send('fetchTransactionsOfSinglePartyResponse', transactions);
+              });
+            });
+          });
+        });
+      });
+    });
+  }
 
 }
 

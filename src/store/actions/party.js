@@ -114,3 +114,16 @@ export const fetchOpeningBalanceOfParty = (partyId, thenCallback) => {
         });
     }
 }
+
+export const fetchTransactionsOfSingleParty = (data, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchTransactionsOfSingleParty', data);
+        ipc.once('fetchTransactionsOfSinglePartyResponse', (event, transactions) => {
+            dispatch({
+                type: actionTypes.FETCH_TRANSACTIONS_OF_SINGLE_PARTY,
+                payload: transactions
+            });
+            thenCallback();
+        });
+    }
+}
