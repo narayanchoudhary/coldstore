@@ -97,7 +97,7 @@ class RentDatabase {
                 delete lastRent._id;
                 delete lastRent.createdAt;
                 delete lastRent.updatedAt;
-
+                delete lastRent.remark;
                 this.mainWindow.webContents.send('fetchLastRentResponse', lastRent);
               });
             });

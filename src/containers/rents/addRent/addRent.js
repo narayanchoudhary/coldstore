@@ -63,9 +63,7 @@ class addRent extends Component {
                         <PartySelector change={this.props.change} />
                         <Field name="amount" type="number" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
                         <MerchantSelector change={this.props.change} />
-                        {/* <Field name="addressOfMerchant" component={renderSelectField} placeholder="Address of merchant" options={this.props.addresses} onChange={address => this.props.filterMerchantsByAddress(this.props.parties, address)} />
-                        <Field name="merchant" component={renderSelectField} placeholder="Merchant" options={this.props.filteredMerchants} validate={[required()]} /> */}
-                        <Field name='remark' type="text" component={renderField} placeholder="Remark" validate={[required()]} />
+                        <Field name='remark' type="text" component={renderField} placeholder="Remark" />
                         <div className="grid-item">
                             <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>`
                     </div>
