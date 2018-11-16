@@ -82,7 +82,6 @@ class PartyDatabase {
                 });
               }
             });
-            console.log('sumOfTotalAvakPackets: ', sumOfTotalAvakPackets);
             modifiedParties.push({ ...party, totalAvak: sumOfTotalAvakPackets, totalJavak: sumOfTotalJavakPackets, balance: sumOfTotalAvakPackets - sumOfTotalJavakPackets });
           });
           let response = {};

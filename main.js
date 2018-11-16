@@ -1,5 +1,6 @@
 const electron = require('electron');
 const isDev = require('electron-is-dev');
+const electronLocalshortcut = require('electron-localshortcut');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const PartyDatabase = require('./DBOperations/party.js');
@@ -25,12 +26,12 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 1000, height: 700 });
   mainWindow.maximize();
+  
+  
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000');
-    console.log('Running in development');
   } else {
     mainWindow.loadURL(path.join('file://', __dirname, '/build/index.html'));
-    console.log('Running in production');
   }
   const partyDatabase = new PartyDatabase(mainWindow);
   const avakDatabase = new AvakDatabase(mainWindow);
@@ -48,6 +49,12 @@ function createWindow() {
   const expense = new Expense(mainWindow);
   const dashboard = new Dashboard(mainWindow);
   const rent = new Rent(mainWindow);
+  
+  // register shortcut
+  electronLocalshortcut.register(mainWindow, 'Ctrl+S', () => {
+    console.log('You pressed ctrl & s');
+    mainWindow.webContents.send('showPartySearchPopup', {});
+  });
 
   mainWindow.on('closed', function () {
     mainWindow = null;

@@ -4,6 +4,7 @@ const initState = {
     options: [],
     filteredPartiesOptions: [],
     filteredMerchantsOptions: [],
+    showPartySearchPopup: false,
 }
 
 const reducer = (state = initState, action) => {
@@ -46,6 +47,10 @@ const reducer = (state = initState, action) => {
                 newState.deleteParty = { ...state.deleteParty, error: false };
             }
             break;
+        case actionTypes.SHOW_PARTY_SEARCH_POPUP:
+                newState = { ...state, showPartySearchPopup: action.payload }
+            break;
+
         default: return state;
     }
     return newState;

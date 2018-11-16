@@ -21,6 +21,7 @@ import Banks from './containers/banks/banks';
 import AddBank from './containers/banks/addBank/addBank';
 import * as actions from './store/actions';
 import { connect } from 'react-redux';
+import Popup from "reactjs-popup";
 
 class App extends Component {
 
@@ -37,9 +38,18 @@ class App extends Component {
   }
 
   render() {
+    console.log('this.props.showPartySearchPopup: ', this.props.showPartySearchPopup);
     return (
       <div>
         <Header />
+        <Popup
+          open={this.props.showPartySearchPopup}
+          onClose={this.props.hidePartySearchPopup}
+          modal
+          closeOnDocumentClick
+        >
+          <span> Modal content </span>
+        </Popup>
         <Switch>
           <Route exact={true} path='/' component={Home} />
           <Route path='/parties/singleParty/:partyId' component={SingleParty} />
@@ -64,6 +74,12 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    showPartySearchPopup: state.party.showPartySearchPopup
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     fetchSizes: (thenCallback) => dispatch(actions.fetchSizes(thenCallback)),
@@ -74,7 +90,8 @@ const mapDispatchToProps = dispatch => {
     fetchBanks: (thenCallback) => dispatch(actions.fetchBanks(thenCallback)),
     fetchExpenseCategories: (thenCallback) => dispatch(actions.fetchExpenseCategories(thenCallback)),
     fetchSetups: (thenCallback) => dispatch(actions.fetchSetups(thenCallback)),
+    hidePartySearchPopup: (thenCallback) => dispatch(actions.hidePartySearchPopup(thenCallback)),
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

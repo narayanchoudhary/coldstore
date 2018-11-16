@@ -28,6 +28,13 @@ export const fetchParties = (thenCallback) => {
             });
             thenCallback(response);
         });
+
+        ipc.on('showPartySearchPopup', (event, response) => {
+            dispatch({
+                type: actionTypes.SHOW_PARTY_SEARCH_POPUP,
+                payload: true,
+            });
+        });
     }
 }
 
@@ -124,6 +131,15 @@ export const fetchTransactionsOfSingleParty = (data, thenCallback) => {
                 payload: transactions
             });
             thenCallback();
+        });
+    }
+}
+
+export const hidePartySearchPopup = () => {
+    return dispatch => {
+        dispatch({
+            type: actionTypes.SHOW_PARTY_SEARCH_POPUP,
+            payload: false,
         });
     }
 }
