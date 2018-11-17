@@ -86,11 +86,8 @@ class JavakLotsDatabase {
     };
 
     fetchJavakLotsByAvakIds(event, data) {
-        javakLotsDB.find({ avakId: { $in: data.avakIds } }).sort({ createdAt: 1 }).exec((err, data) => {
-            let response = {};
-            response.error = err;
-            response.data = data;
-            this.mainWindow.webContents.send('fetchJavakLotsByAvakIdsResponse', response);
+        javakLotsDB.find({ avakId: { $in: data.avakIds } }).sort({ createdAt: 1 }).exec((err, javakLots) => {
+            this.mainWindow.webContents.send('fetchJavakLotsByAvakIdsResponse', javakLots);
         });
     };
 

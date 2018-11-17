@@ -11,7 +11,7 @@ class JavakLots extends Component {
             return javak._id === cell;
         });
         return (
-            <div>
+            <div title={javak.remark}>
                 {javak && javak.receiptNumber}
             </div>
         );
@@ -46,6 +46,7 @@ class JavakLots extends Component {
     }];
 
     render() {
+
         return (
             <BootstrapTable
                 columns={this.columns}

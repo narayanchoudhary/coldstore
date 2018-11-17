@@ -7,7 +7,7 @@ import './singleParty.css';
 import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
-import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter, getRentOfItem, getAvakHammaliOfItem, getJavakHammaliOfItem } from "../../../utils/utils";
+import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
 
 class SingleParty extends Component {
 
@@ -18,45 +18,32 @@ class SingleParty extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchAvaksByPartyId(this.props.match.params.partyId, () => {
-            // Get javak Lots of the above avak Ids
-            this.props.fetchJavakLotsByAvakIds(this.props.avakIdsOfSingleParty, (response) => {
-                // Calculate total packet
-                let totalJavakPacket = 0;
-                response.data.forEach((javak) => {
-                    totalJavakPacket += parseInt(javak.packet, 10);
+        this.duplicateLogic(this.props);
+    }
+
+    duplicateLogic = (props) => {
+        props.fetchAvaksByPartyId(props.match.params.partyId, (avakIdsOfSingleParty) => {
+            props.fetchJavaksByPartyId(props.match.params.partyId, (javaks) => {
+                props.fetchJavakLotsByAvakIds(avakIdsOfSingleParty, (javakLots) => {
+                    props.fetchParty(props.match.params.partyId, (party) => {
+                        this.setState({ javakLots: javakLots, party: party, javaks: javaks });
+                    });
                 });
-                this.setState({ javakLots: response.data, totalJavakPacket: totalJavakPacket });
             });
         });
+    }
 
-        // fetch party details
-        this.props.fetchParty(this.props.match.params.partyId, (response) => {
-            this.setState({ party: response.data });
-        });
-
-        this.props.fetchJavaksByPartyId(this.props.match.params.partyId, (response) => {
-            // Calculate javak packet total
-            this.setState({ javaks: response.data, });
-        });
+    componentWillReceiveProps = (nextProps) => {
+        if (nextProps.match.params.partyId !== this.props.match.params.partyId) {
+            this.duplicateLogic(nextProps);
+        }
     }
 
     handleClickOnDelete = (avakId) => {
-        this.props.deleteAvak(avakId);
-        this.props.fetchAvaksByPartyId(this.props.match.params.partyId, (response) => {
-            this.setState({ avaks: response.data });
+        this.props.deleteAvak(avakId, () => {
+            this.props.fetchAvaksByPartyId(this.props.match.params.partyId, () => {
+            });
         });
-    }
-
-    rentFormatter = (cell, row) => {
-        let rent = null;
-        if (row._id === 'footer') {
-            rent = this.getTotalRent(this.props.avaksOfSingleParty);
-        } else {
-            rent = row.weight * getRentOfItem(this.props.setups, row.item);
-        }
-        rent = Math.round(rent);
-        return rent;
     }
 
     cellEdit = cellEditFactory({
@@ -72,16 +59,8 @@ class SingleParty extends Component {
         nonEditableRows: () => [this.props.avaksOfSingleParty.length - 1]
     });
 
-    rowClasses = (row, rowIndex) => {
-        let rowClasses = 'capitalize';
-        if (row._id === 'footer') {
-            rowClasses += ' tableFooter';
-        }
-        return rowClasses;
-    };
-
     javakLotsFormatter = (cell, row) => {
-        if (row._id === 'footer') return '';
+        if (row._id === 'footer' || row._id === 'totals') return '';
         return (
             <JavakLots
                 key={row._id}
@@ -91,43 +70,12 @@ class SingleParty extends Component {
         );
     }
 
-    getTotalAvakHammali = (avaks) => {
-        let avakHammali = 0;
-        avaks.forEach((avak) => {
-            avakHammali += (avak.packet * getAvakHammaliOfItem(this.props.setups, avak.item));
-        });
-
-        return avakHammali;
-    }
-
-    getTotalRent = (avaks) => {
-        let totalRent = 0;
-        avaks.forEach((avak) => {
-            totalRent += (avak.weight * getRentOfItem(this.props.setups, avak.item));
-        });
-        return Math.round(totalRent);
-    }
-
-    getTotalJavakHammali = (javakLots) => {
-        let javakHammali = 0;
-        javakLots.forEach((javakLot) => {
-            javakHammali += (javakLot.packet * getJavakHammaliOfItem(this.props.setups, javakLot.itemId));
-        });
-
-        return javakHammali;
-    }
-
     render() {
 
         const columns = [{
             dataField: '_id',
             text: 'ID',
             hidden: true
-        }, {
-            dataField: 'receiptNumber',
-            text: 'R No',
-            sort: true,
-            headerSortingStyle,
         }, {
             dataField: 'date',
             text: 'Date',
@@ -153,7 +101,12 @@ class SingleParty extends Component {
             dataField: 'type',
             text: 'Type',
             sort: true,
-            headerSortingStyle
+            headerSortingStyle,
+            formatter: columnFormatter(this.props.types),
+            editor: {
+                type: Type.SELECT,
+                options: this.props.types
+            },
         }, {
             dataField: 'variety',
             text: 'Variety',
@@ -177,6 +130,11 @@ class SingleParty extends Component {
                 type: Type.SELECT,
                 options: this.props.sizes
             }
+        }, {
+            dataField: 'receiptNumber',
+            text: 'R No',
+            sort: true,
+            headerSortingStyle,
         }, {
             dataField: 'packet',
             text: 'Packet',
@@ -207,11 +165,16 @@ class SingleParty extends Component {
             sort: true,
             headerSortingStyle,
         }, {
-            dataField: 'rent',// rent is not in database
+            dataField: 'rent',
             text: 'Rent',
             sort: true,
             headerSortingStyle,
-            formatter: this.rentFormatter,
+            editable: false,
+        }, {
+            dataField: 'avakHammali',
+            text: 'Avak Hammali',
+            sort: true,
+            headerSortingStyle,
             editable: false,
         }, {
             dataField: 'chamber',
@@ -238,7 +201,8 @@ class SingleParty extends Component {
             text: 'M No',
             sort: true,
             headerSortingStyle,
-            classes: 'motor-no'
+            classes: 'motor-no',
+            hidden: true,
         }, {
             dataField: '_id',
             text: 'Action',
@@ -266,8 +230,6 @@ class SingleParty extends Component {
                 </div>
                 <Transactions
                     partyId={this.props.match.params.partyId}
-                    totalRent={this.getTotalRent(this.props.avaksOfSingleParty)}
-                    totalAvakHammali={this.getTotalAvakHammali(this.props.avaksOfSingleParty)}
                 />
             </Aux>
         )
@@ -279,6 +241,7 @@ const mapStateToProps = state => {
         items: state.item.options,
         varieties: state.variety.options,
         sizes: state.size.options,
+        types: state.item.typeOptions,
         setups: state.setup.setups,
         avaksOfSingleParty: state.avak.avaksOfSingleParty,
         avakIdsOfSingleParty: state.avak.avakIdsOfSingleParty,
@@ -290,8 +253,7 @@ const mapDispatchToProps = dispatch => {
         fetchAvaksByPartyId: (partyId, thenCallback) => dispatch(actions.fetchAvaksByPartyId(partyId, thenCallback)),
         fetchJavaksByPartyId: (partyId, thenCallback) => dispatch(actions.fetchJavaksByPartyId(partyId, thenCallback)),
         fetchParty: (partyId, thenCallback) => dispatch(actions.fetchParty(partyId, thenCallback)),
-        fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
-        deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
+        deleteAvak: (avakId, thenCallback) => dispatch(actions.deleteAvak(avakId, thenCallback)),
         editAvak: (avak, thenCallback) => dispatch(actions.editAvak(avak, thenCallback)),
         fetchJavakLotsByAvakIds: (avakIds, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakIds, thenCallback)),
     };

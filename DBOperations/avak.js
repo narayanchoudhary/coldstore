@@ -6,6 +6,8 @@ const partiesDB = require('./connections').getInstance().partiesDB;
 const itemsDB = require('./connections').getInstance().itemsDB;
 const varietyDB = require('./connections').getInstance().varietyDB;
 const sizesDB = require('./connections').getInstance().sizesDB;
+const yearsDB = require('./connections').getInstance().yearsDB;
+const setupsDB = require('./connections').getInstance().setupsDB;
 
 class AvakDatabase {
   constructor(mainWindow) {
@@ -82,48 +84,89 @@ class AvakDatabase {
 
   fetchAvaksByPartyId(event, data) {
     avaksDB.find({ party: data.partyId }).sort({ receiptNumber: 1 }).exec((err, avaks) => {
-      // For adding in footer
-      let totalPacket = 0;
-      let totalWeight = 0;
-      let totalJavakPacket = 0; // total of javak lots
+      yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
+        setupsDB.find({ year: currentYear.yearId }, (err, setups) => {
+          javakLotsDB.find({}, (err, javakLots) => {
 
-      // Doing this shit to add remaining and balance packet column
+            // for adding in footer
+            let totalPacket = 0;
+            let totalWeight = 0;
+            let totalJavakPacket = 0;
+            let totalRent = 0;
+            let totalAvakHammali = 0;
 
-      // fetch javakLots
-      javakLotsDB.find({}, (err, javakLots) => {
-        let finalAvaks = [];
-        avaks.forEach(avak => {
-          // Calculate the sum of packets of javakLots
-          let sumOfPacketsOfJavakLots = 0;
-          javakLots.forEach(javakLot => {
-            if (javakLot.avakId === avak._id) {
-              sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
+            // Doing this shit to add Balance, javakPackets, rent column
+            let finalAvaks = [];
+
+            // fetch javakLots
+            avaks.forEach(avak => {
+
+              // calculate the sum of packets of javakLots
+              let sumOfPacketsOfJavakLots = 0;
+              javakLots.forEach(javakLot => {
+                if (javakLot.avakId === avak._id) {
+                  sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
+                }
+              });
+
+              // find avak hammali and rent of single item from setup
+              let itemRent = null;
+              let itemAvakHammali = null;
+
+              setups.forEach(setup => {
+                if (setup.item === avak.item) {
+                  itemRent = setup.rent;
+                  itemAvakHammali = setup.avakHammali;
+                }
+              });
+
+              finalAvaks.push({
+                ...avak,
+                totalJavakPacket: sumOfPacketsOfJavakLots,
+                balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots,
+                rent: Math.round(parseInt(avak.weight, 10) * parseFloat(itemRent, 10)),
+                avakHammali: Math.round(parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10)),
+              });
+
+              // Calculate the totals to add into footer
+              totalPacket += parseInt(avak.packet, 10);
+              totalWeight += parseInt(avak.weight, 10);
+              totalJavakPacket += sumOfPacketsOfJavakLots;
+              totalRent += parseInt(avak.weight, 10) * parseFloat(itemRent, 10);
+              totalAvakHammali += parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10);
+
+            });
+
+            // Add totals row
+            let totals = {
+              _id: 'totals',
+              packet: totalPacket,
+              weight: totalWeight,
+              totalJavakPacket: totalJavakPacket,
+              balance: totalPacket - totalJavakPacket,
+              rent: Math.round(totalRent),
+              avakHammali: totalAvakHammali,
+              deleteButton: 'no'
             }
+
+            finalAvaks.push(totals);
+
+            // Add footer
+            let footer = {
+              _id: 'footer',
+              packet: 'Packets',
+              weight: 'Weight',
+              totalJavakPacket: 'Javak',
+              balance: 'Balance',
+              rent: 'Rent',
+              avakHammali: 'Hammali',
+              deleteButton: 'no'
+            }
+            finalAvaks.push(footer);
+
+            this.mainWindow.webContents.send('fetchAvaksByPartyIdResponse', finalAvaks);
           });
-          finalAvaks.push({ ...avak, totalJavakPacket: sumOfPacketsOfJavakLots, balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots });
-
-          // Calculate the totals to add into footer
-          totalPacket += parseInt(avak.packet, 10);
-          totalWeight += parseInt(avak.weight, 10);
-          totalJavakPacket += sumOfPacketsOfJavakLots;
-
         });
-
-        // Add footer
-        let footer = {
-          _id: 'footer',
-          packet: totalPacket,
-          weight: totalWeight,
-          totalJavakPacket: totalJavakPacket,
-          balance: totalPacket - totalJavakPacket,
-          deleteButton: 'no'
-        }
-        finalAvaks.push(footer);
-
-        let response = {};
-        response.error = err;
-        response.data = finalAvaks;
-        this.mainWindow.webContents.send('fetchAvaksByPartyIdResponse', response);
       });
     });
   };

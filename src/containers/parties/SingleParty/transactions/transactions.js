@@ -8,15 +8,15 @@ import { rowClasses } from "../../../../utils/utils";
 
 class Transactions extends Component {
 
-    iDontKnow = () => {
-        this.props.fetchTransactionsOfSingleParty(this.props.partyId, () => { });
+    iDontKnow = (props) => {
+        props.fetchTransactionsOfSingleParty(props.partyId, () => { });
     }
 
-    componentDidMount() { this.iDontKnow(); }
+    componentDidMount() { this.iDontKnow(this.props); }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.partyId !== nextProps.partyId) {
-            this.iDontKnow();
+            this.iDontKnow(nextProps);
         }
     }
 

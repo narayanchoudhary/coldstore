@@ -41,12 +41,12 @@ export const fetchJavakLotsByJavakId = (javakId, type, thenCallback) => {
 export const fetchJavakLotsByAvakIds = (avakIds, thenCallback) => {
     return dispatch => {
         ipc.send('fetchJavakLotsByAvakIds', { avakIds: avakIds });
-        ipc.once('fetchJavakLotsByAvakIdsResponse', (event, response) => {
+        ipc.once('fetchJavakLotsByAvakIdsResponse', (event, javakLots) => {
             dispatch({
                 type: actionTypes.FETCH_JAVAK_LOTS_BY_AVAK_ID,
-                payload: response
+                payload: javakLots
             });
-            thenCallback(response);
+            thenCallback(javakLots);
         });
     }
 }

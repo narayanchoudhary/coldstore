@@ -150,11 +150,8 @@ class JavakDatabase {
   }
 
   fetchJavaksByPartyId(event, data) {
-    javaksDB.find({ party: data.partyId }).sort({ updatedAt: -1 }).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-      this.mainWindow.webContents.send('fetchJavaksByPartyIdResponse', response);
+    javaksDB.find({ party: data.partyId }).sort({ updatedAt: -1 }).exec((err, javaks) => {
+      this.mainWindow.webContents.send('fetchJavaksByPartyIdResponse', javaks);
     });
   };
 

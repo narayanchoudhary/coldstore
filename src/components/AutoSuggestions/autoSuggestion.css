@@ -1,0 +1,35 @@
+.autoSuggestion ul {
+    padding: 0px;
+    font-weight: 100 !important;
+    list-style-type: none;
+}
+
+.autoSuggestion ul li {
+    border: 1px solid grey;
+    padding: 4px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.autoSuggestion .react-autosuggest__suggestions-list {
+    padding: 0px !important;
+}
+
+.autoSuggestion .searchBox {
+    font-size: 22px !important;
+    padding: 4px !important;
+    height: 40px !important;
+    text-transform: capitalize;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.highlightedText {
+    font-weight: 600;
+}
+
+
+.react-autosuggest__suggestion--highlighted {
+    background-color: grey;
+    color: white;
+}

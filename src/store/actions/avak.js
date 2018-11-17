@@ -30,30 +30,31 @@ export const fetchAvaks = (thenCallback) => {
 export const fetchAvaksByPartyId = (partyId, thenCallback) => {
     return dispatch => {
         ipc.send('fetchAvaksByPartyId', { partyId: partyId });
-        ipc.once('fetchAvaksByPartyIdResponse', (event, response) => {
+        ipc.once('fetchAvaksByPartyIdResponse', (event, avaks) => {
             // Extract avaks ids
             let avakIdsOfSingleParty = [];// we will use this ids to fetch javak lots
-            response.data.forEach((avak) => {
+            avaks.forEach((avak) => {
                 avakIdsOfSingleParty.push(avak._id);
             });
 
             dispatch({
                 type: actionTypes.FETCH_AVAKS_BY_PARTY_ID,
-                payload: { avaks: response.data, avakIdsOfSingleParty: avakIdsOfSingleParty }
+                payload: { avaks: avaks, avakIdsOfSingleParty: avakIdsOfSingleParty }
             });
-            thenCallback();
+            thenCallback(avakIdsOfSingleParty);
         });
     }
 }
 
-export const deleteAvak = (AvakId) => {
+export const deleteAvak = (avakId, thenCallback) => {
     return dispatch => {
-        ipc.send('deleteAvak', { AvakId: AvakId });
+        ipc.send('deleteAvak', { avakId: avakId });
         ipc.once('deleteAvakResponse', (event, response) => {
             dispatch({
                 type: actionTypes.DELETE_AVAK,
                 payload: response
             });
+            thenCallback();
         });
     }
 }

@@ -22,6 +22,7 @@ import AddBank from './containers/banks/addBank/addBank';
 import * as actions from './store/actions';
 import { connect } from 'react-redux';
 import Popup from "reactjs-popup";
+import ReactAutoSuggest from './components/AutoSuggestions/autoSuggestions';
 
 class App extends Component {
 
@@ -38,7 +39,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('this.props.showPartySearchPopup: ', this.props.showPartySearchPopup);
     return (
       <div>
         <Header />
@@ -47,8 +47,9 @@ class App extends Component {
           onClose={this.props.hidePartySearchPopup}
           modal
           closeOnDocumentClick
+          contentStyle={{ minHeight: '200px', borderRadius: '4px', fontWeight: 600, padding: '0px' }}
         >
-          <span> Modal content </span>
+          <ReactAutoSuggest parties={this.props.parties} closer={this.props.hidePartySearchPopup} />
         </Popup>
         <Switch>
           <Route exact={true} path='/' component={Home} />
@@ -76,7 +77,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    showPartySearchPopup: state.party.showPartySearchPopup
+    showPartySearchPopup: state.party.showPartySearchPopup,
+    parties: state.party.options,
   }
 }
 

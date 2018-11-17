@@ -69,7 +69,11 @@ export const dateValidater = (newValue, row, column) => {
 }
 
 export const rowClasses = (row, rowIndex) => {
-    return 'capitalize';
+    let rowClasses = 'capitalize';
+    if (row._id === 'footer') {
+        rowClasses += ' tableFooter';
+    }
+    return rowClasses;
 };
 
 export const getRentOfItem = (setups, itemId) => {

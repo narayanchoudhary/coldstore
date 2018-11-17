@@ -94,11 +94,8 @@ class PartyDatabase {
   };
 
   fetchParty(event, data) {
-    partiesDB.findOne({ _id: data.partyId }).exec((err, doc) => {
-      let response = {};
-      response.error = err;
-      response.data = doc;
-      this.mainWindow.webContents.send('fetchPartyResponse', response);
+    partiesDB.findOne({ _id: data.partyId }).exec((err, party) => {
+      this.mainWindow.webContents.send('fetchPartyResponse', party);
     });
   };
 

@@ -5,7 +5,7 @@
 }
 
 .tableFooter {
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
 .p-0 {
