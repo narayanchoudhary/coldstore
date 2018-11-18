@@ -25,23 +25,58 @@ class RentDatabase {
   }
 
   saveRent(event, data) {
-    // for auto id
-    RentsDB.insert({ _id: '__autoid__', value: 0 });
-    RentsDB.findOne({ _id: '__autoid__' }, (err, doc) => {
-      RentsDB.update({ _id: '__autoid__' }, { $set: { value: ++doc.value } }, {}, () => {
+
+    // for auto id of cash and bank rasids
+    RentsDB.insert({ _id: '__autoid__cash', value: 0 });
+    RentsDB.insert({ _id: '__autoid__bank', value: 0 });
+
+    let autoId = '__autoid__bank';
+    if (data.rentType.value.toLowerCase() === 'cash') {
+      autoId = '__autoid__cash';
+    }
+
+    // change format of the data from key value pairs to corresponding ids
+    data.address = data.address.value;
+    data.addressOfMerchant = data.addressOfMerchant.value;
+    data.party = data.party.value;
+    data.bank = data.bank.value;
+    data.merchant = data.merchant.value;
+    data.rentType = data.rentType.value;
+
+    // delete bank if the rentType is cash
+    if(data.rentType === 'cash') delete data.bank;
+
+
+    // get new receiptNumber
+    RentsDB.findOne({ _id: autoId }, (err, doc) => {
+
+      // update receiptNumber to +1
+      RentsDB.update({ _id: autoId }, { $set: { value: ++doc.value } }, {}, () => {
+
+        // insert rent
         data.receiptNumber = doc.value;
+
         RentsDB.insert(data, (err, newDoc) => {
           let response = {};
           response.error = err;
           this.mainWindow.webContents.send('saveRentResponse', response);
         });
+
       });
     });
   };
 
   fetchRents(event, data) {
-    RentsDB.find({ receiptNumber: { $exists: true } }).sort({ receiptNumber: -1 }).exec((err, rents) => {
-      this.mainWindow.webContents.send('fetchRentsResponse', rents);
+    RentsDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, rents) => {
+      let finalRents = [];
+      rents.forEach(rent => {
+        if(rent.rentType === 'cash') {
+          rent.bank = 'cash';
+        } 
+        finalRents.push(rent);
+      });
+
+      this.mainWindow.webContents.send('fetchRentsResponse', finalRents);
     });
   };
 
@@ -91,6 +126,8 @@ class RentDatabase {
                 lastRent.party = { label: party.name, value: lastRent.party };
                 lastRent.merchant = { label: merchant.name, value: merchant._id };
                 lastRent.bank = { label: bank.bankName, value: lastRent.bank };
+                lastRent.rentType = { label: lastRent.rentType, value: lastRent.rentType };
+
                 // Shit ends here
 
                 // Delete the unnessecary data we don't want to initialize in the add Rent form
@@ -108,7 +145,13 @@ class RentDatabase {
   };
 
   fetchNewReceiptNumberOfRent(event, data) {
-    RentsDB.findOne({ _id: '__autoid__' }, (err, Rent) => {
+
+    let autoId = '__autoid__bank';
+    if (data.rentType.toLowerCase() === 'cash') {
+      autoId = '__autoid__cash';
+    }
+
+    RentsDB.findOne({ _id: autoId }, (err, Rent) => {
       this.mainWindow.webContents.send('fetchNewReceiptNumberOfRentResponse', parseInt(Rent.value, 10) + 1);
     });
   };

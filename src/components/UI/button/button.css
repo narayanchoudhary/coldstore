@@ -29,4 +29,7 @@
 
 .button:focus {
     text-decoration: none;
+    background: #9555AF;
+    font-weight: 600;
+    color: white;
 }

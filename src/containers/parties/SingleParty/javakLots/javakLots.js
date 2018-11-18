@@ -11,7 +11,7 @@ class JavakLots extends Component {
             return javak._id === cell;
         });
         return (
-            <div title={javak.remark}>
+            <div title={javak && javak.remark}>
                 {javak && javak.receiptNumber}
             </div>
         );

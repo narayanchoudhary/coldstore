@@ -15,13 +15,18 @@ class PartySelector extends Component {
             } else {
                 this.props.change('party', null);
             }
-            this.props.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
+
+            if(this.props.rentType && this.props.rentType.value === 'cash') {
+                this.props.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
+            }
         });
     }
 
     onPartyChange = (party) => {
         // Change merchant to the party
-        this.props.change('merchant', party);
+        if(this.props.rentType && this.props.rentType.value === 'cash') {
+            this.props.change('merchant', party);
+        }
 
         // Change the address also
         this.props.addresses.every((address, index) => {

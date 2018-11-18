@@ -3,7 +3,7 @@ const initState = {
     banks: [],
     options: [],
     transactions: [],
-    expenses: []
+    expenses: [],
 }
 
 const reducer = (state = initState, action) => {

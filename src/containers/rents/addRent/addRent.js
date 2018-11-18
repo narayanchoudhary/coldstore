@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
@@ -12,6 +12,7 @@ import DateField from '../../../components/dateField/dateField';
 import Aux from '../../../components/Auxilary/Auxilary';
 import PartySelector from '../../../components/partySelector/partySelector';
 import MerchantSelector from '../../../components/merchantSelector/merchantSelector';
+const selector = formValueSelector('rent');
 class addRent extends Component {
     constructor(props) {
         super(props);
@@ -23,9 +24,9 @@ class addRent extends Component {
 
     duplicateLogic = () => {
         this.props.fetchLastRent((lastRent) => {
-            this.props.filterPartiesByAddress(this.props.parties, lastRent.address, () => {});
-            this.props.filterMerchantsByAddress(this.props.parties, lastRent.addressOfMerchant, () => {});
-            this.props.fetchNewReceiptNumberOfRent(() => { });
+            this.props.filterPartiesByAddress(this.props.parties, lastRent.address, () => { });
+            this.props.filterMerchantsByAddress(this.props.parties, lastRent.addressOfMerchant, () => { });
+            this.props.fetchNewReceiptNumberOfRent(lastRent.rentType.value, () => { });
         });
     }
 
@@ -40,12 +41,7 @@ class addRent extends Component {
     }
 
     submit = (values) => {
-        values.address = values.address.value;
-        values.addressOfMerchant = values.addressOfMerchant.value;
-        values.party = values.party.value;
-        values.bank = values.bank.value;
         values.yearId = this.props.currentYear.value;
-        values.merchant = values.merchant.value;
         this.props.saveRent(values, () => {
             this.setState({ redirectToRents: true });
         });
@@ -58,9 +54,14 @@ class addRent extends Component {
                     {this.state.redirectToRents ? <Redirect to="/rents" /> : null}
                     <p className="newReceiptNumber">Reciept Number: {this.props.newReceiptNumberOfRent}</p>
                     <div className="grid-container">
-                        <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
+                        <Field name="rentType" component={renderSelectField} placeholder="Type" options={this.props.rentType} validate={[required()]} onChange={(rentType) => this.props.fetchNewReceiptNumberOfRent(rentType.value, () => { })} />
+                        {
+                            this.props.cashOrBank && this.props.cashOrBank.value !== 'cash'
+                                ? <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
+                                : null
+                        }
                         <DateField />
-                        <PartySelector change={this.props.change} />
+                        <PartySelector change={this.props.change} rentType={this.props.cashOrBank} />
                         <Field name="amount" type="number" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
                         <MerchantSelector change={this.props.change} />
                         <Field name='remark' type="text" component={renderField} placeholder="Remark" />
@@ -91,6 +92,8 @@ const mapStateToProps = state => {
         currentYear: state.year.currentYear,
         initialValues: state.rent.lastRent,
         newReceiptNumberOfRent: state.rent.newReceiptNumberOfRent,
+        rentType: state.rent.rentTypeOptions,
+        cashOrBank: selector(state, 'rentType'),
     }
 }
 
@@ -99,7 +102,7 @@ const mapDispatchToProps = dispatch => {
         saveRent: (values, thenCallback) => dispatch(actions.saveRent(values, thenCallback)),
         filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
         fetchLastRent: (thenCallback) => dispatch(actions.fetchLastRent(thenCallback)),
-        fetchNewReceiptNumberOfRent: (thenCallback) => dispatch(actions.fetchNewReceiptNumberOfRent(thenCallback)),
+        fetchNewReceiptNumberOfRent: (rentType, thenCallback) => dispatch(actions.fetchNewReceiptNumberOfRent(rentType, thenCallback)),
         filterMerchantsByAddress: (parties, address, thenCallback) => dispatch(actions.filterMerchantsByAddress(parties, address, thenCallback)),
     };
 };
