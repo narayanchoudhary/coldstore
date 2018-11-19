@@ -173,7 +173,12 @@ class PartyDatabase {
                     if (rent.merchant !== rent.party) {
                       merchant = parties.filter((party) => party._id === rent.merchant)[0].name; // get Merchant
                     }
-                    let bankName = banks.filter((bank) => bank._id === rent.bank )[0].bankName;
+
+                    let bankName = 'cash';
+                    if(rent.rentType !== 'cash') {
+                      bankName = banks.filter((bank) => bank._id === rent.bank )[0].bankName;
+                    }
+                    
                     transactions.push({
                       _id: rent._id,
                       date: rent.date,
