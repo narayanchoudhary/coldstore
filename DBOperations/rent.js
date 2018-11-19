@@ -44,7 +44,7 @@ class RentDatabase {
     data.rentType = data.rentType.value;
 
     // delete bank if the rentType is cash
-    if(data.rentType === 'cash') delete data.bank;
+    if (data.rentType === 'cash') delete data.bank;
 
 
     // get new receiptNumber
@@ -70,9 +70,9 @@ class RentDatabase {
     RentsDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, rents) => {
       let finalRents = [];
       rents.forEach(rent => {
-        if(rent.rentType === 'cash') {
+        if (rent.rentType === 'cash') {
           rent.bank = 'cash';
-        } 
+        }
         finalRents.push(rent);
       });
 
@@ -125,8 +125,10 @@ class RentDatabase {
                 lastRent.addressOfMerchant = { label: addressOfMerchant.addressName, value: lastRent.addressOfMerchant };
                 lastRent.party = { label: party.name, value: lastRent.party };
                 lastRent.merchant = { label: merchant.name, value: merchant._id };
-                lastRent.bank = { label: bank.bankName, value: lastRent.bank };
                 lastRent.rentType = { label: lastRent.rentType, value: lastRent.rentType };
+                if (lastRent.rentType.value !== 'cash') {
+                  lastRent.bank = { label: bank.bankName, value: lastRent.bank };
+                }
 
                 // Shit ends here
 
@@ -151,8 +153,9 @@ class RentDatabase {
       autoId = '__autoid__cash';
     }
 
-    RentsDB.findOne({ _id: autoId }, (err, Rent) => {
-      this.mainWindow.webContents.send('fetchNewReceiptNumberOfRentResponse', parseInt(Rent.value, 10) + 1);
+    RentsDB.findOne({ _id: autoId }, (err, rent) => {
+      if (rent === null) { rent = { value: 1 }; } // if firstTime
+      this.mainWindow.webContents.send('fetchNewReceiptNumberOfRentResponse', parseInt(rent.value, 10) + 1);
     });
   };
 
