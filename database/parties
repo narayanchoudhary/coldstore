@@ -253,7 +253,7 @@
 {"address":"Kg9tzOLEWyVEocWe","name":"radheshyam bondar ji kamdar","_id":"Uh3jzE7FOlpZzqWQ","createdAt":{"$$date":1539316991729},"updatedAt":{"$$date":1539316991729}}
 {"address":"Kg9tzOLEWyVEocWe","name":"radheshyam kanhaiyalal choudhary","_id":"UoZML0aQsoi3fu4d","createdAt":{"$$date":1539316555934},"updatedAt":{"$$date":1539316555934}}
 {"address":"1zEPATkmaeYupfS7","name":"pawan prajapat","_id":"UrAl0Yvi0tr53Jjj","createdAt":{"$$date":1539315398100},"updatedAt":{"$$date":1539315398100}}
-{"address":"pAjpg7TFaVGAduRr","name":"subhash kamdar badrilal","_id":"UsIau3lAnYQFli0g","createdAt":{"$$date":1539318232686},"updatedAt":{"$$date":1539318232686}}
+{"address":"pAjpg7TFaVGAduRr","balance":0,"name":"shubhash badrilal kamdar","totalAvak":542,"totalJavak":542,"_id":"UsIau3lAnYQFli0g","createdAt":{"$$date":1539318232686},"updatedAt":{"$$date":1542632251295}}
 {"address":"0u5aM17VZ9eC8wpd","name":"ashok shaligram choudhary","_id":"VUxAeAxA6f7w3jzk","createdAt":{"$$date":1539100489428},"updatedAt":{"$$date":1539100489428}}
 {"address":"Kg9tzOLEWyVEocWe","name":"santosh ji asapala","phone":"","_id":"VmlUYnZnsJ05W4Zi","createdAt":{"$$date":1541650150811},"updatedAt":{"$$date":1541650150811}}
 {"address":"Kg9tzOLEWyVEocWe","name":"nanuram ghanshyam choudhary","_id":"VphosAiVNa8GJn5u","createdAt":{"$$date":1539315092553},"updatedAt":{"$$date":1539315092553}}
@@ -331,7 +331,7 @@
 {"address":"PAjeKqEspa5q1Puy","name":"jivan choudhary","phone":"","_id":"fb9Rq942hvNkbJu6","createdAt":{"$$date":1541917973252},"updatedAt":{"$$date":1541917973252}}
 {"address":"Ft0TdHrxG0re8WWN","name":"bhola patwari","_id":"ffsQNMcBhd4wXHpT","createdAt":{"$$date":1539100623216},"updatedAt":{"$$date":1539100623216}}
 {"address":"sYg5lN195cQj80zX","name":"ghanshyam girdharilal kamdar","_id":"fsCILKzmCcNRKSip","createdAt":{"$$date":1539102492778},"updatedAt":{"$$date":1539102492778}}
-{"address":"Kg9tzOLEWyVEocWe","name":"kailash rathor","_id":"g04kyHhj5IRoWfF0","createdAt":{"$$date":1539185188106},"updatedAt":{"$$date":1539185188106}}
+{"address":"Kg9tzOLEWyVEocWe","balance":2,"name":"kailash badrilal rathor","totalAvak":40,"totalJavak":38,"_id":"g04kyHhj5IRoWfF0","createdAt":{"$$date":1539185188106},"updatedAt":{"$$date":1542631956101}}
 {"address":"5ECbWCf47d5MgGmP","name":"lakhan gabbusingh patel","_id":"gBBg7sXizopiy2Vh","createdAt":{"$$date":1539185083533},"updatedAt":{"$$date":1539185083533}}
 {"address":"Kg9tzOLEWyVEocWe","name":"haricharan bondarji kamdar","_id":"gNccZxhFFsyPyUbg","createdAt":{"$$date":1539102384400},"updatedAt":{"$$date":1539102384400}}
 {"address":"tT1G3mXsQxTizHfO","name":"vinod babulal choudhary","_id":"gQ2ets7lclJkD3W3","createdAt":{"$$date":1539320980664},"updatedAt":{"$$date":1539320980664}}
@@ -366,7 +366,6 @@
 {"address":"0TsVLheNQv2UCFGF","name":"premnarayan yadav","_id":"kuxc1JY9HoTym4qY","createdAt":{"$$date":1539315127733},"updatedAt":{"$$date":1539315127733}}
 {"address":"CwGiIpi2CsQcg0Ef","name":"vishnu mukund ji mukati","_id":"kwKjc6ilK89NqFtp","createdAt":{"$$date":1539321059004},"updatedAt":{"$$date":1541916349414}}
 {"address":"CwGiIpi2CsQcg0Ef","name":"devsingh ramratan choudhary","_id":"lRtofjZmx3ZiLPe1","createdAt":{"$$date":1539101680474},"updatedAt":{"$$date":1539101680474}}
-{"address":"kIgnTRFoDTwzIudk","name":"aman enterprises","phone":"","_id":"lbOIJsCeLkc16Dzf","createdAt":{"$$date":1540459519181},"updatedAt":{"$$date":1540459519181}}
 {"address":"Kg9tzOLEWyVEocWe","name":"dilip mulchand patwari","_id":"lvVvJJgOSgc1WheQ","createdAt":{"$$date":1539101427240},"updatedAt":{"$$date":1539101427240}}
 {"address":"xfWamtOqljLazCDy","name":"mohansingh ratansingh","_id":"m1jmpuN5fYqeOW99","createdAt":{"$$date":1539186272808},"updatedAt":{"$$date":1539186272808}}
 {"address":"A18yfOBmtUAxsDPb","name":"rahulnarayan choudhary","_id":"mkAmeUqyGlHiIpRS","createdAt":{"$$date":1539316512535},"updatedAt":{"$$date":1539316512535}}
@@ -403,7 +402,7 @@
 {"address":"YeNcLegQqUzq4XcH","name":"rameshvar fatesingh ji ","_id":"qdyY9sJGTSs8US22","createdAt":{"$$date":1539315852163},"updatedAt":{"$$date":1539315852163}}
 {"address":"n2AQByegpIe4anpm","name":"jivan ji","phone":"","_id":"qfVF8aHoqJpkMsFW","createdAt":{"$$date":1541650307394},"updatedAt":{"$$date":1541650307394}}
 {"address":"Kg9tzOLEWyVEocWe","name":"prabhulal ramchandra kacheri","_id":"qtyjnbyc7b4hpbem","createdAt":{"$$date":1539315314575},"updatedAt":{"$$date":1539315314575}}
-{"address":"Kg9tzOLEWyVEocWe","name":"suresh amarsingh ji patel","phone":"","_id":"qynxnY6Jpp5GU0Lq","createdAt":{"$$date":1539952383205},"updatedAt":{"$$date":1539952383205}}
+{"address":"Kg9tzOLEWyVEocWe","balance":0,"name":"suresh umravsingh ji patel","phone":"","totalAvak":50,"totalJavak":50,"_id":"qynxnY6Jpp5GU0Lq","createdAt":{"$$date":1539952383205},"updatedAt":{"$$date":1542634531812}}
 {"address":"xEx6vfcoezeSm3Id","name":"ranjit devsingh","_id":"qzzHSVEGA6y8Qx3e","createdAt":{"$$date":1539316927757},"updatedAt":{"$$date":1541743471458}}
 {"address":"CwGiIpi2CsQcg0Ef","name":"sandip choudhary","phone":"","_id":"r2QFmNhrKeMrS0fK","createdAt":{"$$date":1541232583720},"updatedAt":{"$$date":1542300491613}}
 {"address":"Ft0TdHrxG0re8WWN","name":"krashnkant manohar","_id":"rCBq19hxGTlIpHdg","createdAt":{"$$date":1539185530464},"updatedAt":{"$$date":1539185530464}}
@@ -460,7 +459,6 @@
 {"address":"cEwh7imY5A3pei6p","name":"balram banesingh patel","_id":"y2FQciLU07jSMGyF","createdAt":{"$$date":1539100361915},"updatedAt":{"$$date":1539100361915}}
 {"address":"0u5aM17VZ9eC8wpd","name":"mohanlal kraparam choudhary","_id":"yFnTIu6id7ZsFMnG","createdAt":{"$$date":1539185931102},"updatedAt":{"$$date":1539185931102}}
 {"address":"CwGiIpi2CsQcg0Ef","name":"kapil ambaram choudhary","_id":"yHbDBF03Za2PMMYs","createdAt":{"$$date":1539185582975},"updatedAt":{"$$date":1539185582975}}
-{"address":"yOE4AWL9p6RUrTCC","name":"suresh umravsingh patel","_id":"yI5TL3VAzqfQIRmn","createdAt":{"$$date":1539318790747},"updatedAt":{"$$date":1539318790747}}
 {"address":"Kg9tzOLEWyVEocWe","name":"narendra","phone":"9907516575","_id":"yOQleMYbdgK47iNp","createdAt":{"$$date":1539072883766},"updatedAt":{"$$date":1539072883766}}
 {"address":"n2AQByegpIe4anpm","name":"dhiraj shankarlal ji","phone":"","_id":"ynZtkNth7w27kvrU","createdAt":{"$$date":1539960172666},"updatedAt":{"$$date":1539960172666}}
 {"address":"5ECbWCf47d5MgGmP","name":"balram banesingh patel","phone":"","_id":"yonV3dAn6E375JMR","createdAt":{"$$date":1539932190249},"updatedAt":{"$$date":1539932190249}}
