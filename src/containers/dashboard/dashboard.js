@@ -13,27 +13,27 @@ class Dashboard extends Component {
     render() {
         return (
             <div className="dashboardContainer">
-                <div className="stockGrid">
+                <div className="itemGrid">
                     {
                         this.props.dashboard.map((dashboard) => {
+                            console.log('dashboard: ', dashboard);
                             return (
-                                <div className="stockGridItem" key={dashboard._id}>
-                                    <div className="itemName"> {dashboard.itemName} </div>
-                                    <VarietiesDescription data={dashboard.varietiesDescription} />
-                                    <div className="itemStatus">
-                                        <div className="TotalAvak">Total Avak: {dashboard.totalAvakPacket} </div>
-                                        <div className="TotoalJavak">Total Javak: {dashboard.totalJavakLotsPacket} </div>
-                                        <div className="currentStock">Current Stock: {dashboard.totalAvakPacket - dashboard.totalJavakLotsPacket} </div>
-                                        <div className="typeDescription">
-                                            <div>
-                                                Chips Chamber:    {dashboard.typeDescription.totalChipsPacket}
-                                            </div>
-                                            <div>
-                                                Rashan Chamber:    {dashboard.typeDescription.totalRashanPacket}
-                                            </div>
-
-
-                                        </div>
+                                <div className="itemGridItem" key={dashboard._id}>
+                                    <div className={"itemName " + dashboard.itemName}> {dashboard.itemName} </div>
+                                    <div className='typeGrid' >
+                                        {
+                                            dashboard.typeList.map(typeList => {
+                                                return (
+                                                    <div className="typeGridItem" key={typeList.type}>
+                                                        <div className="typeName">{typeList.type}</div>
+                                                        <VarietiesDescription data={typeList.varietyList} />
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    <div className="total">
+                                        Total: {dashboard.totalAvakPacket} - {dashboard.totalJavakLotsPacket} = {dashboard.totalAvakPacket - dashboard.totalJavakLotsPacket}
                                     </div>
                                 </div>
                             )

@@ -1,16 +1,14 @@
-.dashboardContainer {
-}
-
-.stockGrid {
+.itemGrid {
     display: grid;
-    grid-template-columns: 30% 30% 30%;
+    grid-template-columns: 100;
     justify-content: center;
     grid-gap: 20px;
 }
 
-.stockGridItem {
+.itemGridItem {
     box-shadow: 0px 0px 1px 1px #ccc;
     border-radius: 4px;
+    margin: 10px;
 }
 
 .stockGridItem:hover {
@@ -25,4 +23,31 @@
 
 .itemStatus {
     padding: 4px;
+}
+
+.typeGrid {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    justify-content: center;
+    grid-gap: 20px;
+    padding: 10px;
+}
+
+.typeGridItem {
+    box-shadow: 0px 0px 1px 1px #ccc;
+    border-radius: 4px;
+}
+
+.typeName {
+    text-align: center;
+    font-size: 20px;
+    text-transform: capitalize;
+    padding: 4px;
+    background-color: #b3a3b8;
+}
+
+.total {
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }

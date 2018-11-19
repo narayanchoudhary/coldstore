@@ -9,10 +9,10 @@ export default class Sidebar extends Component {
                 dataField: 'varietyName',
                 text: 'Variety',
             }, {
-                dataField: 'totalAvak',
+                dataField: 'totalAvakOfVariety',
                 text: 'Avak',
             }, {
-                dataField: 'totalJavak',
+                dataField: 'totalJavakOfVariety',
                 text: 'Javak',
             }, {
                 dataField: 'balance',

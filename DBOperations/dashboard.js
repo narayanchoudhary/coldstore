@@ -12,28 +12,23 @@ class DashboardDatabase {
     }
 
     fetchDashboard(event, data) {
-        // find all items
-        itemsDB.find().exec((err, items) => {
-            // find all avaks
-            avaksDB.find({}).exec((err, avaks) => {
-                // fetch all the javak lots
-                javakLotsDB.find({}).exec((err, javakLots) => {
-                    // fetch all varieties
-                    varietyDB.find({}).exec((err, varieties) => {
 
+        // get everything from database
+        itemsDB.find({}, (err, items) => {
+            avaksDB.find({}, (err, avaks) => {
+                javakLotsDB.find({}, (err, javakLots) => {
+                    varietyDB.find({}, (err, varieties) => {
+                        let types = ['chips', 'rashan', 'beeju'];
 
-                        let dashboard = [];
-                        // then foreach item
+                        let itemList = [];
                         items.forEach(item => {
-
-                            // filter the avaks
-                            let filteredAvaks = avaks.filter(avak => avak.item === item._id);
-                            // filter the javakLots
-                            let filteredJavakLots = javakLots.filter(javakLot => javakLot.itemId === item._id);
+                            
+                            let filteredAvaksByItem = avaks.filter(avak => avak.item === item._id); // filter the avaks
+                            let filteredJavakLots = javakLots.filter(javakLot => javakLot.itemId === item._id); // filter the javakLots
 
                             // Calculate the sum of packets of the avaks which has this particular item
                             let totalAvakPacket = 0;
-                            filteredAvaks.forEach(avak => {
+                            filteredAvaksByItem.forEach(avak => {
                                 totalAvakPacket += parseInt(avak.packet, 10);
                             });
 
@@ -43,64 +38,78 @@ class DashboardDatabase {
                                 totalJavakLotsPacket += parseInt(javakLot.packet, 10);
                             });
 
-                            let varietiesDescription = [];
-                            //foreach variety
-                            varieties.forEach((variety) => {
-                                let totalAvakPackets = 0;
-                                let filteredAvakIds = []; // for getting all the javakLots of this variety to calculate the sum of packts of javakLots
-                                let totalJavakPackets = 0;
+                            let typeList = [];
 
-                                filteredAvaks.forEach(avak => {
-                                    if (variety._id === avak.variety) {
-                                        totalAvakPackets += parseInt(avak.packet, 10);
-                                        filteredAvakIds.push(avak._id);
-                                    }
-                                });
+                            types.forEach(type => {
 
-                                filteredJavakLots.forEach(javakLot => {
-                                    if (filteredAvakIds.includes(javakLot.avakId)) {
-                                        totalJavakPackets += parseInt(javakLot.packet, 10);
-                                    }
-                                });
+                                let filteredAvaksByItemThenType = filteredAvaksByItem.filter(avak => avak.type === type);
+                                let varietyList = [];
+                                let totalAvakOfType = 0;
+                                let totalJavakOfType = 0;
 
-                                if (totalAvakPackets !== 0) { // We want to show the varieties in dashboard which has at least one packet of this item
-                                    varietiesDescription.push(
+                                varieties.forEach((variety) => {
+                                    let totalAvakOfVariety = 0;
+                                    let filteredAvakIds = []; // for getting all the javakLots of this variety to calculate the sum of packts of javakLots
+                                    let totalJavakOfVariety = 0;
+
+                                    filteredAvaksByItemThenType.forEach(avak => {
+                                        if (variety._id === avak.variety) {
+                                            totalAvakOfVariety += parseInt(avak.packet, 10);
+                                            filteredAvakIds.push(avak._id);
+                                        }
+                                    });
+
+                                    filteredJavakLots.forEach(javakLot => {
+                                        if (filteredAvakIds.includes(javakLot.avakId)) {
+                                            totalJavakOfVariety += parseInt(javakLot.packet, 10);
+                                        }
+                                    });
+
+                                    varietyList.push(
                                         {
                                             varietyName: variety.varietyName,
-                                            totalAvak: totalAvakPackets,
-                                            totalJavak: totalJavakPackets,
-                                            balance: totalAvakPackets - totalJavakPackets,
+                                            totalAvakOfVariety: totalAvakOfVariety,
+                                            totalJavakOfVariety: totalJavakOfVariety,
+                                            balance: totalAvakOfVariety - totalJavakOfVariety,
                                         }
                                     );
-                                }
+
+                                    totalAvakOfType += totalAvakOfVariety;
+                                    totalJavakOfType += totalJavakOfVariety;
+                                });
+
+                                varietyList.push({
+                                    varietyName: 'total',
+                                    totalAvakOfVariety: totalAvakOfType,
+                                    totalJavakOfVariety: totalJavakOfType,
+                                    balance: totalAvakOfType - totalJavakOfType,
+
+                                });
+
+                                typeList.push({
+                                    type: type,
+                                    varietyList: varietyList
+                                });
 
                             });
 
-
-                            // Calculate sum of packets in chips and rashan
-                            let typeDescription = {
-                                totalChipsPacket: 0,
-                                totalRashanPacket: 0,
-                            };
-
-                            filteredAvaks.forEach(avak => {
-                                if (avak.type === 'chips') {
-                                    typeDescription.totalChipsPacket += parseInt(avak.packet, 10);
-                                } else { // for both beeju and rashan
-                                    typeDescription.totalRashanPacket += parseInt(avak.packet, 10);
-                                }
-                            });
-
-                            // create dashboard array
-                            dashboard.push({
+                            // create itemList array
+                            itemList.push({
                                 ...item,
                                 totalAvakPacket: totalAvakPacket,
                                 totalJavakLotsPacket: totalJavakLotsPacket,
-                                varietiesDescription: varietiesDescription,
-                                typeDescription: typeDescription,
+                                typeList: typeList,
                             });
+
+                            // sort item list alphabatically
+                            itemList.sort(function(a, b){
+                                if(a.itemName < b.itemName) { return -1; }
+                                if(a.itemName > b.itemName) { return 1; }
+                                return 0;
+                            })
+
                         });
-                        this.mainWindow.webContents.send('fetchDashboardResponse', dashboard);
+                        this.mainWindow.webContents.send('fetchDashboardResponse', itemList);
                     });
                 });
             });
