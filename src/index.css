@@ -27,3 +27,8 @@ input[type=number]::-webkit-outer-spin-button {
 .errorMessage {
   color: red;
 }
+
+
+.tableWrapper table {
+  margin-bottom: 0px;
+}

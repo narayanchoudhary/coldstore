@@ -4,14 +4,14 @@ const javakLotsDB = require('./connections').getInstance().javakLotsDB;
 const itemsDB = require('./connections').getInstance().itemsDB;
 const varietyDB = require('./connections').getInstance().varietyDB;
 const partiesDB = require('./connections').getInstance().partiesDB;
-const javaksDB = require('./connections').getInstance().javaksDB;
 
 class DashboardDatabase {
     constructor(mainWindow) {
         this.mainWindow = mainWindow;
         this.fetchDashboard = this.fetchDashboard.bind(this);
+        this.fetchPartiesWithRemainingPackets = this.fetchPartiesWithRemainingPackets.bind(this);
         ipc.on('fetchDashboard', this.fetchDashboard);
-        ipc.on('findParties', this.findParties);
+        ipc.on('fetchPartiesWithRemainingPackets', this.fetchPartiesWithRemainingPackets);
     }
 
     fetchDashboard(event, data) {
@@ -74,6 +74,9 @@ class DashboardDatabase {
                                             totalAvakOfVariety: totalAvakOfVariety,
                                             totalJavakOfVariety: totalJavakOfVariety,
                                             balance: totalAvakOfVariety - totalJavakOfVariety,
+                                            item: item,
+                                            type: type,
+                                            variety: variety
                                         }
                                     );
 
@@ -86,7 +89,7 @@ class DashboardDatabase {
                                     totalAvakOfVariety: totalAvakOfType,
                                     totalJavakOfVariety: totalJavakOfType,
                                     balance: totalAvakOfType - totalJavakOfType,
-
+                                    // do not add item type variety here we doesn't need it here
                                 });
 
                                 typeList.push({
@@ -119,13 +122,12 @@ class DashboardDatabase {
         });
     };
 
-    findParties(event, data) {
-        
+    fetchPartiesWithRemainingPackets(event, data) {
         partiesDB.find({}, (err, parties) => {
             avaksDB.find({ $and: [{ variety: data.variety }, { type: data.type }, { item: data.item }] }, (err, avaks) => {
                 javakLotsDB.find({}, (err, javakLots) => {
 
-                    let result = [];
+                    let partiesWithRemainingPackets = [];
                     parties.forEach(party => {
 
                         let filteredAvaks = avaks.filter((avak) => avak.party === party._id);
@@ -137,11 +139,11 @@ class DashboardDatabase {
                         var balance = sumOfAvaks - sumOfJavakLots;
 
                         if (balance > 0) {
-                            result.push({ party, balance });
+                            partiesWithRemainingPackets.push({ party: party.name, partyId: party._id, balance });
                         }
 
                     });
-                    this.mainWindow.webContents.send('findPartiesResponse', result);
+                    this.mainWindow.webContents.send('fetchPartiesWithRemainingPacketsResponse', partiesWithRemainingPackets);
                 });
             });
         });

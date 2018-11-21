@@ -1,3 +1,7 @@
 .stockGridItem .javaksTableWrapper table {
     margin-bottom: 0px !important ;
 }
+
+.balance {
+    cursor: pointer;
+}

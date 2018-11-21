@@ -13,3 +13,16 @@ export const fetchDashboard = (thenCallback) => {
         });
     }
 }
+
+export const fetchPartiesWithRemainingPackets = (data, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchPartiesWithRemainingPackets', data);
+        ipc.once('fetchPartiesWithRemainingPacketsResponse', (event, partiesWithRemainingPackets) => {
+            dispatch({
+                type: actionTypes.FETCH_PARTIES_WITH_REMAINING_PACKETS,
+                payload: partiesWithRemainingPackets
+            });
+            thenCallback(partiesWithRemainingPackets);
+        });
+    }
+}

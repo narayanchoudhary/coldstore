@@ -17,6 +17,10 @@ class Parties extends Component {
         singlePartyId: null
     }
 
+    componentDidMount() {
+        this.props.fetchParties(() => {});
+    }
+
     handleClickOnDelete = (partyId) => {
         this.props.deleteParty(partyId);
         this.props.fetchParties(() => { });

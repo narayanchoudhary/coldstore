@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { rowClasses } from '../../../utils/utils';
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions';
 import './varietyDescription.css';
-export default class Sidebar extends Component {
+class VarietyDescription extends Component {
+
+    balanceFormatter = (cell, row) => {
+        let balance = cell;
+
+        if (row.varietyName !== 'total') {
+            balance = <div
+                onClick={() => this.props.showPartiesWithRemainingPackets(row)}
+                className="balance"
+            >
+                {cell}
+            </div>
+        }
+
+        return balance;
+    }
+
     render() {
         let columns = [
             {
@@ -17,6 +35,7 @@ export default class Sidebar extends Component {
             }, {
                 dataField: 'balance',
                 text: 'Balance',
+                formatter: this.balanceFormatter,
             }
         ];
         return (
@@ -24,7 +43,7 @@ export default class Sidebar extends Component {
                 columns={columns}
                 keyField='varietyName'
                 data={this.props.data}
-                wrapperClasses="javaksTableWrapper"
+                wrapperClasses="tableWrapper"
                 bordered
                 hover
                 striped
@@ -34,3 +53,17 @@ export default class Sidebar extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        partiesWithRemainingPackets: state.dashboard.partiesWithRemainingPackets
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchPartiesWithRemainingPackets: (data, thenCallback) => dispatch(actions.fetchPartiesWithRemainingPackets(data, thenCallback)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VarietyDescription);
