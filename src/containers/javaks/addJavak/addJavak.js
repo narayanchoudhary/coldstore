@@ -85,6 +85,7 @@ class addJavak extends Component {
 
     onPartyChange = (party) => {
         this.onPartySelect(party.value);
+        this.props.removeTempJavakLots();
         if (this.props.typeFieldValue.value !== 'chips')
             this.change('merchant', party);// Change merchant to the party
 
