@@ -12,7 +12,8 @@ const initState = {
     },
     avaksOfParty: [],
     lastJavak: { party: {}, type: {} },
-    newReceiptNumber: undefined
+    newReceiptNumber: undefined,
+    javaksOfSingleParty: [],
 }
 
 const reducer = (state = initState, action) => {
@@ -46,10 +47,10 @@ const reducer = (state = initState, action) => {
         case actionTypes.FETCH_LAST_JAVAK:
             newState = { ...state, lastJavak: action.payload };
             break;
-        case actionTypes.FETCH_NEW_RECEIPT_NUMBER_FOR_JAVAK:
+        case actionTypes.FETCH_JAVAKS_OF_SINGLE_PARTY:
             newState = {
                 ...state,
-                newReceiptNumber: action.payload
+                javaksOfSingleParty: action.payload
             }
             break;
         default: return state;
