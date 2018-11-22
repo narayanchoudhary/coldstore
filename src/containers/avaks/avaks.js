@@ -230,7 +230,7 @@ class Avaks extends Component {
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
-                    data={this.props.data}
+                    data={this.props.avaks}
                     wrapperClasses="avaksTableWrapper"
                     bordered
                     hover
@@ -238,7 +238,7 @@ class Avaks extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Avak"
-                    pagination={paginationFactory(paginationOptions(this.props.data))}
+                    pagination={paginationFactory(paginationOptions(this.props.avaks))}
                     rowClasses={rowClasses}
                 />
             </div>
@@ -248,7 +248,7 @@ class Avaks extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.avak.avaks.data,
+        avaks: state.avak.avaks,
         parties: state.party.options,
         items: state.item.options,
         varieties: state.variety.options,

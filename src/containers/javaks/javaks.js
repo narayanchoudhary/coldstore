@@ -142,7 +142,7 @@ class Javaks extends Component {
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
-                    data={this.props.data}
+                    data={this.props.javaks}
                     wrapperClasses="javaksTableWrapper"
                     bordered
                     hover
@@ -150,7 +150,7 @@ class Javaks extends Component {
                     cellEdit={this.cellEdit}
                     filter={filterFactory()}
                     noDataIndication="No Javak"
-                    pagination={paginationFactory(paginationOptions(this.props.data))}
+                    pagination={paginationFactory(paginationOptions(this.props.javaks))}
                     rowClasses={rowClasses}
                 />
                 {
@@ -168,7 +168,7 @@ class Javaks extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.javak.javaks.data,
+        javaks: state.javak.javaks,
         parties: state.party.options,
         type: state.item.typeOptions,
     }

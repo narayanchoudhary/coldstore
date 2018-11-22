@@ -73,12 +73,8 @@ class AvakDatabase {
   };
 
   fetchAvaks(event, data) {
-    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-
-      this.mainWindow.webContents.send('fetchAvaksResponse', response);
+    avaksDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, avaks) => {
+      this.mainWindow.webContents.send('fetchAvaksResponse', avaks);
     });
   };
 

@@ -17,10 +17,10 @@ export const saveJavak = (values, thenCallback) => {
 export const fetchJavaks = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchJavaks', {});
-        ipc.once('fetchJavaksResponse', (event, response) => {
+        ipc.once('fetchJavaksResponse', (event, javaks) => {
             dispatch({
                 type: actionTypes.FETCH_JAVAKS,
-                payload: response
+                payload: javaks
             });
             thenCallback();
         });

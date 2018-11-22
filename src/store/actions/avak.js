@@ -17,12 +17,12 @@ export const saveAvak = (values, thenCallback) => {
 export const fetchAvaks = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchAvaks', {});
-        ipc.once('fetchAvaksResponse', (event, response) => {
+        ipc.once('fetchAvaksResponse', (event, avaks) => {
             dispatch({
                 type: actionTypes.FETCH_AVAKS,
-                payload: response
+                payload: avaks
             });
-            thenCallback(response);
+            thenCallback(avaks);
         });
     }
 }

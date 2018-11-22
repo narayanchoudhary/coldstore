@@ -54,10 +54,10 @@ export const fetchJavakLotsByAvakIds = (avakIds, thenCallback) => {
 export const fetchJavakLots = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchJavakLots', {});
-        ipc.once('fetchJavakLotsResponse', (event, response) => {
+        ipc.once('fetchJavakLotsResponse', (event, javakLots) => {
             dispatch({
                 type: actionTypes.FETCH_JAVAK_LOTS,
-                payload: response
+                payload: javakLots
             });
             thenCallback();
         });

@@ -68,7 +68,7 @@ class JavakLotsDatabase {
         });
     }
 
-    fetchJavakLotsByJavakId(event, data) {
+        ByJavakId(event, data) {
         let whereCondition = { javakId: data.javakId };
         if (data.type !== 'all') {
             if (data.type === 'chips') {

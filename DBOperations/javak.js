@@ -74,10 +74,7 @@ class JavakDatabase {
           });
           finalJavaks.push({ ...javak, sumOfPacketsOfJavakLots });
         });
-        let response = {};
-        response.error = err;
-        response.data = finalJavaks;
-        this.mainWindow.webContents.send('fetchJavaksResponse', response);
+        this.mainWindow.webContents.send('fetchJavaksResponse', finalJavaks);
       });
     });
   };
