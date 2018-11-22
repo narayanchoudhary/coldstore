@@ -1,7 +1,6 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import { filter } from 'fuzzaldrin';
-import { highlightChars } from "highlight-matches-utils";
 import { Redirect } from 'react-router-dom';
 import './autoSuggestion.css';
 
@@ -19,17 +18,11 @@ export default class ReactAutoSuggest extends React.Component {
 
     getSuggestionValue = suggestion => suggestion.label;
 
-    renderSuggestion = suggestion => (
-        <div>
-            {highlightChars(suggestion.label, this.state.value, s => (
-                <span className={"highlightedText"} key={suggestion.label + s}>{s}</span>
-            ))}
-        </div>
-    );
+    renderSuggestion = suggestion => <div> {suggestion.label} </div>;
 
     getSuggestions = inputValue => {
         const inputLength = inputValue.length;
-        return inputLength === 0 ? [] : filter(this.props.parties, inputValue, { key: 'label', maxResults: 5 });
+        return inputLength === 0 ? [] : filter(this.props.parties, inputValue, { key: 'label', maxResults: 8 });
     };
 
     onChange = (event, { newValue }) => {
@@ -54,7 +47,7 @@ export default class ReactAutoSuggest extends React.Component {
         this.setState({ ...this.state, partyId: suggestion.value, redirectToParty: true });
         setTimeout(() => {
             this.props.closer();
-        },100);
+        }, 100);
     }
 
     render() {
