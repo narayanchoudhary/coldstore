@@ -146,6 +146,7 @@ class AvakDatabase {
               balance: totalPacket - totalJavakPacket,
               rent: Math.round(totalRent),
               avakHammali: totalAvakHammali,
+              chamber: Math.round(totalRent) + totalAvakHammali,
               deleteButton: 'no'
             }
 
@@ -160,6 +161,7 @@ class AvakDatabase {
               balance: 'Balance',
               rent: 'Rent',
               avakHammali: 'Hammali',
+              chamber: 'Total',
               deleteButton: 'no'
             }
             finalAvaks.push(footer);

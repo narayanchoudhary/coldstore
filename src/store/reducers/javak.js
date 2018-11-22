@@ -53,6 +53,12 @@ const reducer = (state = initState, action) => {
                 javaksOfSingleMerchant: action.payload
             }
             break;
+        case actionTypes.FETCH_NEW_RECEIPT_NUMBER_FOR_JAVAK:
+            newState = {
+                ...state,
+                newReceiptNumber: action.payload
+            }
+            break;
         default: return state;
     }
     return newState;
