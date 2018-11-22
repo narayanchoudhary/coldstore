@@ -51,7 +51,6 @@ export const editJavak = (data) => {
     }
 }
 
-
 export const fetchJavaksByPartyId = (partyId, thenCallback) => {
     return dispatch => {
         ipc.send('fetchJavaksByPartyId', { partyId: partyId });
@@ -89,6 +88,19 @@ export const fetchNewReceiptNumberForJavak = (type, thenCallback) => {
                 payload: newJavakReceiptNumber,
             });
             thenCallback(newJavakReceiptNumber);
+        });
+    }
+}
+
+export const fetchJavaksOfSingleParty = (partyId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchJavaksOfSingleParty', { partyId: partyId });
+        ipc.once('fetchJavaksOfSinglePartyResponse', (event, javaks) => {
+            dispatch({
+                type: actionTypes.FETCH_JAVAKS_OF_SINGLE_PARTY,
+                payload: javaks
+            });
+            thenCallback(javaks);
         });
     }
 }
