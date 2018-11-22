@@ -15,6 +15,7 @@ class JavakDatabase {
     this.fetchJavaksByPartyId = this.fetchJavaksByPartyId.bind(this);
     this.fetchLastJavak = this.fetchLastJavak.bind(this);
     this.fetchNewReceiptNumberForJavak = this.fetchNewReceiptNumberForJavak.bind(this);
+    this.fetchJavaksOfSingleParty = this.fetchJavaksOfSingleParty.bind(this);
 
     ipc.on('saveJavak', this.saveJavak);
     ipc.on('fetchJavaks', this.fetchJavaks);
@@ -24,6 +25,7 @@ class JavakDatabase {
     ipc.on('fetchJavaksByPartyId', this.fetchJavaksByPartyId);
     ipc.on('fetchLastJavak', this.fetchLastJavak);
     ipc.on('fetchNewReceiptNumberForJavak', this.fetchNewReceiptNumberForJavak);
+    ipc.on('fetchJavaksOfSingleParty', this.fetchJavaksOfSingleParty);
   }
 
   saveJavak(event, data) {
@@ -196,6 +198,12 @@ class JavakDatabase {
       this.mainWindow.webContents.send('fetchNewReceiptNumberForJavakResponse', parseInt(javak.value, 10) + 1);
     });
   };
+
+  fetchJavaksOfSingleParty(event, party) {
+    javaksDB.find({ party: party.partyId }).sort({ createdAt: -1 }).exec((err, javaks) => {
+      this.mainWindow.webContents.send('fetchJavaksOfSinglePartyResponse', javaks);
+    });
+  }
 
 }
 
