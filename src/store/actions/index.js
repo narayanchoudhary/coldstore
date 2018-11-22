@@ -29,7 +29,7 @@ export {
     fetchJavaksByPartyId,
     fetchLastJavak,
     fetchNewReceiptNumberForJavak,
-    fetchJavaksOfSingleParty,
+    fetchJavaksOfSingleMerchant,
 } from './javak';
 
 export {

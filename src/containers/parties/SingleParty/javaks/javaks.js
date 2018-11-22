@@ -1,69 +1,22 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import { Type } from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions';
+import * as actions from '../../../../store/actions';
 import './javaks.css';
-import Button from '../../components/UI/button/button';
-import Aux from '../../components/Auxilary/Auxilary';
-import LotsModal from './LotsModal/LotsModal';
-import { columnFormatter, paginationOptions, dateValidater, rowClasses, headerSortingStyle, filterValue } from '../../utils/utils';
+import { columnFormatter, rowClasses, filterValue } from '../../../../utils/utils';
 
-class JavaksOfSingleParty extends Component {
-
-    state = {
-        modal: false
-    };
+class JavaksOfSingleMerchant extends Component {
 
     componentDidMount() {
-        this.props.fetchJavaks(() => { });
+        this.props.fetchJavaksOfSingleMerchant(this.props.merchantId, () => { });
     }
 
-    handleClickOnDelete = (javakId) => {
-        this.props.deleteJavak(javakId);
-        this.props.fetchJavaks(() => { });
-    }
-
-    handleClickOnView = (javakId) => {
-        this.setState({ modal: true, javakId: javakId });
-    }
-
-    closeModal = () => {
-        this.setState({ modal: false, javakId: null });
-    }
-
-    cellEdit = cellEditFactory({
-        mode: 'click',
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editJavak(row);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.merchantId !== this.props.merchantId) {
+            this.props.fetchJavaksOfSingleMerchant(nextProps.merchantId, () => { });
         }
-    });
-
-    rowClasses = (row, rowIndex) => {
-        return 'capitalize';
-    };
-
-    createActionCell = (cell, row) => {
-        return (
-            <Aux>
-                <button
-                    className="btn btn-primary btn-xs view-btn"
-                    onClick={() => this.handleClickOnView(cell)}
-                >
-                    View
-                </button>
-                <button
-                    className="btn btn-danger btn-xs"
-                    onClick={() => this.handleClickOnDelete(cell)}
-                >
-                    Delete
-            </button>
-            </Aux>
-        );
     }
 
     render() {
@@ -76,14 +29,10 @@ class JavaksOfSingleParty extends Component {
             dataField: 'receiptNumber',
             text: 'R No',
             sort: true,
-            headerSortingStyle,
-            filter: textFilter()
         }, {
             dataField: 'type',
             text: 'Type',
             sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
             formatter: columnFormatter(this.props.type),
             editor: {
                 type: Type.SELECT,
@@ -94,27 +43,10 @@ class JavaksOfSingleParty extends Component {
             dataField: 'date',
             text: 'Date',
             sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
-            validator: dateValidater
         }, {
             dataField: 'party',
             text: 'Party',
             sort: true,
-            headerSortingStyle,
-            formatter: columnFormatter(this.props.parties),
-            filterValue: filterValue(this.props.parties),
-            filter: textFilter(),
-            editor: {
-                type: Type.SELECT,
-                options: this.props.parties
-            }
-        }, {
-            dataField: 'merchant',
-            text: 'Merchant',
-            sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
             formatter: columnFormatter(this.props.parties),
             filterValue: filterValue(this.props.parties),
             editor: {
@@ -125,42 +57,23 @@ class JavaksOfSingleParty extends Component {
             dataField: 'sumOfPacketsOfJavakLots',
             text: 'Total Packet',
             sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
             editable: false,
-        }, {
-            dataField: '_id',
-            text: 'Action',
-            formatter: this.createActionCell
         }];
 
         return (
-            <div className="javaksContainer">
-                <Link to='/javaks/addJavak'>
-                    <Button>  Add Javak </Button>
-                </Link>
+            <div className="avaksContainer">
+                <h3 className="transactionHeading">Javaks</h3>
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
-                    data={this.props.data}
-                    wrapperClasses="javaksTableWrapper"
+                    data={this.props.javaksOfSingleMerchant}
+                    wrapperClasses="tableWrapper"
                     bordered
                     hover
                     striped
-                    cellEdit={this.cellEdit}
-                    filter={filterFactory()}
                     noDataIndication="No Javak"
-                    pagination={paginationFactory(paginationOptions(this.props.data))}
                     rowClasses={rowClasses}
                 />
-                {
-                    this.state.modal
-                        ? <LotsModal
-                            javakId={this.state.javakId}
-                            closeModal={this.closeModal}
-                        />
-                        : null
-                }
             </div>
         )
     }
@@ -168,7 +81,7 @@ class JavaksOfSingleParty extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.javak.javaks.data,
+        javaksOfSingleMerchant: state.javak.javaksOfSingleMerchant,
         parties: state.party.options,
         type: state.item.typeOptions,
     }
@@ -176,10 +89,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchJavaks: (thenCallback) => dispatch(actions.fetchJavaks(thenCallback)),
-        deleteJavak: (javakId) => dispatch(actions.deleteJavak(javakId)),
-        editJavak: (javak) => dispatch(actions.editJavak(javak))
+        fetchJavaksOfSingleMerchant: (partyId, thenCallback) => dispatch(actions.fetchJavaksOfSingleMerchant(partyId, thenCallback)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(JavaksOfSingleParty);
+export default connect(mapStateToProps, mapDispatchToProps)(JavaksOfSingleMerchant);

@@ -15,7 +15,7 @@ class JavakDatabase {
     this.fetchJavaksByPartyId = this.fetchJavaksByPartyId.bind(this);
     this.fetchLastJavak = this.fetchLastJavak.bind(this);
     this.fetchNewReceiptNumberForJavak = this.fetchNewReceiptNumberForJavak.bind(this);
-    this.fetchJavaksOfSingleParty = this.fetchJavaksOfSingleParty.bind(this);
+    this.fetchJavaksOfSingleMerchant = this.fetchJavaksOfSingleMerchant.bind(this);
 
     ipc.on('saveJavak', this.saveJavak);
     ipc.on('fetchJavaks', this.fetchJavaks);
@@ -25,7 +25,7 @@ class JavakDatabase {
     ipc.on('fetchJavaksByPartyId', this.fetchJavaksByPartyId);
     ipc.on('fetchLastJavak', this.fetchLastJavak);
     ipc.on('fetchNewReceiptNumberForJavak', this.fetchNewReceiptNumberForJavak);
-    ipc.on('fetchJavaksOfSingleParty', this.fetchJavaksOfSingleParty);
+    ipc.on('fetchJavaksOfSingleMerchant', this.fetchJavaksOfSingleMerchant);
   }
 
   saveJavak(event, data) {
@@ -199,9 +199,26 @@ class JavakDatabase {
     });
   };
 
-  fetchJavaksOfSingleParty(event, party) {
-    javaksDB.find({ party: party.partyId }).sort({ createdAt: -1 }).exec((err, javaks) => {
-      this.mainWindow.webContents.send('fetchJavaksOfSinglePartyResponse', javaks);
+  fetchJavaksOfSingleMerchant(event, merchant) {
+    javaksDB.find({ merchant: merchant.merchantId }).sort({ createdAt: -1 }).exec((err, javaks) => {
+
+      // add SumOfPacketsOfJavakLots
+      let extractedJavakIds = javaks.map(javak => javak._id);  // extract Javak ids to find corresponding javakLots
+      javakLotsDB.find({ javakId: { $in: extractedJavakIds } }, (err, javakLots) => {
+        let finalJavaks = [];
+
+        javaks.forEach(javak => {
+          let sumOfPacketsOfJavakLots = 0;
+          javakLots.forEach(javakLot => {
+            if (javak._id === javakLot.javakId) {
+              sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
+            }
+          });
+          finalJavaks.push({ ...javak, sumOfPacketsOfJavakLots: sumOfPacketsOfJavakLots });
+        });
+
+        this.mainWindow.webContents.send('fetchJavaksOfSingleMerchantResponse', finalJavaks);
+      });
     });
   }
 

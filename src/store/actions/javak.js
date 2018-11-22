@@ -92,12 +92,12 @@ export const fetchNewReceiptNumberForJavak = (type, thenCallback) => {
     }
 }
 
-export const fetchJavaksOfSingleParty = (partyId, thenCallback) => {
+export const fetchJavaksOfSingleMerchant = (merchantId, thenCallback) => {
     return dispatch => {
-        ipc.send('fetchJavaksOfSingleParty', { partyId: partyId });
-        ipc.once('fetchJavaksOfSinglePartyResponse', (event, javaks) => {
+        ipc.send('fetchJavaksOfSingleMerchant', { merchantId: merchantId });
+        ipc.once('fetchJavaksOfSingleMerchantResponse', (event, javaks) => {
             dispatch({
-                type: actionTypes.FETCH_JAVAKS_OF_SINGLE_PARTY,
+                type: actionTypes.FETCH_JAVAKS_OF_SINGLE_MERCHANT,
                 payload: javaks
             });
             thenCallback(javaks);

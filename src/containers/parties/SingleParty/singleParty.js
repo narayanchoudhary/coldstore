@@ -8,6 +8,7 @@ import JavakLots from './javakLots/javakLots';
 import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
 import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
+import JavaksOfSingleMerchant from './javaks/javaks';
 
 class SingleParty extends Component {
 
@@ -228,9 +229,8 @@ class SingleParty extends Component {
                         rowClasses={rowClasses}
                     />
                 </div>
-                <Transactions
-                    partyId={this.props.match.params.partyId}
-                />
+                <Transactions partyId={this.props.match.params.partyId} />
+                <JavaksOfSingleMerchant merchantId={this.props.match.params.partyId} />
             </Aux>
         )
     }
