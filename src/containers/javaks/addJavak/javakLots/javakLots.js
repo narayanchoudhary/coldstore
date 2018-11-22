@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
-import Aux from '../../../../components/Auxilary/Auxilary';
 import './javakLots.css';
 import { columnFormatter, createDeleteButton, rowClasses, headerSortingStyle } from '../../../../utils/utils';
 
@@ -14,7 +13,7 @@ class JavakLots extends Component {
             this.props.fetchJavakLotsByJavakId('tempJavakId', this.props.type, (response) => { });
         });
     }
-    
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.partyId !== this.props.partyId || nextProps.type !== this.props.type) {
             this.props.fetchAvaksOfParty(nextProps.partyId, nextProps.type, () => {
@@ -197,13 +196,13 @@ class JavakLots extends Component {
 
     render() {
         return (
-            <Aux>
+            <Fragment>
                 <div className="grid-item avaksOfJavak" >
                     <BootstrapTable
                         columns={this.avakColumns}
                         keyField='_id'
                         data={this.props.avaks}
-                        wrapperClasses="avaksTableWrapper"
+                        wrapperClasses="tableWrapper"
                         bordered
                         hover
                         striped
@@ -216,7 +215,7 @@ class JavakLots extends Component {
                         columns={this.javakLotsColumns}
                         keyField='_id'
                         data={this.props.lots}
-                        wrapperClasses="javaksTableWrapper"
+                        wrapperClasses="tableWrapper"
                         bordered
                         hover
                         striped
@@ -224,7 +223,7 @@ class JavakLots extends Component {
                         noDataIndication="No Item"
                     />
                 </div>
-            </Aux>
+            </Fragment>
         )
     }
 }

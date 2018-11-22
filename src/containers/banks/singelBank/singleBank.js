@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
@@ -111,20 +111,20 @@ class SingleBank extends Component {
         }];
 
         return (
-            <div className="partyAccount avaksContainer" >
+            <Fragment>
                 <h3 className="partyName" >{this.props.bank ? this.props.bank.bankName + ' statement' : null}</h3>
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
                     data={this.state.statement}
-                    wrapperClasses="avaksTableWrapper"
+                    wrapperClasses="tableWrapper"
                     bordered
                     hover
                     striped
                     noDataIndication="No Transactions"
                     rowClasses={rowClasses}
                 />
-            </div>
+            </Fragment>
         )
     }
 }

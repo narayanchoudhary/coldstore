@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
@@ -120,7 +120,7 @@ class Expenses extends Component {
             }];
 
         return (
-            <div className="avaksContainer">
+            <Fragment>
                 <Link to='/expenses/addExpense'>
                     <Button>  Add Expense </Button>
                 </Link>
@@ -128,7 +128,7 @@ class Expenses extends Component {
                     columns={columns}
                     keyField='_id'
                     data={this.props.expenses}
-                    wrapperClasses="avaksTableWrapper"
+                    wrapperClasses="tableWrapper"
                     bordered
                     hover
                     striped
@@ -138,7 +138,7 @@ class Expenses extends Component {
                     pagination={paginationFactory(paginationOptions(this.props.expenses))}
                     rowClasses={rowClasses}
                 />
-            </div>
+            </Fragment>    
         )
     }
 }

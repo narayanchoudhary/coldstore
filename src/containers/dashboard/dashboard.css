@@ -1,6 +1,6 @@
 .itemGrid {
     display: grid;
-    grid-template-columns: 100;
+    grid-template-columns: 100%;
     justify-content: center;
     grid-gap: 20px;
 }
@@ -9,6 +9,7 @@
     box-shadow: 0px 0px 1px 1px #ccc;
     border-radius: 4px;
     margin: 10px;
+    border: 1px solid #1a204f;
 }
 
 .stockGridItem:hover {
@@ -16,9 +17,11 @@
 }
 
 .itemName {
-    background-color: #ccc;
+    background-color: #1a204f;
     padding: 4px;
     text-transform: capitalize;
+    color: white;
+    font-weight: 600;
 }
 
 .itemStatus {

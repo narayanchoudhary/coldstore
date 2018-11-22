@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -18,7 +18,7 @@ class Parties extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchParties(() => {});
+        this.props.fetchParties(() => { });
     }
 
     handleClickOnDelete = (partyId) => {
@@ -115,7 +115,7 @@ class Parties extends Component {
         }];
 
         return (
-            <div className="partiesContainer">
+            <Fragment>
                 {
                     this.state.singlePartyId
 
@@ -129,7 +129,7 @@ class Parties extends Component {
                     columns={columns}
                     keyField='_id'
                     data={this.props.parties}
-                    wrapperClasses="partiesTableWrapper"
+                    wrapperClasses="tableWrapper partiesTableWrapper"
                     bordered
                     hover
                     striped
@@ -139,7 +139,7 @@ class Parties extends Component {
                     pagination={paginationFactory(paginationOptions(this.props.parties))}
                     rowClasses={rowClasses}
                 />
-            </div>
+            </Fragment>
         )
     }
 }

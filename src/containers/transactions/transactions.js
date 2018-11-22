@@ -126,7 +126,7 @@ class Transactions extends Component {
                     columns={columns}
                     keyField='_id'
                     data={this.props.transactions}
-                    wrapperClasses="avaksTableWrapper"
+                    wrapperClasses="tableWrapper"
                     bordered
                     hover
                     striped

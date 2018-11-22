@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
@@ -77,7 +77,7 @@ class Banks extends Component {
         }];
 
         return (
-            <div className="partiesContainer">
+            <Fragment>
                 {
                     this.state.selectedBank
                         ?
@@ -93,7 +93,7 @@ class Banks extends Component {
                                 columns={columns}
                                 keyField='_id'
                                 data={this.props.banks}
-                                wrapperClasses="partiesTableWrapper"
+                                wrapperClasses="tableWrapper"
                                 bordered
                                 hover
                                 striped
@@ -104,7 +104,7 @@ class Banks extends Component {
                             />
                         </Aux>
                 }
-            </div>
+            </Fragment>
         )
     }
 }

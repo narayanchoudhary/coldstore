@@ -23,6 +23,7 @@ import * as actions from './store/actions';
 import { connect } from 'react-redux';
 import Popup from "reactjs-popup";
 import ReactAutoSuggest from './components/AutoSuggestions/autoSuggestions';
+import MainContainer from './components/mainContainer/mainContainer';
 
 class App extends Component {
 
@@ -42,13 +43,15 @@ class App extends Component {
     return (
       <div>
         <Header />
+        <MainContainer>
+
         <Popup
           open={this.props.showPartySearchPopup}
           onClose={this.props.hidePartySearchPopup}
           modal
           closeOnDocumentClick
           contentStyle={{ minHeight: '200px', borderRadius: '4px', fontWeight: 600, padding: '0px' }}
-        >
+          >
           <ReactAutoSuggest parties={this.props.parties} closer={this.props.hidePartySearchPopup} />
         </Popup>
         <Switch>
@@ -70,6 +73,7 @@ class App extends Component {
           <Route path='/banks' component={Banks} />
           <Route path='/settings' component={Settings} />
         </Switch>
+          </MainContainer>
       </div>
     );
   }

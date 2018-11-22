@@ -118,7 +118,7 @@ class Rents extends Component {
                     columns={columns}
                     keyField='_id'
                     data={this.props.rents}
-                    wrapperClasses="avaksTableWrapper"
+                    wrapperClasses="tableWrapper"
                     bordered
                     hover
                     striped

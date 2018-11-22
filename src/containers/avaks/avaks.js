@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -25,7 +25,7 @@ class Avaks extends Component {
         mode: 'click',
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-            
+
             if (column.dataField === 'address') {
                 this.props.filterPartiesByAddress(this.props.parties, { value: newValue });
             }
@@ -223,7 +223,7 @@ class Avaks extends Component {
         }];
 
         return (
-            <div className="avaksContainer">
+            <Fragment>
                 <Link to='/avaks/addAvak'>
                     <Button>  Add Avak </Button>
                 </Link>
@@ -231,7 +231,7 @@ class Avaks extends Component {
                     columns={columns}
                     keyField='_id'
                     data={this.props.avaks}
-                    wrapperClasses="avaksTableWrapper"
+                    wrapperClasses="tableWrapper avaksContainer"
                     bordered
                     hover
                     striped
@@ -241,7 +241,7 @@ class Avaks extends Component {
                     pagination={paginationFactory(paginationOptions(this.props.avaks))}
                     rowClasses={rowClasses}
                 />
-            </div>
+            </Fragment>
         )
     }
 }

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './singleParty.css';
 import JavakLots from './javakLots/javakLots';
-import Aux from '../../../components/Auxilary/Auxilary';
 import Transactions from './transactions/transactions';
 import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
 import JavaksOfSingleMerchant from './javaks/javaks';
@@ -213,14 +212,14 @@ class SingleParty extends Component {
 
 
         return (
-            <Aux>
+            <Fragment>
                 <div className="partyAccount avaksContainer">
                     <h3 className="partyName" >{this.state.party ? this.state.party.name : null}</h3>
                     <BootstrapTable
                         columns={columns}
                         keyField='_id'
                         data={this.props.avaksOfSingleParty}
-                        wrapperClasses="avaksTableWrapper"
+                        wrapperClasses="tableWrapper"
                         bordered
                         hover
                         striped
@@ -231,7 +230,7 @@ class SingleParty extends Component {
                 </div>
                 <Transactions partyId={this.props.match.params.partyId} />
                 <JavaksOfSingleMerchant merchantId={this.props.match.params.partyId} />
-            </Aux>
+            </Fragment>
         )
     }
 }

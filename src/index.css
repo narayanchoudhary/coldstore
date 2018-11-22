@@ -16,19 +16,84 @@ a:active {
   text-decoration: none;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0; 
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
 }
 
 .errorMessage {
   color: red;
 }
 
-
 .tableWrapper table {
+  table-layout: auto !important;
   margin-bottom: 0px;
+}
+
+.tableWrapper ul.pagination {
+  margin: 0px;
+}
+
+.tableWrapper table td input {
+  width: fit-content;
+}
+
+.tableWrapper table td select {
+  width: fit-content;
+}
+
+.tableWrapper table th .dropdown {
+  display: none;
+}
+
+.tableWrapper table th .dropup {
+  display: none;
+}
+
+.tableWrapper table td {
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.tableWrapper {
+  box-shadow: 0px 0px 5px #ccc;
+  overflow-x: auto;
+}
+
+.tableWrapper .number-filter-input.form-control {
+  min-width: 60px;
+}
+
+/* table css  */
+.react-bootstrap-table-pagination-list {
+  text-align: right;
+}
+
+.react-bootstrap-table-pagination {
+  margin-top: 18px;
+}
+
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 18px;
+}
+::-webkit-scrollbar-thumb {
+  height: 6px;
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  -webkit-border-radius: 7px;
+  background-color: rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+}
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
