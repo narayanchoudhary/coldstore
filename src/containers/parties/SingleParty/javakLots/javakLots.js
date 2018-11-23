@@ -1,32 +1,16 @@
 import React, { Component } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next';
 import './javakLots.css';
-import { connect } from 'react-redux';
-import * as actions from '../../../../store/actions';
 
-class JavakLots extends Component {
+export default class JavakLots extends Component {
 
-    javakIdFormatter = (cell, row) => {
-        let javak = this.props.javaks.find((javak) => {
-            return javak._id === cell;
-        });
+    merchantFormatter = (cell, row) => {
         return (
-            <div title={javak && javak.remark}>
-                {javak && javak.receiptNumber}
+            <div title={row.remark} >
+                {cell}
             </div>
         );
-    }
-
-    javakDateFormatter = (cell, row) => {
-        let javak = this.props.javaks.find((javak) => {
-            return javak._id === row.javakId;
-        });
-        return (
-            <div>
-                {javak && javak.date}
-            </div>
-        );
-    }
+    };
 
     columns = [{
         dataField: '_id',
@@ -35,14 +19,16 @@ class JavakLots extends Component {
     }, {
         dataField: 'date',
         text: 'Date',
-        formatter: this.javakDateFormatter,
     }, {
-        dataField: 'javakId',
+        dataField: 'javakReceiptNumber',
         text: 'No',
-        formatter: this.javakIdFormatter,
     }, {
         dataField: 'packet',
         text: 'Packet',
+    }, {
+        dataField: 'merchant',
+        text: 'Merchant',
+        formatter: this.merchantFormatter,  
     }];
 
     render() {
@@ -52,7 +38,7 @@ class JavakLots extends Component {
                 columns={this.columns}
                 keyField='_id'
                 data={this.props.javakLots}
-                wrapperClasses="javaksTableWrapper javakLotsInsidePartyAccount"
+                wrapperClasses="tableWrapper javakLotsInsidePartyAccount"
                 bordered
                 hover
                 striped
@@ -61,17 +47,3 @@ class JavakLots extends Component {
         )
     }
 }
-
-const mapStateToProps = state => {
-    return {
-        fetchError: state.avak.avaks.error,
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchJavakLotsByAvakIds: (avakIds, thenCallback) => dispatch(actions.fetchJavakLotsByAvakIds(avakIds, thenCallback)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(JavakLots);

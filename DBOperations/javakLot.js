@@ -1,6 +1,8 @@
 const ipc = require('electron').ipcMain;
 const javakLotsDB = require('./connections').getInstance().javakLotsDB;
 const avaksDB = require('./connections').getInstance().avaksDB;
+const javaksDB = require('./connections').getInstance().javaksDB;
+const partiesDB = require('./connections').getInstance().partiesDB;
 
 
 class JavakLotsDatabase {
@@ -87,7 +89,30 @@ class JavakLotsDatabase {
 
     fetchJavakLotsByAvakIds(event, data) {
         javakLotsDB.find({ avakId: { $in: data.avakIds } }).sort({ createdAt: 1 }).exec((err, javakLots) => {
-            this.mainWindow.webContents.send('fetchJavakLotsByAvakIdsResponse', javakLots);
+            javaksDB.find({}, (err, javaks) => {
+                partiesDB.find({}, (err, parties) => {
+
+                    let finalJavakLots = [];
+
+                    // Add merchant name
+                    javakLots.forEach(javakLot => {
+                        let javakOfThisJavakLot = javaks.filter(javak => javak._id === javakLot.javakId)[0];
+                        let merchantOfThisJavakLot = "Self";
+                        if (javakOfThisJavakLot.party !== javakOfThisJavakLot.merchant) {
+                            merchantOfThisJavakLot = parties.filter(party => party._id === javakOfThisJavakLot.merchant)[0].name;
+                        }
+                        finalJavakLots.push({
+                            ...javakLot,
+                            merchant: merchantOfThisJavakLot,
+                            remark: javakOfThisJavakLot.remark,
+                            javakReceiptNumber: javakOfThisJavakLot.receiptNumber,
+                            date: javakOfThisJavakLot.date,
+                        });
+                    });
+
+                    this.mainWindow.webContents.send('fetchJavakLotsByAvakIdsResponse', finalJavakLots);
+                });
+            });
         });
     };
 

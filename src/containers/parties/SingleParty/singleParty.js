@@ -67,7 +67,6 @@ class SingleParty extends Component {
             <JavakLots
                 key={row._id}
                 javakLots={this.state.javakLots.filter((javakLot) => javakLot.avakId === row._id)}
-                javaks={this.state.javaks}
             />
         );
     }
