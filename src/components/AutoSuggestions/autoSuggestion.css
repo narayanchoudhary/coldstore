@@ -33,3 +33,7 @@
     background-color: grey;
     color: white;
 }
+
+.address {
+    float: right;
+}

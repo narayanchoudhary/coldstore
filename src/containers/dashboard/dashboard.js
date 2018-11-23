@@ -54,7 +54,6 @@ class Dashboard extends Component {
                         onClose={this.hidePartiesWithRemaingPackets}
                         modal
                         closeOnDocumentClick
-                        contentStyle={{ minHeight: '200px', borderRadius: '4px', fontWeight: 600, padding: '0px' }}
                     >
                         <PartiesWithRemainingPackets
                             partiesWithRemainingPackets={this.props.partiesWithRemainingPackets}
@@ -99,7 +98,7 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
     return {
         dashboard: state.dashboard.dashboard,
-        partiesWithRemainingPackets: state.dashboard.partiesWithRemainingPackets
+        partiesWithRemainingPackets: state.dashboard.partiesWithRemainingPackets,
     }
 }
 

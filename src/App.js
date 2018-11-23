@@ -45,35 +45,39 @@ class App extends Component {
         <Header />
         <MainContainer>
 
-        <Popup
-          open={this.props.showPartySearchPopup}
-          onClose={this.props.hidePartySearchPopup}
-          modal
-          closeOnDocumentClick
-          contentStyle={{ minHeight: '200px', borderRadius: '4px', fontWeight: 600, padding: '0px' }}
+          <Popup
+            open={this.props.showPartySearchPopup}
+            onClose={this.props.hidePartySearchPopup}
+            modal
+            closeOnDocumentClick
+            contentStyle={{ minHeight: '200px', borderRadius: '4px', fontWeight: 600, padding: '0px' }}
           >
-          <ReactAutoSuggest parties={this.props.parties} closer={this.props.hidePartySearchPopup} />
-        </Popup>
-        <Switch>
-          <Route exact={true} path='/' component={Home} />
-          <Route path='/parties/singleParty/:partyId' component={SingleParty} />
-          <Route path='/parties/addParty' component={AddParty} />
-          <Route path='/parties' component={Parties} />
-          <Route path='/avaks/addAvak' component={AddAvak} />
-          <Route path='/avaks' component={Avaks} />
-          <Route path='/javaks/addJavak' component={AddJavak} />
-          <Route path='/javaks' component={Javaks} />
-          <Route path='/transactions/addTransaction' component={AddTransaction} />
-          <Route path='/transactions' component={Transactions} />
-          <Route path='/rents/addRent' component={AddRent} />
-          <Route path='/rents' component={Rents} />
-          <Route path='/expenses/addExpense' component={AddExpense} />
-          <Route path='/expenses' component={Expenses} />
-          <Route path='/banks/addBank' component={AddBank} />
-          <Route path='/banks' component={Banks} />
-          <Route path='/settings' component={Settings} />
-        </Switch>
-          </MainContainer>
+            <ReactAutoSuggest
+              parties={this.props.parties}
+              closer={this.props.hidePartySearchPopup}
+              addresses={this.props.addresses}
+            />
+          </Popup>
+          <Switch>
+            <Route exact={true} path='/' component={Home} />
+            <Route path='/parties/singleParty/:partyId' component={SingleParty} />
+            <Route path='/parties/addParty' component={AddParty} />
+            <Route path='/parties' component={Parties} />
+            <Route path='/avaks/addAvak' component={AddAvak} />
+            <Route path='/avaks' component={Avaks} />
+            <Route path='/javaks/addJavak' component={AddJavak} />
+            <Route path='/javaks' component={Javaks} />
+            <Route path='/transactions/addTransaction' component={AddTransaction} />
+            <Route path='/transactions' component={Transactions} />
+            <Route path='/rents/addRent' component={AddRent} />
+            <Route path='/rents' component={Rents} />
+            <Route path='/expenses/addExpense' component={AddExpense} />
+            <Route path='/expenses' component={Expenses} />
+            <Route path='/banks/addBank' component={AddBank} />
+            <Route path='/banks' component={Banks} />
+            <Route path='/settings' component={Settings} />
+          </Switch>
+        </MainContainer>
       </div>
     );
   }
@@ -83,6 +87,7 @@ const mapStateToProps = state => {
   return {
     showPartySearchPopup: state.party.showPartySearchPopup,
     parties: state.party.options,
+    addresses: state.address.options
   }
 }
 
