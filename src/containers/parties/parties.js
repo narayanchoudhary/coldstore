@@ -90,18 +90,21 @@ class Parties extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
+            editable: false,
         }, {
             dataField: 'totalJavak',
             text: 'Javak',
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
+            editable: false,
         }, {
             dataField: 'balance',
             text: 'Balance',
             sort: true,
             headerSortingStyle,
             filter: numberFilter(),
+            editable: false,
         }, {
             dataField: 'phone',
             text: 'Phone',
