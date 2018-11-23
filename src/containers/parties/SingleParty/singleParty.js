@@ -12,9 +12,10 @@ import JavaksOfSingleMerchant from './javaks/javaks';
 class SingleParty extends Component {
 
     state = {
-        party: null,
+        party: {},
         javakLots: [],
         javaks: [],
+        addressOfParty: {},
     };
 
     componentDidMount() {
@@ -26,7 +27,8 @@ class SingleParty extends Component {
             props.fetchJavaksByPartyId(props.match.params.partyId, (javaks) => {
                 props.fetchJavakLotsByAvakIds(avakIdsOfSingleParty, (javakLots) => {
                     props.fetchParty(props.match.params.partyId, (party) => {
-                        this.setState({ javakLots: javakLots, party: party, javaks: javaks });
+                        let addressOfParty = this.props.addresses.filter(address => address.value === party.address)[0];
+                        this.setState({ javakLots, party, javaks, addressOfParty });
                     });
                 });
             });
@@ -213,8 +215,8 @@ class SingleParty extends Component {
 
         return (
             <Fragment>
-                <div className="partyAccount avaksContainer">
-                    <h3 className="partyName" >{this.state.party ? this.state.party.name : null}</h3>
+                <div className="partyAccount">
+                    <h3 className="partyName" >{this.state.party.name} <span class="addressOfparty">{this.state.addressOfParty.label}</span> </h3>
                     <BootstrapTable
                         columns={columns}
                         keyField='_id'
@@ -244,6 +246,7 @@ const mapStateToProps = state => {
         setups: state.setup.setups,
         avaksOfSingleParty: state.avak.avaksOfSingleParty,
         avakIdsOfSingleParty: state.avak.avakIdsOfSingleParty,
+        addresses: state.address.options,
     }
 }
 

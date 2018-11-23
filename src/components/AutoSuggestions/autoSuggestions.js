@@ -13,10 +13,15 @@ export default class ReactAutoSuggest extends React.Component {
             suggestions: [],
             redirectToParty: false,
             partyId: null,
+            parties: []
         };
     }
 
-    getSuggestionValue = suggestion => suggestion.label;
+    getSuggestionValue = suggestion => {
+        let address = this.props.addresses.filter(address => address.value === suggestion.address)[0];
+        return suggestion.label + (address && address.value);
+    }
+
 
     renderSuggestion = suggestion => {
         let address = this.props.addresses.filter(address => address.value === suggestion.address)[0];
