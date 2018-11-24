@@ -7,6 +7,7 @@ const setupsDB = require('./connections').getInstance().setupsDB;
 const rentsDB = require('./connections').getInstance().rentsDB;
 const javakLotsDB = require('./connections').getInstance().javakLotsDB;
 const banksDB = require('./connections').getInstance().banksDB;
+const javaksDB = require('./connections').getInstance().javaksDB;
 
 class PartyDatabase {
   constructor(mainWindow) {
@@ -142,74 +143,108 @@ class PartyDatabase {
             rentsDB.find({ party: partyId }).sort({ createdAt: 1 }).exec((err, rents) => {
               partiesDB.find({}, (err, parties) => {
                 banksDB.find({}, (err, banks) => {
+                  javaksDB.find({ $and: [{ party: partyId }, { merchant: { $ne: partyId } }] }, (err, javaks) => {
+                    javakLotsDB.find({ javakId: { $in: javaks.map((javak) => javak._id) } }, (err, javakLots) => {
 
-                  // Calculate totoalRent and TotalAvakHammali
-                  let totalRent = 0;
-                  let totalAvakHammali = 0;
+                      // Calculate totoalRent and TotalAvakHammali
+                      let totalRent = 0;
+                      let totalAvakHammali = 0;
 
-                  avaks.forEach(avak => {
-                    // find avak hammali and rent of single item from setup
-                    let itemRent = null;
-                    let itemAvakHammali = null;
+                      avaks.forEach(avak => {
+                        // find avak hammali and rent of single item from setup
+                        let itemRent = null;
+                        let itemAvakHammali = null;
 
-                    setups.forEach(setup => {
-                      if (setup.item === avak.item) {
-                        itemRent = setup.rent;
-                        itemAvakHammali = setup.avakHammali;
-                      }
+                        setups.forEach(setup => {
+                          if (setup.item === avak.item) {
+                            itemRent = setup.rent;
+                            itemAvakHammali = setup.avakHammali;
+                          }
+                        });
+
+                        totalRent += parseInt(avak.weight, 10) * parseFloat(itemRent, 10);
+                        totalAvakHammali += parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10);
+                      });
+
+                      transactions.push({ _id: 'openingBalance', amount: openingBalanceDoc.openingBalance, particular: 'Opening Balance', side: openingBalanceDoc.side, deleteButton: 'no' }); // Insert opening balance row
+                      transactions.push({ _id: 'avakHammali', amount: Math.round(totalAvakHammali), particular: 'Avak Hammali', side: 'debit', deleteButton: 'no' }); // Insert avak Hammali
+
+                      //Amounts to be taken from parties
+                      let rentFromParties = [];
+                      let merchantIds = [...new Set(javaks.map(javak => javak.merchant))];
+                      let totalAmountFromMerchants = 0;
+                      merchantIds.forEach(merchantId => {
+                        let totalAmount = 0;
+                        let totalPacket = 0;
+                        javakLots.forEach(javakLot => {
+                          let amount = 0;
+                          avaks.forEach((avak) => {
+                            if (javakLot.avakId === avak._id) {
+                              amount = Math.round((parseInt(avak.weight, 10) / parseInt(avak.packet, 10) * javakLot.packet) * this.getItemRent(setups, avak.item));
+                              totalPacket += javakLot.packet;
+                            }
+                          });
+                          totalAmount += amount;
+                        });
+
+                        totalAmountFromMerchants += totalAmount;
+
+                        rentFromParties.push({
+                          _id: 'asdf',
+                          date: '',
+                          amount: totalAmount,
+                          particular: parties.filter(party => party._id === merchantId)[0].name + ' se lena ' + totalPacket + ' packet',
+                          side: 'debit',
+                        });
+                      });
+
+                      transactions = transactions.concat(rentFromParties);
+                      transactions.push({ _id: 'totalRent', amount: Math.round(totalRent - totalAmountFromMerchants), particular: 'Khatedar se lena', side: 'debit', deleteButton: 'no' }); // Insert total rent row
+                      // Add rents
+                      rents.forEach(rent => {
+                        let merchant = 'self';
+                        if (rent.merchant !== rent.party) {
+                          merchant = parties.filter((party) => party._id === rent.merchant)[0].name; // get Merchant
+                        }
+
+                        let bankName = 'cash';
+                        if (rent.rentType !== 'cash') {
+                          bankName = banks.filter((bank) => bank._id === rent.bank)[0].bankName;
+                        }
+
+                        let remark = rent.remark ? rent.remark : '';
+                        transactions.push({
+                          _id: rent._id,
+                          date: rent.date,
+                          amount: rent.amount,
+                          particular: bankName + ' ' + rent.receiptNumber + ' ' + merchant + ' ' + remark,
+                          side: 'credit',
+                        });
+                      });
+
+                      // Add footer
+                      let sumOfCredits = 0;
+                      let sumOfDebits = 0;
+                      transactions.forEach(transaction => {
+                        if (transaction.side === 'credit') {
+                          sumOfCredits += parseInt(transaction.amount, 10);
+                        } else {
+                          sumOfDebits += transaction.amount;
+                        }
+                      });
+
+                      let balance = parseInt((sumOfCredits - sumOfDebits), 10);
+
+                      transactions.push({
+                        _id: 'footer',
+                        amount: Math.abs(balance),
+                        particular: 'Balance',
+                        side: balance > 0 ? 'credit' : 'debit'
+                      });
+
+                      this.mainWindow.webContents.send('fetchTransactionsOfSinglePartyResponse', transactions);
                     });
-
-                    totalRent += parseInt(avak.weight, 10) * parseFloat(itemRent, 10);
-                    totalAvakHammali += parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10);
                   });
-
-                  transactions.push({ _id: 'openingBalance', amount: openingBalanceDoc.openingBalance, particular: 'Opening Balance', side: openingBalanceDoc.side, deleteButton: 'no' }); // Insert opening balance row
-                  transactions.push({ _id: 'totalRent', amount: Math.round(totalRent), particular: 'Total Rent', side: 'debit', deleteButton: 'no' }); // Insert total rent row
-                  transactions.push({ _id: 'avakHammali', amount: Math.round(totalAvakHammali), particular: 'Avak Hammali', side: 'debit', deleteButton: 'no' }); // Insert avak Hammali
-
-                  // Add rents
-                  rents.forEach(rent => {
-                    let merchant = 'self';
-                    if (rent.merchant !== rent.party) {
-                      merchant = parties.filter((party) => party._id === rent.merchant)[0].name; // get Merchant
-                    }
-
-                    let bankName = 'cash';
-                    if (rent.rentType !== 'cash') {
-                      bankName = banks.filter((bank) => bank._id === rent.bank)[0].bankName;
-                    }
-
-                    let remark = rent.remark ? rent.remark : '';
-                    transactions.push({
-                      _id: rent._id,
-                      date: rent.date,
-                      amount: rent.amount,
-                      particular: bankName + ' ' + rent.receiptNumber + ' ' + merchant + ' ' + remark,
-                      side: 'credit',
-                    });
-                  });
-
-                  // Add footer
-                  let sumOfCredits = 0;
-                  let sumOfDebits = 0;
-                  transactions.forEach(transaction => {
-                    if (transaction.side === 'credit') {
-                      sumOfCredits += parseInt(transaction.amount, 10);
-                    } else {
-                      sumOfDebits += transaction.amount;
-                    }
-                  });
-
-                  let balance = parseInt((sumOfCredits - sumOfDebits), 10);
-
-                  transactions.push({
-                    _id: 'footer',
-                    amount: Math.abs(balance),
-                    particular: 'Balance',
-                    side: balance > 0 ? 'credit' : 'debit'
-                  });
-
-                  this.mainWindow.webContents.send('fetchTransactionsOfSinglePartyResponse', transactions);
                 });
               });
             });
@@ -217,6 +252,17 @@ class PartyDatabase {
         });
       });
     });
+  }
+
+  getItemRent(setups, itemId) {
+    let itemRent = null;
+    setups.forEach(setup => {
+      if (setup.item === itemId) {
+        itemRent = setup.rent;
+      }
+    });
+
+    return parseInt(itemRent);
   }
 
 }
