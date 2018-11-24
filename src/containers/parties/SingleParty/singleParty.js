@@ -215,7 +215,7 @@ class SingleParty extends Component {
         return (
             <Fragment>
                 <div className="partyAccount">
-                    <h3 className="partyName" >{this.state.party.name} <span class="addressOfparty">{this.state.addressOfParty.label}</span> </h3>
+                    <h3 className="partyName" >{this.state.party.name} <span className="addressOfparty">{this.state.addressOfParty.label}</span> </h3>
                     <BootstrapTable
                         columns={columns}
                         keyField='_id'

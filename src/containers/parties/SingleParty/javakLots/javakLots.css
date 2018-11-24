@@ -6,3 +6,17 @@
 .javakLotsInsidePartyAccount thead {
     display: none;
 }
+
+.javakLotsInsidePartyAccount .date {
+    width: 1px;
+}
+
+.javakLotsInsidePartyAccount .receiptNumber {
+    min-width: 55px;
+    width: 55px;
+}
+
+.javakLotsInsidePartyAccount .packet {
+    min-width: 55px;
+    width: 55px;
+}

@@ -63,19 +63,6 @@ class Avaks extends Component {
 
         },
         {
-            dataField: 'address',
-            text: 'Address',
-            sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
-            formatter: columnFormatter(this.props.addresses),
-            filterValue: filterValue(this.props.addresses),
-            editor: {
-                type: Type.SELECT,
-                options: this.props.addresses
-            }
-        },
-        {
             dataField: 'party',
             text: 'Party',
             sort: true,
@@ -96,7 +83,21 @@ class Avaks extends Component {
                 }
                 return true;
             }
-        }, {
+        },
+        {
+            dataField: 'address',
+            text: 'Address',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter(),
+            formatter: columnFormatter(this.props.addresses),
+            filterValue: filterValue(this.props.addresses),
+            editor: {
+                type: Type.SELECT,
+                options: this.props.addresses
+            }
+        },
+        {
             dataField: 'type',
             text: 'Type',
             sort: true,

@@ -19,12 +19,15 @@ export default class JavakLots extends Component {
     }, {
         dataField: 'date',
         text: 'Date',
+        classes: 'date',
     }, {
         dataField: 'javakReceiptNumber',
         text: 'No',
+        classes: 'receiptNumber',
     }, {
         dataField: 'packet',
         text: 'Packet',
+        classes: 'packet',
     }, {
         dataField: 'merchant',
         text: 'Merchant',
