@@ -151,19 +151,8 @@ class PartyDatabase {
                       let totalAvakHammali = 0;
 
                       avaks.forEach(avak => {
-                        // find avak hammali and rent of single item from setup
-                        let itemRent = null;
-                        let itemAvakHammali = null;
-
-                        setups.forEach(setup => {
-                          if (setup.item === avak.item) {
-                            itemRent = setup.rent;
-                            itemAvakHammali = setup.avakHammali;
-                          }
-                        });
-
-                        totalRent += parseInt(avak.weight, 10) * parseFloat(itemRent, 10);
-                        totalAvakHammali += parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10);
+                        totalRent += parseInt(avak.weight, 10) * this.getItemRent(setups, avak.item);
+                        totalAvakHammali += parseInt(avak.packet, 10) * this.getItemAvakHammali(setups, avak.item);
                       });
 
                       transactions.push({ _id: 'openingBalance', amount: openingBalanceDoc.openingBalance, particular: 'Opening Balance', side: openingBalanceDoc.side, deleteButton: 'no' }); // Insert opening balance row
@@ -262,7 +251,18 @@ class PartyDatabase {
       }
     });
 
-    return parseInt(itemRent);
+    return parseFloat(itemRent);
+  }
+
+  getItemAvakHammali(setups, itemId) {
+    let itemAvakHammali = null;
+    setups.forEach(setup => {
+      if (setup.item === itemId) {
+        itemAvakHammali = setup.avakHammali;
+      }
+    });
+
+    return parseFloat(itemAvakHammali);
   }
 
 }

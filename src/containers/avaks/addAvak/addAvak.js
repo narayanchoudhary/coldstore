@@ -16,10 +16,10 @@ import PartySelector from '../../../components/partySelector/partySelector';
 const overWeight = (value, allValues, props) => {
     let warning = undefined;
     if (value && allValues.weight) {
-        if(allValues.weight / value) {
-            warning = 'Over Weight';
-        } else if(allValues.weight / value) {
-            warning = 'Under Weight';
+        if(allValues.weight / value > 72) {
+            warning = <span className="warning">Over Weight</span>;
+        } else if(allValues.weight / value < 45) {
+            warning = <span className="warning">Under Weight</span>;
         } else {
             warning = undefined;
         }
