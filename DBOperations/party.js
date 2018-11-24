@@ -170,7 +170,7 @@ class PartyDatabase {
                           avaks.forEach((avak) => {
                             if (javakLot.avakId === avak._id) {
                               amount = Math.round((parseInt(avak.weight, 10) / parseInt(avak.packet, 10) * javakLot.packet) * this.getItemRent(setups, avak.item));
-                              totalPacket += javakLot.packet;
+                              totalPacket += parseInt(javakLot.packet, 10);
                             }
                           });
                           totalAmount += amount;
