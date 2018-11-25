@@ -4,6 +4,10 @@ const avaksDB = require('./connections').getInstance().avaksDB;
 const javakLotsDB = require('./connections').getInstance().javakLotsDB;
 const addressesDB = require('./connections').getInstance().addressesDB;
 const partiesDB = require('./connections').getInstance().partiesDB;
+const getItemRent = require('./dbUtils').getItemRent;
+const yearsDB = require('./connections').getInstance().yearsDB;
+const setupsDB = require('./connections').getInstance().setupsDB;
+
 class JavakDatabase {
   constructor(mainWindow) {
     this.mainWindow = mainWindow;
@@ -202,19 +206,39 @@ class JavakDatabase {
       // add SumOfPacketsOfJavakLots
       let extractedJavakIds = javaks.map(javak => javak._id);  // extract Javak ids to find corresponding javakLots
       javakLotsDB.find({ javakId: { $in: extractedJavakIds } }, (err, javakLots) => {
-        let finalJavaks = [];
+        avaksDB.find({ _id: { $in: javakLots.map(javakLot => javakLot.avakId) } }, (err, avaks) => {
+          yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => { // fetch current year
+            setupsDB.find({ year: currentYear.yearId }, (err, setups) => {
 
-        javaks.forEach(javak => {
-          let sumOfPacketsOfJavakLots = 0;
-          javakLots.forEach(javakLot => {
-            if (javak._id === javakLot.javakId) {
-              sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
-            }
+
+              let finalJavaks = [];
+
+              javaks.forEach(javak => {
+                let sumOfPacketsOfJavakLots = 0;
+                let totalWeight = 0;
+                let totalRent = 0;
+                javakLots.forEach(javakLot => {
+                  avaks.forEach(avak => {
+
+                    if (javak._id === javakLot.javakId && avak._id === javakLot.avakId) {
+                      sumOfPacketsOfJavakLots += parseInt(javakLot.packet, 10);
+                      totalWeight += (parseInt(avak.weight, 10) / parseInt(avak.packet, 10)) * parseInt(javakLot.packet, 10);
+                      totalRent += (parseInt(avak.weight, 10) / parseInt(avak.packet, 10)) * parseInt(javakLot.packet, 10) * getItemRent(setups, avak.item);
+                    }
+                  });
+                });
+                finalJavaks.push({
+                  ...javak,
+                  sumOfPacketsOfJavakLots: sumOfPacketsOfJavakLots,
+                  totalWeight: Math.round(totalWeight),
+                  totalRent: Math.round(totalRent),
+                });
+              });
+
+              this.mainWindow.webContents.send('fetchJavaksOfSingleMerchantResponse', finalJavaks);
+            });
           });
-          finalJavaks.push({ ...javak, sumOfPacketsOfJavakLots: sumOfPacketsOfJavakLots });
         });
-
-        this.mainWindow.webContents.send('fetchJavaksOfSingleMerchantResponse', finalJavaks);
       });
     });
   }

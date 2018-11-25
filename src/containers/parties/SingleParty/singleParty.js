@@ -8,7 +8,7 @@ import JavakLots from './javakLots/javakLots';
 import Transactions from './transactions/transactions';
 import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
 import JavaksOfSingleMerchant from './javaks/javaks';
-
+import commaNumber from 'comma-number';
 class SingleParty extends Component {
 
     state = {
@@ -160,28 +160,33 @@ class SingleParty extends Component {
             sort: true,
             headerSortingStyle,
             editable: false,
+            formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'weight',
             text: 'Weight',
             sort: true,
             headerSortingStyle,
+            formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'rent',
             text: 'Rent',
             sort: true,
             headerSortingStyle,
             editable: false,
+            formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'avakHammali',
             text: 'Avak Hammali',
             sort: true,
             headerSortingStyle,
             editable: false,
+            formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'chamber',
             text: 'Chamber',
             sort: true,
             headerSortingStyle,
+            formatter: (cell, row) => commaNumber(cell), 
         }, {
             dataField: 'floor',
             text: 'Floor',

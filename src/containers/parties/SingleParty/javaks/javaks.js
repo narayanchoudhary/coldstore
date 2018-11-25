@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { Type } from 'react-bootstrap-table2-editor';
+import { Type, } from 'react-bootstrap-table2-editor';
+import filterFactory, { textFilter, numberFilter } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import './javaks.css';
@@ -49,13 +50,20 @@ class JavaksOfSingleMerchant extends Component {
             sort: true,
             formatter: columnFormatter(this.props.parties),
             filterValue: filterValue(this.props.parties),
-            editor: {
-                type: Type.SELECT,
-                options: this.props.parties
-            }
+            filter: textFilter()
         }, {
             dataField: 'sumOfPacketsOfJavakLots',
             text: 'Total Packet',
+            sort: true,
+            editable: false,
+        }, {
+            dataField: 'totalWeight',
+            text: 'Weight',
+            sort: true,
+            editable: false,
+        }, {
+            dataField: 'totalRent',
+            text: 'Rent',
             sort: true,
             editable: false,
         }];
@@ -71,8 +79,9 @@ class JavaksOfSingleMerchant extends Component {
                     bordered
                     hover
                     striped
-                    noDataIndication="No Javak"
+                    noDataIndication={'No javaks'}
                     rowClasses={rowClasses}
+                    filter={filterFactory()}
                 />
             </div>
         )

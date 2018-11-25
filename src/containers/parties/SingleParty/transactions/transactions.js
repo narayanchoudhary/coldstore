@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import './transactions.css';
 import { rowClasses } from "../../../../utils/utils";
+import commaNumber from 'comma-number';
 
 class Transactions extends Component {
 
@@ -22,7 +23,7 @@ class Transactions extends Component {
 
     creditFormatter = (cell, row) => {
         if (row.side === 'credit') {
-            return cell;
+            return commaNumber(cell);
         } else {
             return '';
         }
@@ -30,7 +31,7 @@ class Transactions extends Component {
 
     debitFormatter = (cell, row) => {
         if (row.side === 'debit') {
-            return row.amount;
+            return commaNumber(row.amount);
         } else {
             return '';
         }
@@ -76,7 +77,7 @@ class Transactions extends Component {
             }];
 
         return (
-            <div className="avaksContainer">
+            <div className="avaksContainer singlePartyTransactions">
                 <h3 className="transactionHeading">Transactions</h3>
                 <BootstrapTable
                     columns={columns}

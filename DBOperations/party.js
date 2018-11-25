@@ -170,13 +170,24 @@ class PartyDatabase {
                             let merchantIds = [...new Set(merchantJavaks.map(javak => javak.merchant))];
                             let totalAmountFromMerchants = 0;
                             merchantIds.forEach(merchantId => {
+                              
+                              // sirf es marchant ki javaks nikalo
+                              let idn = merchantJavaks.filter(merchantJavak => merchantJavak.merchant === merchantId);
+                              
+                              // fir en javaks se ids extract karo
+                              let idn2 = idn.map(idn => idn._id);
+
+                              // fir vo sare javak lots nikalo jo ye merchant le gaya he
+                              let idn3 = javakLots.filter(javakLot => idn2.includes(javakLot.javakId));
+
+
                               let totalAmount = 0;
                               let totalPacket = 0;
-                              javakLots.forEach(javakLot => {
+                              idn3.forEach(javakLot => {
                                 let amount = 0;
                                 avaks.forEach((avak) => {
                                   if (javakLot.avakId === avak._id) {
-                                    amount = Math.round((parseInt(avak.weight, 10) / parseInt(avak.packet, 10) * javakLot.packet) * this.getItemRent(setups, avak.item));
+                                    amount = Math.round((parseInt(avak.weight, 10) / parseInt(avak.packet, 10) * parseInt(javakLot.packet, 10)) * this.getItemRent(setups, avak.item));
                                     totalPacket += parseInt(javakLot.packet, 10);
                                   }
                                 });
@@ -189,14 +200,14 @@ class PartyDatabase {
                                 _id: 'asdf',
                                 date: '',
                                 amount: totalAmount,
-                                particular: parties.filter(party => party._id === merchantId)[0].name + ' se lena ' + totalPacket + ' packet',
+                                particular: parties.filter(party => party._id === merchantId)[0].name + ' se lena ' + totalPacket + ' packet ka rent',
                                 side: 'debit',
                               });
                             });
                             transactions = transactions.concat(rentFromParties);
 
                             // 4 Add rent jo svyam khatedar se lena he
-                            transactions.push({ _id: 'totalRent', amount: Math.round(totalRent - totalAmountFromMerchants), particular: 'Khatedar se lena', side: 'debit', deleteButton: 'no' }); // Insert total rent row
+                            transactions.push({ _id: 'totalRent', amount: Math.round(totalRent - totalAmountFromMerchants), particular: 'Swayam Khatedar se lena', side: 'debit', deleteButton: 'no' }); // Insert total rent row
 
                             // 5 Add un packets ka bhada jo ye le gaya he kisi aur ke account me se as a merchant
                             let totalAmountFromOtherAccounts = 0;
