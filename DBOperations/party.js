@@ -143,95 +143,129 @@ class PartyDatabase {
             rentsDB.find({ party: partyId }).sort({ createdAt: 1 }).exec((err, rents) => {
               partiesDB.find({}, (err, parties) => {
                 banksDB.find({}, (err, banks) => {
-                  javaksDB.find({ $and: [{ party: partyId }, { merchant: { $ne: partyId } }] }, (err, javaks) => {
-                    javakLotsDB.find({ javakId: { $in: javaks.map((javak) => javak._id) } }, (err, javakLots) => {
+                  javaksDB.find({ $and: [{ party: partyId }, { merchant: { $ne: partyId } }] }, (err, merchantJavaks) => { //javaks jo ye nahi lega
+                    javakLotsDB.find({ javakId: { $in: merchantJavaks.map((javak) => javak._id) } }, (err, javakLots) => { // javaks jo ye legaya kisi dusare ke account me se
 
-                      // Calculate totoalRent and TotalAvakHammali
-                      let totalRent = 0;
-                      let totalAvakHammali = 0;
+                      javaksDB.find({ $and: [{ merchant: partyId }, { party: { $ne: partyId } }] }, (err, javaksFromOtherAccounts) => {
+                        javakLotsDB.find({ javakId: { $in: javaksFromOtherAccounts.map((javak) => javak._id) } }, (err, javakLotsFromOtherAccounts) => { // javaks jo ye legaya kisi dusare ke account me se
+                          avaksDB.find({ _id: { $in: javakLotsFromOtherAccounts.map((javakLotFromOtherAccount) => javakLotFromOtherAccount.avakId) } }, (err, avaksFromOtherAccount) => {
 
-                      avaks.forEach(avak => {
-                        totalRent += parseInt(avak.weight, 10) * this.getItemRent(setups, avak.item);
-                        totalAvakHammali += parseInt(avak.packet, 10) * this.getItemAvakHammali(setups, avak.item);
-                      });
+                            // Calculate totoalRent and TotalAvakHammali
+                            let totalRent = 0;
+                            let totalAvakHammali = 0;
 
-                      transactions.push({ _id: 'openingBalance', amount: openingBalanceDoc.openingBalance, particular: 'Opening Balance', side: openingBalanceDoc.side, deleteButton: 'no' }); // Insert opening balance row
-                      transactions.push({ _id: 'avakHammali', amount: Math.round(totalAvakHammali), particular: 'Avak Hammali', side: 'debit', deleteButton: 'no' }); // Insert avak Hammali
+                            avaks.forEach(avak => {
+                              totalRent += parseInt(avak.weight, 10) * this.getItemRent(setups, avak.item);
+                              totalAvakHammali += parseInt(avak.packet, 10) * this.getItemAvakHammali(setups, avak.item);
+                            });
 
-                      //Amounts to be taken from parties
-                      let rentFromParties = [];
-                      let merchantIds = [...new Set(javaks.map(javak => javak.merchant))];
-                      let totalAmountFromMerchants = 0;
-                      merchantIds.forEach(merchantId => {
-                        let totalAmount = 0;
-                        let totalPacket = 0;
-                        javakLots.forEach(javakLot => {
-                          let amount = 0;
-                          avaks.forEach((avak) => {
-                            if (javakLot.avakId === avak._id) {
-                              amount = Math.round((parseInt(avak.weight, 10) / parseInt(avak.packet, 10) * javakLot.packet) * this.getItemRent(setups, avak.item));
-                              totalPacket += parseInt(javakLot.packet, 10);
-                            }
+                            // 1 Add opening balance
+                            transactions.push({ _id: 'openingBalance', amount: openingBalanceDoc.openingBalance, particular: 'Opening Balance', side: openingBalanceDoc.side, deleteButton: 'no' }); // Insert opening balance row
+
+                            // 2 Add Avak hammali
+                            transactions.push({ _id: 'avakHammali', amount: Math.round(totalAvakHammali), particular: 'Avak Hammali', side: 'debit', deleteButton: 'no' }); // Insert avak Hammali
+
+                            // 3 Add amounts to be taken from parties jo es account se maal le gaye he
+                            let rentFromParties = [];
+                            let merchantIds = [...new Set(merchantJavaks.map(javak => javak.merchant))];
+                            let totalAmountFromMerchants = 0;
+                            merchantIds.forEach(merchantId => {
+                              let totalAmount = 0;
+                              let totalPacket = 0;
+                              javakLots.forEach(javakLot => {
+                                let amount = 0;
+                                avaks.forEach((avak) => {
+                                  if (javakLot.avakId === avak._id) {
+                                    amount = Math.round((parseInt(avak.weight, 10) / parseInt(avak.packet, 10) * javakLot.packet) * this.getItemRent(setups, avak.item));
+                                    totalPacket += parseInt(javakLot.packet, 10);
+                                  }
+                                });
+                                totalAmount += amount;
+                              });
+
+                              totalAmountFromMerchants += totalAmount;
+
+                              rentFromParties.push({
+                                _id: 'asdf',
+                                date: '',
+                                amount: totalAmount,
+                                particular: parties.filter(party => party._id === merchantId)[0].name + ' se lena ' + totalPacket + ' packet',
+                                side: 'debit',
+                              });
+                            });
+                            transactions = transactions.concat(rentFromParties);
+
+                            // 4 Add rent jo svyam khatedar se lena he
+                            transactions.push({ _id: 'totalRent', amount: Math.round(totalRent - totalAmountFromMerchants), particular: 'Khatedar se lena', side: 'debit', deleteButton: 'no' }); // Insert total rent row
+
+                            // 5 Add un packets ka bhada jo ye le gaya he kisi aur ke account me se as a merchant
+                            let totalAmountFromOtherAccounts = 0;
+                            javakLotsFromOtherAccounts.forEach(javakLotFromOtherAccount => {
+                              let amount = 0;
+                              avaksFromOtherAccount.forEach((avak) => {
+                                if (javakLotFromOtherAccount.avakId === avak._id) {
+                                  amount = Math.round((parseInt(avak.weight, 10) / parseInt(avak.packet, 10) * javakLotFromOtherAccount.packet) * this.getItemRent(setups, avak.item));
+                                }
+                              });
+                              totalAmountFromOtherAccounts += amount;
+                            });
+
+
+                            transactions.push({
+                              _id: 'abc',
+                              date: '',
+                              amount: totalAmountFromOtherAccounts,
+                              particular: 'dusro ke jama karna',
+                              side: 'debit',
+                            });
+
+
+                            // 6 Add rents jo swayam esne ya kisi marchant ne jama kiye he
+                            rents.forEach(rent => {
+                              let merchant = 'self';
+                              if (rent.merchant !== rent.party) {
+                                merchant = parties.filter((party) => party._id === rent.merchant)[0].name; // get Merchant
+                              }
+
+                              let bankName = 'cash';
+                              if (rent.rentType !== 'cash') {
+                                bankName = banks.filter((bank) => bank._id === rent.bank)[0].bankName;
+                              }
+
+                              let remark = rent.remark ? rent.remark : '';
+                              transactions.push({
+                                _id: rent._id,
+                                date: rent.date,
+                                amount: rent.amount,
+                                particular: bankName + ' ' + rent.receiptNumber + ' ' + merchant + ' ' + remark,
+                                side: 'credit',
+                              });
+                            });
+
+                            // Add footer
+                            let sumOfCredits = 0;
+                            let sumOfDebits = 0;
+                            transactions.forEach(transaction => {
+                              if (transaction.side === 'credit') {
+                                sumOfCredits += parseInt(transaction.amount, 10);
+                              } else {
+                                sumOfDebits += transaction.amount;
+                              }
+                            });
+
+                            let balance = parseInt((sumOfCredits - sumOfDebits), 10);
+
+                            transactions.push({
+                              _id: 'footer',
+                              amount: Math.abs(balance),
+                              particular: 'Balance',
+                              side: balance > 0 ? 'credit' : 'debit'
+                            });
+
+                            this.mainWindow.webContents.send('fetchTransactionsOfSinglePartyResponse', transactions);
                           });
-                          totalAmount += amount;
-                        });
-
-                        totalAmountFromMerchants += totalAmount;
-
-                        rentFromParties.push({
-                          _id: 'asdf',
-                          date: '',
-                          amount: totalAmount,
-                          particular: parties.filter(party => party._id === merchantId)[0].name + ' se lena ' + totalPacket + ' packet',
-                          side: 'debit',
                         });
                       });
-
-                      transactions = transactions.concat(rentFromParties);
-                      transactions.push({ _id: 'totalRent', amount: Math.round(totalRent - totalAmountFromMerchants), particular: 'Khatedar se lena', side: 'debit', deleteButton: 'no' }); // Insert total rent row
-                      // Add rents
-                      rents.forEach(rent => {
-                        let merchant = 'self';
-                        if (rent.merchant !== rent.party) {
-                          merchant = parties.filter((party) => party._id === rent.merchant)[0].name; // get Merchant
-                        }
-
-                        let bankName = 'cash';
-                        if (rent.rentType !== 'cash') {
-                          bankName = banks.filter((bank) => bank._id === rent.bank)[0].bankName;
-                        }
-
-                        let remark = rent.remark ? rent.remark : '';
-                        transactions.push({
-                          _id: rent._id,
-                          date: rent.date,
-                          amount: rent.amount,
-                          particular: bankName + ' ' + rent.receiptNumber + ' ' + merchant + ' ' + remark,
-                          side: 'credit',
-                        });
-                      });
-
-                      // Add footer
-                      let sumOfCredits = 0;
-                      let sumOfDebits = 0;
-                      transactions.forEach(transaction => {
-                        if (transaction.side === 'credit') {
-                          sumOfCredits += parseInt(transaction.amount, 10);
-                        } else {
-                          sumOfDebits += transaction.amount;
-                        }
-                      });
-
-                      let balance = parseInt((sumOfCredits - sumOfDebits), 10);
-
-                      transactions.push({
-                        _id: 'footer',
-                        amount: Math.abs(balance),
-                        particular: 'Balance',
-                        side: balance > 0 ? 'credit' : 'debit'
-                      });
-
-                      this.mainWindow.webContents.send('fetchTransactionsOfSinglePartyResponse', transactions);
                     });
                   });
                 });
