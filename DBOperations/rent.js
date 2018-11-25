@@ -39,7 +39,7 @@ class RentDatabase {
     data.address = data.address.value;
     data.addressOfMerchant = data.addressOfMerchant.value;
     data.party = data.party.value;
-    data.bank = data.bank.value;
+    if(data.bank) data.bank = data.bank.value; // for cash 
     data.merchant = data.merchant.value;
     data.rentType = data.rentType.value;
 

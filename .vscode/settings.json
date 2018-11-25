@@ -1,7 +1,6 @@
 {
     "editor.formatOnSave": true,
     "editor.fontSize": 14,
-    "editor.cursorStyle": "block",
-    "editor.cursorBlinking": "solid",
     "git.showPushSuccessNotification": true,
+    "editor.cursorWidth": 20,
 }
