@@ -33,3 +33,21 @@
 span.addressOfparty {
     color: sandybrown;
 }
+
+.javakLotsHeader thead {
+    display: none;
+}
+
+.javakLotsHeader .date {
+    min-width: 90px;
+}
+
+.javakLotsHeader .receiptNumber {
+    min-width: 55px;
+    width: 55px;
+}
+
+.javakLotsHeader .packet {
+    min-width: 55px;
+    width: 55px;
+}

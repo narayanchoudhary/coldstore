@@ -148,22 +148,7 @@ class Avaks extends Component {
                 type: Type.SELECT,
                 options: this.props.sizes
             }
-        }, {
-            dataField: 'privateMarka',
-            text: 'Marka',
-            sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
-            validator: (newValue, row, column) => {
-                if (newValue === '') {
-                    return {
-                        valid: false,
-                        message: 'Can not be empty'
-                    };
-                }
-                return true;
-            }
-        }, {
+        },{
             dataField: 'packet',
             text: 'Packet',
             sort: true,
@@ -192,14 +177,7 @@ class Avaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter()
-        }, {
-            dataField: 'motorNumber',
-            text: 'M No',
-            sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
-            classes: 'motor-no'
-        }, {
+        },{
             dataField: 'chamber',
             text: 'Chamber',
             sort: true,
@@ -211,6 +189,28 @@ class Avaks extends Component {
             sort: true,
             headerSortingStyle,
             filter: textFilter(),
+        }, {
+            dataField: 'privateMarka',
+            text: 'Marka',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter(),
+            validator: (newValue, row, column) => {
+                if (newValue === '') {
+                    return {
+                        valid: false,
+                        message: 'Can not be empty'
+                    };
+                }
+                return true;
+            }
+        }, {
+            dataField: 'motorNumber',
+            text: 'M No',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter(),
+            classes: 'motor-no'
         }, {
             dataField: 'rack',
             text: 'Rack',

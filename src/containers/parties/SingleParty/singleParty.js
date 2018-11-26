@@ -71,6 +71,41 @@ class SingleParty extends Component {
         );
     }
 
+    javakLotsHeaderFormatter = (column, columnIndex) => {
+        let columns = [{
+            dataField: 'date',
+            Text: 'Date',
+            classes: 'date',
+        }, {
+            dataField: 'receiptNumber',
+            Text: 'RNo',
+            classes: 'receiptNumber'
+        }, {
+            dataField: 'packet',
+            Text: 'Packet',
+            classes: 'packet',
+        }, {
+            dataField: 'merchant',
+            Text: 'Merchant',
+        }];
+        return (
+            <BootstrapTable
+                columns={columns}
+                keyField='date'
+                data={[{
+                    date: 'Date',
+                    receiptNumber: 'Rno',
+                    packet: 'Pckt',
+                    merchant: 'Merchant',
+                }]}
+                wrapperClasses="javakLotsHeader"
+                bordered
+                rowClasses={rowClasses}
+
+            />
+        );
+    }
+
     render() {
 
         const columns = [{
@@ -144,11 +179,11 @@ class SingleParty extends Component {
         }, {
             dataField: '',
             text: 'Javak',
-            sort: true,
             headerSortingStyle,
             editable: false,
             formatter: this.javakLotsFormatter,
-            classes: 'totalJavakPacket'
+            classes: 'totalJavakPacket',
+            headerFormatter: this.javakLotsHeaderFormatter,
         }, {
             dataField: 'totalJavakPacket',
             text: 'Javak',
@@ -186,7 +221,7 @@ class SingleParty extends Component {
             text: 'Chamber',
             sort: true,
             headerSortingStyle,
-            formatter: (cell, row) => commaNumber(cell), 
+            formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'floor',
             text: 'Floor',
