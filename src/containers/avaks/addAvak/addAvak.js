@@ -79,6 +79,8 @@ class addAvak extends Component {
                         <Field type="number" name="weight" component={renderField} placeholder="Weight" min="0" validate={[required()]} />
                         <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
                         <Field type="text" name="remark" component={renderField} placeholder="Remark" />
+                        <Field type="number" name="motorBhada" component={renderField} placeholder="Motor Bhada" min="0" />
+                        <Field type="number" name="avakHammali" component={renderField} placeholder="Avak Hammali" min="0" />
                         <Field type="number" name='chamber' component={renderField} placeholder="Chamber" validate={[required()]} />
                         <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
                         <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />

@@ -59,6 +59,8 @@ class Glyphicon extends Component {
             classes.push('glyphicon-cutlery')
         }else if (this.props.type === 'rentType') {
             classes.push('glyphicon-credit-card')
+        }else if (this.props.type === 'motorBhada') {
+            classes.push('glyphicon-plane')
         }
 
         return (
