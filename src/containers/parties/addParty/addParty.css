@@ -1,3 +1,17 @@
-.addParty .error {
+.addPartyForm .error {
     color: red;
+}
+
+.addPartyForm {
+    margin: 0 auto;
+    width: fit-content;
+    box-shadow: 0px 2px 3px #ccc;
+    min-width: 308px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.addPartyHeading {
+    text-align: center;
 }

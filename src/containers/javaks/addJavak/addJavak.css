@@ -25,11 +25,6 @@
     text-align: center;
 }
 
-.Select-control {
-    border-bottom-left-radius: 0px  !important;
-    border-top-left-radius: 0px !important;
-}
-
 .is-open {
     z-index: 999999;
 }
@@ -63,7 +58,7 @@
 }
 
 .saveButton {
-    grid-area: 7 / 2 / 7 / 3; 
+    grid-area: 7 / 2 / 7 / 3;
 }
 
 .totalOfJavaklots {
@@ -72,4 +67,6 @@
 
 .addJavakForm .grid-container .grid-item:last-child {
     grid-area: 7/3/7/4;
+    display: flex;
+    align-items: center;
 }

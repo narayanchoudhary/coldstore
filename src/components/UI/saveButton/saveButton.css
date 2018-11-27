@@ -5,3 +5,7 @@
 .saveButtonInner:hover {
     background-color: magenta !important;
 }
+
+.saveButtonInner {
+    margin-top: 14px;
+}

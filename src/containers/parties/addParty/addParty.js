@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { renderField, renderSelectField } from '../../../utils/fields';
 import { required } from 'redux-form-validators';
 import './addParty.css';
+import SaveButton from '../../../components/UI/saveButton/saveButton';
 
 const validate = values => {
     const errors = {}
@@ -42,7 +43,7 @@ class addParty extends Component {
 
     submit = (values) => {
         values.address = values.address.value;
-        if(!values.phone) values.phone = ''; // if we do not do this then this will create problem while editing the phone number in parties.js     
+        if (!values.phone) values.phone = ''; // if we do not do this then this will create problem while editing the phone number in parties.js     
         this.props.saveParty(values, () => {
             this.props.fetchParties(() => {
                 this.setState({ redirectToParties: true })
@@ -52,91 +53,23 @@ class addParty extends Component {
 
     render() {
         return (
-            <div className="addParty container">
-                {this.state.redirectToParties ? <Redirect to="/parties" /> : null}
-                <form onSubmit={this.handleSubmit(this.submit)} className="well form-horizontal">
-                    <fieldset>
-                        <legend>Add party</legend>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Name</label>
-                            <div className="col-md-4 inputGroupContainer">
-                                <Field
-                                    name="name"
-                                    type="text"
-                                    placeholder="Name"
-                                    component={renderField}
-                                    autoFocus
-                                />
-                            </div>
+            <Fragment>
+                <h4 className="addPartyHeading"> Add Party </h4>
+                <div className="addPartyForm">
+                    {this.state.redirectToParties ? <Redirect to="/parties" /> : null}
+                    <form onSubmit={this.handleSubmit(this.submit)}>
+                        <Field name="name" type="text" placeholder="Enter Name" component={renderField} autoFocus />
+                        <Field name="phone" placeholder="Enter Mobile Number" type="text" component={renderField} />
+                        <Field name="address" component={renderSelectField} placeholder="Enter Address" options={this.props.addresses} validate={[required()]} />
+                        <Field name="openingBalance" placeholder="Opening Balance" type="number" component={renderField} />
+                        <Field name="side" type="radio" value="credit" component="input" /> credit &nbsp;
+                    <Field name="side" type="radio" value="debit" component="input" /> debit
+                    <div className="grid-item saveButtonGridItem">
+                            <SaveButton disabled={this.submitting} />
                         </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Phone</label>
-                            <div className="col-md-4 inputGroupContainer">
-                                <Field
-                                    name="phone"
-                                    placeholder="9300050840"
-                                    type="text"
-                                    component={renderField}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Address</label>
-                            <div className="col-md-4 inputGroupContainer">
-                                <Field
-                                    name="address"
-                                    component={renderSelectField}
-                                    placeholder="Address"
-                                    options={this.props.addresses}
-                                    validate={[required()]}
-                                />
-
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label">Opening Balance</label>
-                            <div className="col-md-4 inputGroupContainer">
-                                <Field
-                                    name="openingBalance"
-                                    placeholder="Opening Balance"
-                                    type="number"
-                                    component={renderField}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label"></label>
-                            <div className="col-md-4 inputGroupContainer">
-                                <Field
-                                    name="side"
-                                    // transaction side i.e. credit or debit
-                                    type="radio"
-                                    value="credit"
-                                    component="input"
-                                /> credit &nbsp;
-                                <Field
-                                    name="side"
-                                    type="radio"
-                                    value="debit"
-                                    component="input"
-                                /> debit
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label className="col-md-4 control-label"></label>
-                            <div className="col-md-4">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                    disabled={this.submitting}
-                                >
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+                    </form>
+                </div>
+            </Fragment>
         )
     }
 }

@@ -19,13 +19,13 @@ export default class ReactAutoSuggest extends React.Component {
 
     getSuggestionValue = suggestion => {
         let address = this.props.addresses.filter(address => address.value === suggestion.address)[0];
-        return suggestion.label + (address && address.value);
+        return suggestion.label + (address && address.label);
     }
 
 
     renderSuggestion = suggestion => {
         let address = this.props.addresses.filter(address => address.value === suggestion.address)[0];
-        return <div> {suggestion.label} <span className="address">{address && address.label}</span> </div>;
+        return <div> {suggestion.label} <span className="addressOfSuggestion">{address && address.label}</span> </div>;
     }
 
 

@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import { Type } from 'react-bootstrap-table2-editor';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './singleParty.css';
 import JavakLots from './javakLots/javakLots';
 import Transactions from './transactions/transactions';
-import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
+import { rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
 import JavaksOfSingleMerchant from './javaks/javaks';
 import commaNumber from 'comma-number';
 import DemoTabs from '../../../components/tabs/tabs';
