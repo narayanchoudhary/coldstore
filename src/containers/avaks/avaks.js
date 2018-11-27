@@ -27,7 +27,7 @@ class Avaks extends Component {
         afterSaveCell: (oldValue, newValue, row, column) => {
 
             if (column.dataField === 'address') {
-                this.props.filterPartiesByAddress(this.props.parties, { value: newValue });
+                this.props.filterPartiesByAddress(this.props.parties, { value: newValue }, () => {});
             }
             this.props.editAvak(row, () => {
 

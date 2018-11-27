@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Type, } from 'react-bootstrap-table2-editor';
-import filterFactory, { textFilter, numberFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions';
 import './javaks.css';
@@ -69,8 +69,8 @@ class JavaksOfSingleMerchant extends Component {
         }];
 
         return (
-            <div className="avaksContainer">
-                <h3 className="transactionHeading">Javaks</h3>
+            <Fragment>
+
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'
@@ -83,7 +83,7 @@ class JavaksOfSingleMerchant extends Component {
                     rowClasses={rowClasses}
                     filter={filterFactory()}
                 />
-            </div>
+            </Fragment>
         )
     }
 }

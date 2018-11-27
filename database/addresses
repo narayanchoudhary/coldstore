@@ -21,7 +21,7 @@
 {"addressName":"rolay","_id":"IKxMUEzvXuTrBd1u","createdAt":{"$$date":1539317598053},"updatedAt":{"$$date":1539317598053}}
 {"addressName":"sirpur","_id":"IQPZwcXxeoJjwZUR","createdAt":{"$$date":1539186989530},"updatedAt":{"$$date":1539186989530}}
 {"addressName":"jhagadupiplya","_id":"JHM2bayTXSdaApRH","createdAt":{"$$date":1539184910829},"updatedAt":{"$$date":1539184910829}}
-{"addressName":"dddharawara","_id":"Kg9tzOLEWyVEocWe","createdAt":{"$$date":1539072825912},"updatedAt":{"$$date":1541687271382}}
+{"addressName":"dharawara","_id":"Kg9tzOLEWyVEocWe","createdAt":{"$$date":1539072825912},"updatedAt":{"$$date":1542949279110}}
 {"addressName":"dedala","_id":"KrEau8a8VDyljsvI","createdAt":{"$$date":1539186148388},"updatedAt":{"$$date":1539186148388}}
 {"addressName":"rajoda","_id":"LJGe5lVSC2CVs8kB","createdAt":{"$$date":1539100160276},"updatedAt":{"$$date":1539100160276}}
 {"addressName":"jagroan","_id":"M76iydg37tlJxAel","createdAt":{"$$date":1542298635462},"updatedAt":{"$$date":1542298635462}}
@@ -78,4 +78,3 @@
 {"addressName":"radhanagar","_id":"xfWamtOqljLazCDy","createdAt":{"$$date":1539186011634},"updatedAt":{"$$date":1539186011634}}
 {"addressName":"chirakhan","_id":"yOE4AWL9p6RUrTCC","createdAt":{"$$date":1539100155277},"updatedAt":{"$$date":1539100155277}}
 {"addressName":"hingoniya","_id":"yxS4guw9S9kAJLwh","createdAt":{"$$date":1539101217232},"updatedAt":{"$$date":1539101217232}}
-{"addressName":"dharawara","_id":"Kg9tzOLEWyVEocWe","createdAt":{"$$date":1539072825912},"updatedAt":{"$$date":1542949279110}}

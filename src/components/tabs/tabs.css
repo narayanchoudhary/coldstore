@@ -1,0 +1,21 @@
+.slide {
+    padding: 15px;
+    max-height: 518px;
+    overflow: hidden;
+}
+
+.tabs {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    border-top: 1px solid #ccc;
+    border-top-left-radius: 2px;
+}
+
+@media (min-width: 960px) {
+    .MuiTab-root-10 {
+        font-size: 1.3rem !important;
+    }
+
+    .MuiTab-root-44 {
+        font-size: 1.3rem !important;
+    }
+}

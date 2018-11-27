@@ -78,7 +78,6 @@ class Transactions extends Component {
 
         return (
             <div className="avaksContainer singlePartyTransactions">
-                <h3 className="transactionHeading">Transactions</h3>
                 <BootstrapTable
                     columns={columns}
                     keyField='_id'

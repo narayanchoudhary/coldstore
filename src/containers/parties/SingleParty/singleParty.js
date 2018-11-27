@@ -9,6 +9,7 @@ import Transactions from './transactions/transactions';
 import { createDeleteButton, rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
 import JavaksOfSingleMerchant from './javaks/javaks';
 import commaNumber from 'comma-number';
+import DemoTabs from '../../../components/tabs/tabs';
 class SingleParty extends Component {
 
     state = {
@@ -47,19 +48,6 @@ class SingleParty extends Component {
             });
         });
     }
-
-    cellEdit = cellEditFactory({
-        mode: 'click',
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-            this.props.editAvak(row, () => {
-                this.props.fetchAvaksByPartyId(this.props.match.params.partyId, () => {
-
-                });
-            });
-        },
-        nonEditableRows: () => [this.props.avaksOfSingleParty.length - 1]
-    });
 
     javakLotsFormatter = (cell, row) => {
         if (row._id === 'footer' || row._id === 'totals') return '';
@@ -101,7 +89,6 @@ class SingleParty extends Component {
                 wrapperClasses="javakLotsHeader"
                 bordered
                 rowClasses={rowClasses}
-
             />
         );
     }
@@ -244,33 +231,36 @@ class SingleParty extends Component {
             headerSortingStyle,
             classes: 'motor-no',
             hidden: true,
-        }, {
-            dataField: '_id',
-            text: 'Action',
-            formatter: createDeleteButton(this.handleClickOnDelete)
         }];
 
 
 
         return (
             <Fragment>
-                <div className="partyAccount">
-                    <h3 className="partyName" >{this.state.party.name} <span className="addressOfparty">{this.state.addressOfParty.label}</span> </h3>
-                    <BootstrapTable
-                        columns={columns}
-                        keyField='_id'
-                        data={this.props.avaksOfSingleParty}
-                        wrapperClasses="tableWrapper"
-                        bordered
-                        hover
-                        striped
-                        cellEdit={this.cellEdit}
-                        noDataIndication="No items"
-                        rowClasses={rowClasses}
-                    />
-                </div>
-                <Transactions partyId={this.props.match.params.partyId} />
-                <JavaksOfSingleMerchant merchantId={this.props.match.params.partyId} />
+
+                <div className="partyName" >{this.state.party.name} <span className="addressOfparty">{this.state.addressOfParty.label}</span> </div>
+                <DemoTabs>
+                    <div className="slide">
+                        <BootstrapTable
+                            columns={columns}
+                            keyField='_id'
+                            data={this.props.avaksOfSingleParty}
+                            wrapperClasses="tableWrapper"
+                            bordered
+                            hover
+                            striped
+                            noDataIndication="No items"
+                            rowClasses={rowClasses}
+                        />
+                    </div>
+                    <div className="slide">
+                        <Transactions partyId={this.props.match.params.partyId} />
+                    </div>
+                    <div className="slide">
+                        <JavaksOfSingleMerchant merchantId={this.props.match.params.partyId} />
+                    </div>
+                </DemoTabs>
+
             </Fragment>
         )
     }
