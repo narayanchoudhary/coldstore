@@ -143,3 +143,16 @@ export const hidePartySearchPopup = () => {
         });
     }
 }
+
+export const fetchStatusOfSingleParty = (partyId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchStatusOfSingleParty', {partyId});
+        ipc.once('fetchStatusOfSinglePartyResponse', (event, statusOfSingleParty) => {
+            dispatch({
+                type: actionTypes.FETCH_STATUS_OF_SINGLE_PARTY,
+                payload: statusOfSingleParty
+            });
+            thenCallback();
+        });
+    }
+}

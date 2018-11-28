@@ -9,6 +9,7 @@ export {
     fetchOpeningBalanceOfParty,
     fetchTransactionsOfSingleParty,
     hidePartySearchPopup,
+    fetchStatusOfSingleParty,
 } from './party';
 
 export {

@@ -33,6 +33,7 @@ class DemoTabs extends React.Component {
                     <Tab label="Avaks" />
                     <Tab label="Transactions" />
                     <Tab label="Javaks" />
+                    <Tab label="Status" />
                 </Tabs>
                 <BindKeyboardSwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
                     {this.props.children}

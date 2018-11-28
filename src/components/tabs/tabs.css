@@ -1,13 +1,14 @@
 .slide {
     padding: 15px;
-    max-height: 518px;
-    overflow: hidden;
+    height: 530px;
+    overflow: overlay;
 }
 
 .tabs {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     border-top: 1px solid #ccc;
     border-top-left-radius: 2px;
+    height: 578px;
 }
 
 @media (min-width: 960px) {
@@ -18,4 +19,15 @@
     .MuiTab-root-44 {
         font-size: 1.3rem !important;
     }
+}
+
+.slide:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    width: 12px;
+    right: 0px;
+    bottom: 0px;
+    box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,1);
+    z-index: 2;
 }

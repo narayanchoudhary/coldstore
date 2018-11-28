@@ -6,10 +6,11 @@ import * as actions from '../../../store/actions';
 import './singleParty.css';
 import JavakLots from './javakLots/javakLots';
 import Transactions from './transactions/transactions';
-import { rowClasses, headerSortingStyle, columnFormatter } from "../../../utils/utils";
+import { rowClasses, columnFormatter } from "../../../utils/utils";
 import JavaksOfSingleMerchant from './javaks/javaks';
 import commaNumber from 'comma-number';
 import DemoTabs from '../../../components/tabs/tabs';
+import Status from './status/status';
 class SingleParty extends Component {
 
     state = {
@@ -102,19 +103,13 @@ class SingleParty extends Component {
         }, {
             dataField: 'date',
             text: 'Date',
-            sort: true,
-            headerSortingStyle,
         }, {
             dataField: 'party',
             text: 'Party',
-            sort: true,
-            headerSortingStyle,
             hidden: true
         }, {
             dataField: 'item',
             text: 'Item',
-            sort: true,
-            headerSortingStyle,
             formatter: columnFormatter(this.props.items),
             editor: {
                 type: Type.SELECT,
@@ -123,8 +118,6 @@ class SingleParty extends Component {
         }, {
             dataField: 'type',
             text: 'Type',
-            sort: true,
-            headerSortingStyle,
             formatter: columnFormatter(this.props.types),
             editor: {
                 type: Type.SELECT,
@@ -133,8 +126,6 @@ class SingleParty extends Component {
         }, {
             dataField: 'variety',
             text: 'Variety',
-            sort: true,
-            headerSortingStyle,
             formatter: columnFormatter(this.props.varieties),
             editor: {
                 type: Type.SELECT,
@@ -146,8 +137,6 @@ class SingleParty extends Component {
         }, {
             dataField: 'size',
             text: 'Size',
-            sort: true,
-            headerSortingStyle,
             formatter: columnFormatter(this.props.sizes),
             editor: {
                 type: Type.SELECT,
@@ -156,79 +145,50 @@ class SingleParty extends Component {
         }, {
             dataField: 'receiptNumber',
             text: 'R No',
-            sort: true,
-            headerSortingStyle,
         }, {
             dataField: 'packet',
             text: 'Packet',
-            sort: true,
-            headerSortingStyle,
         }, {
             dataField: '',
             text: 'Javak',
-            headerSortingStyle,
-            editable: false,
             formatter: this.javakLotsFormatter,
             classes: 'totalJavakPacket',
             headerFormatter: this.javakLotsHeaderFormatter,
         }, {
             dataField: 'totalJavakPacket',
             text: 'Javak',
-            sort: true,
-            editable: false,
         }, {
             dataField: 'balance',
             text: 'Balance',
-            sort: true,
-            headerSortingStyle,
-            editable: false,
             formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'weight',
             text: 'Weight',
-            sort: true,
-            headerSortingStyle,
             formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'rent',
             text: 'Rent',
-            sort: true,
-            headerSortingStyle,
-            editable: false,
             formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'avakHammali',
             text: 'Avak Hammali',
-            sort: true,
-            headerSortingStyle,
-            editable: false,
             formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'chamber',
             text: 'Chamber',
-            sort: true,
-            headerSortingStyle,
             formatter: (cell, row) => commaNumber(cell),
         }, {
             dataField: 'floor',
             text: 'Floor',
-            sort: true,
-            headerSortingStyle,
         }, {
             dataField: 'rack',
             text: 'Rack',
-            sort: true,
-            headerSortingStyle,
         }, {
             dataField: 'privateMarka',
             text: 'Marka',
-            sort: true,
-            headerSortingStyle,
         }, {
             dataField: 'motorNumber',
             text: 'M No',
-            sort: true,
-            headerSortingStyle,
             classes: 'motor-no',
             hidden: true,
         }];
@@ -258,6 +218,9 @@ class SingleParty extends Component {
                     </div>
                     <div className="slide">
                         <JavaksOfSingleMerchant merchantId={this.props.match.params.partyId} />
+                    </div>
+                    <div className="slide">
+                        <Status partyId={this.props.match.params.partyId} />
                     </div>
                 </DemoTabs>
 

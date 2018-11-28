@@ -5,6 +5,7 @@ const initState = {
     filteredPartiesOptions: [],
     filteredMerchantsOptions: [],
     showPartySearchPopup: false,
+    statusOfSingleParty: [],
 }
 
 const reducer = (state = initState, action) => {
@@ -30,10 +31,16 @@ const reducer = (state = initState, action) => {
             };
             break;
         case actionTypes.SHOW_PARTY_SEARCH_POPUP:
-                newState = {
-                    ...state,
-                    showPartySearchPopup: action.payload
-                }
+            newState = {
+                ...state,
+                showPartySearchPopup: action.payload
+            }
+            break;
+        case actionTypes.FETCH_STATUS_OF_SINGLE_PARTY:
+            newState = {
+                ...state,
+                statusOfSingleParty: action.payload
+            }
             break;
 
         default: return state;
