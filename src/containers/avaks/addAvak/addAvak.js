@@ -12,13 +12,15 @@ import Aux from '../../../components/Auxilary/Auxilary';
 import SaveButton from '../../../components/UI/saveButton/saveButton';
 import DateField from '../../../components/dateField/dateField';
 import PartySelector from '../../../components/partySelector/partySelector';
+import { formValueSelector } from "redux-form";
+const selector = formValueSelector("avakForm");
 
 const overWeight = (value, allValues, props) => {
     let warning = undefined;
     if (value && allValues.weight) {
-        if(allValues.weight / value > 72) {
+        if (allValues.weight / value > 72) {
             warning = <span className="warning">Over Weight</span>;
-        } else if(allValues.weight / value < 45) {
+        } else if (allValues.weight / value < 45) {
             warning = <span className="warning">Under Weight</span>;
         } else {
             warning = undefined;
@@ -32,7 +34,8 @@ class addAvak extends Component {
         super(props);
         this.handleSubmit = this.props.handleSubmit;
         this.submitting = this.props.submitting;
-        this.state = { parties: [], addresses: [] };
+        this.change = this.props.change;
+        this.state = {};
     }
 
     componentDidMount() {
@@ -61,6 +64,22 @@ class addAvak extends Component {
         });
     };
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.itemFieldValue !== nextProps.itemFieldValue || this.props.packetFieldValue !== nextProps.packetFieldValue) {
+            this.setAvakHammali(nextProps);
+        }
+    }
+
+    setAvakHammali = (props) => {
+        if (props.itemFieldValue.value) {
+            props.fetchDefaultAvakHammaliRateOfItem(props.itemFieldValue.value, (defaultAvakHammaliRate) => {
+                let avakHammali = defaultAvakHammaliRate * props.packetFieldValue;
+                if (isNaN(avakHammali)) avakHammali = 0; // Packet can be undefined
+                this.change('avakHammali', avakHammali);
+            })
+        }
+    }
+
     render() {
         return (
             <Aux>
@@ -79,11 +98,11 @@ class addAvak extends Component {
                         <Field type="number" name="weight" component={renderField} placeholder="Weight" min="0" validate={[required()]} />
                         <Field type="text" name="motorNumber" component={renderField} placeholder="Motor Number" className="uppercase form-control" />
                         <Field type="text" name="remark" component={renderField} placeholder="Remark" />
-                        <Field type="number" name="motorBhada" component={renderField} placeholder="Motor Bhada" min="0" />
-                        <Field type="number" name="avakHammali" component={renderField} placeholder="Avak Hammali" min="0" />
                         <Field type="number" name='chamber' component={renderField} placeholder="Chamber" validate={[required()]} />
                         <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
                         <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />
+                        <Field type="number" name="avakHammali" component={renderField} placeholder="Avak Hammali" min="0" />
+                        <Field type="number" name="motorBhada" component={renderField} placeholder="Motor Bhada" min="0" />
                         <div className="grid-item saveButtonGridItem">
                             <SaveButton disabled={this.submitting} />
                         </div>
@@ -113,6 +132,8 @@ const mapStateToProps = state => {
         type: state.item.typeOptions,
         initialValues: state.avak.lastAvak,
         newReceiptNumber: state.avak.newReceiptNumber,
+        itemFieldValue: selector(state, "item"),
+        packetFieldValue: selector(state, "packet"),
     }
 }
 
@@ -122,6 +143,7 @@ const mapDispatchToProps = dispatch => {
         filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
         fetchLastAvak: (thenCallback) => dispatch(actions.fetchLastAvak(thenCallback)),
         fetchNewReceiptNumber: (type, thenCallback) => dispatch(actions.fetchNewReceiptNumber(type, thenCallback)),
+        fetchDefaultAvakHammaliRateOfItem: (itemId, thenCallback) => dispatch(actions.fetchDefaultAvakHammaliRateOfItem(itemId, thenCallback)),
     };
 };
 

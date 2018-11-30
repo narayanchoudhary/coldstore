@@ -13,7 +13,7 @@ const DateField = () => {
             component={renderField}
             placeholder="Date"
             validate={[required(), date({ format: 'dd-mm-yyyy', '<=': 'today' })]}
-            onFocus={e => setTimeout(() => { e.target.setSelectionRange(0, 2) }, 50)}
+            onFocus={e => setTimeout(() => { e.target.setSelectionRange(0, 2) }, 100)}
         />
     );
 };

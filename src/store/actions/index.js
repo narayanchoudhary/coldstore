@@ -94,6 +94,7 @@ export {
     fetchSetups,
     deleteSetup,
     editSetup,
+    fetchDefaultAvakHammaliRateOfItem,
 } from './setup';
 
 export {

@@ -90,6 +90,7 @@ class AvakDatabase {
             let totalJavakPacket = 0;
             let totalRent = 0;
             let totalAvakHammali = 0;
+            let totalMotorBhada = 0;
 
             // Doing this shit to add Balance, javakPackets, rent column
             let finalAvaks = [];
@@ -107,12 +108,10 @@ class AvakDatabase {
 
               // find avak hammali and rent of single item from setup
               let itemRent = null;
-              let itemAvakHammali = null;
 
               setups.forEach(setup => {
                 if (setup.item === avak.item) {
                   itemRent = setup.rent;
-                  itemAvakHammali = setup.avakHammali;
                 }
               });
 
@@ -121,7 +120,6 @@ class AvakDatabase {
                 totalJavakPacket: sumOfPacketsOfJavakLots,
                 balance: parseInt(avak.packet, 10) - sumOfPacketsOfJavakLots,
                 rent: Math.round(parseInt(avak.weight, 10) * parseFloat(itemRent, 10)),
-                avakHammali: Math.round(parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10)),
               });
 
               // Calculate the totals to add into footer
@@ -129,7 +127,8 @@ class AvakDatabase {
               totalWeight += parseInt(avak.weight, 10);
               totalJavakPacket += sumOfPacketsOfJavakLots;
               totalRent += parseInt(avak.weight, 10) * parseFloat(itemRent, 10);
-              totalAvakHammali += parseInt(avak.packet, 10) * parseFloat(itemAvakHammali, 10);
+              totalAvakHammali += parseInt(avak.avakHammali, 10);
+              totalMotorBhada += parseInt(avak.motorBhada, 10);
 
             });
 
@@ -142,6 +141,7 @@ class AvakDatabase {
               balance: totalPacket - totalJavakPacket,
               rent: Math.round(totalRent),
               avakHammali: totalAvakHammali,
+              motorBhada: totalMotorBhada,
               chamber: Math.round(totalRent) + totalAvakHammali,
               deleteButton: 'no'
             }
@@ -157,6 +157,7 @@ class AvakDatabase {
               balance: 'Balance',
               rent: 'Rent',
               avakHammali: 'Hammali',
+              motorBhada: 'Motor Bhada',
               chamber: 'Total',
               deleteButton: 'no'
             }
@@ -206,6 +207,8 @@ class AvakDatabase {
                 lastAvak.variety = { label: variety.varietyName, value: variety._id };
                 lastAvak.size = { label: size.sizeName, value: size._id };
                 lastAvak.type = { label: lastAvak.type, value: lastAvak.type };
+                lastAvak.motorBhada = 0;
+                lastAvak.avakHammali = 0;
 
                 // delete the data we dont want to initialize in the add avak form
                 delete lastAvak.remark;

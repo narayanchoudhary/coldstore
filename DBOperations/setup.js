@@ -9,10 +9,12 @@ class SetupDatabase {
     this.fetchSetups = this.fetchSetups.bind(this);
     this.deleteSetup = this.deleteSetup.bind(this);
     this.editSetup = this.editSetup.bind(this);
+    this.fetchDefaultAvakHammaliRateOfItem = this.fetchDefaultAvakHammaliRateOfItem.bind(this);
     ipc.on('saveSetup', this.saveSetup);
     ipc.on('fetchSetups', this.fetchSetups);
     ipc.on('deleteSetup', this.deleteSetup);
     ipc.on('editSetup', this.editSetup);
+    ipc.on('fetchDefaultAvakHammaliRateOfItem', this.fetchDefaultAvakHammaliRateOfItem);
   }
 
   saveSetup(event, data) {
@@ -55,6 +57,16 @@ class SetupDatabase {
       this.mainWindow.webContents.send('editSetupResponse', response);
     });
   };
+
+  fetchDefaultAvakHammaliRateOfItem (event, data) {
+    console.log('data', data);
+    yearsDB.findOne({ _id: '__currentYear__' }, (err, currentYear) => {
+      setupsDB.findOne( { $and: [ { year: currentYear.yearId }, { item: data.itemId } ] }, (err, itemSetup) => {
+        this.mainWindow.webContents.send('fetchDefaultAvakHammaliRateOfItemResponse', parseInt(itemSetup.avakHammali, 10));
+      });
+    });
+  };
+
 }
 
 module.exports = SetupDatabase;

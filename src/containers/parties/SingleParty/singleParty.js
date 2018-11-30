@@ -174,6 +174,10 @@ class SingleParty extends Component {
             text: 'Avak Hammali',
             formatter: (cell, row) => commaNumber(cell),
         }, {
+            dataField: 'motorBhada',
+            text: 'Motor Bhada',
+            formatter: (cell, row) => commaNumber(cell),
+        }, {
             dataField: 'chamber',
             text: 'Chamber',
             formatter: (cell, row) => commaNumber(cell),

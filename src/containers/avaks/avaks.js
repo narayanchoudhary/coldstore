@@ -27,7 +27,7 @@ class Avaks extends Component {
         afterSaveCell: (oldValue, newValue, row, column) => {
 
             if (column.dataField === 'address') {
-                this.props.filterPartiesByAddress(this.props.parties, { value: newValue }, () => {});
+                this.props.filterPartiesByAddress(this.props.parties, { value: newValue }, () => { });
             }
             this.props.editAvak(row, () => {
 
@@ -48,17 +48,18 @@ class Avaks extends Component {
         }, {
             dataField: 'receiptNumber',
             text: 'R No',
-            sort: true,
             headerSortingStyle,
+            sort: true,
             filter: numberFilter({
-                defaultValue: { comparator: Comparator.EQ }
+                defaultValue: { comparator: Comparator.EQ },
+                placeholder: ' '
             })
         }, {
             dataField: 'date',
             text: 'Date',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             validator: dateValidater
 
         },
@@ -68,7 +69,7 @@ class Avaks extends Component {
             sort: true,
             headerSortingStyle,
             formatter: columnFormatter(this.props.parties),
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             filterValue: filterValue(this.props.parties),
             editor: {
                 type: Type.SELECT,
@@ -89,7 +90,7 @@ class Avaks extends Component {
             text: 'Address',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             formatter: columnFormatter(this.props.addresses),
             filterValue: filterValue(this.props.addresses),
             editor: {
@@ -102,7 +103,7 @@ class Avaks extends Component {
             text: 'Type',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             formatter: columnFormatter(this.props.type),
             editor: {
                 type: Type.SELECT,
@@ -114,7 +115,7 @@ class Avaks extends Component {
             text: 'Item',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             formatter: columnFormatter(this.props.items),
             editor: {
                 type: Type.SELECT,
@@ -126,7 +127,7 @@ class Avaks extends Component {
             text: 'Variety',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             formatter: columnFormatter(this.props.varieties),
             filterValue: filterValue(this.props.varieties),
             editor: {
@@ -141,19 +142,19 @@ class Avaks extends Component {
             text: 'Size',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             formatter: columnFormatter(this.props.sizes),
             filterValue: filterValue(this.props.sizes),
             editor: {
                 type: Type.SELECT,
                 options: this.props.sizes
             }
-        },{
+        }, {
             dataField: 'packet',
             text: 'Packet',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             validator: (newValue, row, column) => {
                 if (isNaN(newValue)) {
                     return {
@@ -176,25 +177,43 @@ class Avaks extends Component {
             text: 'Weight',
             sort: true,
             headerSortingStyle,
-            filter: textFilter()
-        },{
+            filter: textFilter({ placeholder: ' ' })
+        }, {
+            dataField: 'motorBhada',
+            text: 'Motor Bhada',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter({ placeholder: ' ' }),
+        }, {
+            dataField: 'avakHammali',
+            text: 'AvakHammali',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter({ placeholder: ' ' }),
+        }, {
             dataField: 'chamber',
             text: 'Chamber',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
         }, {
             dataField: 'floor',
             text: 'Floor',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
+        }, {
+            dataField: 'rack',
+            text: 'Rack',
+            sort: true,
+            headerSortingStyle,
+            filter: textFilter({ placeholder: ' ' }),
         }, {
             dataField: 'privateMarka',
             text: 'Marka',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             validator: (newValue, row, column) => {
                 if (newValue === '') {
                     return {
@@ -209,14 +228,8 @@ class Avaks extends Component {
             text: 'M No',
             sort: true,
             headerSortingStyle,
-            filter: textFilter(),
+            filter: textFilter({ placeholder: ' ' }),
             classes: 'motor-no'
-        }, {
-            dataField: 'rack',
-            text: 'Rack',
-            sort: true,
-            headerSortingStyle,
-            filter: textFilter(),
         }, {
             dataField: '_id',
             text: 'Action',

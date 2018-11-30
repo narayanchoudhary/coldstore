@@ -49,3 +49,12 @@ export const editSetup = (data) => {
         });
     }
 }
+
+export const fetchDefaultAvakHammaliRateOfItem = (itemId, thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchDefaultAvakHammaliRateOfItem', {itemId: itemId});
+        ipc.once('fetchDefaultAvakHammaliRateOfItemResponse', (event, defaultAvakHammaliRate) => {
+            thenCallback(defaultAvakHammaliRate);
+        });
+    }
+}

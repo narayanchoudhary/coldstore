@@ -157,10 +157,12 @@ class PartyDatabase {
 														// Calculate totoalRent and TotalAvakHammali
 														let totalRent = 0;
 														let totalAvakHammali = 0;
+														let totalMotorBhada = 0;
 
 														avaks.forEach(avak => {
 															totalRent += parseInt(avak.weight, 10) * this.getItemRent(setups, avak.item);
-															totalAvakHammali += parseInt(avak.packet, 10) * this.getItemAvakHammali(setups, avak.item);
+															totalAvakHammali += parseInt(avak.avakHammali, 10);
+															totalMotorBhada += parseInt(avak.motorBhada, 10);
 														});
 
 														// 1 Add opening balance
@@ -168,8 +170,11 @@ class PartyDatabase {
 
 														// 2 Add Avak hammali
 														transactions.push({ _id: 'avakHammali', amount: Math.round(totalAvakHammali), particular: 'Avak Hammali', side: 'debit', deleteButton: 'no' }); // Insert avak Hammali
+														
+														// 3 Add motor Bhada
+														transactions.push({ _id: 'motorBhada', amount: Math.round(totalMotorBhada), particular: 'motor Bhada', side: 'debit', deleteButton: 'no' }); // Insert motor bhada
 
-														// 3 Add amounts to be taken from parties jo es account se maal le gaye he
+														// 4 Add amounts to be taken from parties jo es account se maal le gaye he
 														let rentFromParties = [];
 														let merchantIds = [...new Set(merchantJavaks.map(javak => javak.merchant))];
 														let totalAmountFromMerchants = 0;
@@ -210,10 +215,10 @@ class PartyDatabase {
 														});
 														transactions = transactions.concat(rentFromParties);
 
-														// 4 Add rent jo svyam khatedar se lena he
+														// 5 Add rent jo svyam khatedar se lena he
 														transactions.push({ _id: 'totalRent', amount: Math.round(totalRent - totalAmountFromMerchants), particular: 'Swayam Khatedar se lena', side: 'debit', deleteButton: 'no' }); // Insert total rent row
 
-														// 5 Add un packets ka bhada jo ye le gaya he kisi aur ke account me se as a merchant
+														// 6 Add un packets ka bhada jo ye le gaya he kisi aur ke account me se as a merchant
 														let totalAmountFromOtherAccounts = 0;
 														javakLotsFromOtherAccounts.forEach(javakLotFromOtherAccount => {
 															let amount = 0;
@@ -235,7 +240,7 @@ class PartyDatabase {
 														});
 
 
-														// 6 Add rents jo swayam esne ya kisi marchant ne jama kiye he
+														// 7 Add rents jo swayam esne ya kisi marchant ne jama kiye he
 														rents.forEach(rent => {
 															let merchant = 'self';
 															if (rent.merchant !== rent.party) {
