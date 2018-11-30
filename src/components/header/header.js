@@ -25,8 +25,8 @@ class Header extends Component {
                     <NavLink activeClassName="is-active" to='/avaks'>         Avak         </NavLink>
                     <NavLink activeClassName="is-active" to='/javaks'>        Javak        </NavLink>
                     <NavLink activeClassName="is-active" to='/rents'>         Rent         </NavLink>
-                    <NavLink activeClassName="is-active" to='/transactions'>  Transactions </NavLink>
-                    <NavLink activeClassName="is-active" to='/expenses'>      Expenses     </NavLink>
+                    {/* <NavLink activeClassName="is-active" to='/transactions'>  Transactions </NavLink> */}
+                    {/* <NavLink activeClassName="is-active" to='/expenses'>      Expenses     </NavLink> */}
                     <NavLink activeClassName="is-active" to='/banks'>         Banks        </NavLink>
                     <NavLink activeClassName="is-active" to='/settings'>      Settings     </NavLink>
                 </div>
