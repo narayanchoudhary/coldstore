@@ -115,7 +115,11 @@ class RentDatabase {
                 lastRent.party = { label: party.name, value: lastRent.party };
                 lastRent.merchant = { label: merchant.name, value: merchant._id };
                 lastRent.rentType = { label: lastRent.rentType, value: lastRent.rentType };
-                lastRent.bank = { label: bank.bankName, value: lastRent.bank };
+                if (bank === null) {
+                  lastRent.bank = { label: 'cash', value: 'cash' };
+                } else {
+                  lastRent.bank = { label: bank.bankName, value: lastRent.bank };
+                }
 
                 // Shit ends here
 

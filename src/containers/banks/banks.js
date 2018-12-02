@@ -43,13 +43,13 @@ class Banks extends Component {
         return (
             <Aux>
                 <button
-                    className="btn btn-primary btn-xs view-btn"
+                    className="btn btn-primary btn-xs view-btn viewButton"
                     onClick={() => this.handleClickOnView(cell)}
                 >
                     View
                 </button>
                 <button
-                    className="btn btn-danger btn-xs"
+                    className="btn btn-danger btn-xs deleteButton"
                     onClick={() => this.handleClickOnDelete(cell)}
                 >
                     Delete
