@@ -17,16 +17,16 @@ export const saveBank = (values, thenCallback) => {
 export const fetchBanks = (thenCallback) => {
     return dispatch => {
         ipc.send('fetchBanks', {});
-        ipc.once('fetchBanksResponse', (event, response) => {
-            response.options = response.data.map((bank) => {
+        ipc.once('fetchBanksResponse', (event, banks) => {
+            banks.options = banks.data.map((bank) => {
 
                 return { value: bank._id, label: bank.bankName };
             });
             dispatch({
                 type: actionTypes.FETCH_BANKS,
-                payload: response
+                payload: banks
             });
-            thenCallback(response);
+            thenCallback(banks);
         });
     }
 }
@@ -58,10 +58,10 @@ export const editBank = (data) => {
 export const fetchTransactionsOfSingleBank = (bankId, thenCallback) => {
     return dispatch => {
         ipc.send('fetchTransactionsOfSingleBank', { bankId: bankId });
-        ipc.once('fetchTransactionsOfsingleBankResponse', (event, response) => {
-            dispatch({
+        ipc.once('fetchTransactionsOfsingleBankResponse', (event, transactions) => {
+                dispatch({
                 type: actionTypes.FETCH_TRANSACTIONS_OF_SINGLE_BANK,
-                payload: response
+                payload: transactions
             });
             thenCallback();
         });

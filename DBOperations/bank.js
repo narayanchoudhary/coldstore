@@ -4,6 +4,7 @@ const banksDB = require('./connections').getInstance().banksDB;
 const TransactionsDB = require('./connections').getInstance().transactionsDB;
 const ExpensesDB = require('./connections').getInstance().expensesDB;
 const OpeningBalanceDB = require('./connections').getInstance().openingBalanceDB;
+const RentsDB = require('./connections').getInstance().rentsDB;
 
 class BankDatabase {
   constructor(mainWindow) {
@@ -61,6 +62,10 @@ class BankDatabase {
 
   fetchBanks(event, data) {
     banksDB.find().sort({ date: 1 }).exec((err, data) => {
+      data.push({
+        _id: 'cash',
+        bankName: 'cash',
+      });
       let response = {};
       response.error = err;
       response.data = data;
@@ -90,12 +95,24 @@ class BankDatabase {
   };
 
   fetchTransactionsOfSingleBank(event, data) {
-    TransactionsDB.find({ bank: data.bankId }).sort({ date: 1 }).exec((err, data) => {
-      let response = {};
-      response.error = err;
-      response.data = data;
-      this.mainWindow.webContents.send('fetchTransactionsOfsingleBankResponse', response);
+    RentsDB.find({ bank: data.bankId }).sort({ createdAt: -1 }).exec((err, rents) => {
+      let finalRents = [];
+      let totalCredit = 0;
+      let totalDebit = 0;
+      rents.forEach(rent => {
+        finalRents.push({ ...rent, credit: rent.amount });
+        totalCredit += parseInt(rent.amount, 10);
+      });
+
+      finalRents.push({
+        _id: 'balance',
+        party: 'Balance',
+        credit: totalCredit,
+      });
+
+      this.mainWindow.webContents.send('fetchTransactionsOfsingleBankResponse', finalRents);
     });
+
   }
 
   fetchExpensesOfSingleBank(event, data) {

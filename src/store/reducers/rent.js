@@ -3,11 +3,6 @@ const initState = {
     rents: [],
     lastRent: null,
     newReceiptNumberOfRent: undefined,
-    rentType: ['cash', 'bank'],
-    rentTypeOptions: [
-        { value: 'cash', label: 'cash' },
-        { value: 'bank', label: 'bank' }
-    ],
 }
 
 const reducer = (state = initState, action) => {

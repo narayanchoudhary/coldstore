@@ -147,6 +147,7 @@ class PartyDatabase {
 						rentsDB.find({ party: partyId }).sort({ createdAt: 1 }).exec((err, rents) => {
 							partiesDB.find({}, (err, parties) => {
 								banksDB.find({}, (err, banks) => {
+									banks.push({ _id: 'cash', bankName: 'cash' }); // insert cash bank
 									javaksDB.find({ $and: [{ party: partyId }, { merchant: { $ne: partyId } }] }, (err, merchantJavaks) => { //javaks jo ye nahi lega
 										javakLotsDB.find({ javakId: { $in: merchantJavaks.map((javak) => javak._id) } }, (err, javakLots) => { // javaks jo ye legaya kisi dusare ke account me se
 
@@ -161,8 +162,9 @@ class PartyDatabase {
 
 														avaks.forEach(avak => {
 															totalRent += parseInt(avak.weight, 10) * this.getItemRent(setups, avak.item);
-															totalAvakHammali += parseInt(avak.avakHammali, 10);
-															totalMotorBhada += parseInt(avak.motorBhada, 10);
+															totalAvakHammali += parseInt(avak.avakHammali, 10) || 0;
+															console.log('parseInt(avak.avakHammali, 10);: ', parseInt(avak.avakHammali, 10));
+															totalMotorBhada += parseInt(avak.motorBhada, 10) || 0;
 														});
 
 														// 1 Add opening balance
@@ -170,7 +172,8 @@ class PartyDatabase {
 
 														// 2 Add Avak hammali
 														transactions.push({ _id: 'avakHammali', amount: Math.round(totalAvakHammali), particular: 'Avak Hammali', side: 'debit', deleteButton: 'no' }); // Insert avak Hammali
-														
+														console.log('totalAvakHammali: ', totalAvakHammali);
+
 														// 3 Add motor Bhada
 														transactions.push({ _id: 'motorBhada', amount: Math.round(totalMotorBhada), particular: 'motor Bhada', side: 'debit', deleteButton: 'no' }); // Insert motor bhada
 
@@ -274,6 +277,8 @@ class PartyDatabase {
 														});
 
 														let balance = parseInt((sumOfCredits - sumOfDebits), 10);
+														
+														
 
 														transactions.push({
 															_id: 'footer',
@@ -281,7 +286,7 @@ class PartyDatabase {
 															particular: 'Balance',
 															side: balance > 0 ? 'credit' : 'debit'
 														});
-
+														
 														this.mainWindow.webContents.send('fetchTransactionsOfSinglePartyResponse', transactions);
 													});
 												});

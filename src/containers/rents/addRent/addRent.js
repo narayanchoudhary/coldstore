@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
@@ -12,7 +12,6 @@ import DateField from '../../../components/dateField/dateField';
 import Aux from '../../../components/Auxilary/Auxilary';
 import PartySelector from '../../../components/partySelector/partySelector';
 import MerchantSelector from '../../../components/merchantSelector/merchantSelector';
-const selector = formValueSelector('rent');
 class addRent extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +25,7 @@ class addRent extends Component {
         this.props.fetchLastRent((lastRent) => {
             this.props.filterPartiesByAddress(this.props.parties, lastRent.address, () => { });
             this.props.filterMerchantsByAddress(this.props.parties, lastRent.addressOfMerchant, () => { });
-            this.props.fetchNewReceiptNumberOfRent(lastRent.rentType.value, () => { });
+            this.props.fetchNewReceiptNumberOfRent(lastRent.bank.value, () => { });
         });
     }
 
@@ -54,12 +53,7 @@ class addRent extends Component {
                     {this.state.redirectToRents ? <Redirect to="/rents" /> : null}
                     <p className="newReceiptNumber">Reciept Number: {this.props.newReceiptNumberOfRent}</p>
                     <div className="grid-container">
-                        <Field name="rentType" component={renderSelectField} placeholder="Type" options={this.props.rentType} validate={[required()]} onChange={(rentType) => this.props.fetchNewReceiptNumberOfRent(rentType.value, () => { })} />
-                        {
-                            this.props.cashOrBank && this.props.cashOrBank.value !== 'cash'
-                                ? <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} />
-                                : null
-                        }
+                        <Field name='bank' component={renderSelectField} placeholder="Bank" options={this.props.banks} validate={[required()]} onChange={(bank) => this.props.fetchNewReceiptNumberOfRent(bank.value, () => { })} />
                         <DateField />
                         <PartySelector change={this.props.change} rentType={this.props.cashOrBank} />
                         <Field name="amount" type="number" component={renderField} placeholder="Amount" min="0" validate={[required()]} />
@@ -92,8 +86,6 @@ const mapStateToProps = state => {
         currentYear: state.year.currentYear,
         initialValues: state.rent.lastRent,
         newReceiptNumberOfRent: state.rent.newReceiptNumberOfRent,
-        rentType: state.rent.rentTypeOptions,
-        cashOrBank: selector(state, 'rentType'),
     }
 }
 
@@ -102,7 +94,7 @@ const mapDispatchToProps = dispatch => {
         saveRent: (values, thenCallback) => dispatch(actions.saveRent(values, thenCallback)),
         filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
         fetchLastRent: (thenCallback) => dispatch(actions.fetchLastRent(thenCallback)),
-        fetchNewReceiptNumberOfRent: (rentType, thenCallback) => dispatch(actions.fetchNewReceiptNumberOfRent(rentType, thenCallback)),
+        fetchNewReceiptNumberOfRent: (bank, thenCallback) => dispatch(actions.fetchNewReceiptNumberOfRent(bank, thenCallback)),
         filterMerchantsByAddress: (parties, address, thenCallback) => dispatch(actions.filterMerchantsByAddress(parties, address, thenCallback)),
     };
 };

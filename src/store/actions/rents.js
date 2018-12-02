@@ -81,9 +81,9 @@ export const fetchLastRent = (thenCallback) => {
     }
 }
 
-export const fetchNewReceiptNumberOfRent = (rentType, thenCallback) => {
+export const fetchNewReceiptNumberOfRent = (bank, thenCallback) => {
     return dispatch => {
-        ipc.send('fetchNewReceiptNumberOfRent', { rentType: rentType });
+        ipc.send('fetchNewReceiptNumberOfRent', { bank: bank });
         ipc.once('fetchNewReceiptNumberOfRentResponse', (event, newRentReceiptNumber) => {
             dispatch({
                 type: actionTypes.FETCH_NEW_RECEIPT_NUMBER_OF_RENT,

@@ -31,7 +31,7 @@ class RentDatabase {
     RentsDB.insert({ _id: '__autoid__bank', value: 0 });
 
     let autoId = '__autoid__bank';
-    if (data.rentType.value.toLowerCase() === 'cash') {
+    if (data.bank.value.toLowerCase() === 'cash') {
       autoId = '__autoid__cash';
     }
 
@@ -39,12 +39,9 @@ class RentDatabase {
     data.address = data.address.value;
     data.addressOfMerchant = data.addressOfMerchant.value;
     data.party = data.party.value;
-    if(data.bank) data.bank = data.bank.value; // for cash 
+    data.bank = data.bank.value; // for cash 
     data.merchant = data.merchant.value;
     data.rentType = data.rentType.value;
-
-    // delete bank if the rentType is cash
-    if (data.rentType === 'cash') delete data.bank;
 
 
     // get new receiptNumber
@@ -68,15 +65,7 @@ class RentDatabase {
 
   fetchRents(event, data) {
     RentsDB.find({ receiptNumber: { $exists: true } }).sort({ createdAt: -1 }).exec((err, rents) => {
-      let finalRents = [];
-      rents.forEach(rent => {
-        if (rent.rentType === 'cash') {
-          rent.bank = 'cash';
-        }
-        finalRents.push(rent);
-      });
-
-      this.mainWindow.webContents.send('fetchRentsResponse', finalRents);
+      this.mainWindow.webContents.send('fetchRentsResponse', rents);
     });
   };
 
@@ -126,9 +115,7 @@ class RentDatabase {
                 lastRent.party = { label: party.name, value: lastRent.party };
                 lastRent.merchant = { label: merchant.name, value: merchant._id };
                 lastRent.rentType = { label: lastRent.rentType, value: lastRent.rentType };
-                if (lastRent.rentType.value !== 'cash') {
-                  lastRent.bank = { label: bank.bankName, value: lastRent.bank };
-                }
+                lastRent.bank = { label: bank.bankName, value: lastRent.bank };
 
                 // Shit ends here
 
@@ -149,7 +136,7 @@ class RentDatabase {
   fetchNewReceiptNumberOfRent(event, data) {
 
     let autoId = '__autoid__bank';
-    if (data.rentType.toLowerCase() === 'cash') {
+    if (data.bank.toLowerCase() === 'cash') {
       autoId = '__autoid__cash';
     }
 

@@ -18,7 +18,7 @@ const reducer = (state = initState, action) => {
         case actionTypes.FETCH_TRANSACTIONS_OF_SINGLE_BANK:
             newState = {
                 ...state,
-                transactions: action.payload.data
+                transactions: action.payload
             };
             break;
         case actionTypes.FETCH_EXPENSES_OF_SINGLE_BANK:
