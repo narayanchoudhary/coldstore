@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import filterFactory, { textFilter, numberFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter, numberFilter, Comparator } from 'react-bootstrap-table2-filter';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './javaks.css';
@@ -77,7 +77,10 @@ class Javaks extends Component {
             text: 'R No',
             sort: true,
             headerSortingStyle,
-            filter: numberFilter(),
+            filter: numberFilter({
+                defaultValue: { comparator: Comparator.EQ },
+                placeholder: ' '
+            })
         }, {
             dataField: 'type',
             text: 'Type',
