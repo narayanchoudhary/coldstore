@@ -131,6 +131,8 @@ export {
 export {
     fetchDashboard,
     fetchPartiesWithRemainingPackets,
+    fetchCounters,
+    editCounter,
 } from './dashboard';
 
 export {

@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
     dashboard: [],
-    partiesWithRemainingPackets: []
+    partiesWithRemainingPackets: [],
+    counters: [],
 }
 
 const reducer = (state = initState, action) => {
@@ -17,6 +18,12 @@ const reducer = (state = initState, action) => {
             newState = {
                 ...state,
                 partiesWithRemainingPackets: action.payload
+            };
+            break;
+        case actionTypes.FETCH_COUNTERS:
+            newState = {
+                ...state,
+                counters: action.payload
             };
             break;
         default:

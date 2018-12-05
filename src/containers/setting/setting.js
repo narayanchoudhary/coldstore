@@ -16,6 +16,7 @@ import Address from './../../containers/setting/addresses/addresses';
 import AddAddress from './../../containers/setting/addresses/addAddress/addAddress';
 import AddExpenseCategory from './expenseCategories/addExpenseCategory/addExpenseCategory';
 import ExpenseCategories from './expenseCategories/expenseCategories';
+import Counters from './counters/counters';
 
 export class Settings extends Component {
     render() {
@@ -47,6 +48,7 @@ export class Settings extends Component {
                             <Route path='/settings/expenseCategories' component={ExpenseCategories} />
                             <Route path='/settings/addExpenseCategory' component={AddExpenseCategory} />
 
+                            <Route path='/settings/counters' component={Counters} />
                         </Switch>
                     </div>
                 </div>

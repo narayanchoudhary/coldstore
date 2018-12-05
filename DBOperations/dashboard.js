@@ -4,14 +4,21 @@ const javakLotsDB = require('./connections').getInstance().javakLotsDB;
 const itemsDB = require('./connections').getInstance().itemsDB;
 const varietyDB = require('./connections').getInstance().varietyDB;
 const partiesDB = require('./connections').getInstance().partiesDB;
+const javaksDB = require('./connections').getInstance().javaksDB;
+const rentsDB = require('./connections').getInstance().rentsDB;
 
 class DashboardDatabase {
     constructor(mainWindow) {
         this.mainWindow = mainWindow;
         this.fetchDashboard = this.fetchDashboard.bind(this);
         this.fetchPartiesWithRemainingPackets = this.fetchPartiesWithRemainingPackets.bind(this);
+        this.fetchPartiesWithRemainingPackets = this.fetchPartiesWithRemainingPackets.bind(this);
+        this.fetchCounters = this.fetchCounters.bind(this);
+        this.editCounter = this.editCounter.bind(this);
         ipc.on('fetchDashboard', this.fetchDashboard);
         ipc.on('fetchPartiesWithRemainingPackets', this.fetchPartiesWithRemainingPackets);
+        ipc.on('fetchCounters', this.fetchCounters);
+        ipc.on('editCounter', this.editCounter);
     }
 
     fetchDashboard(event, data) {
@@ -150,6 +157,44 @@ class DashboardDatabase {
 
     }
 
+    fetchCounters(event, data) {
+        let counters = [];
+        avaksDB.findOne({ _id: '__autoid__chips' }, (err, chipsCounterOfAvak) => {
+            avaksDB.findOne({ _id: '__autoid__rashan' }, (err, rashanCounterOfAvak) => {
+                javaksDB.findOne({ _id: '__autoid__chips' }, (err, chipsCounterOfJavak) => {
+                    javaksDB.findOne({ _id: '__autoid__rashan' }, (err, rashanCounterOfJavak) => {
+                        rentsDB.findOne({ _id: '__autoid__cash' }, (err, cashCounterOfRent) => {
+                            rentsDB.findOne({ _id: '__autoid__bank' }, (err, bankCounterOfRent) => {
+                                counters.push({ ...chipsCounterOfAvak, database: 'avak', counterName: 'Chips Avak' });
+                                counters.push({ ...rashanCounterOfAvak, database: 'avak', counterName: 'Rashan Avak' });
+                                counters.push({ ...chipsCounterOfJavak, database: 'javak', counterName: 'Chips Javak' });
+                                counters.push({ ...rashanCounterOfJavak, database: 'javak', counterName: 'Rashan Javak' });
+                                counters.push({ ...cashCounterOfRent, database: 'rent', counterName: 'Cash Rent' });
+                                counters.push({ ...bankCounterOfRent, database: 'rent', counterName: 'Bank Rent' });
+                                this.mainWindow.webContents.send('fetchCountersResponse', counters);
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    editCounter(event, data) {
+        let DB = null;
+        if (data.database === 'avak') {
+            DB = avaksDB;
+        } else if (data.database === 'javak') {
+            DB = javaksDB;
+        } else if (data.database === 'rent') {
+            DB = rentsDB;
+        }
+
+        DB.update({ _id: data._id }, { $set: { value: data.value } }, (err, numReplaced) => {
+            this.mainWindow.webContents.send('editCounterResponse', numReplaced);
+        });
+
+    }
 }
 
 module.exports = DashboardDatabase;

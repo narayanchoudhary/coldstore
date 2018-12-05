@@ -26,3 +26,29 @@ export const fetchPartiesWithRemainingPackets = (data, thenCallback) => {
         });
     }
 }
+
+export const fetchCounters = (thenCallback) => {
+    return dispatch => {
+        ipc.send('fetchCounters', {});
+        ipc.once('fetchCountersResponse', (event, counters) => {
+            dispatch({
+                type: actionTypes.FETCH_COUNTERS,
+                payload: counters
+            });
+            thenCallback();
+        });
+    }
+}
+
+export const editCounter = (data, thenCallback) => {
+    return dispatch => {
+        ipc.send('editCounter', {...data});
+        ipc.once('editCounterResponse', (event, response) => {
+            dispatch({
+                type: actionTypes.EDIT_COUNTER,
+                payload: response
+            });
+            thenCallback();
+        });
+    }
+}
