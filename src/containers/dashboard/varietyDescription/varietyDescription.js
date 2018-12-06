@@ -38,6 +38,7 @@ class VarietyDescription extends Component {
                 dataField: 'balance',
                 text: 'Balance',
                 formatter: this.balanceFormatter,
+                classes: (cell, row) => cell !== 0 ? 'hasSomething' : ''    
             }
         ];
         return (
