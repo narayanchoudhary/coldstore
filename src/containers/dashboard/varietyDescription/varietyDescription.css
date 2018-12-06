@@ -5,3 +5,7 @@
 .balance {
     cursor: pointer;
 }
+
+.hasSomething {
+    color: blue;
+}

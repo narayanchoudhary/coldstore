@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { rowClasses } from '../../../utils/utils';
 import * as actions from '../../../store/actions';
-import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import cellEditFactory from 'react-bootstrap-table2-editor';
 import './counters.css';
 
 class Counters extends Component {

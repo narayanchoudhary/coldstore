@@ -29,9 +29,11 @@ class VarietyDescription extends Component {
             }, {
                 dataField: 'totalAvakOfVariety',
                 text: 'Avak',
+                classes: (cell, row) => cell !== 0 ? 'hasSomething' : ''
             }, {
                 dataField: 'totalJavakOfVariety',
                 text: 'Javak',
+                classes: (cell, row) => cell !== 0 ? 'hasSomething' : ''
             }, {
                 dataField: 'balance',
                 text: 'Balance',
