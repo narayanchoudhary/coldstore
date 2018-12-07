@@ -43,7 +43,7 @@ class Counters extends Component {
         return (
             <BootstrapTable
                 columns={this.columns}
-                keyField='_id'
+                keyField='counterName'
                 data={this.props.counters}
                 wrapperClasses="tableWrapper"
                 bordered

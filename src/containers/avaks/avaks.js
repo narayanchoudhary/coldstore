@@ -17,8 +17,9 @@ class Avaks extends Component {
     }
 
     handleClickOnDelete = (row) => {
-        this.props.deleteAvak(row._id);
-        this.props.fetchAvaks(() => { });
+        this.props.deleteAvak(row._id, () => {
+            this.props.fetchAvaks(() => { });
+        });
     }
 
     cellEdit = cellEditFactory({
@@ -277,7 +278,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchAvaks: (thenCallback) => dispatch(actions.fetchAvaks(thenCallback)),
         fetchParties: (type, thenCallback) => dispatch(actions.fetchParties(type, thenCallback)),
-        deleteAvak: (avakId) => dispatch(actions.deleteAvak(avakId)),
+        deleteAvak: (avakId, thenCallback) => dispatch(actions.deleteAvak(avakId, thenCallback)),
         editAvak: (avak, thenCallback) => dispatch(actions.editAvak(avak, thenCallback)),
         filterPartiesByAddress: (parties, address, thenCallback) => dispatch(actions.filterPartiesByAddress(parties, address, thenCallback)),
     };

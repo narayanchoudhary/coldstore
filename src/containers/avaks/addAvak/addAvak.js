@@ -101,8 +101,8 @@ class addAvak extends Component {
                         <Field type="number" name='chamber' component={renderField} placeholder="Chamber" validate={[required()]} />
                         <Field type="number" name='floor' component={renderField} placeholder="Floor" validate={[required()]} />
                         <Field type="text" name='rack' component={renderField} placeholder="Racks" validate={[required()]} />
-                        <Field type="number" name="avakHammali" component={renderField} placeholder="Avak Hammali" min="0" />
-                        <Field type="number" name="motorBhada" component={renderField} placeholder="Motor Bhada" min="0" />
+                        <Field type="number" name="avakHammali" component={renderField} placeholder="Avak Hammali" min="0" validate={[required()]} />
+                        <Field type="number" name="motorBhada" component={renderField} placeholder="Motor Bhada" min="0" validate={[required()]} />
                         <div className="grid-item saveButtonGridItem">
                             <SaveButton disabled={this.submitting} />
                         </div>

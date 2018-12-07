@@ -171,7 +171,7 @@ class AvakDatabase {
   };
 
   deleteAvak(event, data) {
-    avaksDB.remove({ _id: data.AvakId }, {}, (err, numRemoved) => {
+    avaksDB.remove({ _id: data.avakId }, {}, (err, numRemoved) => {
       let response = {};
       response.error = err;
       this.mainWindow.webContents.send('deleteAvakResponse', response);
