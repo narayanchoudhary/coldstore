@@ -29,10 +29,13 @@ class addJavak extends Component {
     componentDidMount() {
         this.props.removeTempJavakLots();
         this.props.fetchLastJavak((lastJavak) => {
-            this.props.filterPartiesByAddress(this.props.parties, lastJavak.address, () => { });
-            this.props.filterMerchantsByAddress(this.props.parties, lastJavak.addressOfMerchant, () => { });
-            this.props.fetchNewReceiptNumberForJavak(lastJavak.type.value, () => { });
-            this.onPartySelect(this.props.initialValues.party.value);
+            this.props.filterPartiesByAddress(this.props.parties, lastJavak.address, () => { 
+                this.props.filterMerchantsByAddress(this.props.parties, lastJavak.addressOfMerchant, () => {
+                    this.props.fetchNewReceiptNumberForJavak(lastJavak.type.value, () => {
+                        this.onPartySelect(this.props.initialValues.party.value);
+                    });
+                 });
+            });
         });
     }
 
@@ -79,6 +82,7 @@ class addJavak extends Component {
 
             if (this.props.typeFieldValue.value !== 'chips') {
                 this.change('addressOfMerchant', address);// Change addressOfMerchant to the  address
+                this.props.filterMerchantsByAddress(this.props.parties, address, () => {});
             }
         });
     }
