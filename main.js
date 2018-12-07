@@ -52,13 +52,25 @@ function createWindow() {
   
   // register shortcut
   electronLocalshortcut.register(mainWindow, 'Ctrl+S', () => {
-    console.log('You pressed ctrl & s');
     mainWindow.webContents.send('showPartySearchPopup', {});
   });
 
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
+}
+
+var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+  // Someone tried to run a second instance, we should focus our window.
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
+
+if (shouldQuit) {
+  app.quit();
+  return;
 }
 
 app.on('ready', createWindow);
