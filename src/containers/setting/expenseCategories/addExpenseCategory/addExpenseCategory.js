@@ -27,7 +27,7 @@ class addExpenseCategory extends Component {
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToExpenseCategories ? <Redirect to="/settings/expenseCategories" /> : null}
-                <div className="grid-container">
+                <div className="grid-container setting">
                     <Field type="text" name="expenseCategoryName" component={renderField} placeholder="Expense Category Name" validate={[required()]} autoFocus/>
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>

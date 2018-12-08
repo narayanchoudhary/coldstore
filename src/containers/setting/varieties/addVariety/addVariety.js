@@ -30,7 +30,7 @@ class addVariety extends Component {
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToVarieties ? <Redirect to="/settings/varieties" /> : null}
-                <div className="grid-container">
+                <div className="grid-container setting">
                     <Field type="text" name="varietyName" component={renderField} placeholder="Variety Name" validate={[required()]} autoFocus/>
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>

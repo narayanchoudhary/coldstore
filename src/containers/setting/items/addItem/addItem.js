@@ -29,7 +29,7 @@ class addItem extends Component {
         return (
             <form onSubmit={this.handleSubmit(this.submit)} className="avakForm">
                 {this.state.redirectToItems ? <Redirect to="/settings/items" /> : null}
-                <div className="grid-container">
+                <div className="grid-container setting">
                     <Field type="text" name="itemName" component={renderField} placeholder="Item Name" validate={[required()]} autoFocus />
                     <div className="grid-item">
                         <button type="submit" className="btn btn-primary" disabled={this.submitting} value="Save"> Save </button>
